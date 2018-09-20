@@ -67,24 +67,19 @@ int main(int argc,char* argv[])
   int i,j;
   int grille[TMONDE][TMONDE];
   int posB[NBBLOCS_FENETREY][NBBLOCS_FENETREX - 2];
-  int posBY[NBBLOCS_FENETREY][NBBLOCS_FENETREX - 2];
   int affichage[NBBLOCS_FENETREY][NBBLOCS_FENETREX];
   objet inv[4][10];
-
-  // Les variables de la troisieme methode
-    double v_x = 1.5;
-
-    double v_grav = 0.08;
-    double v_saut = 4;
-
-    double v_y = v_saut;
+  
+  double PosRelJoueur1X = 0;
+  double PosRelJoueur1Y = 0;
+  
 
 
-  for(i=0;i<TMONDE;i++)
+  for(i=0;i<TMONDE;i++) 
     {
       for(j=0;j<TMONDE;j++)
         {
-          grille[i][j] = VIDE;
+          grille[i][j] = VIDE; 
         }
     }
 
@@ -95,13 +90,14 @@ int main(int argc,char* argv[])
           grille[i][j] = TERRE;
         }
     }
+    
+  grille[TMONDE - 10][TMONDE/2+2] = 0;
 
-    grille[90][49] = VIDE;
-    grille[90][51] = VIDE;
-    grille[90][50] = VIDE;
-    grille[91][50] = VIDE;
-
-
+  grille[TMONDE - 10][TMONDE/2+1] = 0;
+  grille[TMONDE - 10][TMONDE/2] = 0;
+  grille[TMONDE - 10][TMONDE/2+30] = 0;
+  grille[TMONDE - 10][TMONDE/2+31] = 0;
+  grille[TMONDE - 10][TMONDE/2+32] = 0;
   character joueur1 = {"Jean", 100, 0};
   joueur1.pos.x = 360;
   joueur1.pos.y = 400 - PLAYER_HEIGHT;
@@ -153,7 +149,10 @@ int main(int argc,char* argv[])
   int bloquerD = 0;
   int murG,murD = 0;
   int a = 1;
-
+  int posJoueurBS = 0;
+  int LastDir = 0;
+  
+  
   while(!gameover)
     {
       SDL_Event event;
@@ -168,19 +167,20 @@ int main(int argc,char* argv[])
 
     xMondeB = joueur1.xMonde/TAILLE_BLOCS;
     yMondeB = TMONDE - joueur1.yMonde/TAILLE_BLOCS - 25;
-    printf("xMondeB = %d\n", xMondeB);
-    printf("xMondeJ = %d\n", joueur1.xMonde);
-	printf("yMondeJ = %d\n", joueur1.yMonde);
-	printf("joueur1.pos.x = %d\n", joueur1.pos.x);
 
     int decalageX = -joueur1.xMonde%16;
     int decalageY = -joueur1.yMonde%16;
 
    if(z == 1)
 	{
-	  SDL_Delay(10);
-	  sauter(&joueur1, v_x, &v_y, &v_grav);
+	  SDL_Delay(100);
+	  sauter(&joueur1, &PosRelJoueur1X, &PosRelJoueur1Y, posJoueurBS);
 	}
+    else
+    {
+	posJoueurBS = joueur1.yMonde;
+	
+    }
   if(d == 1)
 	{
     if((bloquerD == 0))
@@ -214,7 +214,6 @@ int main(int argc,char* argv[])
 	  affichage[i][j] = grille[i+yMondeB][j+xMondeB];
 	}
       }
-      affichage[22][25] = VIDE;
       for(i=0;i<NBBLOCS_FENETREY;i++)
       {
         for(j=0;j<NBBLOCS_FENETREX;j++)
@@ -222,23 +221,31 @@ int main(int argc,char* argv[])
 	  if(affichage[i][j] == TERRE)
 	    {
 	      posB[i][j] = TAILLE_BLOCS*j + decalageX;
-	      posBY[i][j] = TAILLE_BLOCS*i + decalageY;
 	      SDL_Rect posGrille;
 	      posGrille.x = j*TAILLE_BLOCS + decalageX;
 	      posGrille.y = i*TAILLE_BLOCS + decalageY;
 	      SDL_BlitSurface(terre, NULL, screen, &posGrille);
-
 	    }
 	   else
-	   	{
+		{
 	   		posB[i][j] = 0;
 	   	}
         }
       }
       
       terreRonde(&xMondeB, &joueur1, &murD, &murG);
+      
+      if (LastDir == 0){
+          LastDir = a - d;
+      }
+      else if(LastDir != a - d)
+      {
+          LastDir = a-d;
+      }
+      
+      
 
-      collision(&joueur1, affichage, &forcegrav, &bloquerG, &bloquerD, posB);
+      collision(&joueur1, affichage, &forcegrav, &bloquerG, &bloquerD, posB, LastDir);
 
       SDL_BlitSurface(character, NULL, screen, &joueur1.pos);
 

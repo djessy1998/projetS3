@@ -4,7 +4,7 @@
 
 void deplacerG(character *a, float *vitesse, int murGau, int *murDro)
 {
-  if(murGau == 0 && *murDro == 0)
+  if(murGau == 0 && *murDro == 0 )
   	{
    		*vitesse =  *vitesse - VITESSE;
   		a->xMonde = (int)*vitesse;
@@ -28,15 +28,17 @@ void deplacerD(character *a, float *vitesse, int murDro, int *murGau)
     }
 }
 
-void sauter(character *a, double vx, double *vy, double *vgrav)
+void sauter(character *a, double *PosRelJoueur1X, double *PosRelJoueur1Y, int Default)
 {
-	a->xMonde += vx;
-	a->yMonde += *vy;
-	*vy -= *vgrav;
-	if (a->yMonde <= 160)
+	*PosRelJoueur1X += VITESSE;
+	*PosRelJoueur1Y += (0.00001*(*PosRelJoueur1X)*(*PosRelJoueur1X))+10;
+	a->xMonde = a->xMonde + *PosRelJoueur1X;
+	a->yMonde = a->yMonde + *PosRelJoueur1Y;
+	printf("%d\n", a->yMonde);
+	if(a->yMonde > Default + 50)
 	{
-		*vy = 4;
-		*vgrav = 0.08;
+	  *PosRelJoueur1X = 0;
+	  *PosRelJoueur1Y = Default;
 	}
 }
 
@@ -50,14 +52,16 @@ void gravite(character *a, float *force)
 	a->yMonde -= 1;
 }
 
-void collision(character *a, int affichage[NBBLOCS_FENETREY][NBBLOCS_FENETREX], float *force, int *bloquerG, int *bloquerD, int posB[NBBLOCS_FENETREY][NBBLOCS_FENETREX - 2])
-{
+void collision(character *a, int affichage[NBBLOCS_FENETREY][NBBLOCS_FENETREX], float *force, int *bloquerG, int *bloquerD, int posB[NBBLOCS_FENETREY][NBBLOCS_FENETREX - 2], int LastDir)
+{   
+    int qwerty = 0;
 	int touche = 0;
-	int posGrilleX = (int)(round((a->pos.x)/TAILLE_BLOCS));
-	int posGrilleY = (int)(round((a->pos.y + PLAYER_HEIGHT)/TAILLE_BLOCS));
-	printf("PosGrilleX = %d\n", posGrilleX);
-	printf("PosGrilleY = %d\n", posGrilleY);
-	if(affichage[posGrilleY][posGrilleX])
+	int posGrilleX = (int)(((a->pos.x)/TAILLE_BLOCS)) + LastDir;
+	int posGrilleY = (int)(((a->pos.y + PLAYER_HEIGHT)/TAILLE_BLOCS));
+	int posGrilleXMilieu =(int)(((a->pos.x+PLAYER_WIDTH/2)/TAILLE_BLOCS)) + LastDir;
+	int posGrilleXDroite =(int)(((a->pos.x+PLAYER_WIDTH)/TAILLE_BLOCS)) + LastDir;
+	
+	if(affichage[posGrilleY][posGrilleX] ||  affichage[posGrilleY][posGrilleXMilieu] || affichage[posGrilleY][posGrilleXDroite])
 	  {
 	    touche = 1;
 	  }
@@ -74,7 +78,7 @@ void collision(character *a, int affichage[NBBLOCS_FENETREY][NBBLOCS_FENETREX], 
 	  	*bloquerD = 1;
 	  }
 	else if(a->pos.x <= 0)
-	  {   
+	  {
 	  	*bloquerG = 1;
 	  }
 	else
