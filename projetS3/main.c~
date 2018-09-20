@@ -67,7 +67,6 @@ int main(int argc,char* argv[])
   int i,j;
   int grille[TMONDE][TMONDE];
   int posB[NBBLOCS_FENETREY][NBBLOCS_FENETREX - 2];
-  int posBY[NBBLOCS_FENETREY][NBBLOCS_FENETREX - 2];
   int affichage[NBBLOCS_FENETREY][NBBLOCS_FENETREX];
   objet inv[4][10];
 
@@ -95,11 +94,6 @@ int main(int argc,char* argv[])
           grille[i][j] = TERRE;
         }
     }
-
-    grille[90][49] = VIDE;
-    grille[90][51] = VIDE;
-    grille[90][50] = VIDE;
-    grille[91][50] = VIDE;
 
 
   character joueur1 = {"Jean", 100, 0};
@@ -214,7 +208,6 @@ int main(int argc,char* argv[])
 	  affichage[i][j] = grille[i+yMondeB][j+xMondeB];
 	}
       }
-      affichage[22][25] = VIDE;
       for(i=0;i<NBBLOCS_FENETREY;i++)
       {
         for(j=0;j<NBBLOCS_FENETREX;j++)
@@ -222,7 +215,6 @@ int main(int argc,char* argv[])
 	  if(affichage[i][j] == TERRE)
 	    {
 	      posB[i][j] = TAILLE_BLOCS*j + decalageX;
-	      posBY[i][j] = TAILLE_BLOCS*i + decalageY;
 	      SDL_Rect posGrille;
 	      posGrille.x = j*TAILLE_BLOCS + decalageX;
 	      posGrille.y = i*TAILLE_BLOCS + decalageY;

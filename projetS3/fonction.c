@@ -47,8 +47,7 @@ void baisser(character *a)
 
 void gravite(character *a, float *force)
 {
-	*force = *force + FORCE_GRA;
-	a->pos.y = (int)*force;
+	a->yMonde -= 1;
 }
 
 void collision(character *a, int affichage[NBBLOCS_FENETREY][NBBLOCS_FENETREX], float *force, int *bloquerG, int *bloquerD, int posB[NBBLOCS_FENETREY][NBBLOCS_FENETREX - 2])
@@ -56,7 +55,8 @@ void collision(character *a, int affichage[NBBLOCS_FENETREY][NBBLOCS_FENETREX], 
 	int touche = 0;
 	int posGrilleX = (int)(round((a->pos.x)/TAILLE_BLOCS));
 	int posGrilleY = (int)(round((a->pos.y + PLAYER_HEIGHT)/TAILLE_BLOCS));
-
+	printf("PosGrilleX = %d\n", posGrilleX);
+	printf("PosGrilleY = %d\n", posGrilleY);
 	if(affichage[posGrilleY][posGrilleX])
 	  {
 	    touche = 1;
@@ -74,7 +74,7 @@ void collision(character *a, int affichage[NBBLOCS_FENETREY][NBBLOCS_FENETREX], 
 	  	*bloquerD = 1;
 	  }
 	else if(a->pos.x <= 0)
-	  {
+	  {   
 	  	*bloquerG = 1;
 	  }
 	else
