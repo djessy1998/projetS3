@@ -5,8 +5,9 @@
 #define PLAYER_WIDTH   20
 #define PLAYER_HEIGHT  40
 #define FORCE_GRA      0.2
-#define VITESSE        0.1
-#define TMONDE         1000
+#define VITESSE        0.09
+#define VITESSEJ	   0.2
+#define TMONDE         100
 #define NBBLOCS_FENETREX 47
 #define NBBLOCS_FENETREY 35
 #define TAILLE_BLOCS	 16
@@ -37,7 +38,7 @@ struct objet
 void deplacerG(character *a, float *vitesse, int murGau, int *murDro);
 void deplacerD(character *a, float *vitesse, int murDro, int *murGau);
 void gravite(character *a, float *force);
-void collision(character *a, int affichage[NBBLOCS_FENETREY][NBBLOCS_FENETREX], float *force,int *bloquerG, int *bloquerD, int posB[NBBLOCS_FENETREY][NBBLOCS_FENETREX - 2], int LastDir);
-void sauter(character *a, double *PosRelJoueur1X, double *PosRelJoueur1Y, int Default);
+void collision(character *a, int affichage[NBBLOCS_FENETREY][NBBLOCS_FENETREX], float *force,int *bloquerG, int *bloquerD, int posB[TMONDE][TMONDE], int posBY[TMONDE][TMONDE]);
+void sauter(character *a, double vx, double *vy, double *vgrav);
 void baisser(character *a);
 void terreRonde(int *xMondeBl, character *a, int *murDro, int *murGau);
