@@ -100,6 +100,8 @@ int main(int argc,char* argv[])
     grille[90][51] = VIDE;
     grille[90][50] = VIDE;
     grille[91][50] = VIDE;
+    grille[91][51] = VIDE;
+    grille[91][49] = VIDE;
 
 
   character joueur1 = {"Jean", 100, 0};
@@ -152,7 +154,7 @@ int main(int argc,char* argv[])
   int bloquerG = 0;
   int bloquerD = 0;
   int murG,murD = 0;
-  int a = 1;
+  int saut = 0;
 
   while(!gameover)
     {
@@ -168,18 +170,17 @@ int main(int argc,char* argv[])
 
     xMondeB = joueur1.xMonde/TAILLE_BLOCS;
     yMondeB = TMONDE - joueur1.yMonde/TAILLE_BLOCS - 25;
-    printf("yMONDEB = %d\n", yMondeB);
     int decalageX = -joueur1.xMonde%TAILLE_BLOCS;
     int decalageY = -joueur1.yMonde%TAILLE_BLOCS;
 
    if(z == 1)
 	{
-	  SDL_Delay(10);
-	  sauter(&joueur1, v_x, &v_y, &v_grav);
+		SDL_Delay(10);
+		sauter(&joueur1, &saut);
 	}
   if(d == 1)
 	{
-    if((bloquerD == 0))
+    if(bloquerD == 0)
     {
       deplacerD(&joueur1, &vitesse, murD, &murG);
     }
@@ -190,7 +191,7 @@ int main(int argc,char* argv[])
 	}
       if(q == 1)
 	{
-	  if((bloquerG == 0))
+	  if(bloquerG == 0)
 	    {
 	      deplacerG(&joueur1, &vitesse, murG, &murD);
 	    }
@@ -228,7 +229,7 @@ int main(int argc,char* argv[])
       
       terreRonde(&xMondeB, &joueur1, &murD, &murG);
 
-      collision(&joueur1, affichage, &forcegrav, &bloquerG, &bloquerD, posB, posBY);
+      collision(&joueur1, affichage, &forcegrav, &bloquerG, &bloquerD, posB, posBY, saut);
 
       SDL_BlitSurface(character, NULL, screen, &joueur1.pos);
 

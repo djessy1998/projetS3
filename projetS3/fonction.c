@@ -28,16 +28,9 @@ void deplacerD(character *a, float *vitesse, int murDro, int *murGau)
     }
 }
 
-void sauter(character *a, double vx, double *vy, double *vgrav)
+void sauter(character *a, int *saut)
 {
-	a->xMonde += vx;
-	a->yMonde += *vy;
-	*vy -= *vgrav;
-	if (a->yMonde <= 160)
-	{
-		*vy = 4;
-		*vgrav = 0.08;
-	}
+
 }
 
 void baisser(character *a)
@@ -50,9 +43,11 @@ void gravite(character *a, float *force)
 	a->yMonde -= 1;
 }
 
-void collision(character *a, int affichage[NBBLOCS_FENETREY][NBBLOCS_FENETREX], float *force, int *bloquerG, int *bloquerD, int posB[TMONDE][TMONDE], int posBY[TMONDE][TMONDE])
+void collision(character *a, int affichage[NBBLOCS_FENETREY][NBBLOCS_FENETREX], float *force, int *bloquerG, int *bloquerD, int posB[TMONDE][TMONDE], int posBY[TMONDE][TMONDE], int saut)
 {
 	int touche = 0;
+	*bloquerD = 0;
+	*bloquerG = 0;
 	int i,j;
 	int posGrilleX = (int)(round((a->pos.x)/TAILLE_BLOCS));
 	int posGrilleY = (int)(round((a->pos.y + PLAYER_HEIGHT)/TAILLE_BLOCS));
@@ -60,8 +55,6 @@ void collision(character *a, int affichage[NBBLOCS_FENETREY][NBBLOCS_FENETREX], 
 	float JMilieuX = a->xMonde + a->pos.x + PLAYER_WIDTH/2;
 	float JpiedDX = a->xMonde + a->pos.x + PLAYER_WIDTH;
 	float JpiedGY = a->yMonde;
-	printf("JpiedGY = %f\n", JpiedGY);
-	printf("posBY[25][21] = %d\n", posBY[25][21]);
     for(i = 0; i < NBBLOCS_FENETREY; i++)
     {
        for(j = 0; j< NBBLOCS_FENETREX; j++)
@@ -73,17 +66,18 @@ void collision(character *a, int affichage[NBBLOCS_FENETREY][NBBLOCS_FENETREX], 
        				touche = 1;
        				break;
        			}
+       			if(JpiedGY < posBY[i][j] && JpiedDX == posB[i][j])
+       			{
+       				*bloquerD = 1;
+       			}
+       			else if(JpiedGY < posBY[i][j] && JpiedGX == posB[i][j] + TAILLE_BLOCS)
+       			{
+       				*bloquerG = 1;
+       			}
        		}
        }
-    }
-	if(posB[posGrilleY-1][posGrilleX] + TAILLE_BLOCS == a->pos.x)
-	  {
-	    *bloquerG = 1;
-	  }
-	else if(posB[posGrilleY-1][posGrilleX + 2] == a->pos.x + PLAYER_WIDTH)
-	  {
-	    *bloquerD = 1;
-	  }
+    } 
+
 	if(a->pos.x >= (45*TAILLE_BLOCS) - PLAYER_WIDTH)
 	  {
 	  	*bloquerD = 1;
@@ -92,13 +86,7 @@ void collision(character *a, int affichage[NBBLOCS_FENETREY][NBBLOCS_FENETREX], 
 	  {   
 	  	*bloquerG = 1;
 	  }
-	else
-	  {
-	    *bloquerG = 0;
-	    *bloquerD = 0;
-	  }
-
-	if (touche == 0)
+	if (touche == 0 && saut == 0)
 	{
 		gravite(a, force);
 	}

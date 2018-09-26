@@ -38,7 +38,7 @@ struct objet
 void deplacerG(character *a, float *vitesse, int murGau, int *murDro);
 void deplacerD(character *a, float *vitesse, int murDro, int *murGau);
 void gravite(character *a, float *force);
-void collision(character *a, int affichage[NBBLOCS_FENETREY][NBBLOCS_FENETREX], float *force,int *bloquerG, int *bloquerD, int posB[TMONDE][TMONDE], int posBY[TMONDE][TMONDE]);
-void sauter(character *a, double vx, double *vy, double *vgrav);
+void collision(character *a, int affichage[NBBLOCS_FENETREY][NBBLOCS_FENETREX], float *force,int *bloquerG, int *bloquerD, int posB[TMONDE][TMONDE], int posBY[TMONDE][TMONDE], int saut);
+void sauter(character *a, int *saut);
 void baisser(character *a);
 void terreRonde(int *xMondeBl, character *a, int *murDro, int *murGau);
