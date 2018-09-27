@@ -6,10 +6,11 @@
 #define PLAYER_HEIGHT  40
 #define FORCE_GRA      0.2
 #define VITESSE        0.09
-#define VITESSEJ	   0.2
+#define VITESSEJ       0.2
 #define TMONDE         100
 #define NBBLOCS_FENETREX 47
 #define NBBLOCS_FENETREY 35
+#define NB_BLOCS_AU_DESSUS_JOUEUR 25
 #define TAILLE_BLOCS	 16
 
 #define VIDE  0

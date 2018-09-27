@@ -71,15 +71,7 @@ int main(int argc,char* argv[])
   int affichage[NBBLOCS_FENETREY][NBBLOCS_FENETREX];
   objet inv[4][10];
 
-  // Les variables de la troisieme methode
-    double v_x = 1.5;
-
-    double v_grav = 0.08;
-    double v_saut = 4;
-
-    double v_y = v_saut;
-
-
+  
   for(i=0;i<TMONDE;i++)
     {
       for(j=0;j<TMONDE;j++)
@@ -88,32 +80,38 @@ int main(int argc,char* argv[])
         }
     }
 
-    for(i=TMONDE-10;i<TMONDE;i++)
+    for(i=TMONDE-20;i<TMONDE;i++)
     {
       for(j=0;j<TMONDE;j++)
         {
           grille[i][j] = TERRE;
         }
     }
-
-    grille[90][49] = VIDE;
-    grille[90][51] = VIDE;
-    grille[90][50] = VIDE;
-    grille[91][50] = VIDE;
-    grille[91][51] = VIDE;
-    grille[91][49] = VIDE;
-
-
+    
+    /*Creation d'un trou de x cases*/
+    for(i=0; i<3; i++)
+    {
+      grille[80+i][49] = VIDE;
+      grille[80+i][51] = VIDE;
+      grille[80+i][50] = VIDE;
+    }
+    
+    grille[81][93] = VIDE;
+    grille[81][92] = VIDE;
+    grille[81][94] = VIDE;
+  
+    grille[80][92] = VIDE;
+    grille[80][94] = VIDE;
   character joueur1 = {"Jean", 100, 0};
   joueur1.pos.x = 352;
   joueur1.pos.y = 400 - PLAYER_HEIGHT;
-  joueur1.xMonde = (TMONDE*TAILLE_BLOCS)/2;
-  joueur1.yMonde = 160;
+  joueur1.xMonde = (TMONDE*TAILLE_BLOCS)/2+7;
+  joueur1.yMonde = 500;
   int xMondeB = 0;
   int yMondeB = 0;
   float forcegrav = (float)joueur1.pos.y;
   float vitesse = (float)joueur1.xMonde;
-
+  
   SDL_Surface *screen, *temp, *bg, *terre, *character, *invIm;
   
   /* initialize SDL */
@@ -169,7 +167,7 @@ int main(int argc,char* argv[])
     SDL_BlitSurface(bg, NULL, screen, &posFond);
 
     xMondeB = joueur1.xMonde/TAILLE_BLOCS;
-    yMondeB = TMONDE - joueur1.yMonde/TAILLE_BLOCS - 25;
+    yMondeB = TMONDE - joueur1.yMonde/TAILLE_BLOCS - NBBLOCS_FENETREY;
     int decalageX = -joueur1.xMonde%TAILLE_BLOCS;
     int decalageY = -joueur1.yMonde%TAILLE_BLOCS;
 
@@ -203,16 +201,18 @@ int main(int argc,char* argv[])
 		posInv.y = 50;
 		SDL_BlitSurface(invIm, NULL, screen, &posInv);
 	}
-
+      grille[joueur1.yMonde/TAILLE_BLOCS][joueur1.xMonde/TAILLE_BLOCS]=TERRE;
       for(i=0;i<NBBLOCS_FENETREY;i++ )
       {
         for(j=0;j<NBBLOCS_FENETREX;j++)
         {
-	      affichage[i][j] = grille[i+yMondeB][j+xMondeB];
-	      posB[i][j] = TAILLE_BLOCS*(j+xMondeB);
-          posBY[i][j] = TAILLE_BLOCS*(35 - i);
-		}
+	  affichage[i][j] = grille[i+yMondeB][j+xMondeB];
+	  posB[i][j] = TAILLE_BLOCS*(j+xMondeB);
+          posBY[i][j] = TAILLE_BLOCS*(joueur1.yMonde/TAILLE_BLOCS + NB_BLOCS_AU_DESSUS_JOUEUR - i);
+	}
       }
+      
+
       for(i=0;i<NBBLOCS_FENETREY;i++)
       {
        	 for(j=0;j<NBBLOCS_FENETREX;j++)

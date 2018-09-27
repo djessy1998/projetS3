@@ -51,10 +51,10 @@ void collision(character *a, int affichage[NBBLOCS_FENETREY][NBBLOCS_FENETREX], 
 	int i,j;
 	int posGrilleX = (int)(round((a->pos.x)/TAILLE_BLOCS));
 	int posGrilleY = (int)(round((a->pos.y + PLAYER_HEIGHT)/TAILLE_BLOCS));
-	float JpiedGX = a->xMonde + a->pos.x;
-	float JMilieuX = a->xMonde + a->pos.x + PLAYER_WIDTH/2;
-	float JpiedDX = a->xMonde + a->pos.x + PLAYER_WIDTH;
-	float JpiedGY = a->yMonde;
+	int JpiedGX = a->xMonde + a->pos.x;
+	int JMilieuX = a->xMonde + a->pos.x + PLAYER_WIDTH/2;
+	int JpiedDX = a->xMonde + a->pos.x + PLAYER_WIDTH;
+	int JpiedGY = a->yMonde;
     for(i = 0; i < NBBLOCS_FENETREY; i++)
     {
        for(j = 0; j< NBBLOCS_FENETREX; j++)
