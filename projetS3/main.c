@@ -71,7 +71,8 @@ int main(int argc,char* argv[])
   int affichage[NBBLOCS_FENETREY][NBBLOCS_FENETREX];
   objet inv[4][10];
 
-  
+  float x_saut = -50;
+  float y_saut = 0;
   for(i=0;i<TMONDE;i++)
     {
       for(j=0;j<TMONDE;j++)
@@ -152,7 +153,7 @@ int main(int argc,char* argv[])
   int bloquerG = 0;
   int bloquerD = 0;
   int murG,murD = 0;
-  int saut = 0;
+  int saut = 1;
 
   while(!gameover)
     {
@@ -173,8 +174,10 @@ int main(int argc,char* argv[])
 
    if(z == 1)
 	{
+	  if (saut){
 		SDL_Delay(10);
-		sauter(&joueur1, &saut);
+		sauter(&joueur1, &saut, &x_saut, &y_saut, bloquerG, bloquerD);
+	  }
 	}
   if(d == 1)
 	{
@@ -229,7 +232,7 @@ int main(int argc,char* argv[])
       
       terreRonde(&xMondeB, &joueur1, &murD, &murG);
 
-      collision(&joueur1, affichage, &forcegrav, &bloquerG, &bloquerD, posB, posBY, saut);
+      collision(&joueur1, affichage, &forcegrav, &bloquerG, &bloquerD, posB, posBY, &saut);
 
       SDL_BlitSurface(character, NULL, screen, &joueur1.pos);
 
