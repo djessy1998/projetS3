@@ -37,7 +37,6 @@ void sauter(character *a, int *saut, float *x, float *y, int murDro, int murGau)
       a->yMonde += (int)*y;
   }
   else{
-    printf("");
   }
   if (*y > 8.)
   {
@@ -64,22 +63,21 @@ void collision(character *a, int affichage[NBBLOCS_FENETREY][NBBLOCS_FENETREX], 
 	*bloquerD = 0;
 	*bloquerG = 0;
 	int i,j;
-	int posGrilleX = (int)(round((a->pos.x)/TAILLE_BLOCS));
-	int posGrilleY = (int)(round((a->pos.y + PLAYER_HEIGHT)/TAILLE_BLOCS));
 	int JpiedGX = a->xMonde + a->pos.x;
 	int JMilieuX = a->xMonde + a->pos.x + PLAYER_WIDTH/2;
 	int JpiedDX = a->xMonde + a->pos.x + PLAYER_WIDTH;
 	int JpiedGY = a->yMonde;
+
     for(i = 0; i < NBBLOCS_FENETREY; i++)
     {
        for(j = 0; j< NBBLOCS_FENETREX; j++)
        {
        		if(affichage[i][j] == TERRE)
        		{
-       			if(((JpiedGX >= posB[i][j] && JpiedGX <= posB[i][j] + TAILLE_BLOCS) || (JpiedDX >= posB[i][j] && JpiedDX <= posB[i][j] + TAILLE_BLOCS) || (JMilieuX >= posB[i][j] && JMilieuX <= posB[i][j] + TAILLE_BLOCS)) && JpiedGY == posBY[i][j])
+       			if(((JpiedGX > posB[i][j] && JpiedGX < posB[i][j] + TAILLE_BLOCS) || (JpiedDX > posB[i][j] && JpiedDX <= posB[i][j] + TAILLE_BLOCS) || (JMilieuX > posB[i][j] && JMilieuX < posB[i][j] + TAILLE_BLOCS)) && JpiedGY == posBY[i][j])
        			{
        				touche = 1;
-				*saut = 1;
+					*saut = 1;
        				break;
        			}
        			if(JpiedGY < posBY[i][j] && JpiedDX == posB[i][j])
@@ -108,6 +106,38 @@ void collision(character *a, int affichage[NBBLOCS_FENETREY][NBBLOCS_FENETREX], 
 	}
 }
 
+void collisionItem(Liste *liste, int posB[TMONDE][TMONDE], int posBY[TMONDE][TMONDE], int *saut, int affichage[NBBLOCS_FENETREY][NBBLOCS_FENETREX])
+{
+	int touche = 0;
+	int posMondeXIt, posMondeYIt, i ,j;
+	items *actuel = liste->premier;
+	while(actuel != NULL)
+	{
+		posMondeXIt = actuel->xMondeItem;
+		posMondeYIt = actuel->yMondeItem;
+	    for(i = 0; i < NBBLOCS_FENETREY; i++)
+	    {
+	       for(j = 0; j< NBBLOCS_FENETREX; j++)
+	       {
+	       		if(affichage[i][j] == TERRE)
+	       		{
+	       			if(((posMondeXIt > posB[i][j] && posMondeXIt < posB[i][j] + TAILLE_BLOCS) || (posMondeXIt + > posB[i][j] && posMondeXIt <= posB[i][j] + TAILLE_BLOCS)) && posMondeYIt == posBY[i][j])
+	       			{
+	       				touche = 1;
+						*saut = 1;
+	       				break;
+	       			}
+	       		}
+	       }
+	    } 
+		actuel = actuel->suivant;
+	}
+	if (touche == 0)
+	{
+		gravite(a, force);
+	}
+}
+
 void terreRonde(int *xMondeBl, character *a, int *murDro, int *murGau)
 {
 	if(a->xMonde <= 1 && a->pos.x <= (45*TAILLE_BLOCS)/2)
@@ -124,4 +154,69 @@ void terreRonde(int *xMondeBl, character *a, int *murDro, int *murGau)
 		*murGau = 0;
 		*murDro = 0;
 	}
+}
+
+Liste *initialisation()
+{
+    Liste *liste = malloc(sizeof(*liste));
+    items *EItems = malloc(sizeof(*EItems));
+    if (liste == NULL || EItems == NULL)
+    {
+        exit(EXIT_FAILURE);
+    }
+    EItems->type = -1;
+    EItems->xMondeItem = -1;
+    EItems->yMondeItem = -1;
+    EItems->suivant = NULL;
+    liste->premier = EItems;
+    return liste;
+}
+
+void insertion(Liste *liste, int nvType, int nvXMonde, int nvYMonde)
+{
+    items *nouveau = malloc(sizeof(*nouveau));
+    if (liste == NULL || nouveau == NULL)
+    {
+        exit(EXIT_FAILURE);
+    }
+    nouveau->type = nvType;
+    nouveau->xMondeItem = nvXMonde;
+    nouveau->yMondeItem = nvYMonde;
+    nouveau->suivant = liste->premier;
+    liste->premier = nouveau;
+}
+
+void suppression(Liste *liste)
+{
+    if (liste == NULL)
+    {
+        exit(EXIT_FAILURE);
+    }
+    if (liste->premier != NULL)
+    {
+        items *aSupprimer = liste->premier;
+        liste->premier = liste->premier->suivant;
+        free(aSupprimer);
+    }
+}
+
+//pour le debuguage
+void afficherListe(Liste *liste)
+{
+    if (liste == NULL)
+    {
+        exit(EXIT_FAILURE);
+    }
+    items *actuel = liste->premier;
+    while (actuel != NULL)
+    {
+        printf("%d -> ", actuel->type);
+        actuel = actuel->suivant;
+    }
+    printf("NULL\n");
+}
+
+void cliquerItemInv(items inv[4][10])
+{
+	
 }

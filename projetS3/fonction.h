@@ -25,15 +25,24 @@ struct character
   int xMonde;
   int yMonde;
   SDL_Rect pos;
+  int type;
+  int boolItem;
   
 };
 
-typedef struct objet objet;
-struct objet
+typedef struct items items;
+struct items
 {
+	int xMondeItem;
+	int yMondeItem;
 	int type;
-	char nom[10];
-	int qqc;
+	items *suivant;  
+};
+
+typedef struct Liste Liste;
+struct Liste
+{
+    items *premier;
 };
 
 void deplacerG(character *a, float *vitesse, int murGau, int *murDro);
@@ -43,3 +52,8 @@ void collision(character *a, int affichage[NBBLOCS_FENETREY][NBBLOCS_FENETREX], 
 void sauter(character *a, int *saut, float *x, float *y, int murDro, int murGau);
 void baisser(character *a);
 void terreRonde(int *xMondeBl, character *a, int *murDro, int *murGau);
+void afficherListe(Liste *liste);
+void suppression(Liste *liste);
+void insertion(Liste *liste, int nvType, int nvXMonde, int nvYMonde);
+Liste *initialisation();
+void cliquerItemInv(items inv[4][10]);
