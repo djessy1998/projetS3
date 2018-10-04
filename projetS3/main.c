@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include "fonction.h"
 
-void HandleEvent(SDL_Event event, int *quit, int *z, int *q, int *s, int *d, int *e, int *f, int *butdown, int *numItemInvX, int *numItemInvY, SDL_Rect *posImage, int i, int j, int *n, items inve[4][10])
+void HandleEvent(SDL_Event event, int *quit, int *z, int *q, int *s, int *d, int *e, int *f, int *butdown, int *numItemInvX, int *numItemInvY, SDL_Rect *posImage, int i, int j, int *n, items inve[4][10], int *supprimer)
 {
   switch (event.type) {
     /* close button clicked */
@@ -20,6 +20,7 @@ void HandleEvent(SDL_Event event, int *quit, int *z, int *q, int *s, int *d, int
     if (event.button.button == SDL_BUTTON_LEFT)
     {
       *butdown = 0;
+      *supprimer = 0;
     }
     break;
   case SDL_MOUSEMOTION:
@@ -38,13 +39,13 @@ void HandleEvent(SDL_Event event, int *quit, int *z, int *q, int *s, int *d, int
         {
           if(*numItemInvX != 1 && *numItemInvY != 1)
           {
-            posImage->x = event.motion.x;
-            posImage->y = event.motion.y;
+            posImage->x = event.motion.x - 16;
+            posImage->y = event.motion.y - 16;
           }
         }
         if((*butdown == 0) && ((event.motion.x >= 50 && event.motion.x <= 50 + (33*10)) && (event.motion.y >= 50 && event.motion.y <= 50 + (33 * 4))) && (*e == 1))
         {
-          if(*numItemInvX != -1 && *numItemInvY != 1)
+          if(*numItemInvX != -1 && *numItemInvY != -1)
           {
             *n = 1;
             *numItemInvX = -1;
@@ -53,7 +54,7 @@ void HandleEvent(SDL_Event event, int *quit, int *z, int *q, int *s, int *d, int
         }
         else if((*butdown == 0) && ((event.motion.x <= 52 || event.motion.x >= 52 + 32) && (event.motion.y <= 54 || event.motion.y >= 54 + 32)) && (*e == 1))
         {
-          if(*numItemInvX != -1 && *numItemInvY != 1)
+          if(*numItemInvX != -1 && *numItemInvY != -1)
           {
             posImage->x = -300;
             posImage->y = -300;
@@ -239,6 +240,7 @@ int main(int argc,char* argv[])
   int numItemInven = -1;
   int numItemInvenY = -1;
   int k = 0,l = 0, o = 0, p = 0, n = 0;
+  int supprimer = 0;
 
   while(!gameover)
     {
@@ -248,7 +250,7 @@ int main(int argc,char* argv[])
       SDL_Rect posImage;
 
       if (SDL_PollEvent(&event)) {
-	HandleEvent(event, &gameover, &z, &q, &s, &d, &e, &f, &buttonDown, &numItemInven,&numItemInvenY, &posImage, k, l, &n, inv);
+	HandleEvent(event, &gameover, &z, &q, &s, &d, &e, &f, &buttonDown, &numItemInven,&numItemInvenY, &posImage, k, l, &n, inv, &supprimer);
       }
 
     SDL_BlitSurface(bg, NULL, screen, &posFond);
@@ -292,9 +294,10 @@ int main(int argc,char* argv[])
         posInv.x = 50 + (33 * j);
         posInv.y = 50 + (33 * i);
         SDL_BlitSurface(invIm, NULL, screen, &posInv);
-        if(numItemInven != -1)
+        if(numItemInven != -1 && supprimer == 0)
         {
           inv[numItemInvenY][numItemInven].type = -1;
+	  supprimer = 1;
         }
         if(inv[i][j].type != -1)
         {
