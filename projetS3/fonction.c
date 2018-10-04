@@ -106,38 +106,6 @@ void collision(character *a, int affichage[NBBLOCS_FENETREY][NBBLOCS_FENETREX], 
 	}
 }
 
-void collisionItem(Liste *liste, int posB[TMONDE][TMONDE], int posBY[TMONDE][TMONDE], int *saut, int affichage[NBBLOCS_FENETREY][NBBLOCS_FENETREX])
-{
-	int touche = 0;
-	int posMondeXIt, posMondeYIt, i ,j;
-	items *actuel = liste->premier;
-	while(actuel != NULL)
-	{
-		posMondeXIt = actuel->xMondeItem;
-		posMondeYIt = actuel->yMondeItem;
-	    for(i = 0; i < NBBLOCS_FENETREY; i++)
-	    {
-	       for(j = 0; j< NBBLOCS_FENETREX; j++)
-	       {
-	       		if(affichage[i][j] == TERRE)
-	       		{
-	       			if(((posMondeXIt > posB[i][j] && posMondeXIt < posB[i][j] + TAILLE_BLOCS) || (posMondeXIt + > posB[i][j] && posMondeXIt <= posB[i][j] + TAILLE_BLOCS)) && posMondeYIt == posBY[i][j])
-	       			{
-	       				touche = 1;
-						*saut = 1;
-	       				break;
-	       			}
-	       		}
-	       }
-	    } 
-		actuel = actuel->suivant;
-	}
-	if (touche == 0)
-	{
-		gravite(a, force);
-	}
-}
-
 void terreRonde(int *xMondeBl, character *a, int *murDro, int *murGau)
 {
 	if(a->xMonde <= 1 && a->pos.x <= (45*TAILLE_BLOCS)/2)
