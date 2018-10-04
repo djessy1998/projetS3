@@ -183,8 +183,3 @@ void afficherListe(Liste *liste)
     }
     printf("NULL\n");
 }
-
-void cliquerItemInv(items inv[4][10])
-{
-	
-}
