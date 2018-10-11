@@ -183,7 +183,7 @@ void afficherListe(Liste *liste)
     printf("NULL\n");
 }
 
-void TrierInv(int rienI, items inv[4][10])
+void TrierInv(int rienI, items inv[4][10], int type)
 {
   int o, p = 0;
   int trouve = 0;
@@ -195,8 +195,8 @@ void TrierInv(int rienI, items inv[4][10])
             {
              if(inv[o][p].type == -1)
               {
-                inv[o][p].type = 1;
-		trouve = 1;   
+                inv[o][p].type = type;
+		            trouve = 1;   
               }
               p = p + 1;
             }
@@ -206,3 +206,50 @@ void TrierInv(int rienI, items inv[4][10])
           p = 0;
       } 
 }
+
+int RegarderSiPlaceLig(items inv[4][10])
+{
+  int o, p = 0;
+  int trouve = 0;
+  int res = 0;
+  while(trouve == 0 && o < 4)
+    {
+      while(trouve == 0)
+        {
+          if(inv[o][p].type == -1)
+           {
+            res = 0;
+            trouve = 1;   
+           }
+            p = p + 1;
+        }
+        o = o + 1;
+    }
+  o = 0;
+  p = 0;
+  return res;
+
+} 
+
+int RegarderSiPlaceCol(items inv[4][10])
+{
+  int o, p = 0;
+  int trouve = 0;
+  int res = 0;
+  while(trouve == 0 && o < 4)
+    {
+      while(trouve == 0)
+        {
+          if(inv[o][p].type == -1)
+           {
+            res = p;
+            trouve = 1;
+          }
+            p = p + 1;
+        }
+        o = o + 1;
+    }
+  o = 0;
+  p = 0;
+  return res;
+} 

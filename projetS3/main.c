@@ -60,7 +60,7 @@ void HandleEvent(SDL_Event event, int *quit, int *z, int *q, int *s, int *d, int
           {
 	    if(*rien == 0)
 	    {
-	      TrierInv(*rien, inve);
+	      TrierInv(*rien, inve, 1);
 	    }
             *numItemInvX = -1;
             *numItemInvY = -1;
@@ -157,7 +157,6 @@ int main(int argc,char* argv[])
   Liste *listeItems = initialisation();
   insertion(listeItems, 1, 500, 500);
   insertion(listeItems, 2, 550, 400);
-  afficherListe(listeItems);
   for(i=0;i<4;i++)
     {
       for(j=0;j<10;j++)
@@ -210,7 +209,7 @@ int main(int argc,char* argv[])
   float forcegrav = (float)joueur1.pos.y;
   float vitesse = (float)joueur1.xMonde;
   
-  SDL_Surface *screen, *temp, *bg, *terre, *character, *invIm, *casque;
+  SDL_Surface *screen, *temp, *bg, *terre, *character, *invIm, *casque, *characterD;
   
   /* initialize SDL */
   SDL_Init(SDL_INIT_VIDEO);
@@ -235,12 +234,22 @@ int main(int argc,char* argv[])
   temp = SDL_LoadBMP("Sprites/character.bmp");
   character = SDL_DisplayFormat(temp);
   SDL_FreeSurface(temp);
+
+  temp = SDL_LoadBMP("Sprites/characterD.bmp");
+  characterD = SDL_DisplayFormat(temp);
+  SDL_FreeSurface(temp);
   
   SDL_Rect joueurAnim;
   joueurAnim.x = 7;
   joueurAnim.y = 0;
   joueurAnim.h = 58;
   joueurAnim.w = 27;
+
+  SDL_Rect joueurAnimD;
+  joueurAnimD.x = 7;
+  joueurAnimD.y = 0;
+  joueurAnimD.h = 58;
+  joueurAnimD.w = 27;
 
   temp = SDL_LoadBMP("Sprites/terre.bmp");
   terre = SDL_DisplayFormat(temp);
@@ -265,9 +274,10 @@ int main(int argc,char* argv[])
   int numItemInven = -1;
   int numItemInvenY = -1;
   int k = 0,l = 0,n = 0, a = 0;
-  int supprimer = 0, getBInv= 0, rienI = 0;
+  int supprimer = 0, getBInv= 0, rienI = 0, dirChar = 1;
   Uint32 colorkey = SDL_MapRGB(character->format,0,0,0);
   SDL_SetColorKey(character,SDL_SRCCOLORKEY,colorkey);
+  SDL_SetColorKey(characterD,SDL_SRCCOLORKEY,colorkey);
 
   while(!gameover)
     {
@@ -300,6 +310,20 @@ int main(int argc,char* argv[])
     {
       deplacerD(&joueur1, &vitesse, murD, &murG);
     }
+    a += 2;
+	if(a > 58)
+	{
+	  joueurAnimD.y += 58; 
+	  a = 0;
+	}
+	if (joueurAnimD.y > 800){
+	 joueurAnimD.y = 0; 
+	}
+	dirChar = 2;
+	}
+	else
+	{
+		joueurAnimD.y = 0;
 	}
       if(s == 1)
 	{
@@ -320,6 +344,7 @@ int main(int argc,char* argv[])
 	if (joueurAnim.y > 800){
 	 joueurAnim.y = 0; 
 	}
+	dirChar = 1;
 	}
 	else
 	{
@@ -390,7 +415,14 @@ int main(int argc,char* argv[])
 
       collision(&joueur1, affichage, &forcegrav, &bloquerG, &bloquerD, posB, posBY, &saut);
 
-      SDL_BlitSurface(character, &joueurAnim, screen, &joueur1.pos);
+      if(dirChar == 2)
+      {
+		SDL_BlitSurface(characterD, &joueurAnimD, screen, &joueur1.pos);
+      }
+      else if(dirChar == 1)
+      {
+		SDL_BlitSurface(character, &joueurAnim, screen, &joueur1.pos);
+      }
 
       SDL_UpdateRect(screen, 0, 0, 0, 0);    
     }

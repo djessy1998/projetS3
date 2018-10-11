@@ -57,4 +57,6 @@ void suppression(Liste *liste);
 void insertion(Liste *liste, int nvType, int nvXMonde, int nvYMonde);
 Liste *initialisation();
 void cliquerItemInv(items inv[4][10]);
-void TrierInv(int rienI, items inv[4][10]);
+void TrierInv(int rienI, items inv[4][10], int type);
+int RegarderSiPlaceLig(items inv[4][10]);
+int RegarderSiPlaceCol(items inv[4][10]);
