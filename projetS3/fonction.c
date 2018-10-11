@@ -44,7 +44,6 @@ void sauter(character *a, int *saut, float *x, float *y, int murDro, int murGau)
     *x = -50.;
     *saut = 0;
   }
-  printf("%f \n", *y);
 }
 
 void baisser(character *a)
@@ -182,4 +181,28 @@ void afficherListe(Liste *liste)
         actuel = actuel->suivant;
     }
     printf("NULL\n");
+}
+
+void TrierInv(int rienI, items inv[4][10])
+{
+  int o, p = 0;
+  int trouve = 0;
+      if(rienI == 0)
+      {
+        while(trouve == 0 && o < 4)
+          {
+           while(trouve == 0)
+            {
+             if(inv[o][p].type == -1)
+              {
+                inv[o][p].type = 1;
+		trouve = 1;   
+              }
+              p = p + 1;
+            }
+            o = o + 1;
+          }
+          o = 0;
+          p = 0;
+      } 
 }
