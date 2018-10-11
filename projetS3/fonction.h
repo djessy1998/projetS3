@@ -3,7 +3,7 @@
 #define SCREEN_WIDTH   720
 #define SCREEN_HEIGHT  560
 #define PLAYER_WIDTH   20
-#define PLAYER_HEIGHT  40
+#define PLAYER_HEIGHT  54
 #define FORCE_GRA      0.2
 #define VITESSE        0.09
 #define VITESSEJ       0.2
