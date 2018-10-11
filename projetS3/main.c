@@ -127,7 +127,7 @@ void HandleEvent(SDL_Event event, int *quit, int *z, int *q, int *s, int *d, int
     case SDLK_q:
       *q = 0;
       break;
-    case SDLK_s: 
+    case SDLK_s:
       *s = 0;
       break;
     case SDLK_d:
@@ -142,7 +142,7 @@ void HandleEvent(SDL_Event event, int *quit, int *z, int *q, int *s, int *d, int
     break;
   }
 }
-   
+
 int main(int argc,char* argv[])
 {
 
@@ -152,8 +152,8 @@ int main(int argc,char* argv[])
   int posBY[TMONDE][TMONDE];
   int affichage[NBBLOCS_FENETREY][NBBLOCS_FENETREX];
   items inv[4][10];
-  float x_saut = -50;
-  float y_saut = 0;
+  float x_saut = -154.;
+  float y_saut = 0.;
   Liste *listeItems = initialisation();
   insertion(listeItems, 1, 500, 500);
   insertion(listeItems, 2, 550, 400);
@@ -190,7 +190,31 @@ int main(int argc,char* argv[])
       grille[80+i][51] = VIDE;
       grille[80+i][50] = VIDE;
     }
-    
+
+
+    for(i = 0; i<4; i++){
+      grille[81][47+i] = VIDE;
+      grille[82][47+i] = VIDE;
+      grille[83][47+i] = VIDE;
+      grille[84][47+i] = VIDE;
+    }
+
+    for(i = 0; i<4; i++){
+      grille[82][45+i] = VIDE;
+      grille[83][45+i] = VIDE;
+      grille[84][45+i] = VIDE;
+      grille[85][45+i] = VIDE;
+    }
+
+    for(i = 0; i<4; i++){
+      grille[83][43+i] = VIDE;
+      grille[84][43+i] = VIDE;
+      grille[85][43+i] = VIDE;
+      /*grille[86][43+i] = VIDE;*/
+    }
+
+    grille[83][50] = VIDE;
+
     grille[81][93] = VIDE;
     grille[81][92] = VIDE;
     grille[81][94] = VIDE;
@@ -208,9 +232,9 @@ int main(int argc,char* argv[])
   int yMondeB = 0;
   float forcegrav = (float)joueur1.pos.y;
   float vitesse = (float)joueur1.xMonde;
-  
+
   SDL_Surface *screen, *temp, *bg, *terre, *character, *invIm, *casque, *characterD;
-  
+
   /* initialize SDL */
   SDL_Init(SDL_INIT_VIDEO);
 
@@ -238,7 +262,7 @@ int main(int argc,char* argv[])
   temp = SDL_LoadBMP("Sprites/characterD.bmp");
   characterD = SDL_DisplayFormat(temp);
   SDL_FreeSurface(temp);
-  
+
   SDL_Rect joueurAnim;
   joueurAnim.x = 7;
   joueurAnim.y = 0;
@@ -260,7 +284,7 @@ int main(int argc,char* argv[])
   SDL_FreeSurface(temp);
 
   SDL_Rect posFond;
-    
+
   posFond.x = 0;
   posFond.y = 0;
 
@@ -313,11 +337,11 @@ int main(int argc,char* argv[])
     a += 2;
 	if(a > 58)
 	{
-	  joueurAnimD.y += 58; 
+	  joueurAnimD.y += 58;
 	  a = 0;
 	}
 	if (joueurAnimD.y > 800){
-	 joueurAnimD.y = 0; 
+	 joueurAnimD.y = 0;
 	}
 	dirChar = 2;
 	}
@@ -338,17 +362,17 @@ int main(int argc,char* argv[])
 	a += 2;
 	if(a > 58)
 	{
-	  joueurAnim.y += 58; 
+	  joueurAnim.y += 58;
 	  a = 0;
 	}
 	if (joueurAnim.y > 800){
-	 joueurAnim.y = 0; 
+	 joueurAnim.y = 0;
 	}
 	dirChar = 1;
 	}
 	else
 	{
-	 joueurAnim.y = 0; 
+	 joueurAnim.y = 0;
 	}
 	if(e == 1)
 	{
@@ -403,14 +427,18 @@ int main(int argc,char* argv[])
 		           posGrille.x = j*TAILLE_BLOCS + decalageX;
 		           posGrille.y = i*TAILLE_BLOCS + decalageY;
 		           SDL_BlitSurface(terre, NULL, screen, &posGrille);
+               affichage[21][15] = VIDE;
+               affichage[22][15] = VIDE;
+               affichage[23][15] = VIDE;
 	    	    }
         }
       }
+
       if(numItemInven != -1 && rienI == 0)
       {
         SDL_BlitSurface(casque, NULL, screen, &posImage);
       }
-      
+
       terreRonde(&xMondeB, &joueur1, &murD, &murG);
 
       collision(&joueur1, affichage, &forcegrav, &bloquerG, &bloquerD, posB, posBY, &saut);
@@ -424,7 +452,7 @@ int main(int argc,char* argv[])
 		SDL_BlitSurface(character, &joueurAnim, screen, &joueur1.pos);
       }
 
-      SDL_UpdateRect(screen, 0, 0, 0, 0);    
+      SDL_UpdateRect(screen, 0, 0, 0, 0);
     }
 
   SDL_FreeSurface(bg);

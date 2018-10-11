@@ -30,25 +30,22 @@ void deplacerD(character *a, float *vitesse, int murDro, int *murGau)
 
 void sauter(character *a, int *saut, float *x, float *y, int murDro, int murGau)
 {
-  *x += 0.00001;
-  *y += 0.0002* (*x) * (*x);
-  if (!murDro && !murGau){ 
-      a->xMonde += *x + 50;
-      a->yMonde += (int)*y;
+  *x += 1.;
+  if ((*x) >= -140.)
+  {
+    *x = -154;
+    *saut = 0;
+    *y = 0;
   }
   else{
-  }
-  if (*y > 8.)
-  {
-    *y = 0.;
-    *x = -50.;
-    *saut = 0;
+    *y = -0.0001* (*x) * (*x) + 24;
+    a->yMonde += (int)*y;
   }
 }
 
 void baisser(character *a)
 {
-  
+
 }
 
 void gravite(character *a, float *force)
@@ -79,24 +76,48 @@ void collision(character *a, int affichage[NBBLOCS_FENETREY][NBBLOCS_FENETREX], 
 					*saut = 1;
        				break;
        			}
-       			if(JpiedGY < posBY[i][j] && JpiedDX == posB[i][j])
+       			if(JpiedDX == posB[i][j])
        			{
        				*bloquerD = 1;
        			}
-       			else if(JpiedGY < posBY[i][j] && JpiedGX == posB[i][j] + TAILLE_BLOCS)
+       			else if(JpiedGX == posB[i][j] + TAILLE_BLOCS)
        			{
        				*bloquerG = 1;
        			}
        		}
        }
-    } 
+    }
+
+
+    int PosPiedY = (a->pos.y/16) +1;
+    int PosCorpsY = (a->pos.y/16 +2);
+    int PosTeteY = (a->pos.y/16) +3;
+    int PosPiedX = a->pos.x/16;
+    int PosPiedDX = a->pos.x/16 + PLAYER_WIDTH/16 +1 ;
+
+    printf("%d\n", PosPiedY);
+    printf("%d\n", PosCorpsY);
+    printf("%d\n", PosTeteY);
+    printf("%s\n", affichage[PosPiedY][PosPiedX] == VIDE ? "true" : "false");
+
+    if((affichage[PosPiedY][PosPiedX] == VIDE &&
+      affichage[PosCorpsY][PosPiedX] == VIDE &&
+      affichage[PosTeteY][PosPiedX] == VIDE)) {
+      *bloquerG=0;
+    }
+
+    if((affichage[PosPiedY][PosPiedDX] == VIDE &&
+      affichage[PosCorpsY][PosPiedDX] == VIDE &&
+      affichage[PosTeteY][PosPiedDX] == VIDE)){
+      *bloquerD=0;
+    }
 
 	if(a->pos.x >= (45*TAILLE_BLOCS) - PLAYER_WIDTH)
 	  {
 	  	*bloquerD = 1;
 	  }
 	else if(a->pos.x <= 0)
-	  {   
+	  {
 	  	*bloquerG = 1;
 	  }
 	if (touche == 0)
@@ -196,7 +217,7 @@ void TrierInv(int rienI, items inv[4][10], int type)
              if(inv[o][p].type == -1)
               {
                 inv[o][p].type = type;
-		            trouve = 1;   
+		            trouve = 1;
               }
               p = p + 1;
             }
@@ -204,7 +225,7 @@ void TrierInv(int rienI, items inv[4][10], int type)
           }
           o = 0;
           p = 0;
-      } 
+      }
 }
 
 int RegarderSiPlaceLig(items inv[4][10])
@@ -219,7 +240,7 @@ int RegarderSiPlaceLig(items inv[4][10])
           if(inv[o][p].type == -1)
            {
             res = 0;
-            trouve = 1;   
+            trouve = 1;
            }
             p = p + 1;
         }
@@ -229,7 +250,7 @@ int RegarderSiPlaceLig(items inv[4][10])
   p = 0;
   return res;
 
-} 
+}
 
 int RegarderSiPlaceCol(items inv[4][10])
 {
@@ -252,4 +273,4 @@ int RegarderSiPlaceCol(items inv[4][10])
   o = 0;
   p = 0;
   return res;
-} 
+}
