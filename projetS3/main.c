@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include "fonction.h"
 
-void HandleEvent(SDL_Event event, int *quit, int *z, int *q, int *s, int *d, int *e, int *f, int *butdown, int *numItemInvX, int *numItemInvY, SDL_Rect *posImage, int i, int j, int *n, items inve[4][10], int *supprimer, int *getB, int *rien)
+void HandleEvent(SDL_Event event, int *quit, int *z, int *q, int *s, int *d, int *e, int *f, int *butdown, int *numItemInvX, int *numItemInvY, SDL_Rect *posImage, int i, int j, int *n, items inve[4][10], int *supprimer, int *getB, int *rien, int typeMemoire)
 {
   switch (event.type) {
     /* close button clicked */
@@ -60,13 +60,13 @@ void HandleEvent(SDL_Event event, int *quit, int *z, int *q, int *s, int *d, int
           {
 	    if(*rien == 0)
 	    {
-	      TrierInv(*rien, inve, 1);
+	      TrierInv(*rien, inve, typeMemoire);
 	    }
             *numItemInvX = -1;
             *numItemInvY = -1;
             *supprimer = 0;
             *getB = 0;
-	    *rien = 0;
+	    	*rien = 0;
           }
         }
         else if((*butdown == 0) && ((event.motion.x <= 52 || event.motion.x >= 52 + 32) && (event.motion.y <= 54 || event.motion.y >= 54 + 32)) && (*e == 1))
@@ -167,7 +167,8 @@ int main(int argc,char* argv[])
 
   inv[0][0].type = 1;
   inv[0][1].type = 1;
-  inv[1][5].type = 1;
+  inv[0][2].type = 1;
+  inv[0][3].type = 2;
   for(i=0;i<TMONDE;i++)
     {
       for(j=0;j<TMONDE;j++)
@@ -233,7 +234,7 @@ int main(int argc,char* argv[])
   float forcegrav = (float)joueur1.pos.y;
   float vitesse = (float)joueur1.xMonde;
 
-  SDL_Surface *screen, *temp, *bg, *terre, *character, *invIm, *casque, *characterD;
+  SDL_Surface *screen, *temp, *bg, *terre, *character, *invIm, *casque, *characterD, *armure;
 
   /* initialize SDL */
   SDL_Init(SDL_INIT_VIDEO);
@@ -253,6 +254,10 @@ int main(int argc,char* argv[])
 
   temp = SDL_LoadBMP("Sprites/casque.bmp");
   casque = SDL_DisplayFormat(temp);
+  SDL_FreeSurface(temp);
+
+  temp = SDL_LoadBMP("Sprites/armure.bmp");
+  armure = SDL_DisplayFormat(temp);
   SDL_FreeSurface(temp);
 
   temp = SDL_LoadBMP("Sprites/character.bmp");
@@ -299,6 +304,7 @@ int main(int argc,char* argv[])
   int numItemInvenY = -1;
   int k = 0,l = 0,n = 0, a = 0;
   int supprimer = 0, getBInv= 0, rienI = 0, dirChar = 1;
+  int typeMemor = 0;
   Uint32 colorkey = SDL_MapRGB(character->format,0,0,0);
   SDL_SetColorKey(character,SDL_SRCCOLORKEY,colorkey);
   SDL_SetColorKey(characterD,SDL_SRCCOLORKEY,colorkey);
@@ -311,7 +317,7 @@ int main(int argc,char* argv[])
       SDL_Rect posImage;
 
       if (SDL_PollEvent(&event)) {
-	HandleEvent(event, &gameover, &z, &q, &s, &d, &e, &f, &buttonDown, &numItemInven,&numItemInvenY, &posImage, k, l, &n, inv, &supprimer, &getBInv, &rienI);
+	HandleEvent(event, &gameover, &z, &q, &s, &d, &e, &f, &buttonDown, &numItemInven,&numItemInvenY, &posImage, k, l, &n, inv, &supprimer, &getBInv, &rienI, typeMemor);
       }
 
     SDL_BlitSurface(bg, NULL, screen, &posFond);
@@ -385,8 +391,9 @@ int main(int argc,char* argv[])
         SDL_BlitSurface(invIm, NULL, screen, &posInv);
         if(numItemInven != -1 && supprimer == 0 && inv[numItemInvenY][numItemInven].type != -1)
         {
+          typeMemor = inv[numItemInvenY][numItemInven].type;
           inv[numItemInvenY][numItemInven].type = -1;
-	  supprimer = 1;
+	  	  supprimer = 1;
         }
         else if (numItemInven != -1 && supprimer == 0 && inv[numItemInvenY][numItemInven].type == -1)
         {
@@ -397,7 +404,14 @@ int main(int argc,char* argv[])
         {
            posItemsInv.x = 50 + (33 * j) + 2;
            posItemsInv.y = 50 + (33 * i) + 4;
-           SDL_BlitSurface(casque, NULL, screen, &posItemsInv);
+           if(inv[i][j].type == 1)
+           {
+           	 SDL_BlitSurface(casque, NULL, screen, &posItemsInv);
+           }
+           else if(inv[i][j].type == 2)
+           {
+           	 SDL_BlitSurface(armure, NULL, screen, &posItemsInv);
+           }
         }
       }
     }
@@ -436,7 +450,15 @@ int main(int argc,char* argv[])
 
       if(numItemInven != -1 && rienI == 0)
       {
-        SDL_BlitSurface(casque, NULL, screen, &posImage);
+      	printf("%d\n", typeMemor);
+      	if(typeMemor == 1)
+      	{
+			SDL_BlitSurface(casque, NULL, screen, &posImage);
+      	}
+      	else if(typeMemor == 2)
+      	{
+      		SDL_BlitSurface(armure, NULL, screen, &posImage);
+      	}
       }
 
       terreRonde(&xMondeB, &joueur1, &murD, &murG);

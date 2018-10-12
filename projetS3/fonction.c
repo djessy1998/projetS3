@@ -95,11 +95,6 @@ void collision(character *a, int affichage[NBBLOCS_FENETREY][NBBLOCS_FENETREX], 
     int PosPiedX = a->pos.x/16;
     int PosPiedDX = a->pos.x/16 + PLAYER_WIDTH/16 +1 ;
 
-    printf("%d\n", PosPiedY);
-    printf("%d\n", PosCorpsY);
-    printf("%d\n", PosTeteY);
-    printf("%s\n", affichage[PosPiedY][PosPiedX] == VIDE ? "true" : "false");
-
     if((affichage[PosPiedY][PosPiedX] == VIDE &&
       affichage[PosCorpsY][PosPiedX] == VIDE &&
       affichage[PosTeteY][PosPiedX] == VIDE)) {
@@ -226,51 +221,4 @@ void TrierInv(int rienI, items inv[4][10], int type)
           o = 0;
           p = 0;
       }
-}
-
-int RegarderSiPlaceLig(items inv[4][10])
-{
-  int o, p = 0;
-  int trouve = 0;
-  int res = 0;
-  while(trouve == 0 && o < 4)
-    {
-      while(trouve == 0)
-        {
-          if(inv[o][p].type == -1)
-           {
-            res = 0;
-            trouve = 1;
-           }
-            p = p + 1;
-        }
-        o = o + 1;
-    }
-  o = 0;
-  p = 0;
-  return res;
-
-}
-
-int RegarderSiPlaceCol(items inv[4][10])
-{
-  int o, p = 0;
-  int trouve = 0;
-  int res = 0;
-  while(trouve == 0 && o < 4)
-    {
-      while(trouve == 0)
-        {
-          if(inv[o][p].type == -1)
-           {
-            res = p;
-            trouve = 1;
-          }
-            p = p + 1;
-        }
-        o = o + 1;
-    }
-  o = 0;
-  p = 0;
-  return res;
 }
