@@ -449,8 +449,8 @@ int main(int argc,char* argv[])
 
     SDL_Quit();
 
-    desallouer_tab_2D_char(grilleTest, tailleFichierX);
-    desallouer_tab_2D_int(grilleInt, tailleFichierX);
+    desallouer_tab_2D_char(grilleTest, TMONDE);
+    desallouer_tab_2D_int(grilleInt, TMONDE);
 
   return 0;
 }
