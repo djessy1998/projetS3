@@ -2,29 +2,33 @@
 #include <SDL.h>
 #include <math.h>
 
-void deplacerG(character *a, float *vitesse, int murGau, int *murDro)
+void deplacerG(character *a, float *vitesse, int murGau, int murDro, float *vitesseMur)
 {
-  if(murGau == 0 && *murDro == 0)
+  if(murGau == 0 && murDro == 0)
   	{
    		*vitesse =  *vitesse - VITESSE;
   		a->xMonde = (int)*vitesse;
+      *vitesseMur = a->pos.x;
   	}
   	else
     {
-  		a->pos.x -= 1;
+      *vitesseMur = *vitesseMur - VITESSE;
+  		a->pos.x = (int)*vitesseMur;
   	}
 }
 
-void deplacerD(character *a, float *vitesse, int murDro, int *murGau)
+void deplacerD(character *a, float *vitesse, int murDro, int murGau, float *vitesseMur)
 {
-  if(murDro == 0 && *murGau == 0)
+  if(murDro == 0 && murGau == 0)
   	{
    		*vitesse =  *vitesse + VITESSE;
   		a->xMonde = (int)*vitesse;
+      *vitesseMur = a->pos.x;
   	}
   	else
     {
-  		a->pos.x += 1;
+      *vitesseMur = *vitesseMur + VITESSE;
+  		a->pos.x = (int)*vitesseMur;
     }
 }
 
@@ -311,9 +315,8 @@ void collisionItems(Liste *liste, int dirChar, int ItemAffich, int bloquerG, int
               actuel->avG += 0.09;
             }
           }
-        }     
+        }
     }
     actuel = actuel->suivant;
   }
 }
-

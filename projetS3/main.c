@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "fonction.h"
+#include "fonctions_fichiers.h"
 
 void HandleEvent(SDL_Event event, int *quit, int *z, int *q, int *s, int *d, int *e, int *f, int *butdown, int *numItemInvX, int *numItemInvY, SDL_Rect *posImage, int i, int j, int *n, items inve[4][10], int *supprimer, int *getB, int *rien, int typeMemoire)
 {
@@ -147,7 +148,12 @@ int main(int argc,char* argv[])
 {
 
   int i,j;
-  int grille[TMONDE][TMONDE];
+
+  char** grilleTest;
+  grilleTest = lire_fichier("saves/Monde1.txt");
+
+  int** grilleInt = allouer_tab_2D_int(TMONDE, TMONDE);
+  tab_char2int(grilleTest, grilleInt, TMONDE, TMONDE);
   int posB[TMONDE][TMONDE];
   int posBY[TMONDE][TMONDE];
   int affichage[NBBLOCS_FENETREY][NBBLOCS_FENETREX];
@@ -169,58 +175,6 @@ int main(int argc,char* argv[])
   inv[0][1].type = 1;
   inv[0][2].type = 1;
   inv[0][3].type = 2;
-  for(i=0;i<TMONDE;i++)
-    {
-      for(j=0;j<TMONDE;j++)
-        {
-          grille[i][j] = VIDE;
-        }
-    }
-
-    for(i=TMONDE-20;i<TMONDE;i++)
-    {
-      for(j=0;j<TMONDE;j++)
-        {
-          grille[i][j] = TERRE;
-        }
-    }
-    /*Creation d'un trou de x cases*/
-    for(i=0; i<3; i++)
-    {
-      grille[80+i][49] = VIDE;
-      grille[80+i][51] = VIDE;
-      grille[80+i][50] = VIDE;
-    }
-
-
-    for(i = 0; i<4; i++){
-      grille[81][47+i] = VIDE;
-      grille[82][47+i] = VIDE;
-      grille[83][47+i] = VIDE;
-      grille[84][47+i] = VIDE;
-    }
-
-    for(i = 0; i<4; i++){
-      grille[82][45+i] = VIDE;
-      grille[83][45+i] = VIDE;
-      grille[84][45+i] = VIDE;
-      grille[85][45+i] = VIDE;
-    }
-
-    for(i = 0; i<4; i++){
-      grille[83][43+i] = VIDE;
-      grille[84][43+i] = VIDE;
-      grille[85][43+i] = VIDE;
-      /*grille[86][43+i] = VIDE;*/
-    }
-
-    grille[83][50] = VIDE;
-
-    grille[81][93] = VIDE;
-    grille[81][92] = VIDE;
-    grille[81][94] = VIDE;
-    grille[80][92] = VIDE;
-    grille[80][94] = VIDE;
 
   character joueur1 = {"Jean", 100, 0};
   joueur1.pos.x = 352;
@@ -233,6 +187,7 @@ int main(int argc,char* argv[])
   int yMondeB = 0;
   float forcegrav = (float)joueur1.pos.y;
   float vitesse = (float)joueur1.xMonde;
+  float vitesseFloat = (float)joueur1.pos.x;
 
   SDL_Surface *screen, *temp, *bg, *terre, *character, *invIm, *casque, *characterD, *armure;
 
@@ -340,7 +295,7 @@ int main(int argc,char* argv[])
 	collisionItems(listeItems, dirChar, ItemAffich, bloquerG, bloquerD, &joueur1, gauche, droite);
     if(bloquerD == 0)
     {
-      deplacerD(&joueur1, &vitesse, murD, &murG);
+      deplacerD(&joueur1, &vitesse, murD, murG, &vitesseFloat);
     }
     a += 2;
 	if(a > 58)
@@ -368,7 +323,7 @@ int main(int argc,char* argv[])
 	  collisionItems(listeItems, dirChar, ItemAffich, bloquerG, bloquerD, &joueur1, gauche, droite);
 	  if(bloquerG == 0)
 	    {
-	      deplacerG(&joueur1, &vitesse, murG, &murD);
+	      deplacerG(&joueur1, &vitesse, murG, murD, &vitesseFloat);
 	    }
 	a += 2;
 	if(a > 58)
@@ -426,12 +381,12 @@ int main(int argc,char* argv[])
   {
     //RAMASSAGE ITEM
   }
-      grille[joueur1.yMonde/TAILLE_BLOCS][joueur1.xMonde/TAILLE_BLOCS]=TERRE;
+      grilleInt[joueur1.yMonde/TAILLE_BLOCS][joueur1.xMonde/TAILLE_BLOCS]=TERRE;
       for(i=0;i<NBBLOCS_FENETREY;i++ )
       {
         for(j=0;j<NBBLOCS_FENETREX;j++)
         {
-	         affichage[i][j] = grille[i+yMondeB][j+xMondeB];
+	         affichage[i][j] = grilleInt[i+yMondeB][j+xMondeB];
 	         posB[i][j] = TAILLE_BLOCS*(j+xMondeB);
            	 posBY[i][j] = TAILLE_BLOCS*(joueur1.yMonde/TAILLE_BLOCS + NB_BLOCS_AU_DESSUS_JOUEUR - i);
 	    }
@@ -484,10 +439,18 @@ int main(int argc,char* argv[])
       SDL_UpdateRect(screen, 0, 0, 0, 0);
     }
 
-  SDL_FreeSurface(bg);
-  SDL_FreeSurface(terre);
+    SDL_FreeSurface(bg);
+    SDL_FreeSurface(terre);
+    SDL_FreeSurface(casque);
+    SDL_FreeSurface(armure);
+    SDL_FreeSurface(character);
+    SDL_FreeSurface(characterD);
+    SDL_FreeSurface(invIm);
 
-  SDL_Quit();
+    SDL_Quit();
+
+    desallouer_tab_2D_char(grilleTest, tailleFichierX);
+    desallouer_tab_2D_int(grilleInt, tailleFichierX);
 
   return 0;
 }

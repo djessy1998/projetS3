@@ -1,4 +1,4 @@
-SRC=main.c fonction.c
+SRC=main.c fonction.c fonctions_fichiers.c
 BIN=Jeu
 
 $(BIN): $(SRC)
