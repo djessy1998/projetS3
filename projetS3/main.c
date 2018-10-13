@@ -155,8 +155,8 @@ int main(int argc,char* argv[])
   float x_saut = -154.;
   float y_saut = 0.;
   Liste *listeItems = initialisation();
-  insertion(listeItems, 1, 500, 500);
-  insertion(listeItems, 2, 550, 400);
+  insertion(listeItems, 1, 500, 128);
+  insertion(listeItems, 2, 450, 128);
   for(i=0;i<4;i++)
     {
       for(j=0;j<10;j++)
@@ -304,7 +304,7 @@ int main(int argc,char* argv[])
   int numItemInvenY = -1;
   int k = 0,l = 0,n = 0, a = 0;
   int supprimer = 0, getBInv= 0, rienI = 0, dirChar = 1;
-  int typeMemor = 0;
+  int typeMemor = 0, ItemAffich = 0, droite = 0, gauche = 0;
   Uint32 colorkey = SDL_MapRGB(character->format,0,0,0);
   SDL_SetColorKey(character,SDL_SRCCOLORKEY,colorkey);
   SDL_SetColorKey(characterD,SDL_SRCCOLORKEY,colorkey);
@@ -336,6 +336,8 @@ int main(int argc,char* argv[])
 	}
   if(d == 1)
 	{
+	droite = 1;
+	collisionItems(listeItems, dirChar, ItemAffich, bloquerG, bloquerD, &joueur1, gauche, droite);
     if(bloquerD == 0)
     {
       deplacerD(&joueur1, &vitesse, murD, &murG);
@@ -353,6 +355,7 @@ int main(int argc,char* argv[])
 	}
 	else
 	{
+		droite = 0;
 		joueurAnimD.y = 0;
 	}
       if(s == 1)
@@ -361,6 +364,8 @@ int main(int argc,char* argv[])
 	}
       if(q == 1)
 	{
+	  gauche = 1;
+	  collisionItems(listeItems, dirChar, ItemAffich, bloquerG, bloquerD, &joueur1, gauche, droite);
 	  if(bloquerG == 0)
 	    {
 	      deplacerG(&joueur1, &vitesse, murG, &murD);
@@ -378,6 +383,7 @@ int main(int argc,char* argv[])
 	}
 	else
 	{
+	  gauche = 0;
 	 joueurAnim.y = 0;
 	}
 	if(e == 1)
@@ -427,8 +433,8 @@ int main(int argc,char* argv[])
         {
 	         affichage[i][j] = grille[i+yMondeB][j+xMondeB];
 	         posB[i][j] = TAILLE_BLOCS*(j+xMondeB);
-           posBY[i][j] = TAILLE_BLOCS*(joueur1.yMonde/TAILLE_BLOCS + NB_BLOCS_AU_DESSUS_JOUEUR - i);
-	      }
+           	 posBY[i][j] = TAILLE_BLOCS*(joueur1.yMonde/TAILLE_BLOCS + NB_BLOCS_AU_DESSUS_JOUEUR - i);
+	    }
       }
 
       for(i=0;i<NBBLOCS_FENETREY;i++)
@@ -441,16 +447,15 @@ int main(int argc,char* argv[])
 		           posGrille.x = j*TAILLE_BLOCS + decalageX;
 		           posGrille.y = i*TAILLE_BLOCS + decalageY;
 		           SDL_BlitSurface(terre, NULL, screen, &posGrille);
-               affichage[21][15] = VIDE;
-               affichage[22][15] = VIDE;
-               affichage[23][15] = VIDE;
+	               affichage[21][15] = VIDE;
+	               affichage[22][15] = VIDE;
+	               affichage[23][15] = VIDE;
 	    	    }
         }
       }
 
       if(numItemInven != -1 && rienI == 0)
       {
-      	printf("%d\n", typeMemor);
       	if(typeMemor == 1)
       	{
 			SDL_BlitSurface(casque, NULL, screen, &posImage);
@@ -464,6 +469,8 @@ int main(int argc,char* argv[])
       terreRonde(&xMondeB, &joueur1, &murD, &murG);
 
       collision(&joueur1, affichage, &forcegrav, &bloquerG, &bloquerD, posB, posBY, &saut);
+
+      afficherElementsListe(listeItems, &ItemAffich, dirChar, &joueur1,screen, casque, armure);
 
       if(dirChar == 2)
       {

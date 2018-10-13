@@ -222,3 +222,98 @@ void TrierInv(int rienI, items inv[4][10], int type)
           p = 0;
       }
 }
+
+void afficherElementsListe(Liste *liste, int *ItemAffich, int dirChar, character *a, SDL_Surface *screen, SDL_Surface *casque, SDL_Surface *armure)
+{
+    if (liste == NULL)
+    {
+        exit(EXIT_FAILURE);
+    }
+    items *actuel = liste->premier;
+    while (actuel != NULL)
+    {
+        if(actuel->xMondeItem >= a->xMonde && actuel->xMondeItem <= a->xMonde + SCREEN_WIDTH)
+        {
+          if(actuel->type == 1)
+          {
+            SDL_Rect posItemMonde;
+            if(dirChar == 1)
+            {
+              posItemMonde.x = (int)actuel->avG;
+            }
+            else
+            {
+              posItemMonde.x = (int)actuel->avD;
+            }
+            posItemMonde.y = a->yMonde + 248;
+            SDL_BlitSurface(casque, NULL, screen, &posItemMonde);
+            *ItemAffich = 1;
+          }
+          else if(actuel->type == 2)
+          {
+            SDL_Rect posItemMonde;
+            if(dirChar == 1)
+            {
+              posItemMonde.x = (int)actuel->avG;
+            }
+            else
+            {
+              posItemMonde.x = (int)actuel->avD;
+            }
+            posItemMonde.y = a->yMonde + 248;
+            SDL_BlitSurface(armure, NULL, screen, &posItemMonde);
+            *ItemAffich = 1;
+          }
+        }
+        else
+        {
+          actuel->avD = 0;
+          actuel->avG = 0;
+        }
+      actuel = actuel->suivant;
+    }
+}
+
+void collisionItems(Liste *liste, int dirChar, int ItemAffich, int bloquerG, int bloquerD, character *a, int gauche, int droite)
+{
+  items *actuel = liste->premier;
+  while (actuel != NULL)
+  {
+    if(droite == 1)
+    {
+      if(actuel->xMondeItem >= a->xMonde && actuel->xMondeItem <= a->xMonde + SCREEN_WIDTH)
+        {
+          if(ItemAffich == 1)
+          {
+            if(dirChar == 1)
+            {
+              actuel->avD = actuel->avG;
+            }
+            if(bloquerD == 0)
+            {
+              actuel->avD -= 0.09;
+            }
+         }
+        }
+    }
+    else if(gauche == 1)
+    {
+       if(actuel->xMondeItem >= a->xMonde && actuel->xMondeItem <= a->xMonde + SCREEN_WIDTH)
+        {
+          if(ItemAffich == 1)
+          {
+            if(dirChar == 2)
+            {
+              actuel->avG = actuel->avD;
+            }
+            if(bloquerG == 0)
+            {
+              actuel->avG += 0.09;
+            }
+          }
+        }     
+    }
+    actuel = actuel->suivant;
+  }
+}
+

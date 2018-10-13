@@ -36,6 +36,8 @@ struct items
 	int xMondeItem;
 	int yMondeItem;
 	int type;
+  double avG;
+  double avD;
 	items *suivant;  
 };
 
@@ -58,3 +60,5 @@ void insertion(Liste *liste, int nvType, int nvXMonde, int nvYMonde);
 Liste *initialisation();
 void cliquerItemInv(items inv[4][10]);
 void TrierInv(int rienI, items inv[4][10], int type);
+void afficherElementsListe(Liste *liste, int *ItemAffich , int dirChar,character *a, SDL_Surface *screen, SDL_Surface *casque, SDL_Surface *armure);
+void collisionItems(Liste *liste, int dirChar, int ItemAffich, int bloquerG, int bloquerD, character *a, int gauche, int droite);
