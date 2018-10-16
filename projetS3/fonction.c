@@ -227,7 +227,7 @@ void TrierInv(int rienI, items inv[4][10], int type)
       }
 }
 
-void afficherElementsListe(Liste *liste, int *ItemAffich, int dirChar, character *a, SDL_Surface *screen, SDL_Surface *casque, SDL_Surface *armure)
+void afficherElementsListe(Liste *liste, int *ItemAffich, int dirChar, character *a, SDL_Surface *screen, SDL_Surface *casque, SDL_Surface *armure, int q, int d)
 {
     if (liste == NULL)
     {
@@ -236,11 +236,12 @@ void afficherElementsListe(Liste *liste, int *ItemAffich, int dirChar, character
     items *actuel = liste->premier;
     while (actuel != NULL)
     {
+	SDL_Rect posItemMonde;
         if(actuel->xMondeItem >= a->xMonde && actuel->xMondeItem <= a->xMonde + SCREEN_WIDTH)
         {
+	  actuel->boolean = 0;
           if(actuel->type == 1)
           {
-            SDL_Rect posItemMonde;
             if(dirChar == 1)
             {
               posItemMonde.x = (int)actuel->avG;
@@ -271,6 +272,61 @@ void afficherElementsListe(Liste *liste, int *ItemAffich, int dirChar, character
         }
         else
         {
+	  if(actuel->xMondeItem + 28 >= a->xMonde)
+	  {
+	   if(actuel->boolean == 0)
+	   {
+	    actuel->SortImPos.x = 0;
+	    actuel->SortImPos.y = a->yMonde + 248;
+	    actuel->increment = 0;
+	    actuel->SortIm.x = 28;
+	    actuel->SortIm.y = 0;
+	    actuel->SortIm.h = 24;
+	    actuel->SortIm.w = 28;
+	    actuel->boolean = 1;
+	   }
+	   else
+	   {
+	    if(actuel->type == 1 && q == 1)
+	    {
+	      actuel->increment += 0.09;
+	      actuel->SortIm.x = 28 - (int)actuel->increment;
+	      if(actuel->SortIm.x < 0)
+	      {
+		actuel->SortIm.x = 0;
+	      }
+	    }
+	     SDL_BlitSurface(casque, &actuel->SortIm , screen, &actuel->SortImPos);
+	   }
+	  }
+	  else if(actuel->xMondeItem <= a->xMonde)
+	  {
+	   if(actuel->boolean == 0)
+	   {
+	    actuel->SortImPos.x = 0;
+	    actuel->SortImPos.y = a->yMonde + 248;
+	    actuel->increment = 0;
+	    actuel->SortIm.x = 0;
+	    actuel->SortIm.y = 0;
+	    actuel->SortIm.h = 24;
+	    actuel->SortIm.w = 28;
+	    actuel->boolean = 1;
+	   }
+	   else
+	   {
+	    if(actuel->type == 1 && d == 1)
+	    {
+	      actuel->increment += 0.09;
+	      actuel->SortIm.x = (int)actuel->increment;
+	      if(actuel->SortIm.x > 28)
+	      {
+		actuel->SortIm.x = 28;
+	      }
+	    }
+	     SDL_BlitSurface(casque, &actuel->SortIm , screen, &actuel->SortImPos);	     
+	   }
+	    
+	  }
           actuel->avD = 0;
           actuel->avG = 0;
         }

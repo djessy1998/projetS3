@@ -425,7 +425,7 @@ int main(int argc,char* argv[])
 
       collision(&joueur1, affichage, &forcegrav, &bloquerG, &bloquerD, posB, posBY, &saut);
 
-      afficherElementsListe(listeItems, &ItemAffich, dirChar, &joueur1,screen, casque, armure);
+      afficherElementsListe(listeItems, &ItemAffich, dirChar, &joueur1,screen, casque, armure, q , d);
 
       if(dirChar == 2)
       {
