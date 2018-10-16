@@ -2,29 +2,33 @@
 #include <SDL.h>
 #include <math.h>
 
-void deplacerG(character *a, float *vitesse, int murGau, int *murDro)
+void deplacerG(character *a, float *vitesse, int murGau, int murDro, float *vitesseMur)
 {
-  if(murGau == 0 && *murDro == 0)
+  if(murGau == 0 && murDro == 0)
   	{
    		*vitesse =  *vitesse - VITESSE;
   		a->xMonde = (int)*vitesse;
+      *vitesseMur = a->pos.x;
   	}
   	else
     {
-  		a->pos.x -= 1;
+      *vitesseMur = *vitesseMur - VITESSE;
+  		a->pos.x = (int)*vitesseMur;
   	}
 }
 
-void deplacerD(character *a, float *vitesse, int murDro, int *murGau)
+void deplacerD(character *a, float *vitesse, int murDro, int murGau, float *vitesseMur)
 {
-  if(murDro == 0 && *murGau == 0)
+  if(murDro == 0 && murGau == 0)
   	{
    		*vitesse =  *vitesse + VITESSE;
   		a->xMonde = (int)*vitesse;
+      *vitesseMur = a->pos.x;
   	}
   	else
     {
-  		a->pos.x += 1;
+      *vitesseMur = *vitesseMur + VITESSE;
+  		a->pos.x = (int)*vitesseMur;
     }
 }
 
@@ -223,7 +227,7 @@ void TrierInv(int rienI, items inv[4][10], int type)
       }
 }
 
-void afficherElementsListe(Liste *liste, int *ItemAffich, int dirChar, character *a, SDL_Surface *screen, SDL_Surface *casque, SDL_Surface *armure)
+void afficherElementsListe(Liste *liste, int *ItemAffich, int dirChar, character *a, SDL_Surface *screen, SDL_Surface *casque, SDL_Surface *armure, int q, int d, int bloqD, int bloqG)
 {
     if (liste == NULL)
     {
@@ -232,41 +236,103 @@ void afficherElementsListe(Liste *liste, int *ItemAffich, int dirChar, character
     items *actuel = liste->premier;
     while (actuel != NULL)
     {
+	if ((actuel->xMondeItem > a->xMonde && actuel->xMondeItem <= a->xMonde + SCREEN_WIDTH) || (actuel->xMondeItem + 28 < a->xMonde))
+	{
+	    actuel->boolean = 0;
+	}
         if(actuel->xMondeItem >= a->xMonde && actuel->xMondeItem <= a->xMonde + SCREEN_WIDTH)
         {
           if(actuel->type == 1)
           {
-            SDL_Rect posItemMonde;
             if(dirChar == 1)
             {
-              posItemMonde.x = (int)actuel->avG;
+              actuel->posItemMonde.x = (int)actuel->avG;
             }
             else
             {
-              posItemMonde.x = (int)actuel->avD;
+              actuel->posItemMonde.x = (int)actuel->avD;
             }
-            posItemMonde.y = a->yMonde + 248;
-            SDL_BlitSurface(casque, NULL, screen, &posItemMonde);
+            actuel->posItemMonde.y = a->yMonde + 248;
+            SDL_BlitSurface(casque, NULL, screen, &actuel->posItemMonde);
             *ItemAffich = 1;
           }
           else if(actuel->type == 2)
           {
-            SDL_Rect posItemMonde;
             if(dirChar == 1)
             {
-              posItemMonde.x = (int)actuel->avG;
+              actuel->posItemMonde.x = (int)actuel->avG;			// A FACTORISER EN RAJOUTANT UN SDL_SURFACE DANS LA STRUCTURE
             }
             else
             {
-              posItemMonde.x = (int)actuel->avD;
+              actuel->posItemMonde.x = (int)actuel->avD;
             }
-            posItemMonde.y = a->yMonde + 248;
-            SDL_BlitSurface(armure, NULL, screen, &posItemMonde);
+            actuel->posItemMonde.y = a->yMonde + 248;
+            SDL_BlitSurface(armure, NULL, screen, &actuel->posItemMonde);
             *ItemAffich = 1;
           }
         }
         else
         {
+	  if(actuel->xMondeItem + 28 > a->xMonde)
+	  {
+	   if(actuel->boolean == 0)
+	   {
+	    actuel->SortImPos.x = 0;
+	  //  int i,j,posY = 0;
+	 //   while(posY == 0 && i < TMONDE)
+	  //  {
+	    //	while(posY == 0 && j < TMONDE)
+	    //	{
+	    //		if(gri[i][j] == TERRE)
+	    //		{
+	    //			if(actuel->xMondeItem >= j * 16 && actuel->xMondeItem <= (j * 16) + TAILLE_BLOCS)
+	    //			{
+	    //			   posY = i * 16;
+	    //			}
+	    //		}
+	    //		j = j + 1;
+	    //	}
+	    //	i = i + 1;
+	   // }
+	    actuel->SortImPos.y = a->yMonde + 248;
+	    actuel->increment = 0;
+	    actuel->SortIm.x = 28;
+	    actuel->SortIm.y = 0;
+	    actuel->SortIm.h = 24;
+	    actuel->SortIm.w = 28;
+	    actuel->boolean = 1;
+	   }
+	   else
+	   {
+	    actuel->SortImPos.y = a->yMonde + 248;
+	    if(q == 1 && bloqD == 0 && bloqG == 0)
+	    {
+	      actuel->increment += 0.09;
+	      actuel->SortIm.x = 28 - (int)actuel->increment;
+	      if(actuel->SortIm.x < 0)
+	      {
+			actuel->SortIm.x = 0;
+	      }
+	    }
+	    if(d == 1 && bloqD == 0 && bloqG == 0)
+	    {
+	      actuel->increment += 0.09;
+	      actuel->SortIm.x = (int)actuel->increment;
+	      if(actuel->SortIm.x > 28)
+	      {
+			actuel->SortIm.x = 28;
+	      }	    	
+	    }
+	     if(actuel->type == 1)
+	     {
+	     	SDL_BlitSurface(casque, &actuel->SortIm , screen, &actuel->SortImPos);
+	     }
+	     if(actuel->type == 2)
+	     {
+	     	SDL_BlitSurface(armure, &actuel->SortIm , screen, &actuel->SortImPos);
+	     }
+	   }
+	  }
           actuel->avD = 0;
           actuel->avG = 0;
         }
@@ -274,7 +340,7 @@ void afficherElementsListe(Liste *liste, int *ItemAffich, int dirChar, character
     }
 }
 
-void collisionItems(Liste *liste, int dirChar, int ItemAffich, int bloquerG, int bloquerD, character *a, int gauche, int droite)
+void collisionItems(Liste *liste, int dirChar, int ItemAffich, int bloquerG, int bloquerD, character *a, int gauche, int droite, int murG, int murD)
 {
   items *actuel = liste->premier;
   while (actuel != NULL)
@@ -289,7 +355,7 @@ void collisionItems(Liste *liste, int dirChar, int ItemAffich, int bloquerG, int
             {
               actuel->avD = actuel->avG;
             }
-            if(bloquerD == 0)
+            if(bloquerD == 0 && murD == 0 && murG == 0 && bloquerG == 0)
             {
               actuel->avD -= 0.09;
             }
@@ -306,14 +372,13 @@ void collisionItems(Liste *liste, int dirChar, int ItemAffich, int bloquerG, int
             {
               actuel->avG = actuel->avD;
             }
-            if(bloquerG == 0)
+            if(bloquerG == 0 && murD == 0 && murG == 0 && bloquerD == 0)
             {
               actuel->avG += 0.09;
             }
           }
-        }     
+        }
     }
     actuel = actuel->suivant;
   }
 }
-
