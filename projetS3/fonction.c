@@ -247,10 +247,12 @@ void afficherElementsListe(Liste *liste, int *ItemAffich, int dirChar, character
             if(dirChar == 1)
             {
               actuel->posItemMonde.x = (int)actuel->avG;
+              actuel->avD = actuel->avG;
             }
             else
             {
               actuel->posItemMonde.x = (int)actuel->avD;
+              actuel->avG = actuel->avD;
             }
             actuel->posItemMonde.y = a->yMonde + 248;
             SDL_BlitSurface(casque, NULL, screen, &actuel->posItemMonde);
@@ -261,10 +263,12 @@ void afficherElementsListe(Liste *liste, int *ItemAffich, int dirChar, character
             if(dirChar == 1)
             {
               actuel->posItemMonde.x = (int)actuel->avG;			// A FACTORISER EN RAJOUTANT UN SDL_SURFACE DANS LA STRUCTURE
+              actuel->avD = actuel->avG;
             }
             else
             {
               actuel->posItemMonde.x = (int)actuel->avD;
+              actuel->avG = actuel->avD;
             }
             actuel->posItemMonde.y = a->yMonde + 248;
             SDL_BlitSurface(armure, NULL, screen, &actuel->posItemMonde);
@@ -278,24 +282,15 @@ void afficherElementsListe(Liste *liste, int *ItemAffich, int dirChar, character
 	   if(actuel->boolean == 0)
 	   {
 	    actuel->SortImPos.x = 0;
-	  //  int i,j,posY = 0;
-	 //   while(posY == 0 && i < TMONDE)
-	  //  {
-	    //	while(posY == 0 && j < TMONDE)
-	    //	{
-	    //		if(gri[i][j] == TERRE)
-	    //		{
-	    //			if(actuel->xMondeItem >= j * 16 && actuel->xMondeItem <= (j * 16) + TAILLE_BLOCS)
-	    //			{
-	    //			   posY = i * 16;
-	    //			}
-	    //		}
-	    //		j = j + 1;
-	    //	}
-	    //	i = i + 1;
-	   // }
 	    actuel->SortImPos.y = a->yMonde + 248;
-	    actuel->increment = 0;
+	    if(actuel->xMondeItem <= a->xMonde && dirChar == 1)
+	    {
+	      actuel->increment = 28;
+	    }
+	    else if (actuel->xMondeItem + 28 < a->xMonde)
+	    {
+	      actuel->increment = 0;
+	    }
 	    actuel->SortIm.x = 28;
 	    actuel->SortIm.y = 0;
 	    actuel->SortIm.h = 24;
@@ -307,8 +302,8 @@ void afficherElementsListe(Liste *liste, int *ItemAffich, int dirChar, character
 	    actuel->SortImPos.y = a->yMonde + 248;
 	    if(q == 1 && bloqD == 0 && bloqG == 0)
 	    {
-	      actuel->increment += 0.09;
-	      actuel->SortIm.x = 28 - (int)actuel->increment;
+	      actuel->increment -= 0.09;
+	      actuel->SortIm.x = (int)actuel->increment;
 	      if(actuel->SortIm.x < 0)
 	      {
 			actuel->SortIm.x = 0;
@@ -318,10 +313,15 @@ void afficherElementsListe(Liste *liste, int *ItemAffich, int dirChar, character
 	    {
 	      actuel->increment += 0.09;
 	      actuel->SortIm.x = (int)actuel->increment;
+
 	      if(actuel->SortIm.x > 28)
 	      {
 			actuel->SortIm.x = 28;
-	      }	    	
+	      }
+	      if(actuel->increment > 28)
+	      {
+	      	actuel->increment = 28;
+	      }	
 	    }
 	     if(actuel->type == 1)
 	     {
@@ -357,7 +357,7 @@ void collisionItems(Liste *liste, int dirChar, int ItemAffich, int bloquerG, int
             }
             if(bloquerD == 0 && murD == 0 && murG == 0 && bloquerG == 0)
             {
-              actuel->avD -= 0.09;
+              actuel->avD -= VITESSE;
             }
          }
         }
@@ -374,7 +374,7 @@ void collisionItems(Liste *liste, int dirChar, int ItemAffich, int bloquerG, int
             }
             if(bloquerG == 0 && murD == 0 && murG == 0 && bloquerD == 0)
             {
-              actuel->avG += 0.09;
+              actuel->avG += VITESSE;
             }
           }
         }
