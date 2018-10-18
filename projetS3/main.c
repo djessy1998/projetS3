@@ -252,7 +252,7 @@ int main(int argc,char* argv[])
   int z,q,s,d,e,f = 0;
   int bloquerG = 0;
   int bloquerD = 0;
-  int murG,murD = 0;
+  int murG,murD,murH = 0;
   int saut = 1;
   int buttonDown = 0;
   int numItemInven = -1;
@@ -286,7 +286,7 @@ int main(int argc,char* argv[])
 	{
 	  if (saut){
 		SDL_Delay(10);
-		sauter(&joueur1, &saut, &x_saut, &y_saut, bloquerG, bloquerD);
+		sauter(&joueur1, &saut, &x_saut, &y_saut, bloquerG, bloquerD); 
 	  }
 	}
   if(d == 1)
@@ -381,14 +381,13 @@ int main(int argc,char* argv[])
   {
     //RAMASSAGE ITEM
   }
-      grilleInt[joueur1.yMonde/TAILLE_BLOCS][joueur1.xMonde/TAILLE_BLOCS]=TERRE;
       for(i=0;i<NBBLOCS_FENETREY;i++ )
       {
         for(j=0;j<NBBLOCS_FENETREX;j++)
         {
 	         affichage[i][j] = grilleInt[i+yMondeB][j+xMondeB];
 	         posB[i][j] = TAILLE_BLOCS*(j+xMondeB);
-           posBY[i][j] = TAILLE_BLOCS*(joueur1.yMonde/TAILLE_BLOCS + NB_BLOCS_AU_DESSUS_JOUEUR - i);
+           posBY[i][j] = TAILLE_BLOCS*(joueur1.yMonde/TAILLE_BLOCS + NB_BLOCS_AU_DESSUS_JOUEUR - i) ;
 	    }
       }
 
@@ -402,9 +401,6 @@ int main(int argc,char* argv[])
 		           posGrille.x = j*TAILLE_BLOCS + decalageX;
 		           posGrille.y = i*TAILLE_BLOCS + decalageY;
 		           SDL_BlitSurface(terre, NULL, screen, &posGrille);
-	               affichage[21][15] = VIDE;
-	               affichage[22][15] = VIDE;
-	               affichage[23][15] = VIDE;
 	    	    }
         }
       }
@@ -421,7 +417,7 @@ int main(int argc,char* argv[])
       	}
       }
 
-      terreRonde(&xMondeB, &joueur1, &murD, &murG);
+      terreRonde(&xMondeB, &joueur1, &murD, &murG, &murH);
 
       collision(&joueur1, affichage, &forcegrav, &bloquerG, &bloquerD, posB, posBY, &saut);
 

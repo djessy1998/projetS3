@@ -6,7 +6,7 @@
 #define PLAYER_WIDTH   20
 #define PLAYER_HEIGHT  54
 #define FORCE_GRA      0.2
-#define VITESSE        0.09
+#define VITESSE        0.15
 #define VITESSEJ       0.2
 #define TMONDE         100
 #define NBBLOCS_FENETREX 47
@@ -59,7 +59,7 @@ void gravite(character *a, float *force);
 void collision(character *a, int affichage[NBBLOCS_FENETREY][NBBLOCS_FENETREX], float *force,int *bloquerG, int *bloquerD, int posB[TMONDE][TMONDE], int posBY[TMONDE][TMONDE], int *saut);
 void sauter(character *a, int *saut, float *x, float *y, int murDro, int murGau);
 void baisser(character *a);
-void terreRonde(int *xMondeBl, character *a, int *murDro, int *murGau);
+void terreRonde(int *xMondeBl, character *a, int *murDro, int *murGau, int *murHau);
 void afficherListe(Liste *liste);
 void suppression(Liste *liste);
 void insertion(Liste *liste, int nvType, int nvXMonde, int nvYMonde);

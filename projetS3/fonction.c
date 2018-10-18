@@ -42,8 +42,17 @@ void sauter(character *a, int *saut, float *x, float *y, int murDro, int murGau)
     *y = 0;
   }
   else{
-    *y = -0.0001* (*x) * (*x) + 24;
-    a->yMonde += (int)*y;
+    *y = -0.0001* (*x) * (*x) + 24; 
+    if(a->yMonde >= TMONDE*16 - (37*16) - 10)
+    {
+      a->yMonde = TMONDE*16 - (37*16) - 10;
+      a->pos.y -= (int)*y;
+    }
+    else
+    {
+      a->pos.y = 346;
+      a->yMonde += (int)*y;
+    }
   }
 }
 
@@ -77,7 +86,7 @@ void collision(character *a, int affichage[NBBLOCS_FENETREY][NBBLOCS_FENETREX], 
        			if(((JpiedGX > posB[i][j] && JpiedGX < posB[i][j] + TAILLE_BLOCS) || (JpiedDX > posB[i][j] && JpiedDX <= posB[i][j] + TAILLE_BLOCS) || (JMilieuX > posB[i][j] && JMilieuX < posB[i][j] + TAILLE_BLOCS)) && JpiedGY == posBY[i][j])
        			{
        				touche = 1;
-					*saut = 1;
+				*saut = 1;
        				break;
        			}
        			if(JpiedDX == posB[i][j])
@@ -121,12 +130,26 @@ void collision(character *a, int affichage[NBBLOCS_FENETREY][NBBLOCS_FENETREX], 
 	  }
 	if (touche == 0)
 	{
+	        printf("a->yMonde = %d\n", a->yMonde); 
+	      if(a->yMonde >= TMONDE*16 - (37*16) - 10 && a->pos.y <= 346)
+	      {
+		a->pos.y+=1;
+	      }
+	      else
+	      {
+		a->pos.y = 346;
 		gravite(a, force);
+	      }
 	}
 }
 
-void terreRonde(int *xMondeBl, character *a, int *murDro, int *murGau)
+void terreRonde(int *xMondeBl, character *a, int *murDro, int *murGau, int *murHau)
 {
+// 	printf("a->yMonde = %d\n", a->yMonde);
+	if(a->yMonde >= TMONDE*16 - (37*16))
+	{
+		*murHau = 1;
+	}
 	if(a->xMonde <= 1 && a->pos.x <= (45*TAILLE_BLOCS)/2)
 	{
 		*murGau = 1;
@@ -140,6 +163,7 @@ void terreRonde(int *xMondeBl, character *a, int *murDro, int *murGau)
 		a->pos.x = 360;
 		*murGau = 0;
 		*murDro = 0;
+		*murHau = 0;
 	}
 }
 
