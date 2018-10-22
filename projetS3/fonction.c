@@ -32,26 +32,26 @@ void deplacerD(character *a, float *vitesse, int murDro, int murGau, float *vite
     }
 }
 
-void sauter(character *a, int *saut, float *x, float *y, int murDro, int murGau)
+void sauter(character *a, int *saut, int murDro, int murGau)
 {
-  *x += 1.;
-  if ((*x) >= -140.)
+  a->x_saut += 1.;
+  if ((a->x_saut) >= -140.)
   {
-    *x = -154;
+    a->x_saut = -154;
     *saut = 0;
-    *y = 0;
+    a->y_saut = 0;
   }
   else{
-    *y = -0.0001* (*x) * (*x) + 24;
+    a->y_saut = -0.0001* (a->x_saut) * (a->x_saut) + 24;
     if(a->yMonde >= TMONDE*16 - (37*16) - 10)
     {
       a->yMonde = TMONDE*16 - (37*16) - 10;
-      a->pos.y -= (int)*y;
+      a->pos.y -= (int)a->y_saut;
     }
     else
     {
       a->pos.y = 346;
-      a->yMonde += (int)*y;
+      a->yMonde += (int)a->y_saut;
     }
   }
 }
@@ -142,7 +142,7 @@ void collision(character *a, int** affichage, float *force, int *bloquerG, int *
 	}
 }
 
-void terreRonde(int *xMondeBl, character *a, int *murDro, int *murGau, int *murHau)
+void terreRonde(character *a, int *murDro, int *murGau, int *murHau)
 {
 // 	printf("a->yMonde = %d\n", a->yMonde);
 	if(a->yMonde >= TMONDE*16 - (37*16))

@@ -40,7 +40,8 @@ struct character
   SDL_Rect pos;
   int type;
   int boolItem;
-
+  double x_saut;
+  double y_saut;
 };
 
 typedef struct items items;
@@ -106,9 +107,9 @@ void deplacerG(character *a, float *vitesse, int murGau, int murDro, float *vite
 void deplacerD(character *a, float *vitesse, int murDro, int murGau, float *vitesseMur);
 void gravite(character *a, float *force);
 void collision(character *a, int** affichage, float *force,int *bloquerG, int *bloquerD, int** posB, int** posBY, int *saut);
-void sauter(character *a, int *saut, float *x, float *y, int murDro, int murGau);
+void sauter(character *a, int *saut, int murDro, int murGau);
 void baisser(character *a);
-void terreRonde(int *xMondeBl, character *a, int *murDro, int *murGau, int *murHau);
+void terreRonde(character *a, int *murDro, int *murGau, int *murHau);
 void afficherListe(Liste *liste);
 void suppression(Liste *liste);
 void insertion(Liste *liste, int nvType, int nvXMonde, int nvYMonde);
