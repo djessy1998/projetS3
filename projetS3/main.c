@@ -4,187 +4,56 @@
 #include "fonction.h"
 #include "fonctions_fichiers.h"
 
-void HandleEvent(SDL_Event event, int *quit, int *z, int *q, int *s, int *d, int *e, int *f, int *butdown, int *numItemInvX, int *numItemInvY, SDL_Rect *posImage, int i, int j, int *n, items inve[4][10], int *supprimer, int *getB, int *rien, int typeMemoire)
-{
-  switch (event.type) {
-    /* close button clicked */
-  case SDL_QUIT:
-    *quit = 1;
-    break;
-  case SDL_MOUSEBUTTONDOWN:
-     if (event.button.button == SDL_BUTTON_LEFT)
-    {
-      *butdown = 1;
-    }
-    break;
-  case SDL_MOUSEBUTTONUP:
-    if (event.button.button == SDL_BUTTON_LEFT)
-    {
-      *butdown = 0;
-    }
-    break;
-  case SDL_MOUSEMOTION:
-    for(i = 0; i < 4; i++)
-    {
-      for(j = 0; j < 10; j++)
-      {
-        if(((*butdown == 1) && ((event.motion.x >= 52 + (33 * j) && event.motion.x <= 52 + 32 + (33 * j)) && (event.motion.y >= 54 + (33 * i) && event.motion.y <= 54 + 32 + (33 * i))) && (*e == 1)))
-        {
-	  if(*getB == 0)
-          {
-            *numItemInvY = i;
-            *numItemInvX = j;
-            *getB = 1;
-          }
-          if((*butdown == 1) && inve[*numItemInvY][*numItemInvX].type == -2)
-          {
-            inve[*numItemInvY][*numItemInvX].type = -1;
-            *rien = 1;
-          }
-          if(*rien == 0)
-          {
-            posImage->x = event.motion.x - 16;
-            posImage->y = event.motion.y - 16;
-          }
-        }
-        if((*butdown == 1) && ((event.motion.x <= 52 || event.motion.x >= 52 + 32) && (event.motion.y <= 54 || event.motion.y >= 54 + 32)) && (*e == 1))
-        {
-          if(*rien == 0)
-          {
-            posImage->x = event.motion.x - 16;
-            posImage->y = event.motion.y - 16;
-          }
-        }
-        if((*butdown == 0) && ((event.motion.x >= 50 && event.motion.x <= 50 + (33*10)) && (event.motion.y >= 50 && event.motion.y <= 50 + (33 * 4))) && (*e == 1))
-        {
-          if(*numItemInvX != -1 && *numItemInvY != -1)
-          {
-	    if(*rien == 0)
-	    {
-	      TrierInv(*rien, inve, typeMemoire);
-	    }
-            *numItemInvX = -1;
-            *numItemInvY = -1;
-            *supprimer = 0;
-            *getB = 0;
-	    	*rien = 0;
-          }
-        }
-        else if((*butdown == 0) && ((event.motion.x <= 52 || event.motion.x >= 52 + 32) && (event.motion.y <= 54 || event.motion.y >= 54 + 32)) && (*e == 1))
-        {
-          if(*numItemInvX != -1 && *numItemInvY != -1)
-          {
-            posImage->x = -300;
-            posImage->y = -300;
-            *numItemInvX = -1;
-            *numItemInvY = -1;
-            *supprimer = 0;
-            *getB = 0;
-          }
-        }
-      }
-    }
-    break;
-  case SDL_KEYDOWN:
-    switch (event.key.keysym.sym) {
-    case SDLK_ESCAPE:
-      *quit = 1;
-      break;
-    case SDLK_z:
-      *z = 1;
-      break ;
-    case SDLK_q:
-      *q = 1;
-      break;
-    case SDLK_s:
-      *s = 1;
-      break;
-    case SDLK_d:
-      *d = 1;
-      break;
-    case SDLK_e:
-      if(*e == 0)
-      {
-      	*e = 1;
-      	SDL_Delay(80);
-      }
-      else
-      {
-      	*e = 0;
-      	SDL_Delay(80);
-      }
-    case SDLK_f:
-      *f = 1;
-      break;
-    default:
-      break;
-    }
-    break;
-  case SDL_KEYUP:
-    switch(event.key.keysym.sym){
-    case SDLK_z:
-      *z = 0;
-      break;
-    case SDLK_q:
-      *q = 0;
-      break;
-    case SDLK_s:
-      *s = 0;
-      break;
-    case SDLK_d:
-      *d = 0;
-      break;
-    case SDLK_f:
-      *f = 0;
-      break;
-    default:
-      break;
-    }
-    break;
-  }
+void HandleEvent(SDL_Event event, input *i){
+  fonction_Handle_Event(event, i);
 }
 
 int main(int argc,char* argv[])
 {
+  input input;
+  monde monde;
 
-  int i,j;
+  monde.grilleChar = lire_fichier("saves/Monde1.txt");
+  monde.grilleInt = allouer_tab_2D_int(TMONDE, TMONDE);
+  tab_char2int(monde.grilleChar, monde.grilleInt, TMONDE, TMONDE);
+  desallouer_tab_2D_char(monde.grilleChar, TMONDE);
 
-  char** grilleTest;
-  grilleTest = lire_fichier("saves/Monde1.txt");
 
-  int** grilleInt = allouer_tab_2D_int(TMONDE, TMONDE);
-  tab_char2int(grilleTest, grilleInt, TMONDE, TMONDE);
-  int posB[TMONDE][TMONDE];
-  int posBY[TMONDE][TMONDE];
-  int affichage[NBBLOCS_FENETREY][NBBLOCS_FENETREX];
-  items inv[4][10];
+  monde.posB = allouer_tab_2D_int(TMONDE, TMONDE);
+  monde.posBY = allouer_tab_2D_int(TMONDE, TMONDE);
+  monde.affichage = allouer_tab_2D_int(NBBLOCS_FENETREY, NBBLOCS_FENETREX);
+
   float x_saut = -154.;
   float y_saut = 0.;
+
   Liste *listeItems = initialisation();
   insertion(listeItems, 1, 500, 128);
-  insertion(listeItems, 2, 450, 128);
-  for(i=0;i<4;i++)
+  insertion(listeItems, 2, 450, 128); 
+
+  for(int i=0;i<4;i++)
     {
-      for(j=0;j<10;j++)
+      for(int j=0;j<10;j++)
         {
-          inv[i][j].type = -1;
+          input.data.inv[i][j].type = -1;
         }
     }
 
-  inv[0][0].type = 1;
-  inv[0][1].type = 1;
-  inv[0][2].type = 1;
-  inv[0][3].type = 2;
+  input.data.inv[0][0].type = 1;
+  input.data.inv[0][1].type = 1;
+  input.data.inv[0][2].type = 1;
+  input.data.inv[0][3].type = 2;
 
   character joueur1 = {"Jean", 100, 0};
   joueur1.pos.x = 352;
   joueur1.pos.y = 400 - PLAYER_HEIGHT;
   joueur1.xMonde = (TMONDE*TAILLE_BLOCS)/2+7;
-  joueur1.yMonde = 500;
+  joueur1.yMonde = 100;
   joueur1.PV = 100;
   joueur1.PM = 100;
+
   int xMondeB = 0;
   int yMondeB = 0;
+
   float forcegrav = (float)joueur1.pos.y;
   float vitesse = (float)joueur1.xMonde;
   float vitesseFloat = (float)joueur1.pos.x;
@@ -248,31 +117,40 @@ int main(int argc,char* argv[])
   posFond.x = 0;
   posFond.y = 0;
 
-  int gameover = 0;
-  int z,q,s,d,e,f = 0;
+  input.data.quit = 0;
+  input.data.z = 0;
+  input.data.q = 0;
+  input.data.s = 0;
+  input.data.d = 0;
+  input.data.e = 0;
+  input.data.f = 0;
+  input.data.butDown = 0;
+  input.data.numItemInvX = -1;
+  input.data.numItemInvY = -1;
+  input.data.n = 0;
+  input.data.supprimer = 0;
+  input.data.getB= 0;
+  input.data.rien = 0;
+  input.data.typeMemoire = 0;
   int bloquerG = 0;
   int bloquerD = 0;
-  int murG,murD,murH = 0;
+  int murG,murD, murH = 0;
   int saut = 1;
-  int buttonDown = 0;
-  int numItemInven = -1;
-  int numItemInvenY = -1;
-  int k = 0,l = 0,n = 0, a = 0;
-  int supprimer = 0, getBInv= 0, rienI = 0, dirChar = 1;
-  int typeMemor = 0, ItemAffich = 0, droite = 0, gauche = 0;
+  int a = 0;
+  int dirChar = 1;
+  int ItemAffich = 0, droite = 0, gauche = 0;
   Uint32 colorkey = SDL_MapRGB(character->format,0,0,0);
   SDL_SetColorKey(character,SDL_SRCCOLORKEY,colorkey);
   SDL_SetColorKey(characterD,SDL_SRCCOLORKEY,colorkey);
 
-  while(!gameover)
+  while(!input.data.quit)
     {
       SDL_Event event;
       SDL_Rect posInv;
       SDL_Rect posItemsInv;
-      SDL_Rect posImage;
 
       if (SDL_PollEvent(&event)) {
-	HandleEvent(event, &gameover, &z, &q, &s, &d, &e, &f, &buttonDown, &numItemInven,&numItemInvenY, &posImage, k, l, &n, inv, &supprimer, &getBInv, &rienI, typeMemor);
+	HandleEvent(event, &input);
       }
 
     SDL_BlitSurface(bg, NULL, screen, &posFond);
@@ -282,14 +160,14 @@ int main(int argc,char* argv[])
     int decalageX = -joueur1.xMonde%TAILLE_BLOCS;
     int decalageY = -joueur1.yMonde%TAILLE_BLOCS;
 
-   if(z == 1)
+   if(input.data.z == 1)
 	{
 	  if (saut){
 		SDL_Delay(10);
-		sauter(&joueur1, &saut, &x_saut, &y_saut, bloquerG, bloquerD); 
+		sauter(&joueur1, &saut, &x_saut, &y_saut, bloquerG, bloquerD);
 	  }
 	}
-  if(d == 1)
+  if(input.data.d == 1)
 	{
 	droite = 1;
 	collisionItems(listeItems, dirChar, ItemAffich, bloquerG, bloquerD, &joueur1, gauche, droite, murG, murD);
@@ -313,11 +191,11 @@ int main(int argc,char* argv[])
 		droite = 0;
 		joueurAnimD.y = 0;
 	}
-      if(s == 1)
+      if(input.data.s == 1)
 	{
 	  baisser(&joueur1);
 	}
-      if(q == 1)
+      if(input.data.q == 1)
 	{
 	  gauche = 1;
 	  collisionItems(listeItems, dirChar, ItemAffich, bloquerG, bloquerD, &joueur1, gauche, droite, murG, murD);
@@ -341,35 +219,35 @@ int main(int argc,char* argv[])
 	  gauche = 0;
 	 joueurAnim.y = 0;
 	}
-	if(e == 1)
+	if(input.data.e == 1)
 	{
-    for(i = 0; i < 4; i++)
+    for(int i = 0; i < 4; i++)
     {
-      for(j = 0; j < 10; j++)
+      for(int j = 0; j < 10; j++)
       {
         posInv.x = 50 + (33 * j);
         posInv.y = 50 + (33 * i);
         SDL_BlitSurface(invIm, NULL, screen, &posInv);
-        if(numItemInven != -1 && supprimer == 0 && inv[numItemInvenY][numItemInven].type != -1)
+        if(input.data.numItemInvX != -1 && input.data.supprimer == 0 && input.data.inv[input.data.numItemInvY][input.data.numItemInvX].type != -1)
         {
-          typeMemor = inv[numItemInvenY][numItemInven].type;
-          inv[numItemInvenY][numItemInven].type = -1;
-	  	  supprimer = 1;
+          input.data.typeMemoire = input.data.inv[input.data.numItemInvY][input.data.numItemInvX].type;
+          input.data.inv[input.data.numItemInvY][input.data.numItemInvX].type = -1;
+	  	  input.data.supprimer = 1;
         }
-        else if (numItemInven != -1 && supprimer == 0 && inv[numItemInvenY][numItemInven].type == -1)
+        else if (input.data.numItemInvX != -1 && input.data.supprimer == 0 && input.data.inv[input.data.numItemInvY][input.data.numItemInvX].type == -1)
         {
-          inv[numItemInvenY][numItemInven].type = -2;
-          supprimer = 1;
+          input.data.inv[input.data.numItemInvY][input.data.numItemInvX].type = -2;
+          input.data.supprimer = 1;
         }
-        if(inv[i][j].type > -1)
+        if(input.data.inv[i][j].type > -1)
         {
            posItemsInv.x = 50 + (33 * j) + 2;
            posItemsInv.y = 50 + (33 * i) + 4;
-           if(inv[i][j].type == 1)
+           if(input.data.inv[i][j].type == 1)
            {
            	 SDL_BlitSurface(casque, NULL, screen, &posItemsInv);
            }
-           else if(inv[i][j].type == 2)
+           else if(input.data.inv[i][j].type == 2)
            {
            	 SDL_BlitSurface(armure, NULL, screen, &posItemsInv);
            }
@@ -377,51 +255,45 @@ int main(int argc,char* argv[])
       }
     }
 	}
-  if(f == 1)
+  if(input.data.f == 1)
   {
     //RAMASSAGE ITEM
   }
-      for(i=0;i<NBBLOCS_FENETREY;i++ )
+
+      for(int i=0;i<NBBLOCS_FENETREY;i++ )
       {
-        for(j=0;j<NBBLOCS_FENETREX;j++)
+        for(int j=0;j<NBBLOCS_FENETREX;j++)
         {
-	         affichage[i][j] = grilleInt[i+yMondeB][j+xMondeB];
-	         posB[i][j] = TAILLE_BLOCS*(j+xMondeB);
-           posBY[i][j] = TAILLE_BLOCS*(joueur1.yMonde/TAILLE_BLOCS + NB_BLOCS_AU_DESSUS_JOUEUR - i) ;
-	    }
+	    monde.affichage[i][j] = monde.grilleInt[i+yMondeB][j+xMondeB];
+	    monde.posB[i][j] = TAILLE_BLOCS*(j+xMondeB);
+	    monde.posBY[i][j] = TAILLE_BLOCS*(joueur1.yMonde/TAILLE_BLOCS + NB_BLOCS_AU_DESSUS_JOUEUR - i);
+	    if(monde.affichage[i][j] == TERRE)
+	      {
+		SDL_Rect posGrille;
+		posGrille.x = j*TAILLE_BLOCS + decalageX;
+		posGrille.y = i*TAILLE_BLOCS + decalageY;
+		SDL_BlitSurface(terre, NULL, screen, &posGrille);
+	      }
+	}
       }
 
-      for(i=0;i<NBBLOCS_FENETREY;i++)
+      if(input.data.numItemInvX != -1 && input.data.rien == 0)
       {
-       	 for(j=0;j<NBBLOCS_FENETREX;j++)
-       	 {
-	 	       if(affichage[i][j] == TERRE)
-	    	    {
-		           SDL_Rect posGrille;
-		           posGrille.x = j*TAILLE_BLOCS + decalageX;
-		           posGrille.y = i*TAILLE_BLOCS + decalageY;
-		           SDL_BlitSurface(terre, NULL, screen, &posGrille);
-	    	    }
-        }
-      }
-
-      if(numItemInven != -1 && rienI == 0)
-      {
-      	if(typeMemor == 1)
+      	if(input.data.typeMemoire == 1)
       	{
-			SDL_BlitSurface(casque, NULL, screen, &posImage);
+			SDL_BlitSurface(casque, NULL, screen, &input.data.posImage);
       	}
-      	else if(typeMemor == 2)
+      	else if(input.data.typeMemoire == 2)
       	{
-      		SDL_BlitSurface(armure, NULL, screen, &posImage);
+      		SDL_BlitSurface(armure, NULL, screen, &input.data.posImage);
       	}
       }
 
       terreRonde(&xMondeB, &joueur1, &murD, &murG, &murH);
 
-      collision(&joueur1, affichage, &forcegrav, &bloquerG, &bloquerD, posB, posBY, &saut);
+      collision(&joueur1, monde.affichage, &forcegrav, &bloquerG, &bloquerD, monde.posB, monde.posBY, &saut);
 
-      afficherElementsListe(listeItems, &ItemAffich, dirChar, &joueur1,screen, casque, armure, q , d, bloquerG, bloquerD);
+      afficherElementsListe(listeItems, &ItemAffich, dirChar, &joueur1,screen, casque, armure, input.data.q , input.data.d, bloquerG, bloquerD);
 
       if(dirChar == 2)
       {
@@ -445,8 +317,8 @@ int main(int argc,char* argv[])
 
     SDL_Quit();
 
-    desallouer_tab_2D_char(grilleTest, TMONDE);
-    desallouer_tab_2D_int(grilleInt, TMONDE);
+
+    desallouer_tab_2D_int(monde.grilleInt, TMONDE);
 
   return 0;
 }

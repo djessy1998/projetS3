@@ -17,6 +17,18 @@
 #define VIDE  0
 #define TERRE 1
 
+typedef struct monde monde;
+struct monde
+{
+  char** grilleChar;
+  int** grilleInt;
+  int** affichage;
+  int xMondeB;
+  int yMondeB;
+  int** posB;
+  int** posBY;
+};
+
 typedef struct character character;
 struct character
 {
@@ -53,10 +65,47 @@ struct Liste
     items *premier;
 };
 
+
+
+typedef struct InputData InputData;
+struct InputData
+{
+  int quit;
+  int z;
+  int q;
+  int s;
+  int d;
+  int e;
+  int f;
+  int butDown;
+  int numItemInvX;
+  int numItemInvY;
+  SDL_Rect posImage;
+  int i;
+  int j;
+  int n;
+  items inv[4][10];
+  int supprimer;
+  int getB;
+  int rien;
+  int typeMemoire;
+};
+
+
+
+typedef struct input input;
+struct input
+{
+  InputData data;
+};
+
+
+void fonction_Handle_Event(SDL_Event event, input *input);
+
 void deplacerG(character *a, float *vitesse, int murGau, int murDro, float *vitesseMur);
 void deplacerD(character *a, float *vitesse, int murDro, int murGau, float *vitesseMur);
 void gravite(character *a, float *force);
-void collision(character *a, int affichage[NBBLOCS_FENETREY][NBBLOCS_FENETREX], float *force,int *bloquerG, int *bloquerD, int posB[TMONDE][TMONDE], int posBY[TMONDE][TMONDE], int *saut);
+void collision(character *a, int** affichage, float *force,int *bloquerG, int *bloquerD, int** posB, int** posBY, int *saut);
 void sauter(character *a, int *saut, float *x, float *y, int murDro, int murGau);
 void baisser(character *a);
 void terreRonde(int *xMondeBl, character *a, int *murDro, int *murGau, int *murHau);

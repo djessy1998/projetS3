@@ -42,7 +42,7 @@ void sauter(character *a, int *saut, float *x, float *y, int murDro, int murGau)
     *y = 0;
   }
   else{
-    *y = -0.0001* (*x) * (*x) + 24; 
+    *y = -0.0001* (*x) * (*x) + 24;
     if(a->yMonde >= TMONDE*16 - (37*16) - 10)
     {
       a->yMonde = TMONDE*16 - (37*16) - 10;
@@ -66,7 +66,7 @@ void gravite(character *a, float *force)
 	a->yMonde -= 1;
 }
 
-void collision(character *a, int affichage[NBBLOCS_FENETREY][NBBLOCS_FENETREX], float *force, int *bloquerG, int *bloquerD, int posB[TMONDE][TMONDE], int posBY[TMONDE][TMONDE], int *saut)
+void collision(character *a, int** affichage, float *force, int *bloquerG, int *bloquerD, int** posB, int** posBY, int *saut)
 {
 	int touche = 0;
 	*bloquerD = 0;
@@ -86,7 +86,7 @@ void collision(character *a, int affichage[NBBLOCS_FENETREY][NBBLOCS_FENETREX], 
        			if(((JpiedGX > posB[i][j] && JpiedGX < posB[i][j] + TAILLE_BLOCS) || (JpiedDX > posB[i][j] && JpiedDX <= posB[i][j] + TAILLE_BLOCS) || (JMilieuX > posB[i][j] && JMilieuX < posB[i][j] + TAILLE_BLOCS)) && JpiedGY == posBY[i][j])
        			{
        				touche = 1;
-				*saut = 1;
+					    *saut = 1;
        				break;
        			}
        			if(JpiedDX == posB[i][j])
@@ -130,16 +130,15 @@ void collision(character *a, int affichage[NBBLOCS_FENETREY][NBBLOCS_FENETREX], 
 	  }
 	if (touche == 0)
 	{
-	        printf("a->yMonde = %d\n", a->yMonde); 
-	      if(a->yMonde >= TMONDE*16 - (37*16) - 10 && a->pos.y <= 346)
-	      {
-		a->pos.y+=1;
-	      }
-	      else
-	      {
-		a->pos.y = 346;
-		gravite(a, force);
-	      }
+    if(a->yMonde >= TMONDE*16 - (37*16) - 10 && a->pos.y <= 346)
+    {
+      a->pos.y+=1;
+    }
+    else
+    {
+      a->pos.y = 346;
+      gravite(a, force);
+    }
 	}
 }
 
@@ -345,7 +344,7 @@ void afficherElementsListe(Liste *liste, int *ItemAffich, int dirChar, character
 	      if(actuel->increment > 28)
 	      {
 	      	actuel->increment = 28;
-	      }	
+	      }
 	    }
 	     if(actuel->type == 1)
 	     {
