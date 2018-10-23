@@ -53,6 +53,11 @@ int main(int argc,char* argv[])
   joueur1.yMondeDouble = (double)joueur1.pos.y;
   joueur1.xMondeDouble = (double)joueur1.xMonde;
   joueur1.xPosBloquageDouble = (double)joueur1.pos.x;
+  joueur1.dir = 1;
+  joueur1.bloqAGauche = 0;
+  joueur1.bloqADroite = 0;
+  
+  
 
   SDL_Surface *screen, *temp, *bg, *terre, *character, *invIm, *casque, *characterD, *armure;
 
@@ -128,12 +133,9 @@ int main(int argc,char* argv[])
   input.data.getB= 0;
   input.data.rien = 0;
   input.data.typeMemoire = 0;
-  int bloquerG = 0;
-  int bloquerD = 0;
   int murG,murD, murH = 0;
   int saut = 1;
   int a = 0;
-  int dirChar = 1;
   int ItemAffich = 0, droite = 0, gauche = 0;
   Uint32 colorkey = SDL_MapRGB(character->format,0,0,0);
   SDL_SetColorKey(character,SDL_SRCCOLORKEY,colorkey);
@@ -160,14 +162,14 @@ int main(int argc,char* argv[])
 	{
 	  if (saut){
 		SDL_Delay(10);
-		sauter(&joueur1, &saut, bloquerG, bloquerD);
+		sauter(&joueur1, &saut);
 	  }
 	}
   if(input.data.d == 1)
 	{
 	droite = 1;
-	collisionItems(listeItems, dirChar, ItemAffich, bloquerG, bloquerD, &joueur1, gauche, droite, murG, murD);
-    if(bloquerD == 0)
+	collisionItems(listeItems, ItemAffich, &joueur1, gauche, droite, murG, murD);
+    if(joueur1.bloqADroite == 0)
     {
       deplacerD(&joueur1, murD, murG);
     }
@@ -180,12 +182,12 @@ int main(int argc,char* argv[])
 	if (joueurAnimD.y > 800){
 	 joueurAnimD.y = 0;
 	}
-	dirChar = 2;
+	joueur1.dir = 2;
 	}
 	else
 	{
-		droite = 0;
-		joueurAnimD.y = 0;
+	  droite = 0;
+	  joueurAnimD.y = 0;
 	}
       if(input.data.s == 1)
 	{
@@ -194,8 +196,8 @@ int main(int argc,char* argv[])
       if(input.data.q == 1)
 	{
 	  gauche = 1;
-	  collisionItems(listeItems, dirChar, ItemAffich, bloquerG, bloquerD, &joueur1, gauche, droite, murG, murD);
-	  if(bloquerG == 0)
+	  collisionItems(listeItems, ItemAffich, &joueur1, gauche, droite, murG, murD);
+	  if(joueur1.bloqAGauche == 0)
 	    {
 	      deplacerG(&joueur1,murG, murD);
 	    }
@@ -208,7 +210,7 @@ int main(int argc,char* argv[])
 	if (joueurAnim.y > 800){
 	 joueurAnim.y = 0;
 	}
-	dirChar = 1;
+	joueur1.dir = 1;
 	}
 	else
 	{
@@ -228,7 +230,7 @@ int main(int argc,char* argv[])
         {
           input.data.typeMemoire = input.data.inv[input.data.numItemInvY][input.data.numItemInvX].type;
           input.data.inv[input.data.numItemInvY][input.data.numItemInvX].type = -1;
-	  	  input.data.supprimer = 1;
+	  input.data.supprimer = 1;
         }
         else if (input.data.numItemInvX != -1 && input.data.supprimer == 0 && input.data.inv[input.data.numItemInvY][input.data.numItemInvX].type == -1)
         {
@@ -250,7 +252,7 @@ int main(int argc,char* argv[])
         }
       }
     }
-	}
+  }
   if(input.data.f == 1)
   {
     //RAMASSAGE ITEM
@@ -287,15 +289,15 @@ int main(int argc,char* argv[])
 
       terreRonde(&joueur1, &murD, &murG, &murH);
 
-      collision(&joueur1, monde.affichage, &bloquerG, &bloquerD, monde.posB, monde.posBY, &saut, &murD);
+      collision(&joueur1, monde.affichage, monde.posB, monde.posBY, &saut, &murD);
 
-      afficherElementsListe(listeItems, &ItemAffich, dirChar, &joueur1,screen, casque, armure, input.data.q , input.data.d, bloquerG, bloquerD);
+      afficherElementsListe(listeItems, &ItemAffich, &joueur1, screen, casque, armure, input.data.q , input.data.d);
 
-      if(dirChar == 2)
+      if(joueur1.dir == 2)
       {
 		SDL_BlitSurface(characterD, &joueurAnimD, screen, &joueur1.pos);
       }
-      else if(dirChar == 1)
+      else if(joueur1.dir == 1)
       {
 		SDL_BlitSurface(character, &joueurAnim, screen, &joueur1.pos);
       }
@@ -303,18 +305,21 @@ int main(int argc,char* argv[])
       SDL_UpdateRect(screen, 0, 0, 0, 0);
     }
 
-    SDL_FreeSurface(bg);
-    SDL_FreeSurface(terre);
-    SDL_FreeSurface(casque);
-    SDL_FreeSurface(armure);
-    SDL_FreeSurface(character);
-    SDL_FreeSurface(characterD);
-    SDL_FreeSurface(invIm);
+  SDL_FreeSurface(bg);
+  SDL_FreeSurface(terre);
+  SDL_FreeSurface(casque);
+  SDL_FreeSurface(armure);
+  SDL_FreeSurface(character);
+  SDL_FreeSurface(characterD);
+  SDL_FreeSurface(invIm);
 
-    SDL_Quit();
+  SDL_Quit();
 
 
-    desallouer_tab_2D_int(monde.grilleInt, TMONDE);
-
+  desallouer_tab_2D_int(monde.grilleInt, TMONDE);
+  
+  desallouer_tab_2D_int(monde.posB, TMONDE);
+  desallouer_tab_2D_int(monde.posBY,TMONDE);
+  desallouer_tab_2D_int(monde.affichage, NBBLOCS_FENETREY);
   return 0;
 }

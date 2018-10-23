@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "fonction.h"
+#include <SDL.h>
+
 
 void quit(input *input);
 void Mouse_Down(SDL_Event event, input *input);

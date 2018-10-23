@@ -45,7 +45,9 @@ struct character
   double yMondeDouble;
   double xMondeDouble;
   double xPosBloquageDouble;
-  
+  int dir;
+  int bloqADroite;
+  int bloqAGauche;
 };
 
 typedef struct items items;
@@ -105,20 +107,25 @@ struct input
 };
 
 
+
+
 void fonction_Handle_Event(SDL_Event event, input *input);
+
 
 void deplacerG(character *a, int murGau, int murDro);
 void deplacerD(character *a, int murDro, int murGau);
 void gravite(character *a);
-void collision(character *a, int** affichage, int *bloquerG, int *bloquerD, int** posB, int** posBY, int *saut, int *murDr);
-void sauter(character *a, int *saut, int murDro, int murGau);
+void collision(character *a, int** affichage, int** posB, int** posBY, int *saut, int *murDr);
+void sauter(character *a, int *saut);
 void baisser(character *a);
 void terreRonde(character *a, int *murDro, int *murGau, int *murHau);
 void afficherListe(Liste *liste);
 void suppression(Liste *liste);
 void insertion(Liste *liste, int nvType, int nvXMonde, int nvYMonde);
+
+
 Liste *initialisation();
 void cliquerItemInv(items inv[4][10]);
 void TrierInv(int rienI, items inv[4][10], int type);
-void afficherElementsListe(Liste *liste, int *ItemAffich, int dirChar, character *a, SDL_Surface *screen, SDL_Surface *casque, SDL_Surface *armure, int q, int d, int bloqD, int bloqG);
-void collisionItems(Liste *liste, int dirChar, int ItemAffich, int bloquerG, int bloquerD, character *a, int gauche, int droite, int murG, int murD);
+void afficherElementsListe(Liste *liste, int *ItemAffich, character *a, SDL_Surface *screen, SDL_Surface *casque, SDL_Surface *armure, int q, int d);
+void collisionItems(Liste *liste, int ItemAffich, character *a, int gauche, int droite, int murG, int murD);
