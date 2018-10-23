@@ -1,4 +1,4 @@
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include "fonctions_fichiers.h"
 
 #define SCREEN_WIDTH   720
@@ -127,5 +127,5 @@ void insertion(Liste *liste, int nvType, int nvXMonde, int nvYMonde);
 Liste *initialisation();
 void cliquerItemInv(items inv[4][10]);
 void TrierInv(int rienI, items inv[4][10], int type);
-void afficherElementsListe(Liste *liste, int *ItemAffich, character *a, SDL_Surface *screen, SDL_Surface *casque, SDL_Surface *armure, int q, int d);
+void afficherElementsListe(Liste *liste, int *ItemAffich, character *a, SDL_Renderer *screen, SDL_Texture *casqueTexture, SDL_Texture *armureTexture, int q, int d);
 void collisionItems(Liste *liste, int ItemAffich, character *a, int gauche, int droite, int murG, int murD);

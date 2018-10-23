@@ -1,4 +1,4 @@
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include "fonction.h"
@@ -13,7 +13,6 @@ int main(int argc,char* argv[])
   input input;
   monde monde;
   character joueur1 = {"Jean", 100, 0};
-
 
   monde.grilleChar = lire_fichier("saves/Monde1.txt");
   monde.grilleInt = allouer_tab_2D_int(TMONDE, TMONDE);
@@ -59,39 +58,40 @@ int main(int argc,char* argv[])
   
   
 
-  SDL_Surface *screen, *temp, *bg, *terre, *character, *invIm, *casque, *characterD, *armure;
+  SDL_Surface *bg, *terre, *character, *invIm, *casque, *characterD, *armure;
 
-  /* initialize SDL */
-  SDL_Init(SDL_INIT_VIDEO);
+  SDL_Window *fenetre;
+  fenetre = SDL_CreateWindow("StarBund", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 
-  /* set the title bar */
-  SDL_WM_SetCaption("StarBund", "StarBund");
-
-  /* create window */
-  screen = SDL_SetVideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0);
+  SDL_Renderer *renderer = NULL;
+  renderer = SDL_CreateRenderer(fenetre, -1, SDL_RENDERER_ACCELERATED);
+  
+  // Double Buffer
+  SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+  SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 
   /* set keyboard repeat */
-  SDL_EnableKeyRepeat(10, 10);
+  //SDL_EnableKeyRepeat(10, 10);
 
-  temp = SDL_LoadBMP("Sprites/fond-nuage.bmp");
-  bg = SDL_DisplayFormat(temp);
-  SDL_FreeSurface(temp);
+  bg = SDL_LoadBMP("Sprites/fond-nuage.bmp");
+  SDL_Texture *bgTexture;
+  bgTexture = SDL_CreateTextureFromSurface(renderer,bg);
 
-  temp = SDL_LoadBMP("Sprites/casque.bmp");
-  casque = SDL_DisplayFormat(temp);
-  SDL_FreeSurface(temp);
+  casque = SDL_LoadBMP("Sprites/casque.bmp");
+  SDL_Texture *casqueTexture;
+  casqueTexture = SDL_CreateTextureFromSurface(renderer,casque);
 
-  temp = SDL_LoadBMP("Sprites/armure.bmp");
-  armure = SDL_DisplayFormat(temp);
-  SDL_FreeSurface(temp);
+  armure = SDL_LoadBMP("Sprites/armure.bmp");
+  SDL_Texture *armureTexture;
+  armureTexture = SDL_CreateTextureFromSurface(renderer, armure);
+  
+  character = SDL_LoadBMP("Sprites/character.bmp");
+  SDL_Texture *characterTexture;
+  characterTexture = SDL_CreateTextureFromSurface(renderer,character);
 
-  temp = SDL_LoadBMP("Sprites/character.bmp");
-  character = SDL_DisplayFormat(temp);
-  SDL_FreeSurface(temp);
-
-  temp = SDL_LoadBMP("Sprites/characterD.bmp");
-  characterD = SDL_DisplayFormat(temp);
-  SDL_FreeSurface(temp);
+  characterD = SDL_LoadBMP("Sprites/characterD.bmp");
+  SDL_Texture *characterDTexture;
+  characterDTexture = SDL_CreateTextureFromSurface(renderer,characterD);
 
   SDL_Rect joueurAnim;
   joueurAnim.x = 7;
@@ -105,18 +105,19 @@ int main(int argc,char* argv[])
   joueurAnimD.h = 58;
   joueurAnimD.w = 27;
 
-  temp = SDL_LoadBMP("Sprites/terre.bmp");
-  terre = SDL_DisplayFormat(temp);
-  SDL_FreeSurface(temp);
-
-  temp = SDL_LoadBMP("Sprites/Inv.bmp");
-  invIm = SDL_DisplayFormat(temp);
-  SDL_FreeSurface(temp);
+  terre = SDL_LoadBMP("Sprites/terre.bmp");
+  SDL_Texture *terreTexture;
+  terreTexture = SDL_CreateTextureFromSurface(renderer,terre);
+  
+  invIm = SDL_LoadBMP("Sprites/Inv.bmp");
+  SDL_Texture *invImTexture;
+  invImTexture = SDL_CreateTextureFromSurface(renderer,invIm);
 
   SDL_Rect posFond;
-
   posFond.x = 0;
   posFond.y = 0;
+  posFond.h = 560;
+  posFond.w = 720;
 
   input.data.quit = 0;
   input.data.z = 0;
@@ -138,20 +139,25 @@ int main(int argc,char* argv[])
   int a = 0;
   int ItemAffich = 0, droite = 0, gauche = 0;
   Uint32 colorkey = SDL_MapRGB(character->format,0,0,0);
-  SDL_SetColorKey(character,SDL_SRCCOLORKEY,colorkey);
-  SDL_SetColorKey(characterD,SDL_SRCCOLORKEY,colorkey);
+  SDL_SetColorKey(character,0,colorkey);
+  SDL_SetColorKey(characterD,0,colorkey);
 
   while(!input.data.quit)
     {
       SDL_Event event;
       SDL_Rect posInv;
+      posInv.h = 32;
+      posInv.w = 32;
       SDL_Rect posItemsInv;
+      posItemsInv.h = 24;
+      posItemsInv.w = 28;
 
       if (SDL_PollEvent(&event)) {
 	HandleEvent(event, &input);
       }
 
-    SDL_BlitSurface(bg, NULL, screen, &posFond);
+    SDL_RenderClear(renderer);
+    SDL_RenderCopy(renderer,bgTexture, NULL, &posFond);
 
     int xAffichageStart = joueur1.xMonde/TAILLE_BLOCS;
     int yAffichageStart = TMONDE - joueur1.yMonde/TAILLE_BLOCS - NBBLOCS_FENETREY;
@@ -225,7 +231,7 @@ int main(int argc,char* argv[])
       {
         posInv.x = 50 + (33 * j);
         posInv.y = 50 + (33 * i);
-        SDL_BlitSurface(invIm, NULL, screen, &posInv);
+	SDL_RenderCopy(renderer,invImTexture, NULL, &posInv);
         if(input.data.numItemInvX != -1 && input.data.supprimer == 0 && input.data.inv[input.data.numItemInvY][input.data.numItemInvX].type != -1)
         {
           input.data.typeMemoire = input.data.inv[input.data.numItemInvY][input.data.numItemInvX].type;
@@ -243,11 +249,11 @@ int main(int argc,char* argv[])
            posItemsInv.y = 50 + (33 * i) + 4;
            if(input.data.inv[i][j].type == 1)
            {
-           	 SDL_BlitSurface(casque, NULL, screen, &posItemsInv);
+		 SDL_RenderCopy(renderer,casqueTexture, NULL, &posItemsInv);
            }
            else if(input.data.inv[i][j].type == 2)
            {
-           	 SDL_BlitSurface(armure, NULL, screen, &posItemsInv);
+		 SDL_RenderCopy(renderer,armureTexture, NULL, &posItemsInv);
            }
         }
       }
@@ -270,7 +276,9 @@ int main(int argc,char* argv[])
 		SDL_Rect posGrille;
 		posGrille.x = j*TAILLE_BLOCS + decalageX;
 		posGrille.y = i*TAILLE_BLOCS + decalageY;
-		SDL_BlitSurface(terre, NULL, screen, &posGrille);
+		posGrille.h = 16;
+		posGrille.w = 16;
+		SDL_RenderCopy(renderer,terreTexture, NULL, &posGrille);
 	      }
 	     }
       }
@@ -279,11 +287,11 @@ int main(int argc,char* argv[])
       {
       	if(input.data.typeMemoire == 1)
       	{
-			SDL_BlitSurface(casque, NULL, screen, &input.data.posImage);
+		SDL_RenderCopy(renderer,casqueTexture, NULL, &input.data.posImage);
       	}
       	else if(input.data.typeMemoire == 2)
       	{
-      		SDL_BlitSurface(armure, NULL, screen, &input.data.posImage);
+	        SDL_RenderCopy(renderer,armureTexture, NULL, &input.data.posImage);
       	}
       }
 
@@ -291,18 +299,17 @@ int main(int argc,char* argv[])
 
       collision(&joueur1, monde.affichage, monde.posB, monde.posBY, &saut, &murD);
 
-      afficherElementsListe(listeItems, &ItemAffich, &joueur1, screen, casque, armure, input.data.q , input.data.d);
+      afficherElementsListe(listeItems, &ItemAffich, &joueur1, renderer, casqueTexture, armureTexture, input.data.q , input.data.d);
 
       if(joueur1.dir == 2)
       {
-		SDL_BlitSurface(characterD, &joueurAnimD, screen, &joueur1.pos);
+		SDL_RenderCopy(renderer,characterDTexture, &joueurAnimD, &joueur1.pos);
       }
       else if(joueur1.dir == 1)
       {
-		SDL_BlitSurface(character, &joueurAnim, screen, &joueur1.pos);
+		SDL_RenderCopy(renderer,characterTexture, &joueurAnim, &joueur1.pos);
       }
-
-      SDL_UpdateRect(screen, 0, 0, 0, 0);
+      SDL_RenderPresent(renderer);
     }
 
   SDL_FreeSurface(bg);

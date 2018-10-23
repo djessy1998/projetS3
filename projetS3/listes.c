@@ -1,6 +1,7 @@
 #include "fonction.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <SDL2/SDL.h>
 
 Liste *initialisation()
 {
@@ -86,7 +87,7 @@ void TrierInv(int rienI, items inv[4][10], int type)
       }
 }
 
-void afficherElementsListe(Liste *liste, int *ItemAffich, character *a, SDL_Surface *screen, SDL_Surface *casque, SDL_Surface *armure, int q, int d)
+void afficherElementsListe(Liste *liste, int *ItemAffich, character *a, SDL_Renderer *renderer, SDL_Texture *casqueTexture, SDL_Texture *armureTexture, int q, int d)
 {
     if (liste == NULL)
     {
@@ -114,7 +115,7 @@ void afficherElementsListe(Liste *liste, int *ItemAffich, character *a, SDL_Surf
               actuel->avG = actuel->avD;
             }
             actuel->posItemMonde.y = a->yMonde + 248;
-            SDL_BlitSurface(casque, NULL, screen, &actuel->posItemMonde);
+	    SDL_RenderCopy(renderer,casqueTexture, NULL, &actuel->posItemMonde);
             *ItemAffich = 1;
           }
           else if(actuel->type == 2)
@@ -130,7 +131,7 @@ void afficherElementsListe(Liste *liste, int *ItemAffich, character *a, SDL_Surf
               actuel->avG = actuel->avD;
             }
             actuel->posItemMonde.y = a->yMonde + 248;
-            SDL_BlitSurface(armure, NULL, screen, &actuel->posItemMonde);
+	    SDL_RenderCopy(renderer,armureTexture, NULL, &actuel->posItemMonde);
             *ItemAffich = 1;
           }
         }
@@ -184,11 +185,11 @@ void afficherElementsListe(Liste *liste, int *ItemAffich, character *a, SDL_Surf
 	    }
 	     if(actuel->type == 1)
 	     {
-	     	SDL_BlitSurface(casque, &actuel->SortIm , screen, &actuel->SortImPos);
+		SDL_RenderCopy(renderer,casqueTexture, &actuel->SortIm , &actuel->SortImPos);
 	     }
 	     if(actuel->type == 2)
 	     {
-	     	SDL_BlitSurface(armure, &actuel->SortIm , screen, &actuel->SortImPos);
+		SDL_RenderCopy(renderer,armureTexture, &actuel->SortIm, &actuel->SortImPos);
 	     }
 	   }
 	  }
