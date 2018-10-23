@@ -38,7 +38,7 @@ int main(int argc,char* argv[])
     }
 
   input.data.inv[0][0].type = 1;
-  input.data.inv[0][1].type = 1;
+  input.data.inv[0][1].type = 2;
   input.data.inv[0][2].type = 1;
   input.data.inv[0][3].type = 2;
 
@@ -50,10 +50,9 @@ int main(int argc,char* argv[])
   joueur1.PM = 100;
   joueur1.x_saut = -154.;
   joueur1.y_saut = 0.;
-
-  float forcegrav = (float)joueur1.pos.y;
-  float vitesse = (float)joueur1.xMonde;
-  float vitesseFloat = (float)joueur1.pos.x;
+  joueur1.yMondeDouble = (double)joueur1.pos.y;
+  joueur1.xMondeDouble = (double)joueur1.xMonde;
+  joueur1.xPosBloquageDouble = (double)joueur1.pos.x;
 
   SDL_Surface *screen, *temp, *bg, *terre, *character, *invIm, *casque, *characterD, *armure;
 
@@ -170,7 +169,7 @@ int main(int argc,char* argv[])
 	collisionItems(listeItems, dirChar, ItemAffich, bloquerG, bloquerD, &joueur1, gauche, droite, murG, murD);
     if(bloquerD == 0)
     {
-      deplacerD(&joueur1, &vitesse, murD, murG, &vitesseFloat);
+      deplacerD(&joueur1, murD, murG);
     }
     a += 2;
 	if(a > 58)
@@ -198,7 +197,7 @@ int main(int argc,char* argv[])
 	  collisionItems(listeItems, dirChar, ItemAffich, bloquerG, bloquerD, &joueur1, gauche, droite, murG, murD);
 	  if(bloquerG == 0)
 	    {
-	      deplacerG(&joueur1, &vitesse, murG, murD, &vitesseFloat);
+	      deplacerG(&joueur1,murG, murD);
 	    }
 	a += 2;
 	if(a > 58)
@@ -288,7 +287,7 @@ int main(int argc,char* argv[])
 
       terreRonde(&joueur1, &murD, &murG, &murH);
 
-      collision(&joueur1, monde.affichage, &forcegrav, &bloquerG, &bloquerD, monde.posB, monde.posBY, &saut);
+      collision(&joueur1, monde.affichage, &bloquerG, &bloquerD, monde.posB, monde.posBY, &saut, &murD);
 
       afficherElementsListe(listeItems, &ItemAffich, dirChar, &joueur1,screen, casque, armure, input.data.q , input.data.d, bloquerG, bloquerD);
 

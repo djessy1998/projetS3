@@ -2,33 +2,33 @@
 #include <SDL.h>
 #include <math.h>
 
-void deplacerG(character *a, float *vitesse, int murGau, int murDro, float *vitesseMur)
+void deplacerG(character *a, int murGau, int murDro)
 {
   if(murGau == 0 && murDro == 0)
-  	{
-   		*vitesse =  *vitesse - VITESSE;
-  		a->xMonde = (int)*vitesse;
-      *vitesseMur = a->pos.x;
-  	}
-  	else
     {
-      *vitesseMur = *vitesseMur - VITESSE;
-  		a->pos.x = (int)*vitesseMur;
-  	}
+      a->xMondeDouble =  a->xMondeDouble - VITESSE;
+      a->xMonde = (int)a->xMondeDouble;
+      a->xPosBloquageDouble = a->pos.x;
+    }
+  else
+    {
+      a->xPosBloquageDouble = a->xPosBloquageDouble - VITESSE;
+      a->pos.x = (int)a->xPosBloquageDouble;
+    }
 }
 
-void deplacerD(character *a, float *vitesse, int murDro, int murGau, float *vitesseMur)
+void deplacerD(character *a, int murDro, int murGau)
 {
   if(murDro == 0 && murGau == 0)
-  	{
-   		*vitesse =  *vitesse + VITESSE;
-  		a->xMonde = (int)*vitesse;
-      *vitesseMur = a->pos.x;
-  	}
-  	else
     {
-      *vitesseMur = *vitesseMur + VITESSE;
-  		a->pos.x = (int)*vitesseMur;
+      a->xMondeDouble =  a->xMondeDouble + VITESSE;
+      a->xMonde = (int)a->xMondeDouble;
+      a->xPosBloquageDouble = a->pos.x;
+    }
+    else
+    {
+      a->xPosBloquageDouble = a->xPosBloquageDouble + VITESSE;
+      a->pos.x = (int)a->xPosBloquageDouble;
     }
 }
 
@@ -61,43 +61,43 @@ void baisser(character *a)
 
 }
 
-void gravite(character *a, float *force)
+void gravite(character *a)
 {
 	a->yMonde -= 1;
 }
 
-void collision(character *a, int** affichage, float *force, int *bloquerG, int *bloquerD, int** posB, int** posBY, int *saut)
+void collision(character *a, int** affichage, int *bloquerG, int *bloquerD, int** posB, int** posBY, int *saut, int *murDr)
 {
-	int touche = 0;
-	*bloquerD = 0;
-	*bloquerG = 0;
-	int i,j;
-	int JpiedGX = a->xMonde + a->pos.x;
-	int JMilieuX = a->xMonde + a->pos.x + PLAYER_WIDTH/2;
-	int JpiedDX = a->xMonde + a->pos.x + PLAYER_WIDTH;
-	int JpiedGY = a->yMonde;
+    int touche = 0;
+    *bloquerD = 0;
+    *bloquerG = 0;
+    int i,j;
+    int JpiedGX = a->xMonde + a->pos.x;
+    int JMilieuX = a->xMonde + a->pos.x + PLAYER_WIDTH/2;
+    int JpiedDX = a->xMonde + a->pos.x + PLAYER_WIDTH;
+    int JpiedGY = a->yMonde;
 
     for(i = 0; i < NBBLOCS_FENETREY; i++)
     {
        for(j = 0; j< NBBLOCS_FENETREX; j++)
        {
-       		if(affichage[i][j] == TERRE)
-       		{
-       			if(((JpiedGX > posB[i][j] && JpiedGX < posB[i][j] + TAILLE_BLOCS) || (JpiedDX > posB[i][j] && JpiedDX <= posB[i][j] + TAILLE_BLOCS) || (JMilieuX > posB[i][j] && JMilieuX < posB[i][j] + TAILLE_BLOCS)) && JpiedGY == posBY[i][j])
-       			{
-       				touche = 1;
-					    *saut = 1;
-       				break;
-       			}
-       			if(JpiedDX == posB[i][j])
-       			{
-       				*bloquerD = 1;
-       			}
-       			else if(JpiedGX == posB[i][j] + TAILLE_BLOCS)
-       			{
-       				*bloquerG = 1;
-       			}
-       		}
+	  if(affichage[i][j] == TERRE)
+	  {
+	    if(JpiedDX == posB[i][j])
+	    {
+	      *bloquerD = 1;
+	    }
+	    else if(JpiedGX == posB[i][j] + TAILLE_BLOCS)
+	    {
+	      *bloquerG = 1;
+	    }
+	    if(((JpiedGX > posB[i][j] && JpiedGX < posB[i][j] + TAILLE_BLOCS) || (JpiedDX > posB[i][j] && JpiedDX <= posB[i][j] + TAILLE_BLOCS) || (JMilieuX > posB[i][j] && JMilieuX < posB[i][j] + TAILLE_BLOCS)) && JpiedGY == posBY[i][j])
+	    {
+	      touche = 1;
+	      *saut = 1;
+	      break;
+	    }
+	  }
        }
     }
 
@@ -105,7 +105,14 @@ void collision(character *a, int** affichage, float *force, int *bloquerG, int *
     int PosPiedY = (a->pos.y/16) +1;
     int PosCorpsY = (a->pos.y/16 +2);
     int PosTeteY = (a->pos.y/16) +3;
-    int PosPiedX = a->pos.x/16;
+    int PosPiedX;
+    //Bug sur le mur droit, le joueur allait trop loin
+    if(*murDr){
+      PosPiedX = a->pos.x/16-1;
+    }
+    else{
+      PosPiedX = a->pos.x/16;
+    }
     int PosPiedDX = a->pos.x/16 + PLAYER_WIDTH/16 +1 ;
 
     if((affichage[PosPiedY][PosPiedX] == VIDE &&
@@ -137,7 +144,7 @@ void collision(character *a, int** affichage, float *force, int *bloquerG, int *
     else
     {
       a->pos.y = 346;
-      gravite(a, force);
+      gravite(a);
     }
 	}
 }
@@ -145,25 +152,25 @@ void collision(character *a, int** affichage, float *force, int *bloquerG, int *
 void terreRonde(character *a, int *murDro, int *murGau, int *murHau)
 {
 // 	printf("a->yMonde = %d\n", a->yMonde);
-	if(a->yMonde >= TMONDE*16 - (37*16))
-	{
-		*murHau = 1;
-	}
-	if(a->xMonde <= 1 && a->pos.x <= (45*TAILLE_BLOCS)/2)
-	{
-		*murGau = 1;
-	}
-	else if(a->xMonde + 16*45 >= TMONDE*TAILLE_BLOCS && a->pos.x >= (45*TAILLE_BLOCS)/2)
-	{
-		*murDro = 1;
-	}
-	else
-	{
-		a->pos.x = 360;
-		*murGau = 0;
-		*murDro = 0;
-		*murHau = 0;
-	}
+  if(a->yMonde >= TMONDE*16 - (37*16))
+  {
+    *murHau = 1;
+  }
+  if(a->xMonde <= 1 && a->pos.x <= (45*TAILLE_BLOCS)/2)
+  {
+    *murGau = 1;
+  }
+  else if(a->xMonde + 16*45 >= TMONDE*TAILLE_BLOCS && a->pos.x >= (45*TAILLE_BLOCS)/2)
+  {
+    *murDro = 1;
+  }
+  else
+  {
+    a->pos.x = 360;
+    *murGau = 0;
+    *murDro = 0;
+    *murHau = 0;
+  }
 }
 
 Liste *initialisation()

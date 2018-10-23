@@ -42,22 +42,26 @@ struct character
   int boolItem;
   double x_saut;
   double y_saut;
+  double yMondeDouble;
+  double xMondeDouble;
+  double xPosBloquageDouble;
+  
 };
 
 typedef struct items items;
 struct items
 {
-	int xMondeItem;
-	int yMondeItem;
-	int type;
-	int boolean;
-	double increment;
-	double avG;
-	double avD;
-	SDL_Rect SortIm;
-	SDL_Rect SortImPos;
-	SDL_Rect posItemMonde;
-	items *suivant;
+  int xMondeItem;
+  int yMondeItem;
+  int type;
+  int boolean;
+  double increment;
+  double avG;
+  double avD;
+  SDL_Rect SortIm;
+  SDL_Rect SortImPos;
+  SDL_Rect posItemMonde;
+  items *suivant;
 };
 
 typedef struct Liste Liste;
@@ -103,10 +107,10 @@ struct input
 
 void fonction_Handle_Event(SDL_Event event, input *input);
 
-void deplacerG(character *a, float *vitesse, int murGau, int murDro, float *vitesseMur);
-void deplacerD(character *a, float *vitesse, int murDro, int murGau, float *vitesseMur);
-void gravite(character *a, float *force);
-void collision(character *a, int** affichage, float *force,int *bloquerG, int *bloquerD, int** posB, int** posBY, int *saut);
+void deplacerG(character *a, int murGau, int murDro);
+void deplacerD(character *a, int murDro, int murGau);
+void gravite(character *a);
+void collision(character *a, int** affichage, int *bloquerG, int *bloquerD, int** posB, int** posBY, int *saut, int *murDr);
 void sauter(character *a, int *saut, int murDro, int murGau);
 void baisser(character *a);
 void terreRonde(character *a, int *murDro, int *murGau, int *murHau);
