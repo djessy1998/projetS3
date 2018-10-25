@@ -6,7 +6,7 @@
 #define PLAYER_WIDTH   20
 #define PLAYER_HEIGHT  54
 #define FORCE_GRA      0.2
-#define VITESSE        0.15
+#define VITESSE        0.50
 #define VITESSEJ       0.2
 #define TMONDE         100
 #define NBBLOCS_FENETREX 47
@@ -56,6 +56,7 @@ struct items
   int xMondeItem;
   int yMondeItem;
   int type;
+  int trouve;
   int boolean;
   double increment;
   double avG;
@@ -127,5 +128,5 @@ void insertion(Liste *liste, int nvType, int nvXMonde, int nvYMonde);
 Liste *initialisation();
 void cliquerItemInv(items inv[4][10]);
 void TrierInv(int rienI, items inv[4][10], int type);
-void afficherElementsListe(Liste *liste, int *ItemAffich, character *a, SDL_Renderer *screen, SDL_Texture *casqueTexture, SDL_Texture *armureTexture, int q, int d);
+void afficherElementsListe(Liste *liste, int *ItemAffich, character *a, SDL_Renderer *renderer, SDL_Texture *casqueTexture, SDL_Texture *armureTexture, int q, int d, monde *mondeBlocs);
 void collisionItems(Liste *liste, int ItemAffich, character *a, int gauche, int droite, int murG, int murD);

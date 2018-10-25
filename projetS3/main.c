@@ -10,6 +10,9 @@ void HandleEvent(SDL_Event event, input *i){
 
 int main(int argc,char* argv[])
 {
+  
+  SDL_Init(SDL_INIT_VIDEO);
+  
   input input;
   monde monde;
   character joueur1 = {"Jean", 100, 0};
@@ -57,20 +60,14 @@ int main(int argc,char* argv[])
   joueur1.dir = 1;
   joueur1.bloqAGauche = 0;
   joueur1.bloqADroite = 0;
-  
-  
 
   SDL_Surface *bg, *terre, *character, *invIm, *casque, *characterD, *armure;
 
   SDL_Window *fenetre;
-  fenetre = SDL_CreateWindow("StarBund", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+  fenetre = SDL_CreateWindow("StarBund", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT,0);
 
   SDL_Renderer *renderer = NULL;
-  renderer = SDL_CreateRenderer(fenetre, -1, SDL_RENDERER_ACCELERATED);
-  
-  // Double Buffer
-  SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-  SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
+  renderer = SDL_CreateRenderer(fenetre, -1, SDL_RENDERER_TARGETTEXTURE);
 
   /* set keyboard repeat */
   //SDL_EnableKeyRepeat(10, 10);
@@ -88,10 +85,12 @@ int main(int argc,char* argv[])
   armureTexture = SDL_CreateTextureFromSurface(renderer, armure);
   
   character = SDL_LoadBMP("Sprites/character.bmp");
+  SDL_SetColorKey(character,SDL_TRUE,SDL_MapRGB(character->format, 0, 0, 0));
   SDL_Texture *characterTexture;
   characterTexture = SDL_CreateTextureFromSurface(renderer,character);
 
   characterD = SDL_LoadBMP("Sprites/characterD.bmp");
+  SDL_SetColorKey(characterD,SDL_TRUE,SDL_MapRGB(characterD->format, 0, 0, 0));
   SDL_Texture *characterDTexture;
   characterDTexture = SDL_CreateTextureFromSurface(renderer,characterD);
 
@@ -140,10 +139,7 @@ int main(int argc,char* argv[])
   int saut = 1;
   int a = 0;
   int ItemAffich = 0, droite = 0, gauche = 0;
-  Uint32 colorkey = SDL_MapRGB(character->format,0,0,0);
-  SDL_SetColorKey(character,0,colorkey);
-  SDL_SetColorKey(characterD,0,colorkey);
-
+ 
   while(!input.data.quit)
     {
       SDL_Event event;
@@ -157,6 +153,7 @@ int main(int argc,char* argv[])
       if (SDL_PollEvent(&event)) {
 	HandleEvent(event, &input);
       }
+      
 
     SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer,bgTexture, NULL, &posFond);
@@ -265,7 +262,7 @@ int main(int argc,char* argv[])
   {
     //RAMASSAGE ITEM
   }
-
+  
       for(int i=0;i<NBBLOCS_FENETREY;i++ )
       {
         for(int j=0;j<NBBLOCS_FENETREX;j++)
@@ -301,7 +298,7 @@ int main(int argc,char* argv[])
 
       collision(&joueur1, monde.affichage, monde.posB, monde.posBY, &saut, &murD);
 
-      afficherElementsListe(listeItems, &ItemAffich, &joueur1, renderer, casqueTexture, armureTexture, input.data.q , input.data.d);
+      afficherElementsListe(listeItems, &ItemAffich, &joueur1, renderer, casqueTexture, armureTexture, input.data.q , input.data.d, &monde);
 
       if(joueur1.dir == 2)
       {
@@ -321,7 +318,14 @@ int main(int argc,char* argv[])
   SDL_FreeSurface(character);
   SDL_FreeSurface(characterD);
   SDL_FreeSurface(invIm);
-
+  SDL_DestroyTexture(bgTexture);
+  SDL_DestroyTexture(terreTexture);
+  SDL_DestroyTexture(casqueTexture);
+  SDL_DestroyTexture(armureTexture);
+  SDL_DestroyTexture(characterTexture);  
+  SDL_DestroyTexture(characterDTexture);
+  SDL_DestroyTexture(invImTexture);
+  
   SDL_Quit();
 
 

@@ -15,7 +15,13 @@ Liste *initialisation()
     EItems->xMondeItem = -1;
     EItems->yMondeItem = -1;
     EItems->suivant = NULL;
+    EItems->SortImPos.h = 24;  
+    EItems->SortImPos.w = 28;
+    EItems->posItemMonde.h = 24;  
+    EItems->posItemMonde.w = 28;
+    EItems->trouve = 0;
     liste->premier = EItems;
+
     return liste;
 }
 
@@ -87,15 +93,20 @@ void TrierInv(int rienI, items inv[4][10], int type)
       }
 }
 
-void afficherElementsListe(Liste *liste, int *ItemAffich, character *a, SDL_Renderer *renderer, SDL_Texture *casqueTexture, SDL_Texture *armureTexture, int q, int d)
+void afficherElementsListe(Liste *liste, int *ItemAffich, character *a, SDL_Renderer *renderer, SDL_Texture *casqueTexture, SDL_Texture *armureTexture, int q, int d, monde *mondeBlocs)
 {
     if (liste == NULL)
     {
         exit(EXIT_FAILURE);
     }
+    
     items *actuel = liste->premier;
+    int i,j = -1;
     while (actuel != NULL)
     {
+        actuel->posItemMonde.h = 24;
+	actuel->posItemMonde.w = 28;
+	actuel->trouve = 0;
 	if ((actuel->xMondeItem > a->xMonde && actuel->xMondeItem <= a->xMonde + SCREEN_WIDTH) || (actuel->xMondeItem + 28 < a->xMonde))
 	{
 	    actuel->boolean = 0;
@@ -114,7 +125,18 @@ void afficherElementsListe(Liste *liste, int *ItemAffich, character *a, SDL_Rend
               actuel->posItemMonde.x = (int)actuel->avD;
               actuel->avG = actuel->avD;
             }
-            actuel->posItemMonde.y = a->yMonde + 248;
+            while(actuel->trouve == 0 && i < TMONDE){
+	     i = i + 1;
+	     while(actuel->trouve == 0 && j < TMONDE){
+	       if(actuel->xMondeItem > mondeBlocs->grilleInt[i][j]*TAILLE_BLOCS*j && actuel->xMondeItem < mondeBlocs->grilleInt[i][j]*TAILLE_BLOCS*j + TAILLE_BLOCS)
+	       {
+		  actuel->posItemMonde.y = mondeBlocs->posBY[i][j];
+		  actuel->trouve = 1;
+	       }
+	       j = j + 1;
+	     }
+	    }
+	    printf("actuel->posItemMonde.y = %d\n", actuel->posItemMonde.y);
 	    SDL_RenderCopy(renderer,casqueTexture, NULL, &actuel->posItemMonde);
             *ItemAffich = 1;
           }
@@ -130,7 +152,17 @@ void afficherElementsListe(Liste *liste, int *ItemAffich, character *a, SDL_Rend
               actuel->posItemMonde.x = (int)actuel->avD;
               actuel->avG = actuel->avD;
             }
-            actuel->posItemMonde.y = a->yMonde + 248;
+            while(actuel->trouve == 0 && i < TMONDE){
+	     i = i + 1;
+	     while(actuel->trouve == 0 && j < TMONDE){
+	       if(actuel->xMondeItem > mondeBlocs->posB[i][j] && actuel->xMondeItem < mondeBlocs->posB[i][j] + TAILLE_BLOCS)
+	       {
+		  actuel->posItemMonde.y = mondeBlocs->posBY[i][j];
+		  actuel->trouve = 1;
+	       }
+	       j = j + 1;
+	     }
+	    }
 	    SDL_RenderCopy(renderer,armureTexture, NULL, &actuel->posItemMonde);
             *ItemAffich = 1;
           }
