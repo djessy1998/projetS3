@@ -43,6 +43,8 @@ int main(int argc,char* argv[])
 
   joueur1.pos.x = 352;
   joueur1.pos.y = 400 - PLAYER_HEIGHT;
+  joueur1.pos.h = 58;
+  joueur1.pos.w = 27;
   joueur1.xMonde = (TMONDE*TAILLE_BLOCS)/2+7;
   joueur1.yMonde = 100;
   joueur1.PV = 100;
@@ -167,7 +169,7 @@ int main(int argc,char* argv[])
    if(input.data.z == 1)
 	{
 	  if (saut){
-		SDL_Delay(10);
+	  	SDL_Delay(10);
 		sauter(&joueur1, &saut);
 	  }
 	}
@@ -291,7 +293,7 @@ int main(int argc,char* argv[])
       	}
       	else if(input.data.typeMemoire == 2)
       	{
-	        SDL_RenderCopy(renderer,armureTexture, NULL, &input.data.posImage);
+	    SDL_RenderCopy(renderer,armureTexture, NULL, &input.data.posImage);
       	}
       }
 
