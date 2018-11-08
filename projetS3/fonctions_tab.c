@@ -70,13 +70,13 @@ void tab_char2int(char** tab, int** tabInt, int tailleX, int tailleY){
   for(int x = 0; x < tailleX; x++){
     for(int y = 0; y < tailleY; y++){
       switch (tab[x][y]){
-        case CASE1:
-          tabInt[x][y] = 1;
+      case CASE1:
+	tabInt[x][y] = 1;
         break;
-        case CASE0:
-          tabInt[x][y] = 0;
+      case CASE0:
+	tabInt[x][y] = 0;
         break;
-        default:
+      default:
         break;
       }
     }

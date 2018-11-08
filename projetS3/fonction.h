@@ -1,4 +1,4 @@
-#include <SDL2/SDL.h>
+#include <SDL.h>
 #include "fonctions_fichiers.h"
 
 #define SCREEN_WIDTH   720
@@ -48,6 +48,7 @@ struct character
   int dir;
   int bloqADroite;
   int bloqAGauche;
+  int autorisationSaut;
 };
 
 typedef struct items items;
@@ -56,7 +57,6 @@ struct items
   int xMondeItem;
   int yMondeItem;
   int type;
-  int trouve;
   int boolean;
   double increment;
   double avG;
@@ -70,7 +70,7 @@ struct items
 typedef struct Liste Liste;
 struct Liste
 {
-    items *premier;
+  items *premier;
 };
 
 
@@ -116,8 +116,8 @@ void fonction_Handle_Event(SDL_Event event, input *input);
 void deplacerG(character *a, int murGau, int murDro);
 void deplacerD(character *a, int murDro, int murGau);
 void gravite(character *a);
-void collision(character *a, int** affichage, int** posB, int** posBY, int *saut, int *murDr);
-void sauter(character *a, int *saut);
+void collision(character *a, int** affichage, int** posB, int** posBY, int *murDr);
+void sauter(character *a);
 void baisser(character *a);
 void terreRonde(character *a, int *murDro, int *murGau, int *murHau);
 void afficherListe(Liste *liste);
@@ -128,5 +128,7 @@ void insertion(Liste *liste, int nvType, int nvXMonde, int nvYMonde);
 Liste *initialisation();
 void cliquerItemInv(items inv[4][10]);
 void TrierInv(int rienI, items inv[4][10], int type);
-void afficherElementsListe(Liste *liste, int *ItemAffich, character *a, SDL_Renderer *renderer, SDL_Texture *casqueTexture, SDL_Texture *armureTexture, int q, int d, monde *mondeBlocs);
+void afficherElementsListe(Liste *liste, int *ItemAffich, character *a, SDL_Surface *screen, SDL_Surface *casque, SDL_Surface *armure, int q, int d);
 void collisionItems(Liste *liste, int ItemAffich, character *a, int gauche, int droite, int murG, int murD);
+
+void traitement_input(input input, character *joueur1, int murG, int murD, int gauche, int droite, Liste *listeItems, int ItemAffich, SDL_Rect *joueurAnimD, SDL_Rect *joueurAnim, int *incrim);

@@ -16,7 +16,7 @@ void taille_fichier(const char* nomFichier, int* nbLig, int* nbCol){
     c = fgetc(ptrFichier);
     if(c == '\n'){
       if(maxCol < Col){
-	       maxCol = Col;
+	maxCol = Col;
       }
       totalLigne++;
       Col = 0;
@@ -43,7 +43,7 @@ char** lire_fichier(const char* nomFichier){
     for(int y = 0; y<nbCol; y++){
       c = fgetc(ptrFichier);
       if(c == EOF){
-	       break;
+	break;
       }
       tab[i][y] = c;
     }
@@ -57,7 +57,7 @@ char** modifier_caractere(char** tab, int n, int m, char ancien, char nouveau){
   for(int i = 0; i<n; i++){
     for(int y = 0; y<m; y++){
       if(tab[i][y] == ancien){
-	       tab[i][y] = nouveau;
+	tab[i][y] = nouveau;
       }
     }
   }
