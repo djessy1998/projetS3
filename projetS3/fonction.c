@@ -36,6 +36,7 @@ void collision(character *a, int** affichage, int** posB, int** posBY, int *murD
 		{
 		  touche = 1;
 		  a->autorisationSaut = 1;
+		  a->sautH = 0;
 		  break;
 		}
 	    }

@@ -28,7 +28,7 @@ int main(int argc,char* argv[])
   monde monde;
   character joueur1 = {"Jean", 100, 0};
   
-  int frames = 0;
+  //int frames = 0;
 
   monde.grilleChar = lire_fichier("saves/Monde1.txt");
   monde.grilleInt = allouer_tab_2D_int(TMONDE, TMONDE);
@@ -154,10 +154,11 @@ int main(int argc,char* argv[])
   SDL_SetColorKey(character,SDL_SRCCOLORKEY,colorkey);
   SDL_SetColorKey(characterD,SDL_SRCCOLORKEY,colorkey);
   
-  int times = 0;
+//   //int times = 0;
 
   while(!input.data.quit)
     {
+      /*
       //Compteur de fps
       float dt = (SDL_GetTicks() - times)/1000.0;
       if(dt == 0) dt = 1;
@@ -165,6 +166,7 @@ int main(int argc,char* argv[])
       
       times=SDL_GetTicks();
       //Compteur de fps
+      */
 
       SDL_Event event;
       SDL_Rect posInv;
@@ -182,7 +184,7 @@ int main(int argc,char* argv[])
       int decalageX = -joueur1.xMonde%TAILLE_BLOCS;
       int decalageY = -joueur1.yMonde%TAILLE_BLOCS;
 
-      traitement_input(input, &joueur1, murG, murD, gauche, droite, listeItems, ItemAffich, &joueurAnimD, &joueurAnim, &incrementAnim);
+      traitement_input(input, &joueur1, murG, murD, gauche, droite,listeItems, ItemAffich, &joueurAnimD, &joueurAnim, &incrementAnim);
 
       if(input.data.e == 1)
 	{
@@ -261,7 +263,7 @@ int main(int argc,char* argv[])
     
       collision(&joueur1, monde.affichage, monde.posB, monde.posBY, &murD);
 
-      afficherElementsListe(listeItems, &ItemAffich, &joueur1, screen, casque, armure, input.data.q , input.data.d);
+      afficherElementsListe(listeItems, &ItemAffich, &joueur1, screen, casque, armure, input.data.q , input.data.d, &monde);
 
       if(joueur1.dir == 2)
 	{

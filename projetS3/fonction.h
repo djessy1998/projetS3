@@ -46,6 +46,7 @@ struct character
   double xMondeDouble;
   double xPosBloquageDouble;
   int dir;
+  int sautH;
   int bloqADroite;
   int bloqAGauche;
   int autorisationSaut;
@@ -59,6 +60,7 @@ struct items
   int type;
   int boolean;
   double increment;
+  int trouve;
   double avG;
   double avD;
   SDL_Rect SortIm;
@@ -128,7 +130,7 @@ void insertion(Liste *liste, int nvType, int nvXMonde, int nvYMonde);
 Liste *initialisation();
 void cliquerItemInv(items inv[4][10]);
 void TrierInv(int rienI, items inv[4][10], int type);
-void afficherElementsListe(Liste *liste, int *ItemAffich, character *a, SDL_Surface *screen, SDL_Surface *casque, SDL_Surface *armure, int q, int d);
-void collisionItems(Liste *liste, int ItemAffich, character *a, int gauche, int droite, int murG, int murD);
+void afficherElementsListe(Liste *liste, int *ItemAffich, character *a, SDL_Surface *screen, SDL_Surface *casque, SDL_Surface *armure, int q, int d, monde *mondeBlocs);
+void collisionItems(Liste *liste, int ItemAffich, character *a, int gauche, int droite,int murG, int murD);
 
 void traitement_input(input input, character *joueur1, int murG, int murD, int gauche, int droite, Liste *listeItems, int ItemAffich, SDL_Rect *joueurAnimD, SDL_Rect *joueurAnim, int *incrim);

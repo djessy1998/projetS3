@@ -7,6 +7,7 @@ void traitement_input(input input, character *joueur1, int murG, int murD, int g
 {
   if(input.data.z == 1)
     {
+      collisionItems(listeItems, ItemAffich, joueur1, gauche, droite, murG, murD);
       if (joueur1->autorisationSaut)
       {
 	SDL_Delay(10);
