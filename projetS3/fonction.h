@@ -6,7 +6,7 @@
 #define PLAYER_WIDTH   20
 #define PLAYER_HEIGHT  54
 #define FORCE_GRA      0.2
-#define VITESSE        0.50
+#define VITESSE        1.
 #define VITESSEJ       0.2
 #define TMONDE         100
 #define NBBLOCS_FENETREX 47

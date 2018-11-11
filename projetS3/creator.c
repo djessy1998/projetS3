@@ -7,8 +7,7 @@
 #define PM_START 0
 #define POSX_START 352
 #define POSY_START 400
-#define SAUTX_START -154.
-#define	SAUTY_START 0.
+
 
 
 void creer_joueur(character *joueur){
@@ -23,9 +22,9 @@ void creer_joueur(character *joueur){
   joueur->pos.y = POSY_START - PLAYER_HEIGHT;
   joueur->xMonde = (TMONDE*TAILLE_BLOCS)/2+7;
   joueur->yMonde = 100;
-  joueur->x_saut = SAUTX_START;
-  joueur->y_saut = SAUTY_START;
-  joueur->yMondeDouble = (double)joueur->pos.y;
+  joueur->x_saut = 0;
+  joueur->y_saut = 0;
+  joueur->yMondeDouble = (double)joueur->yMonde;
   joueur->xMondeDouble = (double)joueur->xMonde;
   joueur->xPosBloquageDouble = (double)joueur->pos.x;
   joueur->dir = 1;
@@ -41,7 +40,7 @@ void creer_monde(monde *monde){
   tab_char2int(monde->grilleChar, monde->grilleInt, TMONDE, TMONDE);
   desallouer_tab_2D_char(monde->grilleChar, TMONDE);
 
-  
+
   monde->posB = allouer_tab_2D_int(TMONDE, TMONDE);
   monde->posBY = allouer_tab_2D_int(TMONDE, TMONDE);
   monde->affichage = allouer_tab_2D_int(NBBLOCS_FENETREY, NBBLOCS_FENETREX);
@@ -62,7 +61,7 @@ void creer_input(input *input){
 
   input->data.inv[0][0].type = 1;
   input->data.inv[0][1].type = 2;
-  
+
   input->data.quit = 0;
   input->data.z = 0;
   input->data.q = 0;
@@ -88,6 +87,3 @@ SDL_Surface* creer_texture(char* chemin){
   SDL_FreeSurface(temp);
   return tex;
 }
-
-
-

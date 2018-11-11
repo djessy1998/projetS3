@@ -8,11 +8,7 @@ void traitement_input(input input, character *joueur1, int murG, int murD, int g
   if(input.data.z == 1)
     {
       collisionItems(listeItems, ItemAffich, joueur1, gauche, droite, murG, murD);
-      if (joueur1->autorisationSaut)
-	{
-	  SDL_Delay(10);
-	  sauter(joueur1);
-	}
+  	  sauter(joueur1);
     }
   if(input.data.d == 1)
     {
@@ -84,9 +80,9 @@ void traitement_input_inv(input *input, SDL_Surface *invIm, SDL_Surface *casque,
 	    {
 	      posInv.x = 50 + (33 * j);
 	      posInv.y = 50 + (33 * i);
-	      
+
 	      SDL_BlitSurface(invIm, NULL, screen, &posInv);
-	      
+
 	      if(input->data.numItemInvX != -1 && input->data.supprimer == 0 && input->data.inv[input->data.numItemInvY][input->data.numItemInvX].type != -1)
 		{
 		  input->data.typeMemoire = input->data.inv[input->data.numItemInvY][input->data.numItemInvX].type;

@@ -6,8 +6,7 @@ void affichage_monde(monde monde, character joueur1, SDL_Surface *terre, SDL_Sur
   int xAffichageStart = joueur1.xMonde/TAILLE_BLOCS;
   int yAffichageStart = TMONDE - joueur1.yMonde/TAILLE_BLOCS - NBBLOCS_FENETREY;
   int decalageX = -joueur1.xMonde%TAILLE_BLOCS;
-  int decalageY = -joueur1.yMonde%TAILLE_BLOCS;
-  
+  int decalageY = joueur1.yMonde%TAILLE_BLOCS;
   for(int i=0;i<NBBLOCS_FENETREY;i++ )
     {
       for(int j=0;j<NBBLOCS_FENETREX;j++)
@@ -41,7 +40,7 @@ void affichage_items_inv(input input, SDL_Surface *casque, SDL_Surface *armure, 
     }
 }
 
-void affichage_personnage(character joueur1, SDL_Surface *characterD, SDL_Surface *character, SDL_Rect *joueurAnimD, SDL_Rect *joueurAnim, SDL_Surface *screen){  
+void affichage_personnage(character joueur1, SDL_Surface *characterD, SDL_Surface *character, SDL_Rect *joueurAnimD, SDL_Rect *joueurAnim, SDL_Surface *screen){
   if(joueur1.dir == 2)
     {
       SDL_BlitSurface(characterD, joueurAnimD, screen, &joueur1.pos);

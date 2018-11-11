@@ -13,16 +13,16 @@ void HandleEvent(SDL_Event event, input *i){
 }
 
 int main(int argc,char* argv[])
-{  
+{
   input input;
   monde monde;
   character joueur1;
-  
+
   creer_joueur(&joueur1);
   creer_monde(&monde);
   creer_input(&input);
-  
-  Liste *listeItems = initialisation(); 
+
+  Liste *listeItems = initialisation();
   insertion(listeItems, 1, 500, 128);
   insertion(listeItems, 2, 450, 128);
 
@@ -35,10 +35,10 @@ int main(int argc,char* argv[])
 
   /* create window */
   screen = SDL_SetVideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0);
-  
+
   /* set keyboard repeat */
   SDL_EnableKeyRepeat(10, 10);
-  
+
   /*Création de textures*/
   SDL_Surface* bg = creer_texture("Sprites/fond-nuage.bmp");
   SDL_Surface* casque = creer_texture("Sprites/casque.bmp");
@@ -65,23 +65,25 @@ int main(int argc,char* argv[])
   posFond.x = 0;
   posFond.y = 0;
 
-  
+
   int murG,murD, murH = 0;
   int incrementAnim = 0;
   int ItemAffich = 0, droite = 0, gauche = 0;
   Uint32 colorkey = SDL_MapRGB(character->format,0,0,0);
   SDL_SetColorKey(character,SDL_SRCCOLORKEY,colorkey);
   SDL_SetColorKey(characterD,SDL_SRCCOLORKEY,colorkey);
-  
-  int times = 0;
 
+  int times = 0;
+  int times2 = 0;
   while(!input.data.quit)
     {
-      
+
       //Compteur de images par secondes
-      float dt = (SDL_GetTicks() - times)/1000.0;
-      if(dt == 0) dt = 1;
-      
+      times2 = SDL_GetTicks();
+      float dt = (times2 - times);
+      if(dt < 7){ //7ms qui correspond à ~144 images par secondes
+        SDL_Delay(7-dt); //On limite les images par secondes
+      }
       times=SDL_GetTicks();
       //Compteur de images par secondes
 
@@ -90,25 +92,25 @@ int main(int argc,char* argv[])
       if (SDL_PollEvent(&event)) {
 	HandleEvent(event, &input);
       }
-      
+
       SDL_BlitSurface(bg, NULL, screen, &posFond);
-      
+
       affichage_monde(monde, joueur1, terre, screen);
 
       traitement_input(input, &joueur1, murG, murD, gauche, droite, listeItems, ItemAffich, &joueurAnimD, &joueurAnim, &incrementAnim);
-      
+
       traitement_input_inv(&input, invIm, casque, armure, screen);
 
       affichage_items_inv(input, casque, armure, screen);
 
       terreRonde(&joueur1, &murD, &murG, &murH);
-    
+
       collision(&joueur1, monde.affichage, monde.posB, monde.posBY, &murD);
 
       afficherElementsListe(listeItems, &ItemAffich, &joueur1, screen, casque, armure, input.data.q , input.data.d, &monde);
 
       affichage_personnage(joueur1, characterD, character, &joueurAnimD, &joueurAnim, screen);
-      
+
       SDL_UpdateRect(screen, 0, 0, 0, 0);
     }
 
