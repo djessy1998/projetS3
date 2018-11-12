@@ -84,7 +84,7 @@ int main(int argc,char* argv[])
       if(dt < 7){ //7ms qui correspond à ~144 images par secondes
         SDL_Delay(7-dt); //On limite les images par secondes
       }
-      times=SDL_GetTicks();
+      times = SDL_GetTicks();
       //Compteur de images par secondes
 
       SDL_Event event;

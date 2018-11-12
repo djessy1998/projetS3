@@ -1,6 +1,7 @@
 #include <SDL.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include "fonction.h"
 
 void traitement_input(input input, character *joueur1, int murG, int murD, int gauche, int droite, Liste *listeItems, int ItemAffich, SDL_Rect *joueurAnimD, SDL_Rect *joueurAnim, int *incrim)
@@ -8,7 +9,7 @@ void traitement_input(input input, character *joueur1, int murG, int murD, int g
   if(input.data.z == 1)
     {
       collisionItems(listeItems, ItemAffich, joueur1, gauche, droite, murG, murD);
-  	  sauter(joueur1);
+      sauter(joueur1);
     }
   if(input.data.d == 1)
     {

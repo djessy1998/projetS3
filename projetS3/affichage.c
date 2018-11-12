@@ -7,9 +7,11 @@ void affichage_monde(monde monde, character joueur1, SDL_Surface *terre, SDL_Sur
   int yAffichageStart = TMONDE - joueur1.yMonde/TAILLE_BLOCS - NBBLOCS_FENETREY;
   int decalageX = -joueur1.xMonde%TAILLE_BLOCS;
   int decalageY = joueur1.yMonde%TAILLE_BLOCS;
-  for(int i=0;i<NBBLOCS_FENETREY;i++ )
+  int i = 0;
+  int j = 0;
+  for(i=0;i<NBBLOCS_FENETREY;i++ )
     {
-      for(int j=0;j<NBBLOCS_FENETREX;j++)
+      for(j=0;j<NBBLOCS_FENETREX;j++)
 	{
 	  monde.affichage[i][j] = monde.grilleInt[i+yAffichageStart][j+xAffichageStart];
 	  monde.posB[i][j] = TAILLE_BLOCS*(j+xAffichageStart);
@@ -23,6 +25,20 @@ void affichage_monde(monde monde, character joueur1, SDL_Surface *terre, SDL_Sur
 	    }
 	}
     }
+  for(j=0;j<NBBLOCS_FENETREX;j++){
+    printf("%d\n",monde.grilleInt[i+yAffichageStart][0]);
+  }
+  printf("\n");
+  printf("\n");
+  printf("\n");
+  printf("\n");
+  printf("\n");
+  printf("\n");
+  printf("\n");
+  printf("\n");
+  printf("\n");
+  printf("\n");
+  printf("\n");
 }
 
 

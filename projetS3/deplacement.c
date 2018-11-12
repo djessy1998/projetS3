@@ -1,5 +1,6 @@
 #include "fonction.h"
 #include <SDL.h>
+#include <math.h>
 
 
 void deplacerG(character *a, int murGau, int murDro)
@@ -43,11 +44,11 @@ void sauter(character *a)
     if(a->y_saut >= 20){
       a->x_saut = 1;
       a->y_saut = 0;
-      // a->autorisationSaut = 0;
+       a->autorisationSaut = 0;
     }else if(a->y_saut <= -1){
-      a->x_saut = 0;
-      a->y_saut = 0;
-      a->autorisationSaut = 0;
+       a->x_saut = 0;
+       a->y_saut = 0;
+       a->autorisationSaut = 0;
     }else{
       if(a->x_saut){
         a->y_saut -= 1;
@@ -55,8 +56,8 @@ void sauter(character *a)
         a->y_saut += 1;
       }
     }
-    a->yMondeDouble += a->y_saut;
-    a->yMonde = (int)a->yMondeDouble;
+    a->yMondeDouble += (double)a->y_saut;
+    a->yMonde = (int)round(a->yMondeDouble);
   }
 
   // a->x_saut += 1.;

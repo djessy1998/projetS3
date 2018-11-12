@@ -4,8 +4,12 @@
 
 void gravite(character *a)
 {
-  a->yMondeDouble -= 1.;
-  a->yMonde = (int)a->yMondeDouble;
+  if((int)round(a->yMondeDouble)%2 == 1){
+    a->yMondeDouble -= 1.;
+  }else{
+    a->yMondeDouble -= 2.;
+  }
+  a->yMonde = (int)round(a->yMondeDouble);
 }
 
 void collision(character *a, int** affichage, int** posB, int** posBY, int *murDr)
@@ -38,8 +42,8 @@ void collision(character *a, int** affichage, int** posB, int** posBY, int *murD
 		  touche = 1;
 		  a->autorisationSaut = 1;
 		  a->sautH = 0;
-      a->y_saut = 0;
-      a->x_saut = 0;
+		  a->y_saut = 0;
+		  a->x_saut = 0;
 		  break;
 		}
 	    }
