@@ -42,11 +42,11 @@ struct character
   SDL_Rect pos;
   int type;
   int boolItem;
-  double x_saut;
-  double y_saut;
+  double velocity_y;
   int autorisationSaut;
   int sautH;
   double xPosBloquageDouble;
+  double yPosBloquageDouble;
   int dir;
   int bloqADroite;
   int bloqAGauche;

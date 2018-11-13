@@ -4,12 +4,21 @@
 
 void gravite(character *a)
 {
-  if((int)round(a->yMondeDouble)%2 == 1){
-    a->yMondeDouble -= 1.;
+  if(a->yMonde >= TMONDE*16 - NBBLOCS_FENETREY*TAILLE_BLOCS && a->pos.y < 346){ //Valeur ou le personnage est au centre en Y
+    if((int)round(a->yPosBloquageDouble)%2 == 1){
+      a->yPosBloquageDouble += 1.;
+    }else{
+      a->yPosBloquageDouble += 2.;
+    }
+    a->pos.y = (int) a->yPosBloquageDouble;
   }else{
-    a->yMondeDouble -= 2.;
+    if((int)round(a->yMondeDouble)%2 == 1){
+      a->yMondeDouble -= 1.;
+    }else{
+      a->yMondeDouble -= 2.;
+    }
+    a->yMonde = (int)round(a->yMondeDouble);
   }
-  a->yMonde = (int)round(a->yMondeDouble);
 }
 
 void collision(character *a, int** affichage, int** posB, int** posBY, int *murDr)
@@ -42,8 +51,7 @@ void collision(character *a, int** affichage, int** posB, int** posBY, int *murD
 		  touche = 1;
 		  a->autorisationSaut = 1;
 		  a->sautH = 0;
-		  a->y_saut = 0;
-		  a->x_saut = 0;
+		  a->velocity_y = 20;
 		  break;
 		}
 	    }
@@ -86,15 +94,7 @@ void collision(character *a, int** affichage, int** posB, int** posBY, int *murD
     }
   if (touche == 0)
     {
-      if(a->yMonde >= TMONDE*16 - (37*16) - 10 && a->pos.y <= 346)
-	{
-	  a->pos.y+=1;
-	}
-      else
-	{
-	  a->pos.y = 346;
-	  gravite(a);
-	}
+      gravite(a);
     }
 }
 

@@ -22,11 +22,11 @@ void creer_joueur(character *joueur){
   joueur->pos.y = POSY_START - PLAYER_HEIGHT;
   joueur->xMonde = (TMONDE*TAILLE_BLOCS)/2+7;
   joueur->yMonde = 100;
-  joueur->x_saut = 0;
-  joueur->y_saut = 0;
+  joueur->velocity_y = 20;
   joueur->yMondeDouble = (double)joueur->yMonde;
   joueur->xMondeDouble = (double)joueur->xMonde;
   joueur->xPosBloquageDouble = (double)joueur->pos.x;
+  joueur->yPosBloquageDouble = (double)joueur->pos.y;
   joueur->dir = 1;
   joueur->bloqAGauche = 0;
   joueur->bloqADroite = 0;

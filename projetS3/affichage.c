@@ -25,20 +25,6 @@ void affichage_monde(monde monde, character joueur1, SDL_Surface *terre, SDL_Sur
 	    }
 	}
     }
-  for(j=0;j<NBBLOCS_FENETREX;j++){
-    printf("%d\n",monde.grilleInt[i+yAffichageStart][0]);
-  }
-  printf("\n");
-  printf("\n");
-  printf("\n");
-  printf("\n");
-  printf("\n");
-  printf("\n");
-  printf("\n");
-  printf("\n");
-  printf("\n");
-  printf("\n");
-  printf("\n");
 }
 
 

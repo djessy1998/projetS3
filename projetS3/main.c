@@ -1,5 +1,4 @@
 #include <SDL.h>
-#include <SDL/SDL_ttf.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include "fonction.h"
@@ -110,7 +109,6 @@ int main(int argc,char* argv[])
       afficherElementsListe(listeItems, &ItemAffich, &joueur1, screen, casque, armure, input.data.q , input.data.d, &monde);
 
       affichage_personnage(joueur1, characterD, character, &joueurAnimD, &joueurAnim, screen);
-
       SDL_UpdateRect(screen, 0, 0, 0, 0);
     }
 

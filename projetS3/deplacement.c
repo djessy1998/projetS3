@@ -38,50 +38,23 @@ void deplacerD(character *a, int murDro, int murGau)
 void sauter(character *a)
 {
   if(a->autorisationSaut){
-    // printf(" y=%f \n", a->y_saut);
-    // printf(" x=%f \n", a->x_saut);
-    // printf(" yM=%d \n", a->yMonde);
-    if(a->y_saut >= 20){
-      a->x_saut = 1;
-      a->y_saut = 0;
-       a->autorisationSaut = 0;
-    }else if(a->y_saut <= -1){
-       a->x_saut = 0;
-       a->y_saut = 0;
-       a->autorisationSaut = 0;
+    if(a->velocity_y > 20){
+      a->velocity_y = 20;
+      a->autorisationSaut = 0;
+    }else if(a->velocity_y <= -1){ //Si le joueur reste enfoncé sur la touche et que velocity_y va trop loin
+      a->velocity_y = 0;
+      a->autorisationSaut = 0;
     }else{
-      if(a->x_saut){
-        a->y_saut -= 1;
-      }else{
-        a->y_saut += 1;
-      }
+      a->velocity_y -= 1;
     }
-    a->yMondeDouble += (double)a->y_saut;
+    if(a->yMonde < TMONDE*16 - NBBLOCS_FENETREY*TAILLE_BLOCS){
+      a->yMondeDouble += (double)a->velocity_y;
+    }else{
+      a->yPosBloquageDouble -=  a->velocity_y;
+      a->pos.y = (int) a->yPosBloquageDouble;
+    }
     a->yMonde = (int)round(a->yMondeDouble);
   }
-
-  // a->x_saut += 1.;
-  // a->sautH = 1;
-  // if ((a->x_saut) >= -140.) //max saut
-  //   {
-  //     a->x_saut = -154;
-  //     a->autorisationSaut = 0;
-  //     a->y_saut = 0;
-  //     a->sautH = -1;
-  //   }
-  // else{
-  //   a->y_saut = -0.0001* (a->x_saut) * (a->x_saut) + 24;
-  //   if(a->yMonde >= TMONDE*TAILLE_BLOCS - (NBBLOCS_FENETREY*TAILLE_BLOCS) - 10)
-  //     {
-	// a->yMonde = TMONDE*TAILLE_BLOCS - (NBBLOCS_FENETREY*TAILLE_BLOCS) - 10;
-	// a->pos.y -= (int)a->y_saut;
-  //     }
-  //   else
-  //     {
-	// a->pos.y = 346;
-	// a->yMonde += (int)a->y_saut;
-  //     }
-  // }
 }
 
 
