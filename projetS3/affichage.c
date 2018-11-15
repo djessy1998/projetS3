@@ -82,3 +82,10 @@ void affichage_vie_personnage(character *a, SDL_Surface *vie, SDL_Surface *miVie
     }
   }  
 }
+
+/*void affichage_barre_inv(monde monde){
+	int i;
+	SDL_Rect posBarInv;
+	posBarInv.x =;
+	posBarInv.y =;
+}*/

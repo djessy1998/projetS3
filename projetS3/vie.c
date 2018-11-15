@@ -27,6 +27,7 @@ void calc_vie_tombe(character *a, int *yMomTomDeb, int *faitCalc, int *touche){
      degatChute = vers5;
     }
   }
+  printf("%d\n", a->PV);
   if(a->PV > 0)
   {
     a->PV -= degatChute; 
