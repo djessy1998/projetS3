@@ -118,7 +118,6 @@ void afficherElementsListe(Liste *liste, int *ItemAffich, character *a, SDL_Surf
 	      for(i=0;i<TMONDE;i++){
 		for(j=0;j<TMONDE;j++){
 		  if(actuel->xMondeItem > mondeBlocs->grilleInt[i][j]*TAILLE_BLOCS*j && actuel->xMondeItem < mondeBlocs->grilleInt[i][j]*TAILLE_BLOCS*j + TAILLE_BLOCS){
-			
 		    AffichageStartFY = (TMONDE - a->yMonde/TAILLE_BLOCS-NBBLOCS_FENETREY) * 16;
 		    actuel->posItemMonde.y = (mondeBlocs->grilleInt[i][j]*TAILLE_BLOCS*i) - AffichageStartFY - 24;
 		    actuel->trouve = 1;
@@ -130,6 +129,7 @@ void afficherElementsListe(Liste *liste, int *ItemAffich, character *a, SDL_Surf
 		}
 	      }
 	      actuel->posItemMonde.y = a->yMonde + ((mondeBlocs->grilleInt[i][j]*TAILLE_BLOCS*i) - AffichageStartFY - 24) - 137;
+	      actuel->yMondeItem = actuel->posItemMonde.y + AffichageStartFY;
 	      SDL_BlitSurface(casque, NULL, screen, &actuel->posItemMonde);
 	      *ItemAffich = 1;
 	    }
@@ -147,8 +147,7 @@ void afficherElementsListe(Liste *liste, int *ItemAffich, character *a, SDL_Surf
 		}
 	      for(i=0;i<TMONDE;i++){
 		for(j=0;j<TMONDE;j++){
-		  if(actuel->xMondeItem > mondeBlocs->grilleInt[i][j]*TAILLE_BLOCS*j && actuel->xMondeItem < mondeBlocs->grilleInt[i][j]*TAILLE_BLOCS*j + TAILLE_BLOCS){
-			
+		  if(actuel->xMondeItem > mondeBlocs->grilleInt[i][j]*TAILLE_BLOCS*j && actuel->xMondeItem < mondeBlocs->grilleInt[i][j]*TAILLE_BLOCS*j + TAILLE_BLOCS){	
 		    AffichageStartFY = (TMONDE - a->yMonde/TAILLE_BLOCS-NBBLOCS_FENETREY) * 16;
 		    actuel->posItemMonde.y = (mondeBlocs->grilleInt[i][j]*TAILLE_BLOCS*i) - AffichageStartFY - 24;
 		    actuel->trouve = 1;
@@ -160,6 +159,7 @@ void afficherElementsListe(Liste *liste, int *ItemAffich, character *a, SDL_Surf
 		}
 	      }
 	      actuel->posItemMonde.y = a->yMonde + ((mondeBlocs->grilleInt[i][j]*TAILLE_BLOCS*i) - AffichageStartFY - 24) - 137;
+	      actuel->yMondeItem = actuel->posItemMonde.y + AffichageStartFY;
 	      SDL_BlitSurface(armure, NULL, screen, &actuel->posItemMonde);
 	      *ItemAffich = 1;
 	    }
@@ -270,4 +270,36 @@ void collisionItems(Liste *liste, int ItemAffich, character *a, int gauche, int 
 	}
       actuel = actuel->suivant;
     }
+}
+
+
+void collisionIt(Liste *liste, int **posBY, int **posBX, monde monde, int ItemAffich)
+{
+  items *actuel = liste->premier;
+  int i,j;
+  if(ItemAffich == 1)
+  {
+     while(actuel != NULL)
+  {
+    for(i=0;i<TMONDE;i++){
+     for(j=0;j<TMONDE;j++){
+//       printf("yMondeItem = %d\n", actuel->yMondeItem);
+//       printf("xMondeItem + 28 = %d\n", actuel->xMondeItem + 28);
+//       printf("xMondeItem = %d\n", actuel->xMondeItem);
+//       printf("posBY = %d\n", posBY[i][j]);
+//       printf("posBX = %d\n", posBX[i][j]);
+//       printf("\n\n");
+      if(monde.grilleInt[i][j] == TERRE){
+	 if(actuel->yMondeItem == posBY[i][j] && (actuel->xMondeItem > posBX[i][j] && actuel->xMondeItem + 28 < posBX[i][j])){
+	  actuel->touche = 1;
+	}  
+      }
+     }
+    }
+    if(actuel->touche == 0){
+     actuel->yMondeItem -= 1;
+    }
+    actuel = actuel->suivant;
+  } 
+  }
 }

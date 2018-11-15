@@ -4,26 +4,16 @@
 
 void gravite(character *a)
 {
-  if(a->yMonde >= TMONDE*16 - NBBLOCS_FENETREY*TAILLE_BLOCS && a->pos.y < 346){ //Valeur ou le personnage est au centre en Y
-    if((int)round(a->yPosBloquageDouble)%2 == 1){
-      a->yPosBloquageDouble += 1.;
-    }else{
-      a->yPosBloquageDouble += 2.;
-    }
-    a->pos.y = (int) a->yPosBloquageDouble;
+  if((int)round(a->yMondeDouble)%2 == 1){
+    a->yMondeDouble -= 1.;
   }else{
-    if((int)round(a->yMondeDouble)%2 == 1){
-      a->yMondeDouble -= 1.;
-    }else{
-      a->yMondeDouble -= 2.;
-    }
-    a->yMonde = (int)round(a->yMondeDouble);
+    a->yMondeDouble -= 2.;
   }
+  a->yMonde = (int)round(a->yMondeDouble);
 }
 
-void collision(character *a, int** affichage, int** posB, int** posBY, int *murDr)
+void collision(character *a, int** affichage, int** posB, int** posBY, int *murDr, int *yMomTom, int *fait, int *faitCalc, int *yMomTomDeb, int *touche)
 {
-  int touche = 0;
   a->bloqADroite = 0;
   a->bloqAGauche = 0;
   int i,j;
@@ -31,7 +21,7 @@ void collision(character *a, int** affichage, int** posB, int** posBY, int *murD
   int JMilieuX = a->xMonde + a->pos.x + PLAYER_WIDTH/2;
   int JpiedDX = a->xMonde + a->pos.x + PLAYER_WIDTH;
   int JpiedGY = a->yMonde;
-
+  *touche = 0;
   for(i = 0; i < NBBLOCS_FENETREY; i++)
     {
       for(j = 0; j< NBBLOCS_FENETREX; j++)
@@ -48,10 +38,11 @@ void collision(character *a, int** affichage, int** posB, int** posBY, int *murD
 		}
 	      if(((JpiedGX > posB[i][j] && JpiedGX < posB[i][j] + TAILLE_BLOCS) || (JpiedDX > posB[i][j] && JpiedDX <= posB[i][j] + TAILLE_BLOCS) || (JMilieuX > posB[i][j] && JMilieuX < posB[i][j] + TAILLE_BLOCS)) && JpiedGY == posBY[i][j])
 		{
-		  touche = 1;
+		  *touche = 1;
 		  a->autorisationSaut = 1;
 		  a->sautH = 0;
-		  a->velocity_y = 20;
+		  a->y_saut = 0;
+		  a->x_saut = 0;
 		  break;
 		}
 	    }
@@ -92,9 +83,26 @@ void collision(character *a, int** affichage, int** posB, int** posBY, int *murD
     {
       a->bloqAGauche = 1;
     }
-  if (touche == 0)
+  if (*touche == 0)
     {
-      gravite(a);
+      if(*fait == 0){
+	*yMomTomDeb = a->yMonde;
+	*fait = 1;
+      }
+      if(a->yMonde >= TMONDE*16 - (37*16) - 10 && a->pos.y <= 346)
+	{
+	  a->pos.y+=1;
+	}
+      else
+	{
+	  a->pos.y = 346;
+	  gravite(a);
+	}
+    }
+    else if (*touche == 1 && *faitCalc == 1 && *fait == 1)
+    {
+     *fait = 0; 
+     *faitCalc = 0;
     }
 }
 

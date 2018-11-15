@@ -68,7 +68,7 @@ void traitement_input(input input, character *joueur1, int murG, int murD, int g
 }
 
 
-void traitement_input_inv(input *input, SDL_Surface *invIm, SDL_Surface *casque, SDL_Surface *armure, SDL_Surface *screen){
+void traitement_input_inv(input *input, SDL_Surface *invIm, SDL_Surface *casque, SDL_Surface *armure, SDL_Surface *screen, character *joueur1, Liste *liste, int ItemAffich){
   SDL_Rect posInv;
   SDL_Rect posItemsInv;
   if(input->data.e == 1)
@@ -112,7 +112,46 @@ void traitement_input_inv(input *input, SDL_Surface *invIm, SDL_Surface *casque,
 	}
     }
   if(input->data.f == 1)
-    {
-      //RAMASSAGE ITEM
-    }
+  {
+      items *actuel = liste->premier;
+      SDL_Rect HautGauche;
+      HautGauche.x = joueur1->pos.x - RAYONRAM;
+      HautGauche.y = joueur1->pos.y - RAYONRAM;
+      SDL_Rect BasDroit;
+      BasDroit.x = joueur1->pos.x + PLAYER_WIDTH + RAYONRAM;
+      BasDroit.y = joueur1->pos.y + PLAYER_HEIGHT + RAYONRAM;
+      int i= 0;
+      int j = 0;
+      while(actuel != NULL){
+	actuel->trouveInv = 0;
+	if(ItemAffich == 1 && actuel->trouveInv == 0)
+	{
+	  if(actuel->posItemMonde.x > HautGauche.x && actuel->posItemMonde.y > HautGauche.y){
+	    if(actuel->posItemMonde.x < BasDroit.x && actuel->posItemMonde.y < BasDroit.y){
+	      if(actuel->trouveInv == 0){
+		for(i=0;i<4;i++){
+		for(j=0;j<10;j++){
+		  if(input->data.inv[i][j].type == -1 && actuel->trouveInv == 0){
+		    printf("trouveInv = %d\n", actuel->trouveInv);
+		    printf("type actuel = %d\n", actuel->type);
+		    printf("i = %d\n", i);
+		    printf("j = %d\n", j);
+		    input->data.inv[i][j].type = actuel->type;
+		    actuel->trouveInv = 1;
+		    break;
+		  }
+		  if(actuel->trouveInv == 1){
+		   break; 
+		  }
+		}
+	      }
+	      }
+	      actuel->type = -1;
+	      //Il faut supprimer un élément de la liste et non mettre type -1 solution provisoire
+	    }
+	  }
+	}
+	actuel = actuel->suivant;
+      }
+  }
 }

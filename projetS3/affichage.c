@@ -49,6 +49,36 @@ void affichage_personnage(character joueur1, SDL_Surface *characterD, SDL_Surfac
     }
   else if(joueur1.dir == 1)
     {
-      SDL_BlitSurface(character, joueurAnim, screen, &joueur1.pos);
+      SDL_BlitSurface(character, joueurAnim, screen, &joueur1.pos); 
     }
+}
+
+void affichage_vie_personnage(character *a, SDL_Surface *vie, SDL_Surface *miVie, SDL_Surface *noVie, SDL_Surface *screen){
+  int i;
+  SDL_Rect posVie;
+  if(a->PV%10 == 0){
+   for(i = 0; i < a->PV/10; i++){
+    posVie.x = i*30 + 1;
+    posVie.y = 2;
+    SDL_BlitSurface(vie, NULL, screen, &posVie);
+   }
+    for(i = a->PV/10; i < 10;i++){
+      posVie.x = i*30 + 1;
+      posVie.y = 2;
+      SDL_BlitSurface(noVie, NULL, screen, &posVie);  
+    }
+  }
+  if(a->PV%5 == 0 && a->PV%10 != 0){
+    for(i = 0;i<= (a->PV - 5)/10;i++){
+      posVie.x = i*30 + 1;
+      posVie.y = 2;
+      SDL_BlitSurface(vie, NULL, screen, &posVie);      
+    }
+    SDL_BlitSurface(miVie, NULL, screen, &posVie);
+    for(i = (a->PV + 5)/10; i < 10;i++){
+      posVie.x = i*30 + 1;
+      posVie.y = 2;
+      SDL_BlitSurface(noVie, NULL, screen, &posVie);  
+    }
+  }  
 }

@@ -1,4 +1,5 @@
 #include <SDL.h>
+#include <SDL/SDL_ttf.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include "fonction.h"
@@ -23,7 +24,8 @@ int main(int argc,char* argv[])
 
   Liste *listeItems = initialisation();
   insertion(listeItems, 1, 500, 128);
-  insertion(listeItems, 2, 450, 128);
+  insertion(listeItems, 2, 450, 10);
+  insertion(listeItems, 2, 550, 10);
 
   SDL_Surface *screen;
   /* initialize SDL */
@@ -39,6 +41,9 @@ int main(int argc,char* argv[])
   SDL_EnableKeyRepeat(10, 10);
 
   /*Création de textures*/
+  SDL_Surface* vieEnt = creer_texture("Sprites/heart.bmp");
+  SDL_Surface* miVie = creer_texture("Sprites/Miheart.bmp");
+  SDL_Surface* noVie = creer_texture("Sprites/Noheart.bmp");
   SDL_Surface* bg = creer_texture("Sprites/fond-nuage.bmp");
   SDL_Surface* casque = creer_texture("Sprites/casque.bmp");
   SDL_Surface* armure = creer_texture("Sprites/armure.bmp");
@@ -68,8 +73,14 @@ int main(int argc,char* argv[])
   int murG,murD, murH = 0;
   int incrementAnim = 0;
   int ItemAffich = 0, droite = 0, gauche = 0;
+  int yMomTomb = 0, fait = 0, faitCalc = 0, yMomTombDeb = 0;
+  int touche = 0;
   Uint32 colorkey = SDL_MapRGB(character->format,0,0,0);
+  Uint32 colorkeyVie = SDL_MapRGB(vieEnt->format,0,0,255);
   SDL_SetColorKey(character,SDL_SRCCOLORKEY,colorkey);
+  SDL_SetColorKey(vieEnt,SDL_SRCCOLORKEY,colorkeyVie);
+  SDL_SetColorKey(miVie,SDL_SRCCOLORKEY,colorkeyVie);
+  SDL_SetColorKey(noVie,SDL_SRCCOLORKEY,colorkeyVie);
   SDL_SetColorKey(characterD,SDL_SRCCOLORKEY,colorkey);
 
   int times = 0;
@@ -98,17 +109,24 @@ int main(int argc,char* argv[])
 
       traitement_input(input, &joueur1, murG, murD, gauche, droite, listeItems, ItemAffich, &joueurAnimD, &joueurAnim, &incrementAnim);
 
-      traitement_input_inv(&input, invIm, casque, armure, screen);
+      traitement_input_inv(&input, invIm, casque, armure, screen, &joueur1, listeItems, ItemAffich);
 
       affichage_items_inv(input, casque, armure, screen);
 
       terreRonde(&joueur1, &murD, &murG, &murH);
 
-      collision(&joueur1, monde.affichage, monde.posB, monde.posBY, &murD);
+      collision(&joueur1, monde.affichage, monde.posB, monde.posBY, &murD, &yMomTomb, &fait, &faitCalc, &yMomTombDeb, &touche);
+      
+      calc_vie_tombe(&joueur1, &yMomTombDeb, &faitCalc, &touche);
 
       afficherElementsListe(listeItems, &ItemAffich, &joueur1, screen, casque, armure, input.data.q , input.data.d, &monde);
+      
+      collisionIt(listeItems,monde.posBY,monde.posB, monde, ItemAffich);
 
       affichage_personnage(joueur1, characterD, character, &joueurAnimD, &joueurAnim, screen);
+      
+      affichage_vie_personnage(&joueur1, vieEnt, miVie, noVie, screen);
+
       SDL_UpdateRect(screen, 0, 0, 0, 0);
     }
 
