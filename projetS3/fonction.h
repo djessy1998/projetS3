@@ -5,9 +5,11 @@
 #define SCREEN_HEIGHT  560
 #define PLAYER_WIDTH   20
 #define PLAYER_HEIGHT  54
-#define FORCE_GRA      0.2
+
+#define VELOCITE_MAX   20
 #define VITESSE        1.
 #define VITESSEJ       0.2
+
 #define TMONDE         100
 #define NBBLOCS_FENETREX 47
 #define NBBLOCS_FENETREY 37
@@ -118,21 +120,24 @@ struct input
 
 //input.c
 void fonction_Handle_Event(SDL_Event event, input *input);
+void quit(input *input);
+void Mouse_Down(SDL_Event event, input *input);
+void Mouse_Up(SDL_Event event, input *input);
+void Mouse_Motion(SDL_Event event, input *input);
 
-
+//deplacement.c
 void deplacerG(character *a, int murGau, int murDro);
 void deplacerD(character *a, int murDro, int murGau);
-void affichage_vie_personnage(character *a, SDL_Surface *vie, SDL_Surface *miVie, SDL_Surface *noVie, SDL_Surface *screen);
-void calc_vie_tombe(character *a, int *yMomTomDeb, int *faitCalc, int *touche);
-void gravite(character *a);
-void collisionIt(Liste *liste, int **posBY, int **posBX, monde monde, int ItemAffich);
-void collision(character *a, int** affichage, int** posB, int** posBY, int *murDr, int *yMomTom, int *fait, int *faitCalc, int *yMomTomDeb, int *touche);
 void sauter(character *a);
 void baisser(character *a);
-void terreRonde(character *a, int *murDro, int *murGau, int *murHau);
-void afficherListe(Liste *liste);
-void suppression(Liste *liste);
-void insertion(Liste *liste, int nvType, int nvXMonde, int nvYMonde);
+
+//collision.c
+void gravite(character *a);
+void collision(character *a, int** affichage, int** posB, int** posBY, int *murDr, int *yMomTom, int *fait, int *faitCalc, int *yMomTomDeb, int *touche);
+void terreRonde(character *a, int *murDro, int *murGau);
+
+//vie.c
+void calc_vie_tombe(character *a, int *yMomTomDeb, int *faitCalc, int *touche);
 
 //listes.c
 Liste *initialisation();
@@ -140,6 +145,10 @@ void cliquerItemInv(items inv[4][10]);
 void TrierInv(int rienI, items inv[4][10], int type);
 void afficherElementsListe(Liste *liste, int *ItemAffich, character *a, SDL_Surface *screen, SDL_Surface *casque, SDL_Surface *armure, int q, int d, monde *mondeBlocs);
 void collisionItems(Liste *liste, int ItemAffich, character *a, int gauche, int droite,int murG, int murD);
+void collisionIt(Liste *liste, int **posBY, int **posBX, monde monde, int ItemAffich);
+void afficherListe(Liste *liste);
+void suppression(Liste *liste);
+void insertion(Liste *liste, int nvType, int nvXMonde, int nvYMonde);
 
 //traitement_input.c
 void traitement_input(input input, character *joueur1, int murG, int murD, int gauche, int droite, Liste *listeItems, int ItemAffich, SDL_Rect *joueurAnimD, SDL_Rect *joueurAnim, int *incrim);
@@ -149,3 +158,4 @@ void traitement_input_inv(input *input, SDL_Surface *invIm, SDL_Surface *casque,
 void affichage_monde(monde monde, character joueur1, SDL_Surface *terre, SDL_Surface *sceen);
 void affichage_items_inv(input input, SDL_Surface *casque, SDL_Surface *armure, SDL_Surface *screen);
 void affichage_personnage(character joueur1, SDL_Surface *characterD, SDL_Surface *character, SDL_Rect *joueurAnimD, SDL_Rect *joueurAnim, SDL_Surface *screen);
+void affichage_vie_personnage(character *a, SDL_Surface *vie, SDL_Surface *miVie, SDL_Surface *noVie, SDL_Surface *screen);

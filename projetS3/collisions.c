@@ -1,4 +1,5 @@
 #include "fonction.h"
+#include "creator.h"
 #include <SDL.h>
 #include <math.h>
 
@@ -29,8 +30,9 @@ void collision(character *a, int** affichage, int** posB, int** posBY, int *murD
   int JpiedGX = a->xMonde + a->pos.x;
   int JMilieuX = a->xMonde + a->pos.x + PLAYER_WIDTH/2;
   int JpiedDX = a->xMonde + a->pos.x + PLAYER_WIDTH;
-  int JpiedGY = a->yMonde;
+  int JpiedGY = a->yMonde+ (NBBLOCS_FENETREY*TAILLE_BLOCS - a->pos.y) - PLAYER_HEIGHT;
   *touche = 0;
+
   for(i = 0; i < NBBLOCS_FENETREY; i++)
     {
       for(j = 0; j< NBBLOCS_FENETREX; j++)
@@ -45,7 +47,10 @@ void collision(character *a, int** affichage, int** posB, int** posBY, int *murD
 		{
 		  a->bloqAGauche = 1;
 		}
-	      if(((JpiedGX > posB[i][j] && JpiedGX < posB[i][j] + TAILLE_BLOCS) || (JpiedDX > posB[i][j] && JpiedDX <= posB[i][j] + TAILLE_BLOCS) || (JMilieuX > posB[i][j] && JMilieuX < posB[i][j] + TAILLE_BLOCS)) && JpiedGY == posBY[i][j])
+	      if(((JpiedGX > posB[i][j] && JpiedGX < posB[i][j] + TAILLE_BLOCS) ||
+        (JpiedDX > posB[i][j] && JpiedDX <= posB[i][j] + TAILLE_BLOCS) ||
+        (JMilieuX > posB[i][j] && JMilieuX < posB[i][j] + TAILLE_BLOCS)) &&
+        JpiedGY == TAILLE_BLOCS * (a->yMonde / TAILLE_BLOCS + NBBLOCS_FENETREY - i))
 		{
 		  *touche = 1;
 		  a->autorisationSaut = 1;
@@ -82,6 +87,12 @@ void collision(character *a, int** affichage, int** posB, int** posBY, int *murD
       affichage[PosTeteY][PosPiedDX] == VIDE)){
     a->bloqADroite=0;
   }
+  
+  //Si bloc au dessus du joueur.
+  if(affichage[a->pos.y/16][a->pos.x/16+1] == TERRE ||
+    affichage[a->pos.y/16][a->pos.x/16+2] == TERRE){
+    a->autorisationSaut = 0;
+  }
 
   if(a->pos.x >= (45*TAILLE_BLOCS) - PLAYER_WIDTH)
     {
@@ -99,19 +110,15 @@ void collision(character *a, int** affichage, int** posB, int** posBY, int *murD
 	      }
     	gravite(a);
     }
-    else if (*touche == 1 && *faitCalc == 1 && *fait == 1)
+    else if (*faitCalc == 1 && *fait == 1)
     {
-     *fait = 0; 
+     *fait = 0;
      *faitCalc = 0;
     }
 }
 
-void terreRonde(character *a, int *murDro, int *murGau, int *murHau)
+void terreRonde(character *a, int *murDro, int *murGau)
 {
-  if(a->yMonde >= TMONDE*16 - (37*16))
-    {
-      *murHau = 1;
-    }
   if(a->xMonde <= 1 && a->pos.x <= (45*TAILLE_BLOCS)/2)
     {
       *murGau = 1;
@@ -125,6 +132,5 @@ void terreRonde(character *a, int *murDro, int *murGau, int *murHau)
       a->pos.x = 360;
       *murGau = 0;
       *murDro = 0;
-      *murHau = 0;
     }
 }

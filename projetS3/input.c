@@ -4,12 +4,6 @@
 #include <SDL.h>
 
 
-void quit(input *input);
-void Mouse_Down(SDL_Event event, input *input);
-void Mouse_Up(SDL_Event event, input *input);
-void Mouse_Motion(SDL_Event event, input *input);
-
-
 void fonction_Handle_Event(SDL_Event event, input *input){
   switch (event.type) {
     /* close button clicked */

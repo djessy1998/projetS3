@@ -69,11 +69,11 @@ int main(int argc,char* argv[])
   posFond.y = 0;
 
 
-  int murG,murD, murH = 0;
+  int murG, murD = 0;
   int incrementAnim = 0;
+  int touche = 0;
   int ItemAffich = 0, droite = 0, gauche = 0;
   int yMomTomb = 0, fait = 0, faitCalc = 0, yMomTombDeb = 0;
-  int touche = 0;
   Uint32 colorkey = SDL_MapRGB(character->format,0,0,0);
   Uint32 colorkeyVie = SDL_MapRGB(vieEnt->format,0,0,255);
   SDL_SetColorKey(character,SDL_SRCCOLORKEY,colorkey);
@@ -82,19 +82,20 @@ int main(int argc,char* argv[])
   SDL_SetColorKey(noVie,SDL_SRCCOLORKEY,colorkeyVie);
   SDL_SetColorKey(characterD,SDL_SRCCOLORKEY,colorkey);
 
-  int times = 0;
-  int times2 = 0;
+  int actualTime = 0;
+  int lastTimes = 0;
+
   while(!input.data.quit)
     {
 
-      //Compteur de images par secondes
-      times2 = SDL_GetTicks();
-      float dt = (times2 - times);
-      if(dt < 7){ //7ms qui correspond à ~144 images par secondes
-        SDL_Delay(7-dt); //On limite les images par secondes
+      //Compteur d'images par secondes
+      actualTime = SDL_GetTicks();
+      float dt = (actualTime - lastTimes);
+      if(dt < 1000.0 / 144.0 ){
+        SDL_Delay((1000.0 / 144.0) - dt); //On limite les images par secondes en faisant des pauses entre chaque image
       }
-      times = SDL_GetTicks();
-      //Compteur de images par secondes
+      lastTimes = SDL_GetTicks();
+      //Compteur d'images par secondes
 
       SDL_Event event;
 
@@ -112,18 +113,18 @@ int main(int argc,char* argv[])
 
       affichage_items_inv(input, casque, armure, screen);
 
-      terreRonde(&joueur1, &murD, &murG, &murH);
+      terreRonde(&joueur1, &murD, &murG);
 
       collision(&joueur1, monde.affichage, monde.posB, monde.posBY, &murD, &yMomTomb, &fait, &faitCalc, &yMomTombDeb, &touche);
-      
+
       calc_vie_tombe(&joueur1, &yMomTombDeb, &faitCalc, &touche);
 
       afficherElementsListe(listeItems, &ItemAffich, &joueur1, screen, casque, armure, input.data.q , input.data.d, &monde);
-      
+
       collisionIt(listeItems,monde.posBY,monde.posB, monde, ItemAffich);
 
       affichage_personnage(joueur1, characterD, character, &joueurAnimD, &joueurAnim, screen);
-      
+
       affichage_vie_personnage(&joueur1, vieEnt, miVie, noVie, screen);
 
       SDL_UpdateRect(screen, 0, 0, 0, 0);
@@ -136,6 +137,9 @@ int main(int argc,char* argv[])
   SDL_FreeSurface(character);
   SDL_FreeSurface(characterD);
   SDL_FreeSurface(invIm);
+  SDL_FreeSurface(vieEnt);
+  SDL_FreeSurface(miVie);
+  SDL_FreeSurface(noVie);
 
   SDL_Quit();
 

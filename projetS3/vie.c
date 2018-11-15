@@ -17,20 +17,20 @@ void calc_vie_tombe(character *a, int *yMomTomDeb, int *faitCalc, int *touche){
     vers5 = valeur;
     while((vers10%10 != 0 || vers10%5 != 0) && (vers5%10 != 0 || vers5%5 != 0)){
       vers10 += 1;
-      vers5 -= 1; 
+      vers5 -= 1;
     }
     if(vers10%10 == 0 || vers10%5 == 0){
-     degatChute = vers10; 
+     degatChute = vers10;
     }
     else
     {
      degatChute = vers5;
     }
   }
-  printf("%d\n", a->PV);
+  // printf("%d\n", a->PV);
   if(a->PV > 0)
   {
-    a->PV -= degatChute; 
+    a->PV -= degatChute;
   }
   *faitCalc = 1;
 }

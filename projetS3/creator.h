@@ -1,5 +1,10 @@
 #include <SDL.h>
 
+#define PV_START 100
+#define PM_START 0
+#define POSX_START 352
+#define POSY_START 400
+
 void creer_joueur(character *joueur);
 void creer_monde(monde *monde);
 void creer_input(input *input);

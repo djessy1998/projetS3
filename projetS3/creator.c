@@ -2,13 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "fonction.h"
-
-#define PV_START 100
-#define PM_START 0
-#define POSX_START 352
-#define POSY_START 400
-
-
+#include "creator.h"
 
 void creer_joueur(character *joueur){
   joueur->nom = (char*) malloc(4 *sizeof(char));
@@ -22,7 +16,7 @@ void creer_joueur(character *joueur){
   joueur->pos.y = POSY_START - PLAYER_HEIGHT;
   joueur->xMonde = (TMONDE*TAILLE_BLOCS)/2+7;
   joueur->yMonde = 100;
-  joueur->velocity_y = 20;
+  joueur->velocity_y = VELOCITE_MAX;
   joueur->yMondeDouble = (double)joueur->yMonde;
   joueur->xMondeDouble = (double)joueur->xMonde;
   joueur->xPosBloquageDouble = (double)joueur->pos.x;
