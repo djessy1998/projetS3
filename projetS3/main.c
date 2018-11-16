@@ -1,10 +1,12 @@
 #include <SDL.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "perlin.h"
 #include "fonction.h"
 #include "fonctions_fichiers.h"
 #include "creator.h"
 #include <time.h>
+
 
 
 void HandleEvent(SDL_Event event, input *i){
@@ -13,6 +15,7 @@ void HandleEvent(SDL_Event event, input *i){
 
 int main(int argc,char* argv[])
 {
+  srand(time(NULL));
   input input;
   monde monde;
   character joueur1;
@@ -84,7 +87,36 @@ int main(int argc,char* argv[])
 
   int actualTime = 0;
   int lastTimes = 0;
+  
+  
+  //Si on ajoute un argument on "affiche" l'aléatoire du terrain avec Perlin 
+   if(argc > 0 && argv[1] != NULL){
+     if(atoi(argv[1]) !=0){
+      calque *random;
+      random = init_calque(TMONDE, 1.);
+      int i, j, a;
+      int freq = (int)atoi(argv[1]);
 
+      //calque de base aléatoire.
+      for(i=0; i<TMONDE; i++){
+	random->v[i] = aleatoire(TMONDE);
+      }
+      calque *fin = init_calque(TMONDE, 1.);
+      
+      for(j=0; j<TMONDE; j++){
+	  a = valeur_interpolee(j, freq, random);
+	  fin->v[j] = a/fin->persistance;
+	}
+	
+      for(i=0 ; i<TMONDE; i++){
+	monde.grilleInt[fin->v[i]][i] = !monde.grilleInt[fin->v[i]][i];
+      }
+      free_calque(random);
+      free_calque(fin);
+     }
+   }
+ 
+  
   while(!input.data.quit)
     {
 
