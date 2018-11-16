@@ -1,4 +1,5 @@
 #include <SDL.h>
+#include <SDL/SDL_ttf.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include "perlin.h"
@@ -33,6 +34,9 @@ int main(int argc,char* argv[])
   /* initialize SDL */
   SDL_Init(SDL_INIT_VIDEO);
 
+  /*Initialise SDL_ttf*/
+  TTF_Init();
+
   /* set the title bar */
   SDL_WM_SetCaption("StarBund", "StarBund");
 
@@ -53,6 +57,7 @@ int main(int argc,char* argv[])
   SDL_Surface* characterD = creer_texture("Sprites/characterD.bmp");
   SDL_Surface* terre = creer_texture("Sprites/terre.bmp");
   SDL_Surface* invIm = creer_texture("Sprites/Inv.bmp");
+  SDL_Surface* ActuelInv = creer_texture("Sprites/Actuel.bmp");
 
   SDL_Rect joueurAnim;
   joueurAnim.x = 7;
@@ -79,8 +84,13 @@ int main(int argc,char* argv[])
   int yMomTomb = 0, fait = 0, faitCalc = 0, yMomTombDeb = 0;
   Uint32 colorkey = SDL_MapRGB(character->format,0,0,0);
   Uint32 colorkeyVie = SDL_MapRGB(vieEnt->format,0,0,255);
+
   SDL_SetColorKey(character,SDL_SRCCOLORKEY,colorkey);
+  SDL_SetColorKey(casque,SDL_SRCCOLORKEY,colorkey);
+  SDL_SetColorKey(armure,SDL_SRCCOLORKEY,colorkey);
   SDL_SetColorKey(vieEnt,SDL_SRCCOLORKEY,colorkeyVie);
+  SDL_SetColorKey(invIm,SDL_SRCCOLORKEY,colorkeyVie);
+  SDL_SetColorKey(ActuelInv,SDL_SRCCOLORKEY,colorkeyVie);
   SDL_SetColorKey(miVie,SDL_SRCCOLORKEY,colorkeyVie);
   SDL_SetColorKey(noVie,SDL_SRCCOLORKEY,colorkeyVie);
   SDL_SetColorKey(characterD,SDL_SRCCOLORKEY,colorkey);
@@ -141,6 +151,8 @@ int main(int argc,char* argv[])
 
       traitement_input(input, &joueur1, murG, murD, gauche, droite, listeItems, ItemAffich, &joueurAnimD, &joueurAnim, &incrementAnim);
 
+      affichage_barre_inv(invIm, screen, &input, casque, armure, ActuelInv);
+
       traitement_input_inv(&input, invIm, casque, armure, screen, &joueur1, listeItems, ItemAffich);
 
       affichage_items_inv(input, casque, armure, screen);
@@ -172,6 +184,8 @@ int main(int argc,char* argv[])
   SDL_FreeSurface(vieEnt);
   SDL_FreeSurface(miVie);
   SDL_FreeSurface(noVie);
+
+  TTF_Quit();
 
   SDL_Quit();
 

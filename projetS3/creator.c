@@ -55,7 +55,6 @@ void creer_input(input *input){
 
   input->data.inv[0][0].type = 1;
   input->data.inv[0][1].type = 2;
-
   input->data.quit = 0;
   input->data.z = 0;
   input->data.q = 0;
@@ -63,6 +62,7 @@ void creer_input(input *input){
   input->data.d = 0;
   input->data.e = 0;
   input->data.f = 0;
+  input->data.Un = 1;
   input->data.butDown = 0;
   input->data.numItemInvX = -1;
   input->data.numItemInvY = -1;
@@ -71,6 +71,17 @@ void creer_input(input *input){
   input->data.getB= 0;
   input->data.rien = 0;
   input->data.typeMemoire = 0;
+  for(i=0;i<4;i++){
+    for(j=0;j<10;j++){
+      input->data.inv[i][j].nomItem = "Rien";
+      if(input->data.inv[i][j].type == 1){
+        input->data.inv[i][j].nomItem = "Casque";
+      }
+      if(input->data.inv[i][j].type == 2){
+        input->data.inv[i][j].nomItem = "Armure";
+      }
+    }
+  }
 }
 
 

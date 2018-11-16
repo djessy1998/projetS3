@@ -1,4 +1,5 @@
 #include <SDL.h>
+#include <SDL/SDL_ttf.h>
 #include "fonctions_fichiers.h"
 
 #define SCREEN_WIDTH   720
@@ -60,6 +61,7 @@ struct character
 typedef struct items items;
 struct items
 {
+  char *nomItem;
   int xMondeItem;
   int yMondeItem;
   int type;
@@ -94,6 +96,16 @@ struct InputData
   int d;
   int e;
   int f;
+  int Un;
+  int Deux;
+  int Trois;
+  int Quatre;
+  int Cinq;
+  int Six;
+  int Sept;
+  int Huit;
+  int Neuf;
+  int Dix;
   int butDown;
   int numItemInvX;
   int numItemInvY;
@@ -159,3 +171,4 @@ void affichage_monde(monde monde, character joueur1, SDL_Surface *terre, SDL_Sur
 void affichage_items_inv(input input, SDL_Surface *casque, SDL_Surface *armure, SDL_Surface *screen);
 void affichage_personnage(character joueur1, SDL_Surface *characterD, SDL_Surface *character, SDL_Rect *joueurAnimD, SDL_Rect *joueurAnim, SDL_Surface *screen);
 void affichage_vie_personnage(character *a, SDL_Surface *vie, SDL_Surface *miVie, SDL_Surface *noVie, SDL_Surface *screen);
+void affichage_barre_inv(SDL_Surface *invIm, SDL_Surface *screen, input *input, SDL_Surface *casque, SDL_Surface *armure, SDL_Surface *Actuel);

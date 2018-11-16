@@ -1,4 +1,5 @@
 #include <SDL.h>
+#include <SDL/SDL_ttf.h>
 #include "fonction.h"
 
 
@@ -83,9 +84,104 @@ void affichage_vie_personnage(character *a, SDL_Surface *vie, SDL_Surface *miVie
   }  
 }
 
-/*void affichage_barre_inv(monde monde){
+void affichage_barre_inv(SDL_Surface *invIm, SDL_Surface *screen, input *input, SDL_Surface *casque, SDL_Surface *armure, SDL_Surface *Actuel){
 	int i;
 	SDL_Rect posBarInv;
-	posBarInv.x =;
-	posBarInv.y =;
-}*/
+	SDL_Rect posBarItInv;
+	SDL_Rect ActInv;
+	SDL_Rect posTexte;
+	SDL_Surface *nomItem;
+  	TTF_Font *police = NULL;
+  	police = TTF_OpenFont("Polices/angelina.ttf", 35);
+  	SDL_Color couleurNoire = {0, 0, 0};
+	for(i=0;i<10;i++){
+	posBarInv.x = 2 + (31*i);
+	posBarInv.y = 33;
+	SDL_BlitSurface(invIm, NULL, screen, &posBarInv);
+	posBarItInv.x = 2 + (31 * i) + 2;
+	posBarItInv.y = 37;
+		  if(input->data.inv[0][i].type == 1)
+		    {
+		      SDL_BlitSurface(casque, NULL, screen, &posBarItInv);
+		    }
+		  else if(input->data.inv[0][i].type == 2)
+		    {
+		      SDL_BlitSurface(armure, NULL, screen, &posBarItInv);
+		    }
+	}
+	if(input->data.e == 0){
+		if(input->data.Un == 1){
+			ActInv.x = 2;
+			ActInv.y = 33;
+			posTexte.x = 2;
+			posTexte.y = 64;
+			nomItem = TTF_RenderText_Solid (police,input->data.inv[0][0].nomItem, couleurNoire);
+		}
+		else if(input->data.Deux == 1){
+			ActInv.x = 33;
+			ActInv.y = 33;
+			posTexte.x = 33;
+			posTexte.y = 64;
+			nomItem = TTF_RenderText_Solid (police,input->data.inv[0][1].nomItem, couleurNoire);
+		}
+		else if(input->data.Trois == 1){
+			ActInv.x = 64;
+			ActInv.y = 33;
+			posTexte.x = 64;
+			posTexte.y = 64;
+			nomItem = TTF_RenderText_Solid (police,input->data.inv[0][2].nomItem, couleurNoire);
+		}
+		else if(input->data.Quatre == 1){
+			ActInv.x = 95;
+			ActInv.y = 33;
+			posTexte.x = 95;
+			posTexte.y = 64;
+			nomItem = TTF_RenderText_Solid (police,input->data.inv[0][3].nomItem, couleurNoire);
+		}
+		else if(input->data.Cinq == 1){
+			ActInv.x = 126;
+			ActInv.y = 33;
+			posTexte.x = 126;
+			posTexte.y = 64;
+			nomItem = TTF_RenderText_Solid (police,input->data.inv[0][4].nomItem, couleurNoire);
+		}
+		else if(input->data.Six == 1){
+			ActInv.x = 157;
+			ActInv.y = 33;
+			posTexte.x = 157;
+			posTexte.y = 64;
+			nomItem = TTF_RenderText_Solid (police,input->data.inv[0][5].nomItem, couleurNoire);
+		}
+		else if(input->data.Sept == 1){
+			ActInv.x = 188;
+			ActInv.y = 33;
+			posTexte.x = 188;
+			posTexte.y = 64;
+			nomItem = TTF_RenderText_Solid (police,input->data.inv[0][6].nomItem, couleurNoire);
+		}
+		else if(input->data.Huit == 1){
+			ActInv.x = 219;
+			ActInv.y = 33;
+			posTexte.x = 219;
+			posTexte.y = 64;
+			nomItem = TTF_RenderText_Solid (police,input->data.inv[0][7].nomItem, couleurNoire);
+		}
+		else if(input->data.Neuf == 1){
+			ActInv.x = 250;
+			ActInv.y = 33;
+			posTexte.x = 250;
+			posTexte.y = 64;
+			nomItem = TTF_RenderText_Solid (police,input->data.inv[0][8].nomItem, couleurNoire);
+		}
+		else if(input->data.Dix == 1){
+			ActInv.x = 281;
+			ActInv.y = 33;
+			posTexte.x = 281;
+			posTexte.y = 64;
+			nomItem = TTF_RenderText_Solid (police,input->data.inv[0][9].nomItem, couleurNoire);
+		}
+		SDL_BlitSurface(nomItem, NULL, screen, &posTexte);
+		SDL_BlitSurface(Actuel, NULL, screen, &ActInv);
+	}
+	TTF_CloseFont(police);
+}

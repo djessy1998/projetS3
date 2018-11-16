@@ -75,12 +75,12 @@ void traitement_input_inv(input *input, SDL_Surface *invIm, SDL_Surface *casque,
     {
       int i;
       int j;
-      for(i = 0; i < 4; i++)
+      for(i = 1; i < 4; i++)
 	{
 	  for(j = 0; j < 10; j++)
 	    {
-	      posInv.x = 50 + (33 * j);
-	      posInv.y = 50 + (33 * i);
+	      posInv.x = 2 + (31 * j);
+	      posInv.y = 33 + (31 * i);
 
 	      SDL_BlitSurface(invIm, NULL, screen, &posInv);
 
@@ -95,10 +95,10 @@ void traitement_input_inv(input *input, SDL_Surface *invIm, SDL_Surface *casque,
 		  input->data.inv[input->data.numItemInvY][input->data.numItemInvX].type = -2;
 		  input->data.supprimer = 1;
 		}
-	      if(input->data.inv[i][j].type > -1)
+	    if(input->data.inv[i][j].type > -1)
 		{
-		  posItemsInv.x = 50 + (33 * j) + 2;
-		  posItemsInv.y = 50 + (33 * i) + 4;
+		  posItemsInv.x = 2 + (31 * j) + 2;
+		  posItemsInv.y = 33 + (31 * i) + 4;
 		  if(input->data.inv[i][j].type == 1)
 		    {
 		      SDL_BlitSurface(casque, NULL, screen, &posItemsInv);

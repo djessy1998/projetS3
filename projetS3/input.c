@@ -50,6 +50,125 @@ void fonction_Handle_Event(SDL_Event event, input *input){
     case SDLK_f:
       input->data.f = 1;
       break;
+    case SDLK_AMPERSAND:
+      input->data.Un = 1;
+      input->data.Deux = 0;
+      input->data.Trois = 0;
+      input->data.Quatre = 0;
+      input->data.Cinq = 0;
+      input->data.Six = 0;
+      input->data.Sept = 0;
+      input->data.Huit = 0;
+      input->data.Neuf = 0;
+      input->data.Dix = 0;
+      break;
+    /*case SDLK_MINUS:
+      input->data.Un = 0;
+      input->data.Deux = 1;
+      input->data.Trois = 0;
+      input->data.Quatre = 0;
+      input->data.Cinq = 0;
+      input->data.Six = 0;
+      input->data.Sept = 0;
+      input->data.Huit = 0;
+      input->data.Neuf = 0;
+      input->data.Dix = 0;
+      break;*/
+    case SDLK_QUOTEDBL:
+      input->data.Un = 0;
+      input->data.Deux = 0;
+      input->data.Trois = 1;
+      input->data.Quatre = 0;
+      input->data.Cinq = 0;
+      input->data.Six = 0;
+      input->data.Sept = 0;
+      input->data.Huit = 0;
+      input->data.Neuf = 0;
+      input->data.Dix = 0;
+      break;
+    case SDLK_QUOTE:
+      input->data.Un = 0;
+      input->data.Deux = 0;
+      input->data.Trois = 0;
+      input->data.Quatre = 1;
+      input->data.Cinq = 0;
+      input->data.Six = 0;
+      input->data.Sept = 0;
+      input->data.Huit = 0;
+      input->data.Neuf = 0;
+      input->data.Dix = 0;
+      break;
+    case SDLK_LEFTPAREN:
+      input->data.Un = 0;
+      input->data.Deux = 0;
+      input->data.Trois = 0;
+      input->data.Quatre = 0;
+      input->data.Cinq = 1;
+      input->data.Six = 0;
+      input->data.Sept = 0;
+      input->data.Huit = 0;
+      input->data.Neuf = 0;
+      input->data.Dix = 0;
+      break;
+    case SDLK_MINUS:
+      input->data.Un = 0;
+      input->data.Deux = 0;
+      input->data.Trois = 0;
+      input->data.Quatre = 0;
+      input->data.Cinq = 0;
+      input->data.Six = 1;
+      input->data.Sept = 0;
+      input->data.Huit = 0;
+      input->data.Neuf = 0;
+      input->data.Dix = 0;
+      break;
+    /*case SDLK_MINUS:
+      input->data.Un = 0;
+      input->data.Deux = 0;
+      input->data.Trois = 0;
+      input->data.Quatre = 0;
+      input->data.Cinq = 0;
+      input->data.Six = 0;
+      input->data.Sept = 1;
+      input->data.Huit = 0;
+      input->data.Neuf = 0;
+      input->data.Dix = 0;
+      break;*/
+    case SDLK_UNDERSCORE:
+      input->data.Un = 0;
+      input->data.Deux = 0;
+      input->data.Trois = 0;
+      input->data.Quatre = 0;
+      input->data.Cinq = 0;
+      input->data.Six = 0;
+      input->data.Sept = 0;
+      input->data.Huit = 1;
+      input->data.Neuf = 0;
+      input->data.Dix = 0;
+      break;
+    /*case SDLK_UNDERSCORE:
+      input->data.Un = 0;
+      input->data.Deux = 0;
+      input->data.Trois = 0;
+      input->data.Quatre = 0;
+      input->data.Cinq = 0;
+      input->data.Six = 0;
+      input->data.Sept = 0;
+      input->data.Huit = 0;
+      input->data.Neuf = 1;
+      input->data.Dix = 0;
+      break;*/
+    /*case SDLK_UNDERSCORE:
+      input->data.Un = 0;
+      input->data.Trois = 0;
+      input->data.Quatre = 0;
+      input->data.Cinq = 0;
+      input->data.Six = 0;
+      input->data.Sept = 0;
+      input->data.Huit = 0;
+      input->data.Neuf = 0;
+      input->data.Dix = 1;
+      break;*/
     default:
       break;
     }
@@ -101,7 +220,7 @@ void Mouse_Motion(SDL_Event event, input *input){
     {
       for(int j = 0; j < 10; j++)
 	{
-	  if(((input->data.butDown == 1) && ((event.motion.x >= 52 + (33 * j) && event.motion.x <= 52 + 32 + (33 * j)) && (event.motion.y >= 54 + (33 * i) && event.motion.y <= 54 + 32 + (33 * i))) && (input->data.e == 1)))
+	  if(((input->data.butDown == 1) && ((event.motion.x >= 2 + (31 * j) && event.motion.x <= 2 + 32 + (31 * j)) && (event.motion.y >= 33 + (31 * i) && event.motion.y <= 33 + 32 + (31 * i))) && (input->data.e == 1)))
 	    {
 	      if(input->data.getB == 0)
 		{
@@ -120,7 +239,7 @@ void Mouse_Motion(SDL_Event event, input *input){
 		  input->data.posImage.y = event.motion.y - 16;
 		}
 	    }
-	  if((input->data.butDown == 1) && ((event.motion.x <= 52 || event.motion.x >= 52 + 32) && (event.motion.y <= 54 || event.motion.y >= 54 + 32)) && (input->data.e == 1))
+	  if((input->data.butDown == 1) && ((event.motion.x <= 2 || event.motion.x >= 2 + 32) && (event.motion.y <= 33 || event.motion.y >= 33 + 32)) && (input->data.e == 1))
 	    {
 	      if(input->data.rien == 0)
 		{
@@ -128,7 +247,7 @@ void Mouse_Motion(SDL_Event event, input *input){
 		  input->data.posImage.y = event.motion.y - 16;
 		}
 	    }
-	  if((input->data.butDown == 0) && ((event.motion.x >= 50 && event.motion.x <= 50 + (33 * 10)) && (event.motion.y >= 50 && event.motion.y <= 50 + (33 * 4))) && (input->data.e == 1))
+	  if((input->data.butDown == 0) && ((event.motion.x >= 2 && event.motion.x <= 2 + (31 * 10)) && (event.motion.y >= 33 && event.motion.y <= 33 + (31 * 4))) && (input->data.e == 1))
 	    {
 	      if(input->data.numItemInvX != -1 && input->data.numItemInvY != -1)
 		{
@@ -143,7 +262,7 @@ void Mouse_Motion(SDL_Event event, input *input){
 		  input->data.rien = 0;
 		}
 	    }
-	  else if((input->data.butDown == 0) && ((event.motion.x <= 52 || event.motion.x >= 52 + 32) && (event.motion.y <= 54 || event.motion.y >= 54 + 32)) && (input->data.e == 1))
+	  else if((input->data.butDown == 0) && ((event.motion.x <= 2 || event.motion.x >= 2 + 32) && (event.motion.y <= 33 || event.motion.y >= 33 + 32)) && (input->data.e == 1))
 	    {
 	      if(input->data.numItemInvX != -1 && input->data.numItemInvY != -1)
 		{
