@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include "fonction.h"
 #include "creator.h"
+#include "perlin.h"
+#include "fonctions_fichiers.h"
 
 void creer_joueur(character *joueur){
   joueur->nom = (char*) malloc(4 *sizeof(char));
@@ -40,6 +42,44 @@ void creer_monde(monde *monde){
   monde->affichage = allouer_tab_2D_int(NBBLOCS_FENETREY, NBBLOCS_FENETREX);
 }
 
+void gen_monde(monde *monde, int freq){
+  //Génération aléatoire de Terrain:
+  calque *random;
+  random = init_calque(TMONDE, 1.);
+  calque *fin = init_calque(TMONDE, 1.);
+  int i, j, a;
+
+  //calque de base aléatoire.
+  for(i=0; i<TMONDE; i++){
+     random->v[i] = aleatoire((2*NBBLOCS_FENETREY)/3, TMONDE);
+  }
+
+  for(j=0; j<TMONDE; j++){
+     a = valeur_interpolee(j, freq, random);
+     fin->v[j] = a/fin->persistance;
+  }
+
+  //Le monde a 0
+  for(i=0 ; i<TMONDE; i++){
+    for(j=0 ; j<TMONDE; j++){
+      monde->grilleInt[i][j] = VIDE;
+    }
+  }
+
+  for(i=0 ; i<TMONDE; i++){
+     // Applique le calque dans le monde
+     monde->grilleInt[fin->v[i]][i] = TERRE;
+     //Remplissage de bas en haut
+     for(j = fin->v[i]; j<TMONDE; j++){
+       monde->grilleInt[j][i] = TERRE;
+     }
+  }
+  free_calque(random);
+  free_calque(fin);
+
+  tab_int2char(monde->grilleInt, monde->grilleChar, TMONDE, TMONDE);
+  ecrire_fichier("saves/MondeTest.txt", monde->grilleChar, TMONDE, TMONDE);
+}
 
 void creer_input(input *input){
   int i;
@@ -71,6 +111,7 @@ void creer_input(input *input){
   input->data.getB= 0;
   input->data.rien = 0;
   input->data.typeMemoire = 0;
+
   for(i=0;i<4;i++){
     for(j=0;j<10;j++){
       input->data.inv[i][j].nomItem = "Rien";

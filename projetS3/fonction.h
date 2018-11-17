@@ -4,7 +4,7 @@
 
 #define SCREEN_WIDTH   720
 #define SCREEN_HEIGHT  560
-#define PLAYER_WIDTH   20
+#define PLAYER_WIDTH   22
 #define PLAYER_HEIGHT  54
 
 #define VELOCITE_MAX   20
@@ -145,7 +145,7 @@ void baisser(character *a);
 
 //collision.c
 void gravite(character *a);
-void collision(character *a, int** affichage, int** posB, int** posBY, int *murDr, int *yMomTom, int *fait, int *faitCalc, int *yMomTomDeb, int *touche);
+void collision(character *a, int** affichage, int** posB, int** posBY, int *murDr, int *murGa, int *yMomTom, int *fait, int *faitCalc, int *yMomTomDeb, int *touche);
 void terreRonde(character *a, int *murDro, int *murGau);
 
 //vie.c

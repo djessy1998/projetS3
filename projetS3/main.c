@@ -25,6 +25,16 @@ int main(int argc,char* argv[])
   creer_monde(&monde);
   creer_input(&input);
 
+  //Si on ajoute un argument on "affiche" l'aléatoire du terrain avec Perlin
+  if(argv[1] != NULL){
+    if(atoi(argv[1]) !=0){
+      gen_monde(&monde, atoi(argv[1]));
+      //Fait apparaitre le joueur sur une position haute (pas maximale) si il y a eu génération de terrain aléatoire
+      joueur1.yMonde = TMONDE*TAILLE_BLOCS - NBBLOCS_FENETREY*TAILLE_BLOCS;
+      joueur1.yMondeDouble = (double)joueur1.yMonde;
+    }
+  }
+
   Liste *listeItems = initialisation();
   insertion(listeItems, 1, 500, 128);
   insertion(listeItems, 2, 450, 10);
@@ -97,36 +107,7 @@ int main(int argc,char* argv[])
 
   int actualTime = 0;
   int lastTimes = 0;
-  
-  
-  //Si on ajoute un argument on "affiche" l'aléatoire du terrain avec Perlin 
-   if(argc > 0 && argv[1] != NULL){
-     if(atoi(argv[1]) !=0){
-      calque *random;
-      random = init_calque(TMONDE, 1.);
-      int i, j, a;
-      int freq = (int)atoi(argv[1]);
 
-      //calque de base aléatoire.
-      for(i=0; i<TMONDE; i++){
-	random->v[i] = aleatoire(TMONDE);
-      }
-      calque *fin = init_calque(TMONDE, 1.);
-      
-      for(j=0; j<TMONDE; j++){
-	  a = valeur_interpolee(j, freq, random);
-	  fin->v[j] = a/fin->persistance;
-	}
-	
-      for(i=0 ; i<TMONDE; i++){
-	monde.grilleInt[fin->v[i]][i] = !monde.grilleInt[fin->v[i]][i];
-      }
-      free_calque(random);
-      free_calque(fin);
-     }
-   }
- 
-  
   while(!input.data.quit)
     {
 
@@ -159,7 +140,7 @@ int main(int argc,char* argv[])
 
       terreRonde(&joueur1, &murD, &murG);
 
-      collision(&joueur1, monde.affichage, monde.posB, monde.posBY, &murD, &yMomTomb, &fait, &faitCalc, &yMomTombDeb, &touche);
+      collision(&joueur1, monde.affichage, monde.posB, monde.posBY, &murD, &murG, &yMomTomb, &fait, &faitCalc, &yMomTombDeb, &touche);
 
       calc_vie_tombe(&joueur1, &yMomTombDeb, &faitCalc, &touche);
 
@@ -181,6 +162,7 @@ int main(int argc,char* argv[])
   SDL_FreeSurface(character);
   SDL_FreeSurface(characterD);
   SDL_FreeSurface(invIm);
+  SDL_FreeSurface(ActuelInv);
   SDL_FreeSurface(vieEnt);
   SDL_FreeSurface(miVie);
   SDL_FreeSurface(noVie);
@@ -194,6 +176,7 @@ int main(int argc,char* argv[])
   desallouer_tab_2D_int(monde.posB, TMONDE);
   desallouer_tab_2D_int(monde.posBY,TMONDE);
   desallouer_tab_2D_int(monde.affichage, NBBLOCS_FENETREY);
+  desallouer_tab_2D_char(monde.grilleChar, TMONDE);
   //désallocation du pseudo du joueur:
   free(joueur1.nom);
   return 0;

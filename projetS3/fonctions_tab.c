@@ -82,3 +82,20 @@ void tab_char2int(char** tab, int** tabInt, int tailleX, int tailleY){
     }
   }
 }
+
+void tab_int2char(int** tabInt, char** tabChar, int tailleX, int tailleY){
+  for(int x = 0; x < tailleX; x++){
+    for(int y = 0; y < tailleY; y++){
+      switch (tabInt[x][y]){
+      case 1:
+	      tabChar[x][y] = '1';
+        break;
+      case 0:
+	      tabChar[x][y] = '0';
+        break;
+      default:
+        break;
+      }
+    }
+  }
+}

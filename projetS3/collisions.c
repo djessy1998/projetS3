@@ -5,7 +5,9 @@
 
 void gravite(character *a)
 {
-  if(a->yMonde >= TMONDE*16 - NBBLOCS_FENETREY*TAILLE_BLOCS && a->pos.y < 346){ //Valeur ou le personnage est au centre en Y
+  if((a->yMonde >= TMONDE*TAILLE_BLOCS - NBBLOCS_FENETREY*TAILLE_BLOCS && a->pos.y != 346) || /*Valeur ou le personnage est au centre en Y*/
+  a->yMonde <= 0)
+  {
     if((int)round(a->yPosBloquageDouble)%2 == 1){
       a->yPosBloquageDouble += 1.;
     }else{
@@ -22,7 +24,7 @@ void gravite(character *a)
   }
 }
 
-void collision(character *a, int** affichage, int** posB, int** posBY, int *murDr, int *yMomTom, int *fait, int *faitCalc, int *yMomTomDeb, int *touche)
+void collision(character *a, int** affichage, int** posB, int** posBY, int *murDr, int *murGa, int *yMomTom, int *fait, int *faitCalc, int *yMomTomDeb, int *touche)
 {
   a->bloqADroite = 0;
   a->bloqAGauche = 0;
@@ -30,7 +32,7 @@ void collision(character *a, int** affichage, int** posB, int** posBY, int *murD
   int JpiedGX = a->xMonde + a->pos.x;
   int JMilieuX = a->xMonde + a->pos.x + PLAYER_WIDTH/2;
   int JpiedDX = a->xMonde + a->pos.x + PLAYER_WIDTH;
-  int JpiedGY = a->yMonde+ (NBBLOCS_FENETREY*TAILLE_BLOCS - a->pos.y) - PLAYER_HEIGHT;
+  int JpiedGY = a->yMonde + (NBBLOCS_FENETREY*TAILLE_BLOCS - a->pos.y) - PLAYER_HEIGHT;
   *touche = 0;
 
   for(i = 0; i < NBBLOCS_FENETREY; i++)
@@ -39,46 +41,37 @@ void collision(character *a, int** affichage, int** posB, int** posBY, int *murD
 	{
 	  if(affichage[i][j] == TERRE)
 	    {
-	      if(JpiedDX == posB[i][j])
-		{
-		  a->bloqADroite = 1;
-		}
-	      else if(JpiedGX == posB[i][j] + TAILLE_BLOCS)
-		{
-		  a->bloqAGauche = 1;
-		}
+	      if(JpiedDX == posB[i][j]){
+    		  a->bloqADroite = 1;
+    		}
+    	  else if(JpiedGX == posB[i][j] + TAILLE_BLOCS){
+    		  a->bloqAGauche = 1;
+    		}
 	      if(((JpiedGX > posB[i][j] && JpiedGX < posB[i][j] + TAILLE_BLOCS) ||
-        (JpiedDX > posB[i][j] && JpiedDX <= posB[i][j] + TAILLE_BLOCS) ||
+        (JpiedDX > posB[i][j] && JpiedDX < posB[i][j] + TAILLE_BLOCS) ||
         (JMilieuX > posB[i][j] && JMilieuX < posB[i][j] + TAILLE_BLOCS)) &&
-        JpiedGY == TAILLE_BLOCS * (a->yMonde / TAILLE_BLOCS + NBBLOCS_FENETREY - i))
-		{
-		  *touche = 1;
-		  a->autorisationSaut = 1;
-		  a->sautH = 0;
-		  a->velocity_y = 20;
-		  break;
-		}
+        JpiedGY == TAILLE_BLOCS * (a->yMonde / TAILLE_BLOCS + NBBLOCS_FENETREY - i)){
+    		  *touche = 1;
+    		  a->autorisationSaut = 1;
+    		  a->sautH = 0;
+    		  a->velocity_y = 20;
+    		  break;
+    		}
 	    }
 	}
     }
 
+  int PosHautTeteY = a->pos.y/TAILLE_BLOCS;
+  int PosPiedY = (a->pos.y/TAILLE_BLOCS) +1;
+  int PosCorpsY = (a->pos.y/TAILLE_BLOCS) +2;
+  int PosTeteY = (a->pos.y/TAILLE_BLOCS) +3;
 
-  int PosPiedY = (a->pos.y/16) +1;
-  int PosCorpsY = (a->pos.y/16 +2);
-  int PosTeteY = (a->pos.y/16) +3;
-  int PosPiedX;
-  //Bug sur le mur droit, le joueur allait trop loin
-  if(*murDr){
-    PosPiedX = a->pos.x/16-1;
-  }
-  else{
-    PosPiedX = a->pos.x/16;
-  }
-  int PosPiedDX = a->pos.x/16 + PLAYER_WIDTH/16 +1 ;
+  int PosPiedDX = ((a->pos.x+PLAYER_WIDTH)/TAILLE_BLOCS) +1 - *murDr;
+  int PosPiedGX = (a->pos.x/TAILLE_BLOCS) - *murDr;
 
-  if((affichage[PosPiedY][PosPiedX] == VIDE &&
-      affichage[PosCorpsY][PosPiedX] == VIDE &&
-      affichage[PosTeteY][PosPiedX] == VIDE)) {
+  if((affichage[PosPiedY][PosPiedGX] == VIDE &&
+      affichage[PosCorpsY][PosPiedGX] == VIDE &&
+      affichage[PosTeteY][PosPiedGX] == VIDE)) {
     a->bloqAGauche=0;
   }
 
@@ -87,11 +80,11 @@ void collision(character *a, int** affichage, int** posB, int** posBY, int *murD
       affichage[PosTeteY][PosPiedDX] == VIDE)){
     a->bloqADroite=0;
   }
-  
+
   //Si bloc au dessus du joueur.
-  if(affichage[a->pos.y/16][a->pos.x/16+1] == TERRE ||
-    affichage[a->pos.y/16][a->pos.x/16+2] == TERRE){
-    a->autorisationSaut = 0;
+  if(affichage[PosHautTeteY][PosPiedGX+1] == TERRE ||
+    affichage[PosHautTeteY][PosPiedDX - a->bloqADroite - *murGa] == TERRE){
+     a->autorisationSaut = 0;
   }
 
   if(a->pos.x >= (45*TAILLE_BLOCS) - PLAYER_WIDTH)

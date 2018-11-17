@@ -35,34 +35,34 @@ void deplacerD(character *a, int murDro, int murGau)
 }
 
 
-void sauter(character *a)
-{
+void sauter(character *a){
   int passage_yMonde_posy;
   if(a->autorisationSaut){
-    if(a->velocity_y > VELOCITE_MAX){
-      a->velocity_y = VELOCITE_MAX;
-      a->autorisationSaut = 0;
-    }else if(a->velocity_y > 0){
+    if(a->velocity_y > 0){
       a->velocity_y -= 1;
-    }
-    //Si le yMonde avec la vélocité vont trop loin alors on met yMonde au max et on enlève la diff entre yMonde et le maximum pour yMonde dans la velocité et ajoute la velocité restante dans pos.y
-    if(a->yMonde + a->velocity_y > TMONDE*TAILLE_BLOCS - NBBLOCS_FENETREY*TAILLE_BLOCS){
-      passage_yMonde_posy = a->yMonde + a->velocity_y - (TMONDE*TAILLE_BLOCS - NBBLOCS_FENETREY*TAILLE_BLOCS);
-      a->yMondeDouble = TMONDE*TAILLE_BLOCS - NBBLOCS_FENETREY*TAILLE_BLOCS;
-      a->yPosBloquageDouble -=  passage_yMonde_posy;
-      a->pos.y = (int) a->yPosBloquageDouble;
     }else{
-      if(a->yMonde < TMONDE*TAILLE_BLOCS - NBBLOCS_FENETREY*TAILLE_BLOCS){
-	a->yMondeDouble += (double)a->velocity_y;
+      a->autorisationSaut = 0;
+    }
+
+    if(a->pos.y - a->velocity_y < 0){ //Si on va trop loin avec la velocité
+      a->autorisationSaut = 0;
+      a->yPosBloquageDouble = 0.;
+      a->velocity_y = 0.;
+    }else{
+    //Si le yMonde avec la vélocité vont trop loin alors on met yMonde au max et on enlève la diff entre yMonde et le maximum pour yMonde dans la velocité et ajoute la velocité restante dans pos.y
+      if(a->yMonde + a->velocity_y > TMONDE*TAILLE_BLOCS - NBBLOCS_FENETREY*TAILLE_BLOCS){
+        passage_yMonde_posy = a->yMonde + a->velocity_y - (TMONDE*TAILLE_BLOCS - NBBLOCS_FENETREY*TAILLE_BLOCS);
+        a->yMondeDouble = TMONDE*TAILLE_BLOCS - NBBLOCS_FENETREY*TAILLE_BLOCS;
+        a->yPosBloquageDouble -=  passage_yMonde_posy;
       }else{
-	if(a->pos.y - a->velocity_y > 0){ //Plafond (non testé)
-	  a->yPosBloquageDouble -=  a->velocity_y;
-	}else{
-	  a->yPosBloquageDouble = 0.;
-	}
-	a->pos.y = (int) a->yPosBloquageDouble;
+        if(a->yMonde < TMONDE*TAILLE_BLOCS - NBBLOCS_FENETREY*TAILLE_BLOCS){
+        	a->yMondeDouble += (double)a->velocity_y;
+        }else{
+      	  a->yPosBloquageDouble -= (double)a->velocity_y;
+  	    }
       }
     }
+    a->pos.y = (int)round(a->yPosBloquageDouble);
     a->yMonde = (int)round(a->yMondeDouble);
   }
 }
