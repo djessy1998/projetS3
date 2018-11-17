@@ -31,14 +31,16 @@ void creer_joueur(character *joueur){
 
 
 void creer_monde(monde *monde){
-  monde->grilleChar = lire_fichier("saves/Monde1.txt");
+  if(TMONDE == 100){
+    monde->grilleChar = lire_fichier("saves/Monde1.txt");
+  }else if(TMONDE == 1000){
+    monde->grilleChar = lire_fichier("saves/Monde2.txt");
+  }
   monde->grilleInt = allouer_tab_2D_int(TMONDE, TMONDE);
   tab_char2int(monde->grilleChar, monde->grilleInt, TMONDE, TMONDE);
-  desallouer_tab_2D_char(monde->grilleChar, TMONDE);
 
-
-  monde->posB = allouer_tab_2D_int(TMONDE, TMONDE);
-  monde->posBY = allouer_tab_2D_int(TMONDE, TMONDE);
+  monde->posB = allouer_tab_2D_int(NBBLOCS_FENETREY, NBBLOCS_FENETREX);
+  monde->posBY = allouer_tab_2D_int(NBBLOCS_FENETREY, NBBLOCS_FENETREX);
   monde->affichage = allouer_tab_2D_int(NBBLOCS_FENETREY, NBBLOCS_FENETREX);
 }
 
