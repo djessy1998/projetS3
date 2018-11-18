@@ -175,8 +175,8 @@ int main(int argc,char* argv[])
 
   desallouer_tab_2D_int(monde.grilleInt, TMONDE);
   desallouer_tab_2D_char(monde.grilleChar, TMONDE);
-  desallouer_tab_2D_int(monde.posB, NBBLOCS_FENETREY);
-  desallouer_tab_2D_int(monde.posBY,NBBLOCS_FENETREY);
+  desallouer_tab_2D_int(monde.posB, TMONDE);
+  desallouer_tab_2D_int(monde.posBY,TMONDE);
   desallouer_tab_2D_int(monde.affichage, NBBLOCS_FENETREY);
   //désallocation du pseudo du joueur:
   free(joueur1.nom);

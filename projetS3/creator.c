@@ -12,7 +12,7 @@ void creer_joueur(character *joueur){
   joueur->nom[1] = 'e';
   joueur->nom[2] = 'a';
   joueur->nom[3] = 'n';
-  joueur->PV = PV_START;
+  joueur->PV = FULL_VIE;
   joueur->PM = PM_START;
   joueur->pos.x = POSX_START;
   joueur->pos.y = POSY_START - PLAYER_HEIGHT;
@@ -39,17 +39,16 @@ void creer_monde(monde *monde){
   monde->grilleInt = allouer_tab_2D_int(TMONDE, TMONDE);
   tab_char2int(monde->grilleChar, monde->grilleInt, TMONDE, TMONDE);
 
-  monde->posB = allouer_tab_2D_int(NBBLOCS_FENETREY, NBBLOCS_FENETREX);
-  monde->posBY = allouer_tab_2D_int(NBBLOCS_FENETREY, NBBLOCS_FENETREX);
+  monde->posB = allouer_tab_2D_int(TMONDE, TMONDE);
+  monde->posBY = allouer_tab_2D_int(TMONDE, TMONDE);
   monde->affichage = allouer_tab_2D_int(NBBLOCS_FENETREY, NBBLOCS_FENETREX);
 }
 
 void gen_monde(monde *monde, int freq){
   //Génération aléatoire de Terrain:
-  calque *random;
-  random = init_calque(TMONDE, 1.);
+  calque *random = init_calque(TMONDE, 1.);
   calque *fin = init_calque(TMONDE, 1.);
-  int i, j, a;
+  int i, j, a, k;
 
   //calque de base aléatoire.
   for(i=0; i<TMONDE; i++){
@@ -76,6 +75,39 @@ void gen_monde(monde *monde, int freq){
        monde->grilleInt[j][i] = TERRE;
      }
   }
+
+  //Génération aléatoire de grottes
+  int taille_grotte = 0;
+  int debut_grotte = 0;
+  calque *ran = init_calque(TMONDE, 1.);
+  calque *grotte = init_calque(TMONDE, 1.);
+  for(i=0; i<NB_GROTTES; i++){
+    taille_grotte = aleatoire(1, TMONDE/2);
+    debut_grotte = aleatoire(0, TMONDE - taille_grotte);
+
+    for(k = debut_grotte; k < (debut_grotte + taille_grotte); k++){
+       ran->v[k] = aleatoire(fin->v[k], TMONDE);
+    }
+
+    for(k = debut_grotte; k < (debut_grotte + taille_grotte); k++){
+      a = valeur_interpolee(k, freq, ran);
+      if(a < fin->v[k]){
+        grotte->v[k] = 0;
+      }else{
+        grotte->v[k] = a/grotte->persistance;
+      }
+    }
+
+    for(k = debut_grotte; k < (debut_grotte + taille_grotte); k++){
+       // Applique le calque dans le monde
+      if(grotte->v[k] != 0){
+        monde->grilleInt[grotte->v[k]][k] = !monde->grilleInt[grotte->v[k]][k];
+      }
+    }
+  }
+  free_calque(ran);
+  free_calque(grotte);
+
   free_calque(random);
   free_calque(fin);
 

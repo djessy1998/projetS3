@@ -15,7 +15,7 @@ calque* init_calque(int t, float p){
   }
   s->taille = t;
   s->persistance = p;
-  
+
   return s;
 }
 
@@ -25,8 +25,11 @@ void free_calque(calque* s){
 }
 
 unsigned char aleatoire(double borneMin, double borneMax){
+  if(borneMin > borneMax){
+    return 0;
+  }
   double n = (double)rand() / RAND_MAX * borneMax;
-  while(n < borneMin){
+  while(n < borneMin && n > borneMax){
     n = (double)rand() / RAND_MAX * borneMax;
   }
   return n;

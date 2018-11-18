@@ -66,7 +66,7 @@ char** modifier_caractere(char** tab, int n, int m, char ancien, char nouveau){
 
 
 void ecrire_fichier(const char* nomFichier, char** tab, int n, int m){
-  FILE* ptrFichier = fopen(nomFichier,"r");
+  FILE* ptrFichier = fopen(nomFichier,"w");
   if(ptrFichier == NULL){
     perror("Erreur ouverture Fichier");
   }
@@ -75,6 +75,7 @@ void ecrire_fichier(const char* nomFichier, char** tab, int n, int m){
     for(int y = 0; y<m; y++){
       fputc(tab[i][y], ptrFichier);
     }
+    fputc('\n', ptrFichier);
   }
   fclose(ptrFichier);
 }
