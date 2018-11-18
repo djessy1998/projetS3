@@ -4,22 +4,24 @@
 
 #define SCREEN_WIDTH   720
 #define SCREEN_HEIGHT  560
+
 #define PLAYER_WIDTH   22
 #define PLAYER_HEIGHT  54
 
 #define VELOCITE_MAX   20
 #define VITESSE        1.
 #define VITESSEJ       0.2
+#define FULL_VIE	     100
+#define DISTCHUTEMPV	 50
 
 #define TMONDE         100
+#define NB_GROTTES     5
 #define NBBLOCS_FENETREX 47
 #define NBBLOCS_FENETREY 37
 #define NB_BLOCS_AU_DESSUS_JOUEUR 25
-#define TAILLE_BLOCS	 16
-#define RAYONRAM	40
-#define FULL_VIE	100
-#define DISTCHUTEMPV	50
+#define RAYONRAM	     40
 
+#define TAILLE_BLOCS	 16
 #define VIDE  0
 #define TERRE 1
 
