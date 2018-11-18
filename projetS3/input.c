@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "fonction.h"
+#include "touches.h"
 #include <SDL.h>
 
 
@@ -20,23 +21,24 @@ void fonction_Handle_Event(SDL_Event event, input *input){
     Mouse_Motion(event, input);
     break;
   case SDL_KEYDOWN:
-    switch (event.key.keysym.sym) {
-    case SDLK_ESCAPE:
+  	/*printf("%d\n", event.key.keysym.scancode); Si l'on a besoin de retrouver le code d'une touche */
+    switch (event.key.keysym.scancode) {
+    case ECHAP:
       quit(input);
       break;
-    case SDLK_z:
+    case Z:
       input->data.z = 1;
       break ;
-    case SDLK_q:
+    case Q:
       input->data.q = 1;
       break;
-    case SDLK_s:
+    case S:
       input->data.s = 1;
       break;
-    case SDLK_d:
+    case D:
       input->data.d = 1;
       break;
-    case SDLK_e:
+    case E: // e
       if(input->data.e == 0)
 	{
 	  input->data.e = 1;
@@ -47,10 +49,10 @@ void fonction_Handle_Event(SDL_Event event, input *input){
 	  input->data.e = 0;
 	  SDL_Delay(80);
 	}
-    case SDLK_f:
+    case F: // f
       input->data.f = 1;
       break;
-    case SDLK_AMPERSAND:
+    case ESPER: // &
       input->data.Un = 1;
       input->data.Deux = 0;
       input->data.Trois = 0;
@@ -62,7 +64,7 @@ void fonction_Handle_Event(SDL_Event event, input *input){
       input->data.Neuf = 0;
       input->data.Dix = 0;
       break;
-    /*case SDLK_MINUS:
+    case EACC: // é
       input->data.Un = 0;
       input->data.Deux = 1;
       input->data.Trois = 0;
@@ -73,8 +75,8 @@ void fonction_Handle_Event(SDL_Event event, input *input){
       input->data.Huit = 0;
       input->data.Neuf = 0;
       input->data.Dix = 0;
-      break;*/
-    case SDLK_QUOTEDBL:
+      break;
+    case DOUBLEQUOTE: // ""
       input->data.Un = 0;
       input->data.Deux = 0;
       input->data.Trois = 1;
@@ -86,7 +88,7 @@ void fonction_Handle_Event(SDL_Event event, input *input){
       input->data.Neuf = 0;
       input->data.Dix = 0;
       break;
-    case SDLK_QUOTE:
+    case QUOTE: // ''
       input->data.Un = 0;
       input->data.Deux = 0;
       input->data.Trois = 0;
@@ -98,7 +100,7 @@ void fonction_Handle_Event(SDL_Event event, input *input){
       input->data.Neuf = 0;
       input->data.Dix = 0;
       break;
-    case SDLK_LEFTPAREN:
+    case LEFTPAREN: // (
       input->data.Un = 0;
       input->data.Deux = 0;
       input->data.Trois = 0;
@@ -110,7 +112,7 @@ void fonction_Handle_Event(SDL_Event event, input *input){
       input->data.Neuf = 0;
       input->data.Dix = 0;
       break;
-    case SDLK_MINUS:
+    case TIRET: // -
       input->data.Un = 0;
       input->data.Deux = 0;
       input->data.Trois = 0;
@@ -122,7 +124,7 @@ void fonction_Handle_Event(SDL_Event event, input *input){
       input->data.Neuf = 0;
       input->data.Dix = 0;
       break;
-    /*case SDLK_MINUS:
+    case EACCGRA: // è
       input->data.Un = 0;
       input->data.Deux = 0;
       input->data.Trois = 0;
@@ -133,8 +135,8 @@ void fonction_Handle_Event(SDL_Event event, input *input){
       input->data.Huit = 0;
       input->data.Neuf = 0;
       input->data.Dix = 0;
-      break;*/
-    case SDLK_UNDERSCORE:
+      break;
+    case UNDERSCORE:// _
       input->data.Un = 0;
       input->data.Deux = 0;
       input->data.Trois = 0;
@@ -146,7 +148,7 @@ void fonction_Handle_Event(SDL_Event event, input *input){
       input->data.Neuf = 0;
       input->data.Dix = 0;
       break;
-    /*case SDLK_UNDERSCORE:
+    case CCEDILLE: // ç
       input->data.Un = 0;
       input->data.Deux = 0;
       input->data.Trois = 0;
@@ -157,8 +159,8 @@ void fonction_Handle_Event(SDL_Event event, input *input){
       input->data.Huit = 0;
       input->data.Neuf = 1;
       input->data.Dix = 0;
-      break;*/
-    /*case SDLK_UNDERSCORE:
+      break;
+    case AACCENT: // à
       input->data.Un = 0;
       input->data.Trois = 0;
       input->data.Quatre = 0;
@@ -168,7 +170,7 @@ void fonction_Handle_Event(SDL_Event event, input *input){
       input->data.Huit = 0;
       input->data.Neuf = 0;
       input->data.Dix = 1;
-      break;*/
+      break;
     default:
       break;
     }

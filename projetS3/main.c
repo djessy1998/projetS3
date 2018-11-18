@@ -44,6 +44,9 @@ int main(int argc,char* argv[])
   /* initialize SDL */
   SDL_Init(SDL_INIT_VIDEO);
 
+  /*Pour clavier AZERTY*/
+  SDL_EnableUNICODE(1);
+
   /*Initialise SDL_ttf*/
   TTF_Init();
 
