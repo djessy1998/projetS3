@@ -24,7 +24,7 @@ int main(int argc,char* argv[])
   creer_joueur(&joueur1);
   creer_monde(&monde);
   creer_input(&input);
-
+  
   //Si on ajoute un argument on "affiche" l'aléatoire du terrain avec Perlin
   if(argv[1] != NULL){
     if(atoi(argv[1]) !=0){
@@ -34,7 +34,7 @@ int main(int argc,char* argv[])
       joueur1.yMondeDouble = (double)joueur1.yMonde;
     }
   }
-
+ 
   Liste *listeItems = initialisation();
   insertion(listeItems, 1, 500, 128);
   insertion(listeItems, 2, 450, 10);

@@ -1,4 +1,4 @@
-SRC=creator.c main.c collisions.c fonctions_fichiers.c input.c fonctions_tab.c listes.c deplacement.c traitement_input.c affichage.c vie.c perlin.c
+SRC=creator.c main.c collisions.c fonctions_fichiers.c input.c fonctions_tab.c listes.c deplacement.c traitement_input.c affichage.c vie.c perlin.c generator.c
 BIN=Jeu
 
 $(BIN): $(SRC)

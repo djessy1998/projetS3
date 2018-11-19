@@ -11,11 +11,11 @@
 #define VELOCITE_MAX   20
 #define VITESSE        1.
 #define VITESSEJ       0.2
-#define FULL_VIE	     100
-#define DISTCHUTEMPV	 50
+#define FULL_VIE       100
+#define DISTCHUTEMPV   50
 
 #define TMONDE         100
-#define NB_GROTTES     5
+#define NB_GROTTES     10
 #define NBBLOCS_FENETREX 47
 #define NBBLOCS_FENETREY 37
 #define NB_BLOCS_AU_DESSUS_JOUEUR 25
