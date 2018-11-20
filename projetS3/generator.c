@@ -44,11 +44,11 @@ void gen_monde(monde *monde, int freq){
   calque *ran = init_calque(TMONDE, 1.);
   calque *grotte = init_calque(TMONDE, 1.);
   for(i=0; i<NB_GROTTES; i++){
-    taille_grotte = aleatoire(1, TMONDE/2);
+    taille_grotte = aleatoire(3, TMONDE/2);
     debut_grotte = aleatoire(0, TMONDE - taille_grotte);
 
     for(k = debut_grotte; k < (debut_grotte + taille_grotte); k++){
-       ran->v[k] = aleatoire(fin->v[k], TMONDE); 
+       ran->v[k] = aleatoire(fin->v[k], TMONDE);
     }
 
     for(k = debut_grotte; k < (debut_grotte + taille_grotte); k++){
@@ -97,7 +97,7 @@ void gen_monde(monde *monde, int freq){
           iRandom -= 1;
         }
       }
-    }  
+    }
      monde->grilleInt[iRandom][jRandom] = typeItRand;
   }
 

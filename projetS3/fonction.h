@@ -8,7 +8,7 @@
 #define PLAYER_WIDTH   22
 #define PLAYER_HEIGHT  54
 
-#define VELOCITE_MAX   20
+#define VELOCITE_MAX   15
 #define VITESSE        1.
 #define VITESSEJ       0.2
 #define FULL_VIE       100

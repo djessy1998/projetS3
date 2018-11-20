@@ -3,11 +3,9 @@
 #include <SDL.h>
 #include <math.h>
 
-void gravite(character *a)
-{
-  if((a->yMonde >= TMONDE*TAILLE_BLOCS - NBBLOCS_FENETREY*TAILLE_BLOCS && a->pos.y != 346) || /*Valeur ou le personnage est au centre en Y*/
-  a->yMonde <= 0)
-  {
+void gravite(character *a){
+  if(((a->yMonde >= TMONDE*TAILLE_BLOCS - NBBLOCS_FENETREY*TAILLE_BLOCS && a->pos.y != POSY_START - PLAYER_HEIGHT) || a->yMonde <= 0 ) && /*Valeur ou le personnage est au centre en Y*/
+      a->pos.y + PLAYER_HEIGHT != SCREEN_HEIGHT){
     if((int)round(a->yPosBloquageDouble)%2 == 1){
       a->yPosBloquageDouble += 1.;
     }else{
@@ -34,7 +32,7 @@ void collision(character *a, int** affichage, int** posB, int** posBY, int *murD
   int JpiedDX = a->xMonde + a->pos.x + PLAYER_WIDTH;
   int JpiedGY = a->yMonde + (NBBLOCS_FENETREY*TAILLE_BLOCS - a->pos.y) - PLAYER_HEIGHT;
   *touche = 0;
- 
+
   for(i = 0; i < NBBLOCS_FENETREY; i++)
     {
       for(j = 0; j< NBBLOCS_FENETREX; j++)
@@ -57,7 +55,7 @@ void collision(character *a, int** affichage, int** posB, int** posBY, int *murD
     		  a->velocity_y = 20;
     		  break;
     		}
-	    } 
+	    }
 	}
     }
 

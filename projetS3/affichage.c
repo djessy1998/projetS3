@@ -9,7 +9,7 @@ void affichage_monde(monde monde, character joueur1, SDL_Surface *terre, SDL_Sur
   int decalageY = joueur1.yMonde%TAILLE_BLOCS;
   int i = 0;
   int j = 0;
-  for(i=0;i<NBBLOCS_FENETREY;i++ )
+  for(i=0;i<NBBLOCS_FENETREY;i++)
     {
       for(j=0;j<NBBLOCS_FENETREX;j++)
 	{
@@ -33,7 +33,7 @@ void affichage_monde(monde monde, character joueur1, SDL_Surface *terre, SDL_Sur
 	      SDL_Rect posGrille;
 	      posGrille.x = j*TAILLE_BLOCS + decalageX;
 	      posGrille.y = i*TAILLE_BLOCS + decalageY - 7;
-	      SDL_BlitSurface(armure, NULL, screen, &posGrille);	  	
+	      SDL_BlitSurface(armure, NULL, screen, &posGrille);
 	  }
 	}
     }
@@ -61,7 +61,7 @@ void affichage_personnage(character joueur1, SDL_Surface *characterD, SDL_Surfac
     }
   else if(joueur1.dir == 1)
     {
-      SDL_BlitSurface(character, joueurAnim, screen, &joueur1.pos); 
+      SDL_BlitSurface(character, joueurAnim, screen, &joueur1.pos);
     }
 }
 
@@ -77,22 +77,22 @@ void affichage_vie_personnage(character *a, SDL_Surface *vie, SDL_Surface *miVie
     for(i = a->PV/10; i < 10;i++){
       posVie.x = i*30 + 1;
       posVie.y = 2;
-      SDL_BlitSurface(noVie, NULL, screen, &posVie);  
+      SDL_BlitSurface(noVie, NULL, screen, &posVie);
     }
   }
   if(a->PV%5 == 0 && a->PV%10 != 0){
     for(i = 0;i<= (a->PV - 5)/10;i++){
       posVie.x = i*30 + 1;
       posVie.y = 2;
-      SDL_BlitSurface(vie, NULL, screen, &posVie);      
+      SDL_BlitSurface(vie, NULL, screen, &posVie);
     }
     SDL_BlitSurface(miVie, NULL, screen, &posVie);
     for(i = (a->PV + 5)/10; i < 10;i++){
       posVie.x = i*30 + 1;
       posVie.y = 2;
-      SDL_BlitSurface(noVie, NULL, screen, &posVie);  
+      SDL_BlitSurface(noVie, NULL, screen, &posVie);
     }
-  }  
+  }
 }
 
 void affichage_barre_inv(SDL_Surface *invIm, SDL_Surface *screen, input *input, SDL_Surface *casque, SDL_Surface *armure, SDL_Surface *Actuel){

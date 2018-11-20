@@ -24,17 +24,19 @@ int main(int argc,char* argv[])
   creer_joueur(&joueur1);
   creer_monde(&monde);
   creer_input(&input);
-  
+
   //Si on ajoute un argument on "affiche" l'aléatoire du terrain avec Perlin
+  int arg1 = 0;
   if(argv[1] != NULL){
-    if(atoi(argv[1]) !=0){
-      gen_monde(&monde, atoi(argv[1]));
+    arg1 = atoi(argv[1]);
+    if(arg1 !=0){
+      gen_monde(&monde, arg1);
       //Fait apparaitre le joueur sur une position haute (pas maximale) si il y a eu génération de terrain aléatoire
       joueur1.yMonde = TMONDE*TAILLE_BLOCS - NBBLOCS_FENETREY*TAILLE_BLOCS;
       joueur1.yMondeDouble = (double)joueur1.yMonde;
     }
   }
- 
+
   Liste *listeItems = initialisation();
 
   SDL_Surface *screen;
@@ -169,7 +171,11 @@ int main(int argc,char* argv[])
 
   SDL_Quit();
 
-
+  if(arg1 != 0){
+    //Sauvegarde du fichier Dans le MondeTest.txt
+    tab_int2char(monde.grilleInt, monde.grilleChar, TMONDE, TMONDE);
+    ecrire_fichier("saves/MondeTest.txt", monde.grilleChar, TMONDE, TMONDE);
+  }
   desallouer_tab_2D_int(monde.grilleInt, TMONDE);
   desallouer_tab_2D_char(monde.grilleChar, TMONDE);
   desallouer_tab_2D_int(monde.posB, TMONDE);
