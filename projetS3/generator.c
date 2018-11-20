@@ -72,6 +72,35 @@ void gen_monde(monde *monde, int freq){
       }
     }
   }
+
+  //Placement des items
+  srand(time(NULL));
+  int iRandom = (1 + rand()%(TMONDE - 1));
+  int jRandom = (1 +rand()%(TMONDE - 1));
+  for(i=0;i<NBITEMS;i++){
+    int posTrouve = 0;
+    iRandom = (1 + rand()%(TMONDE - 1));
+    jRandom = (1 +rand()%(TMONDE - 1));
+    int typeItRand = (2 + (rand()%(2)));
+    while(monde->grilleInt[iRandom - 1][jRandom] != 0 || monde->grilleInt[iRandom][jRandom] != 1){
+      if(monde->grilleInt[iRandom - 1][jRandom] == 1 && monde->grilleInt[iRandom + 1][jRandom] == 1){
+        iRandom -= 1;
+      }
+      else{
+        iRandom += 1;
+      }
+    }
+
+    while(monde->grilleInt[iRandom][jRandom+1] == TERRE && posTrouve == 0){
+      while(monde->grilleInt[iRandom][jRandom + 1] == TERRE && posTrouve == 0){
+        if(iRandom < TMONDE - 1){
+          iRandom -= 1;
+        }
+      }
+    }  
+     monde->grilleInt[iRandom][jRandom] = typeItRand;
+  }
+
   free_calque(ran);
   free_calque(grotte);
 

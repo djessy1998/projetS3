@@ -11,8 +11,8 @@ Liste *initialisation()
       exit(EXIT_FAILURE);
     }
   EItems->type = -1;
-  EItems->xMondeItem = -1;
-  EItems->yMondeItem = -1;
+  EItems->iItem= -1;
+  EItems->jItem = -1;
   EItems->suivant = NULL;
   liste->premier = EItems;
   return liste;
@@ -26,8 +26,8 @@ void insertion(Liste *liste, int nvType, int nvXMonde, int nvYMonde)
       exit(EXIT_FAILURE);
     }
   nouveau->type = nvType;
-  nouveau->xMondeItem = nvXMonde;
-  nouveau->yMondeItem = nvYMonde;
+  nouveau->iItem = nvXMonde;
+  nouveau->jItem = nvYMonde;
   nouveau->suivant = liste->premier;
   liste->premier = nouveau;
 }
@@ -56,7 +56,7 @@ void afficherListe(Liste *liste)
   items *actuel = liste->premier;
   while (actuel != NULL)
     {
-      printf("%d -> ", actuel->type);
+      printf("%d | i = %d | j = %d\n", actuel->type, actuel->iItem, actuel->jItem);
       actuel = actuel->suivant;
     }
   printf("NULL\n");
@@ -86,220 +86,16 @@ void TrierInv(int rienI, items inv[4][10], int type)
     }
 }
 
-void afficherElementsListe(Liste *liste, int *ItemAffich, character *a, SDL_Surface *screen, SDL_Surface *casque, SDL_Surface *armure, int q, int d, monde *mondeBlocs)
-{
-  if (liste == NULL)
-    {
-      exit(EXIT_FAILURE);
-    }
-  items *actuel = liste->premier;
-  int i,j = 0;
-  int AffichageStartFY;
-  while (actuel != NULL)
-    {
-      if ((actuel->xMondeItem > a->xMonde && actuel->xMondeItem <= a->xMonde + SCREEN_WIDTH) || (actuel->xMondeItem + 28 < a->xMonde))
-	{
-	  actuel->boolean = 0;
-	}
-      if(actuel->xMondeItem >= a->xMonde && actuel->xMondeItem <= a->xMonde + SCREEN_WIDTH)
-        {
-          if(actuel->type == 1)
-	    {
-	      if(a->dir == 1)
-		{
-		  actuel->posItemMonde.x = (int)actuel->avG;
-		  actuel->avD = actuel->avG;
-		}
-	      else
-		{
-		  actuel->posItemMonde.x = (int)actuel->avD;
-		  actuel->avG = actuel->avD;
-		}
-	      for(i=0;i<TMONDE;i++){
+void ItemMonde(monde monde, Liste *liste){
+	int i, j;
+	for(i=0;i<TMONDE;i++){
 		for(j=0;j<TMONDE;j++){
-		  if(actuel->xMondeItem > mondeBlocs->grilleInt[i][j]*TAILLE_BLOCS*j && actuel->xMondeItem < mondeBlocs->grilleInt[i][j]*TAILLE_BLOCS*j + TAILLE_BLOCS){
-		    AffichageStartFY = (TMONDE - a->yMonde/TAILLE_BLOCS-NBBLOCS_FENETREY) * 16;
-		    actuel->posItemMonde.y = (mondeBlocs->grilleInt[i][j]*TAILLE_BLOCS*i) - AffichageStartFY - 24;
-		    actuel->trouve = 1;
-		    break;
-		  }
-		}
-		if(actuel->trouve == 1){
-		  break;
-		}
-	      }
-	      actuel->posItemMonde.y = a->yMonde + ((mondeBlocs->grilleInt[i][j]*TAILLE_BLOCS*i) - AffichageStartFY - 24) - 137;
-	      actuel->yMondeItem = actuel->posItemMonde.y + AffichageStartFY;
-	      SDL_BlitSurface(casque, NULL, screen, &actuel->posItemMonde);
-	      *ItemAffich = 1;
-	    }
-          else if(actuel->type == 2)
-	    {
-	      if(a->dir == 1)
-		{
-		  actuel->posItemMonde.x = (int)actuel->avG;			// A FACTORISER EN RAJOUTANT UN SDL_SURFACE DANS LA STRUCTURE
-		  actuel->avD = actuel->avG;
-		}
-	      else
-		{
-		  actuel->posItemMonde.x = (int)actuel->avD;
-		  actuel->avG = actuel->avD;
-		}
-	      for(i=0;i<TMONDE;i++){
-		for(j=0;j<TMONDE;j++){
-		  if(actuel->xMondeItem > mondeBlocs->grilleInt[i][j]*TAILLE_BLOCS*j && actuel->xMondeItem < mondeBlocs->grilleInt[i][j]*TAILLE_BLOCS*j + TAILLE_BLOCS){	
-		    AffichageStartFY = (TMONDE - a->yMonde/TAILLE_BLOCS-NBBLOCS_FENETREY) * 16;
-		    actuel->posItemMonde.y = (mondeBlocs->grilleInt[i][j]*TAILLE_BLOCS*i) - AffichageStartFY - 24;
-		    actuel->trouve = 1;
-		    break;
-		  }
-		}
-		if(actuel->trouve == 1){
-		  break; 
-		}
-	      }
-	      actuel->posItemMonde.y = a->yMonde + ((mondeBlocs->grilleInt[i][j]*TAILLE_BLOCS*i) - AffichageStartFY - 24) - 137;
-	      actuel->yMondeItem = actuel->posItemMonde.y + AffichageStartFY;
-	      SDL_BlitSurface(armure, NULL, screen, &actuel->posItemMonde);
-	      *ItemAffich = 1;
-	    }
-        }
-      else
-        {
-	  if(actuel->xMondeItem + 28 > a->xMonde)
-	    {
-	      if(actuel->boolean == 0)
-		{
-		  actuel->SortImPos.x = 0;
-		  actuel->SortImPos.y = a->yMonde + 248;
-		  if(actuel->xMondeItem <= a->xMonde && a->dir == 1)
-		    {
-		      actuel->increment = 28;
-		    }
-		  else if (actuel->xMondeItem + 28 < a->xMonde)
-		    {
-		      actuel->increment = 0;
-		    }
-		  actuel->SortIm.x = 28;
-		  actuel->SortIm.y = 0;
-		  actuel->SortIm.h = 24;
-		  actuel->SortIm.w = 28;
-		  actuel->boolean = 1;
-		}
-	      else
-		{
-		  actuel->SortImPos.y = a->yMonde + 248;
-		  if(q == 1 && a->bloqADroite == 0 && a->bloqAGauche == 0)
-		    {
-		      actuel->increment -= 0.09;
-		      actuel->SortIm.x = (int)actuel->increment;
-		      if(actuel->SortIm.x < 0)
-			{
-			  actuel->SortIm.x = 0;
+			if(monde.grilleInt[i][j] == 2){
+				insertion(liste, 2 ,i + 1, j + 1);
 			}
-		    }
-		  if(d == 1 && a->bloqADroite == 0 && a->bloqAGauche == 0)
-		    {
-		      actuel->increment += 0.09;
-		      actuel->SortIm.x = (int)actuel->increment;
-
-		      if(actuel->SortIm.x > 28)
-			{
-			  actuel->SortIm.x = 28;
+			else if(monde.grilleInt[i][j] == 3){
+				insertion(liste, 3, i + 1, j + 1);
 			}
-		      if(actuel->increment > 28)
-			{
-			  actuel->increment = 28;
-			}
-		    }
-		  if(actuel->type == 1)
-		    {
-		      SDL_BlitSurface(casque, &actuel->SortIm , screen, &actuel->SortImPos);
-		    }
-		  if(actuel->type == 2)
-		    {
-		      SDL_BlitSurface(armure, &actuel->SortIm , screen, &actuel->SortImPos);
-		    }
 		}
-	    }
-          actuel->avD = 0;
-          actuel->avG = 0;
-        }
-      actuel = actuel->suivant;
-    }
-}
-
-void collisionItems(Liste *liste, int ItemAffich, character *a, int gauche, int droite,int murG, int murD)
-{
-  items *actuel = liste->premier;
-  while (actuel != NULL)
-    {
-      if(droite == 1)
-	{
-	  if(actuel->xMondeItem >= a->xMonde && actuel->xMondeItem <= a->xMonde + SCREEN_WIDTH)
-	    {
-	      if(ItemAffich == 1)
-		{
-		  if(a->dir == 1)
-		    {
-		      actuel->avD = actuel->avG;
-		    }
-		  if(a->bloqADroite == 0 && murD == 0 && murG == 0 && a->bloqAGauche == 0)
-		    {
-		      actuel->avD -= VITESSE;
-		    }
-		}
-	    }
 	}
-      else if(gauche == 1)
-	{
-	  if(actuel->xMondeItem >= a->xMonde && actuel->xMondeItem <= a->xMonde + SCREEN_WIDTH)
-	    {
-	      if(ItemAffich == 1)
-		{
-		  if(a->dir == 2)
-		    {
-		      actuel->avG = actuel->avD;
-		    }
-		  if(a->bloqAGauche == 0 && murD == 0 && murG == 0 && a->bloqADroite == 0)
-		    {
-		      actuel->avG += VITESSE;
-		    }
-		}
-	    }
-	}
-      actuel = actuel->suivant;
-    }
-}
-
-
-void collisionIt(Liste *liste, int **posBY, int **posBX, monde monde, int ItemAffich)
-{
-  items *actuel = liste->premier;
-  int i,j;
-  if(ItemAffich == 1)
-  {
-     while(actuel != NULL)
-  {
-    for(i=0;i<TMONDE;i++){
-     for(j=0;j<TMONDE;j++){
-//       printf("yMondeItem = %d\n", actuel->yMondeItem);
-//       printf("xMondeItem + 28 = %d\n", actuel->xMondeItem + 28);
-//       printf("xMondeItem = %d\n", actuel->xMondeItem);
-//       printf("posBY = %d\n", posBY[i][j]);
-//       printf("posBX = %d\n", posBX[i][j]);
-//       printf("\n\n");
-      if(monde.grilleInt[i][j] == TERRE){
-	 if(actuel->yMondeItem == posBY[i][j] && (actuel->xMondeItem > posBX[i][j] && actuel->xMondeItem + 28 < posBX[i][j])){
-	  actuel->touche = 1;
-	}  
-      }
-     }
-    }
-    if(actuel->touche == 0){
-     actuel->yMondeItem -= 1;
-    }
-    actuel = actuel->suivant;
-  } 
-  }
 }

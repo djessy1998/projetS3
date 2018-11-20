@@ -3,6 +3,8 @@
 
 #define CASE0 48
 #define CASE1 49
+#define CASE2 50
+#define CASE3 51
 
 
 char** allouer_tab_2D_char(int n, int m);

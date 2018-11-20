@@ -79,7 +79,7 @@ void creer_input(input *input){
 
   for(i=0;i<4;i++){
     for(j=0;j<10;j++){
-      input->data.inv[i][j].nomItem = "Rien";
+      input->data.inv[i][j].nomItem = " ";
       if(input->data.inv[i][j].type == 1){
         input->data.inv[i][j].nomItem = "Casque";
       }

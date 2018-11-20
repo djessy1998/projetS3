@@ -8,13 +8,11 @@ void traitement_input(input input, character *joueur1, int murG, int murD, int g
 {
   if(input.data.z == 1)
     {
-      collisionItems(listeItems, ItemAffich, joueur1, gauche, droite, murG, murD);
       sauter(joueur1);
     }
   if(input.data.d == 1)
     {
       droite = 1;
-      collisionItems(listeItems, ItemAffich, joueur1, gauche, droite, murG, murD);
       if(joueur1->bloqADroite == 0)
 	{
 	  deplacerD(joueur1, murD, murG);
@@ -43,7 +41,6 @@ void traitement_input(input input, character *joueur1, int murG, int murD, int g
   if(input.data.q == 1)
     {
       gauche = 1;
-      collisionItems(listeItems, ItemAffich, joueur1, gauche, droite, murG, murD);
       if(joueur1->bloqAGauche == 0)
 	{
 	  deplacerG(joueur1,murG, murD);
@@ -68,7 +65,7 @@ void traitement_input(input input, character *joueur1, int murG, int murD, int g
 }
 
 
-void traitement_input_inv(input *input, SDL_Surface *invIm, SDL_Surface *casque, SDL_Surface *armure, SDL_Surface *screen, character *joueur1, Liste *liste, int ItemAffich){
+void traitement_input_inv(input *input, SDL_Surface *invIm, SDL_Surface *casque, SDL_Surface *armure, SDL_Surface *screen, character *joueur1, Liste *liste, int ItemAffich, monde *monde){
   SDL_Rect posInv;
   SDL_Rect posItemsInv;
   if(input->data.e == 1)
@@ -113,45 +110,28 @@ void traitement_input_inv(input *input, SDL_Surface *invIm, SDL_Surface *casque,
     }
   if(input->data.f == 1)
   {
-      items *actuel = liste->premier;
-      SDL_Rect HautGauche;
-      HautGauche.x = joueur1->pos.x - RAYONRAM;
-      HautGauche.y = joueur1->pos.y - RAYONRAM;
-      SDL_Rect BasDroit;
-      BasDroit.x = joueur1->pos.x + PLAYER_WIDTH + RAYONRAM;
-      BasDroit.y = joueur1->pos.y + PLAYER_HEIGHT + RAYONRAM;
-      int i= 0;
-      int j = 0;
-      while(actuel != NULL){
-	actuel->trouveInv = 0;
-	if(ItemAffich == 1 && actuel->trouveInv == 0)
-	{
-	  if(actuel->posItemMonde.x > HautGauche.x && actuel->posItemMonde.y > HautGauche.y){
-	    if(actuel->posItemMonde.x < BasDroit.x && actuel->posItemMonde.y < BasDroit.y){
-	      if(actuel->trouveInv == 0){
-		for(i=0;i<4;i++){
-		for(j=0;j<10;j++){
-		  if(input->data.inv[i][j].type == -1 && actuel->trouveInv == 0){
-		    printf("trouveInv = %d\n", actuel->trouveInv);
-		    printf("type actuel = %d\n", actuel->type);
-		    printf("i = %d\n", i);
-		    printf("j = %d\n", j);
-		    input->data.inv[i][j].type = actuel->type;
-		    actuel->trouveInv = 1;
-		    break;
-		  }
-		  if(actuel->trouveInv == 1){
-		   break; 
-		  }
-		}
-	      }
-	      }
-	      actuel->type = -1;
-	      //Il faut supprimer un élément de la liste et non mettre type -1 solution provisoire
-	    }
-	  }
-	}
-	actuel = actuel->suivant;
-      }
+  	  int i = -1,j = -1;
+  	  int posJTabX = (joueur1->xMonde + joueur1->pos.x)/16 + 1;
+  	  int posJTabY = TMONDE - (((joueur1->yMonde + (NBBLOCS_FENETREY*TAILLE_BLOCS - joueur1->pos.y) - PLAYER_HEIGHT))/16);
+  	  while(input->data.inv[i+1][j+1].type != -1){
+  	  	i++;
+  	  	while(input->data.inv[i][j+1].type != -1){
+  	  		j++;
+  	  	}
+  	  }
+	  if(monde->grilleInt[posJTabY - 1][posJTabX - 1] == 3){
+		input->data.inv[i][j+1].type = 2;
+		monde->grilleInt[posJTabY - 1][posJTabX - 1] = 0;
+		input->data.inv[i][j+1].nomItem = "Armure";
+		i = 0;
+		j = 0;
+	  	}
+	  if(monde->grilleInt[posJTabY - 1][posJTabX - 1] == 2){
+		input->data.inv[i][j+1].type = 1;
+		monde->grilleInt[posJTabY - 1][posJTabX - 1] = 0;
+		input->data.inv[i][j+1].nomItem = "Casque";
+		i = 0;
+		j = 0;
+	  	}  
   }
 }

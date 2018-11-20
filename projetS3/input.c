@@ -5,7 +5,7 @@
 #include <SDL.h>
 
 
-void fonction_Handle_Event(SDL_Event event, input *input){
+void fonction_Handle_Event(SDL_Event event, input *input, character *a, monde *monde){
   switch (event.type) {
     /* close button clicked */
   case SDL_QUIT:
@@ -18,7 +18,7 @@ void fonction_Handle_Event(SDL_Event event, input *input){
     Mouse_Up(event, input);
     break;
   case SDL_MOUSEMOTION:
-    Mouse_Motion(event, input);
+    Mouse_Motion(event, input, a, monde);
     break;
   case SDL_KEYDOWN:
   	/*printf("%d\n", event.key.keysym.scancode); Si l'on a besoin de retrouver le code d'une touche */
@@ -217,7 +217,7 @@ void Mouse_Up(SDL_Event event, input *input){
     }
 }
 
-void Mouse_Motion(SDL_Event event, input *input){
+void Mouse_Motion(SDL_Event event, input *input, character *a, monde *monde){
   for(int i = 0; i < 4; i++)
     {
       for(int j = 0; j < 10; j++)
@@ -268,6 +268,7 @@ void Mouse_Motion(SDL_Event event, input *input){
 	    {
 	      if(input->data.numItemInvX != -1 && input->data.numItemInvY != -1)
 		{
+      input->data.inv[0][input->data.numItemInvX].nomItem = " ";
 		  input->data.posImage.x = -300;
 		  input->data.posImage.y = -300;
 		  input->data.numItemInvX = -1;
@@ -278,4 +279,9 @@ void Mouse_Motion(SDL_Event event, input *input){
 	    }
 	}
     }
+  int minaX = (a->xMonde + event.motion.x)/16;
+  int minaY = TMONDE - (((a->yMonde + (NBBLOCS_FENETREY*TAILLE_BLOCS - event.motion.y) - PLAYER_HEIGHT))/16);
+  if(monde->grilleInt[minaY][minaX] == TERRE && input->data.butDown == 1){
+    monde->grilleInt[minaY - 4][minaX] = 0;
+  }
 }

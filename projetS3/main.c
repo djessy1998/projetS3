@@ -10,8 +10,8 @@
 
 
 
-void HandleEvent(SDL_Event event, input *i){
-  fonction_Handle_Event(event, i);
+void HandleEvent(SDL_Event event, input *i, character *a, monde *monde){
+  fonction_Handle_Event(event, i, a, monde);
 }
 
 int main(int argc,char* argv[])
@@ -36,9 +36,6 @@ int main(int argc,char* argv[])
   }
  
   Liste *listeItems = initialisation();
-  insertion(listeItems, 1, 500, 128);
-  insertion(listeItems, 2, 450, 10);
-  insertion(listeItems, 2, 550, 10);
 
   SDL_Surface *screen;
   /* initialize SDL */
@@ -108,6 +105,10 @@ int main(int argc,char* argv[])
   int actualTime = 0;
   int lastTimes = 0;
 
+  ItemMonde(monde,listeItems);
+
+  afficherListe(listeItems);
+
   while(!input.data.quit)
     {
 
@@ -123,18 +124,18 @@ int main(int argc,char* argv[])
       SDL_Event event;
 
       if (SDL_PollEvent(&event)) {
-	HandleEvent(event, &input);
+	HandleEvent(event, &input, &joueur1, &monde);
       }
 
       SDL_BlitSurface(bg, NULL, screen, &posFond);
 
-      affichage_monde(monde, joueur1, terre, screen);
+      affichage_monde(monde, joueur1, terre, screen, casque, armure);
 
       traitement_input(input, &joueur1, murG, murD, gauche, droite, listeItems, ItemAffich, &joueurAnimD, &joueurAnim, &incrementAnim);
 
       affichage_barre_inv(invIm, screen, &input, casque, armure, ActuelInv);
 
-      traitement_input_inv(&input, invIm, casque, armure, screen, &joueur1, listeItems, ItemAffich);
+      traitement_input_inv(&input, invIm, casque, armure, screen, &joueur1, listeItems, ItemAffich, &monde);
 
       affichage_items_inv(input, casque, armure, screen);
 
@@ -143,10 +144,6 @@ int main(int argc,char* argv[])
       collision(&joueur1, monde.affichage, monde.posB, monde.posBY, &murD, &murG, &yMomTomb, &fait, &faitCalc, &yMomTombDeb, &touche);
 
       calc_vie_tombe(&joueur1, &yMomTombDeb, &faitCalc, &touche);
-
-      afficherElementsListe(listeItems, &ItemAffich, &joueur1, screen, casque, armure, input.data.q , input.data.d, &monde);
-
-      collisionIt(listeItems,monde.posBY,monde.posB, monde, ItemAffich);
 
       affichage_personnage(joueur1, characterD, character, &joueurAnimD, &joueurAnim, screen);
 
