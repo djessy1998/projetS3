@@ -28,6 +28,13 @@ void gen_monde(monde *monde, int freq){
       monde->grilleInt[i][j] = VIDE;
     }
   }
+  
+  //Base en Terre
+  for(i=TMONDE -2 ; i<TMONDE; i++){
+    for(j=0 ; j<TMONDE; j++){
+      monde->grilleInt[i][j] = TERRE;
+    }
+  }
 
   for(i=0 ; i<TMONDE; i++){
      // Applique le calque dans le monde
@@ -41,40 +48,36 @@ void gen_monde(monde *monde, int freq){
   //Génération aléatoire de grottes
   int taille_grotte = 0;
   int debut_grotte = 0;
-  calque *ran = init_calque(TMONDE, 1.);
   calque *grotte = init_calque(TMONDE, 1.);
+  int taillefinale = 0;
+  
   for(i=0; i<NB_GROTTES; i++){
     taille_grotte = aleatoire(3, TMONDE/2);
-    debut_grotte = aleatoire(0, TMONDE - taille_grotte);
-
+    debut_grotte = aleatoire(1, TMONDE - taille_grotte);
+    taillefinale = -1; //Car la taille est tout le temps compté avec 1 de trop
+    
     for(k = debut_grotte; k < (debut_grotte + taille_grotte); k++){
-       ran->v[k] = aleatoire(fin->v[k], TMONDE);
+      random->v[k] = aleatoire(fin->v[k], TMONDE);
     }
-
+    
     for(k = debut_grotte; k < (debut_grotte + taille_grotte); k++){
-      a = valeur_interpolee(k, freq, ran);
-      if(a < fin->v[k]){
-        grotte->v[k] = 0;
-      }else{
-        grotte->v[k] = a/grotte->persistance;
+      a = valeur_interpolee(k, freq, random);
+      if(a >= fin->v[k]){
+	taillefinale ++;
+	grotte->v[taillefinale] = a/grotte->persistance;
       }
     }
-
-    for(k = debut_grotte; k < (debut_grotte + taille_grotte); k++){
-       // Applique le calque dans le monde
-      if(grotte->v[k] != 0){
-	//Créer un cercle pour faire une grotte
-	if(k == (debut_grotte + taille_grotte) - 2){
-	  gen_cercle(k, grotte->v[k], (int)round(sqrt(1 + pow(abs(grotte->v[k] - grotte->v[k+1]), 2))+1), monde);
-	}else{
-         gen_cercle(k, (int)round(sqrt(1 + pow(abs(grotte->v[k-1] - grotte->v[k]), 2))+1), 2, monde);
-	}
-      }
+    
+    for(k = 0; k < taillefinale - 1; k++){
+      //Créer un cercle pour faire une grotte
+      gen_cercle(k + debut_grotte, grotte->v[k], (int)round(sqrt(1 + pow(abs(grotte->v[k] - grotte->v[k+1]), 2))), monde);
+    }
+    if(taillefinale >= 0){
+      gen_cercle(debut_grotte + taillefinale -1, grotte->v[taillefinale - 1], (int)round(sqrt(1 + pow(abs(grotte->v[taillefinale - 1] - grotte->v[taillefinale - 2]), 2))+1), monde);
     }
   }
 
   //Placement des items
-  srand(time(NULL));
   int iRandom = (1 + rand()%(TMONDE - 1));
   int jRandom = (1 +rand()%(TMONDE - 1));
   for(i=0;i<NBITEMS;i++){
@@ -101,9 +104,8 @@ void gen_monde(monde *monde, int freq){
      monde->grilleInt[iRandom][jRandom] = typeItRand;
   }
 
-  free_calque(ran);
-  free_calque(grotte);
 
+  free_calque(grotte);
   free_calque(random);
   free_calque(fin);
 
@@ -113,6 +115,9 @@ void gen_monde(monde *monde, int freq){
 
 
 void gen_cercle(int x, int y, int rayon, monde *monde){
+  if(rayon > 5){
+    rayon = 5;
+  }
   monde->grilleInt[x][y] = 0;
   int i, j;
   int debutX = x - rayon;
