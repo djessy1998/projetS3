@@ -3,11 +3,9 @@
 #include <SDL.h>
 #include <math.h>
 
-void gravite(character *a)
-{
-  if((a->yMonde >= TMONDE*TAILLE_BLOCS - NBBLOCS_FENETREY*TAILLE_BLOCS && a->pos.y != 346) || /*Valeur ou le personnage est au centre en Y*/
-  a->yMonde <= 0)
-  {
+void gravite(character *a){
+  if(((a->yMonde >= TMONDE*TAILLE_BLOCS - NBBLOCS_FENETREY*TAILLE_BLOCS && a->pos.y != POSY_START - PLAYER_HEIGHT) || a->yMonde <= 0 ) && /*Valeur ou le personnage est au centre en Y*/
+      a->pos.y + PLAYER_HEIGHT != SCREEN_HEIGHT){
     if((int)round(a->yPosBloquageDouble)%2 == 1){
       a->yPosBloquageDouble += 1.;
     }else{
