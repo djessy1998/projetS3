@@ -3,9 +3,10 @@
 #include "fonction.h"
 #include "touches.h"
 #include <SDL.h>
+#include <math.h>
 
 
-void fonction_Handle_Event(SDL_Event event, input *input, character *a, monde *monde){
+void fonction_Handle_Event(SDL_Event event, input *input, character *a, monde *monde,int *incAnim, int *minaX, int *minaY, int *choixAct){
   switch (event.type) {
     /* close button clicked */
   case SDL_QUIT:
@@ -13,15 +14,16 @@ void fonction_Handle_Event(SDL_Event event, input *input, character *a, monde *m
     break;
   case SDL_MOUSEBUTTONDOWN:
     Mouse_Down(event, input);
+    construction(monde, input, a, choixAct, minaX,minaY); 
     break;
   case SDL_MOUSEBUTTONUP:
     Mouse_Up(event, input);
     break;
   case SDL_MOUSEMOTION:
-    Mouse_Motion(event, input, a, monde);
+    Mouse_Motion(event, input, a, monde, incAnim, minaX, minaY);
     break;
   case SDL_KEYDOWN:
-  	/*printf("%d\n", event.key.keysym.scancode); Si l'on a besoin de retrouver le code d'une touche */
+    /*printf("%d\n", event.key.keysym.scancode); Si l'on a besoin de retrouver le code d'une touche */
     switch (event.key.keysym.scancode) {
     case ECHAP:
       quit(input);
@@ -217,7 +219,7 @@ void Mouse_Up(SDL_Event event, input *input){
     }
 }
 
-void Mouse_Motion(SDL_Event event, input *input, character *a, monde *monde){
+void Mouse_Motion(SDL_Event event, input *input, character *a, monde *monde,int *incAnim, int *minaX, int *minaY){
   for(int i = 0; i < 4; i++)
     {
       for(int j = 0; j < 10; j++)
@@ -279,9 +281,6 @@ void Mouse_Motion(SDL_Event event, input *input, character *a, monde *monde){
 	    }
 	}
     }
-  int minaX = (a->xMonde + event.motion.x)/16;
-  int minaY = TMONDE - (((a->yMonde + (NBBLOCS_FENETREY*TAILLE_BLOCS - event.motion.y) - PLAYER_HEIGHT))/16);
-  if(monde->grilleInt[minaY][minaX] == TERRE && input->data.butDown == 1){
-    monde->grilleInt[minaY - 4][minaX] = 0;
-  }
+  *minaX = (a->xMonde + event.motion.x)/16;
+  *minaY = TMONDE - ((a->yMonde + (NBBLOCS_FENETREY*TAILLE_BLOCS - event.motion.y))/16) - 1;
 }

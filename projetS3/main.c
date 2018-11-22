@@ -10,8 +10,8 @@
 
 
 
-void HandleEvent(SDL_Event event, input *i, character *a, monde *monde){
-  fonction_Handle_Event(event, i, a, monde);
+void HandleEvent(SDL_Event event, input *i, character *a, monde *monde,int *incAnim, int *minaX, int *minaY, int *choixAct){
+  fonction_Handle_Event(event, i, a, monde,incAnim, minaX, minaY, choixAct);
 }
 
 int main(int argc,char* argv[])
@@ -24,19 +24,17 @@ int main(int argc,char* argv[])
   creer_joueur(&joueur1);
   creer_monde(&monde);
   creer_input(&input);
-
+  
   //Si on ajoute un argument on "affiche" l'aléatoire du terrain avec Perlin
-  int arg1 = 0;
   if(argv[1] != NULL){
-    arg1 = atoi(argv[1]);
-    if(arg1 !=0){
-      gen_monde(&monde, arg1);
+    if(atoi(argv[1]) !=0){
+      gen_monde(&monde, atoi(argv[1]));
       //Fait apparaitre le joueur sur une position haute (pas maximale) si il y a eu génération de terrain aléatoire
       joueur1.yMonde = TMONDE*TAILLE_BLOCS - NBBLOCS_FENETREY*TAILLE_BLOCS;
       joueur1.yMondeDouble = (double)joueur1.yMonde;
     }
   }
-
+ 
   Liste *listeItems = initialisation();
 
   SDL_Surface *screen;
@@ -67,6 +65,8 @@ int main(int argc,char* argv[])
   SDL_Surface* terre = creer_texture("Sprites/terre.bmp");
   SDL_Surface* invIm = creer_texture("Sprites/Inv.bmp");
   SDL_Surface* ActuelInv = creer_texture("Sprites/Actuel.bmp");
+  SDL_Surface* Crack = creer_texture("Sprites/Crack.bmp");
+  SDL_Surface* terreInv = creer_texture("Sprites/terreInv.bmp");
 
   SDL_Rect joueurAnim;
   joueurAnim.x = 7;
@@ -88,8 +88,8 @@ int main(int argc,char* argv[])
 
   int murG, murD = 0;
   int incrementAnim = 0;
-  int touche = 0;
-  int ItemAffich = 0, droite = 0, gauche = 0;
+  int touche = 0, incAnim = 0, minaX = 0, minaY = 0;
+  int ItemAffich = 0, droite = 0, gauche = 0, choixAct;
   int yMomTomb = 0, fait = 0, faitCalc = 0, yMomTombDeb = 0;
   Uint32 colorkey = SDL_MapRGB(character->format,0,0,0);
   Uint32 colorkeyVie = SDL_MapRGB(vieEnt->format,0,0,255);
@@ -102,6 +102,7 @@ int main(int argc,char* argv[])
   SDL_SetColorKey(ActuelInv,SDL_SRCCOLORKEY,colorkeyVie);
   SDL_SetColorKey(miVie,SDL_SRCCOLORKEY,colorkeyVie);
   SDL_SetColorKey(noVie,SDL_SRCCOLORKEY,colorkeyVie);
+  SDL_SetColorKey(Crack,SDL_SRCCOLORKEY,colorkeyVie);
   SDL_SetColorKey(characterD,SDL_SRCCOLORKEY,colorkey);
 
   int actualTime = 0;
@@ -124,9 +125,8 @@ int main(int argc,char* argv[])
       //Compteur d'images par secondes
 
       SDL_Event event;
-
       if (SDL_PollEvent(&event)) {
-	HandleEvent(event, &input, &joueur1, &monde);
+	HandleEvent(event, &input, &joueur1, &monde,&incAnim,&minaX,&minaY,&choixAct);
       }
 
       SDL_BlitSurface(bg, NULL, screen, &posFond);
@@ -135,11 +135,15 @@ int main(int argc,char* argv[])
 
       traitement_input(input, &joueur1, murG, murD, gauche, droite, listeItems, ItemAffich, &joueurAnimD, &joueurAnim, &incrementAnim);
 
-      affichage_barre_inv(invIm, screen, &input, casque, armure, ActuelInv);
+      affichage_barre_inv(invIm, screen, &input, casque, armure, ActuelInv, terreInv, &choixAct);
 
-      traitement_input_inv(&input, invIm, casque, armure, screen, &joueur1, listeItems, ItemAffich, &monde);
+      traitement_input_inv(&input, invIm, casque, armure, screen, &joueur1, listeItems, ItemAffich, &monde, terreInv);
 
-      affichage_items_inv(input, casque, armure, screen);
+      affichage_items_inv(input, casque, armure, screen, terreInv);
+      
+      affichage_crack(&monde, &incAnim, Crack, screen, minaX,minaY, &joueur1);
+    
+      minage(&input,&joueur1, minaY, minaX, &incAnim, &monde);
 
       terreRonde(&joueur1, &murD, &murG);
 
@@ -171,11 +175,7 @@ int main(int argc,char* argv[])
 
   SDL_Quit();
 
-  if(arg1 != 0){
-    //Sauvegarde du fichier Dans le MondeTest.txt
-    tab_int2char(monde.grilleInt, monde.grilleChar, TMONDE, TMONDE);
-    ecrire_fichier("saves/MondeTest.txt", monde.grilleChar, TMONDE, TMONDE);
-  }
+
   desallouer_tab_2D_int(monde.grilleInt, TMONDE);
   desallouer_tab_2D_char(monde.grilleChar, TMONDE);
   desallouer_tab_2D_int(monde.posB, TMONDE);

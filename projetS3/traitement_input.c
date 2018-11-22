@@ -17,7 +17,7 @@ void traitement_input(input input, character *joueur1, int murG, int murD, int g
 	{
 	  deplacerD(joueur1, murD, murG);
 	}
-      *incrim += 2;
+      *incrim += 5;
       if(*incrim > 58)
 	{
 	  joueurAnimD->y += 58;
@@ -45,7 +45,7 @@ void traitement_input(input input, character *joueur1, int murG, int murD, int g
 	{
 	  deplacerG(joueur1,murG, murD);
 	}
-      *incrim += 2;
+      *incrim += 5;
       if(*incrim > 58)
 	{
 	  joueurAnim->y += 58;
@@ -65,7 +65,8 @@ void traitement_input(input input, character *joueur1, int murG, int murD, int g
 }
 
 
-void traitement_input_inv(input *input, SDL_Surface *invIm, SDL_Surface *casque, SDL_Surface *armure, SDL_Surface *screen, character *joueur1, Liste *liste, int ItemAffich, monde *monde){
+void traitement_input_inv(input *input, SDL_Surface *invIm, SDL_Surface *casque, SDL_Surface *armure, SDL_Surface *screen, character *joueur1, Liste *liste, int ItemAffich, monde *monde, SDL_Surface *terre
+){
   SDL_Rect posInv;
   SDL_Rect posItemsInv;
   if(input->data.e == 1)
@@ -104,32 +105,44 @@ void traitement_input_inv(input *input, SDL_Surface *invIm, SDL_Surface *casque,
 		    {
 		      SDL_BlitSurface(armure, NULL, screen, &posItemsInv);
 		    }
+		  else if(input->data.inv[i][j].type == 3){
+		      SDL_BlitSurface(terre, NULL, screen, &posItemsInv);
+		  }
 		}
 	    }
 	}
     }
   if(input->data.f == 1)
   {
-  	  int i = -1,j = -1;
+  	  int i,j;
+	  int ib,jb;
+	  int trouve = 0;
   	  int posJTabX = (joueur1->xMonde + joueur1->pos.x)/16 + 1;
   	  int posJTabY = TMONDE - (((joueur1->yMonde + (NBBLOCS_FENETREY*TAILLE_BLOCS - joueur1->pos.y) - PLAYER_HEIGHT))/16);
-  	  while(input->data.inv[i+1][j+1].type != -1){
-  	  	i++;
-  	  	while(input->data.inv[i][j+1].type != -1){
-  	  		j++;
-  	  	}
-  	  }
+	  for(i=0;i<4;i++){
+	    for(j=0;j<10;j++){
+	      if(input->data.inv[i][j].type == -1){
+	      jb = j;
+	      ib = i;
+	      trouve = 1;
+	      break;
+	      }
+	    }
+	    if(trouve == 1){
+	    break; 
+	    }
+	  }
 	  if(monde->grilleInt[posJTabY - 1][posJTabX - 1] == 3){
-		input->data.inv[i][j+1].type = 2;
+		input->data.inv[ib][jb].type = 2;
 		monde->grilleInt[posJTabY - 1][posJTabX - 1] = 0;
-		input->data.inv[i][j+1].nomItem = "Armure";
+		input->data.inv[ib][jb].nomItem = "Armure";
 		i = 0;
 		j = 0;
 	  	}
 	  if(monde->grilleInt[posJTabY - 1][posJTabX - 1] == 2){
-		input->data.inv[i][j+1].type = 1;
+		input->data.inv[ib][jb].type = 1;
 		monde->grilleInt[posJTabY - 1][posJTabX - 1] = 0;
-		input->data.inv[i][j+1].nomItem = "Casque";
+		input->data.inv[ib][jb].nomItem = "Casque";
 		i = 0;
 		j = 0;
 	  	}  
