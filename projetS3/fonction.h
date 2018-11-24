@@ -14,13 +14,14 @@
 #define FULL_VIE       100
 #define DISTCHUTEMPV   100
 
-#define TMONDE         100
+#define TMONDE         1000
 #define NB_GROTTES     10
 #define NBBLOCS_FENETREX 47
 #define NBBLOCS_FENETREY 37
 #define NB_BLOCS_AU_DESSUS_JOUEUR 25
 #define RAYONRAM	     40
 #define NBITEMS        5
+#define NBARBRES       25
 #define MAXITINV       64
 #define LIMITEMINA      5
 #define VITESSEMINA	1
@@ -30,6 +31,11 @@
 #define TERRE 1
 #define CASQUE 2
 #define ARMURE 3
+#define ARBRE 4
+#define ABG 5
+#define ABD 6
+#define BASARB 7
+#define TOPARB 8
 
 typedef struct monde monde;
 struct monde
@@ -169,7 +175,7 @@ void traitement_input(input input, character *joueur1, int murG, int murD, int g
 void traitement_input_inv(input *input, SDL_Surface *invIm, SDL_Surface *casque, SDL_Surface *armure, SDL_Surface *screen, character *joueur1, Liste *liste, int ItemAffich, monde *monde, SDL_Surface *terre);
 
 //affichage.c
-void affichage_monde(monde monde, character joueur1, SDL_Surface *terre, SDL_Surface *sceen, SDL_Surface *casque, SDL_Surface *armure);
+void affichage_monde(monde monde, character joueur1, SDL_Surface *terre, SDL_Surface *screen, SDL_Surface *casque, SDL_Surface *armure, SDL_Surface *tronc, SDL_Surface *abg, SDL_Surface *abd, SDL_Surface *basArb,SDL_Surface *topArb);
 void affichage_items_inv(input input, SDL_Surface *casque, SDL_Surface *armure, SDL_Surface *screen, SDL_Surface *terre);
 void affichage_personnage(character joueur1, SDL_Surface *characterD, SDL_Surface *character, SDL_Rect *joueurAnimD, SDL_Rect *joueurAnim, SDL_Surface *screen);
 void affichage_vie_personnage(character *a, SDL_Surface *vie, SDL_Surface *miVie, SDL_Surface *noVie, SDL_Surface *screen);

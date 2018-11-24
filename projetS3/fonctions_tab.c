@@ -70,6 +70,21 @@ void tab_char2int(char** tab, int** tabInt, int tailleX, int tailleY){
   for(int x = 0; x < tailleX; x++){
     for(int y = 0; y < tailleY; y++){
       switch (tab[x][y]){
+      case CASE8:
+  tabInt[x][y] = 8;
+      break;
+      case CASE7:
+  tabInt[x][y] = 7;
+      break;
+      case CASE6:
+  tabInt[x][y] = 6;
+      break;
+      case CASE5:
+  tabInt[x][y] = 5;
+      break;
+      case CASE4:
+  tabInt[x][y] = 4;
+      break;
       case CASE3:
   tabInt[x][y] = 3;
         break;
@@ -93,6 +108,21 @@ void tab_int2char(int** tabInt, char** tabChar, int tailleX, int tailleY){
   for(int x = 0; x < tailleX; x++){
     for(int y = 0; y < tailleY; y++){
       switch (tabInt[x][y]){
+      case 8:
+        tabChar[x][y] = '8';
+        break;
+      case 7:
+        tabChar[x][y] = '7';
+        break;
+      case 6:
+        tabChar[x][y] = '6';
+        break;
+      case 5:
+        tabChar[x][y] = '5';
+        break;
+      case 4:
+        tabChar[x][y] = '4';
+        break;
       case 3:
         tabChar[x][y] = '3';
         break;

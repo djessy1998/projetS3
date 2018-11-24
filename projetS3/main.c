@@ -67,6 +67,11 @@ int main(int argc,char* argv[])
   SDL_Surface* ActuelInv = creer_texture("Sprites/Actuel.bmp");
   SDL_Surface* Crack = creer_texture("Sprites/Crack.bmp");
   SDL_Surface* terreInv = creer_texture("Sprites/terreInv.bmp");
+  SDL_Surface* tronc = creer_texture("Sprites/tronc.bmp");
+  SDL_Surface* abg = creer_texture("Sprites/abg.bmp");
+  SDL_Surface* abd = creer_texture("Sprites/abd.bmp");
+  SDL_Surface* basArb = creer_texture("Sprites/barb.bmp");
+  SDL_Surface* topArb = creer_texture("Sprites/topArb.bmp");
 
   SDL_Rect joueurAnim;
   joueurAnim.x = 7;
@@ -104,6 +109,11 @@ int main(int argc,char* argv[])
   SDL_SetColorKey(noVie,SDL_SRCCOLORKEY,colorkeyVie);
   SDL_SetColorKey(Crack,SDL_SRCCOLORKEY,colorkeyVie);
   SDL_SetColorKey(characterD,SDL_SRCCOLORKEY,colorkey);
+  SDL_SetColorKey(tronc,SDL_SRCCOLORKEY,colorkeyVie);
+  SDL_SetColorKey(abg,SDL_SRCCOLORKEY,colorkey);
+  SDL_SetColorKey(abd,SDL_SRCCOLORKEY,colorkey);
+  SDL_SetColorKey(topArb,SDL_SRCCOLORKEY,colorkey);
+  SDL_SetColorKey(basArb,SDL_SRCCOLORKEY,colorkeyVie);
 
   int actualTime = 0;
   int lastTimes = 0;
@@ -131,7 +141,7 @@ int main(int argc,char* argv[])
 
       SDL_BlitSurface(bg, NULL, screen, &posFond);
 
-      affichage_monde(monde, joueur1, terre, screen, casque, armure);
+      affichage_monde(monde, joueur1, terre, screen, casque, armure,tronc,abg,abd,basArb,topArb);
 
       traitement_input(input, &joueur1, murG, murD, gauche, droite, listeItems, ItemAffich, &joueurAnimD, &joueurAnim, &incrementAnim);
 
@@ -170,6 +180,10 @@ int main(int argc,char* argv[])
   SDL_FreeSurface(vieEnt);
   SDL_FreeSurface(miVie);
   SDL_FreeSurface(noVie);
+  SDL_FreeSurface(tronc);
+  SDL_FreeSurface(Crack);
+  SDL_FreeSurface(abg);
+  SDL_FreeSurface(abd);
 
   TTF_Quit();
 

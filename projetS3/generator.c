@@ -93,12 +93,12 @@ void gen_monde(monde *monde, int freq){
   //Placement des items
   int iRandom = (1 + rand()%(TMONDE - 1));
   int jRandom = (1 +rand()%(TMONDE - 1));
+
   for(i=0;i<NBITEMS;i++){
-    int posTrouve = 0;
     iRandom = (1 + rand()%(TMONDE - 1));
     jRandom = (1 +rand()%(TMONDE - 1));
     int typeItRand = (2 + (rand()%(2)));
-    while(monde->grilleInt[iRandom - 1][jRandom] != 0 || monde->grilleInt[iRandom][jRandom] != 1){
+    while((monde->grilleInt[iRandom - 1][jRandom] != 0 || monde->grilleInt[iRandom][jRandom] != 1) && (iRandom < TMONDE - 1 && iRandom > 0)){
       if(monde->grilleInt[iRandom - 1][jRandom] == 1 && monde->grilleInt[iRandom + 1][jRandom] == 1){
         iRandom -= 1;
       }
@@ -107,8 +107,8 @@ void gen_monde(monde *monde, int freq){
       }
     }
 
-    while(monde->grilleInt[iRandom][jRandom+1] == TERRE && posTrouve == 0){
-      while(monde->grilleInt[iRandom][jRandom + 1] == TERRE && posTrouve == 0){
+    while(monde->grilleInt[iRandom][jRandom+1] == TERRE){
+      while(monde->grilleInt[iRandom][jRandom + 1] == TERRE){
         if(iRandom < TMONDE - 1){
           iRandom -= 1;
         }
@@ -116,7 +116,40 @@ void gen_monde(monde *monde, int freq){
     }
      monde->grilleInt[iRandom][jRandom] = typeItRand;
   }
-  
+
+  //placement des arbres
+  for(i=0;i<NBARBRES;i++){
+    int taille = (rand()%8)+3;
+    iRandom = (1 + rand()%(TMONDE - 1));
+    jRandom = (1 +rand()%(TMONDE - 1));
+    while((monde->grilleInt[iRandom-1][jRandom] != 0 || monde->grilleInt[iRandom][jRandom] != 1)){
+      if(monde->grilleInt[iRandom - 1][jRandom] == 1 && monde->grilleInt[iRandom + 1][jRandom] == 1 && monde->grilleInt[iRandom][jRandom] == 1 ){
+        iRandom -= 1;
+      }
+      else if(monde->grilleInt[iRandom - 1][jRandom] != 1 && monde->grilleInt[iRandom + 1][jRandom] == 1 && monde->grilleInt[iRandom][jRandom] == 1){
+        jRandom = (1 +rand()%(TMONDE - 1));       
+      }
+      else if(monde->grilleInt[iRandom - 1][jRandom] == 0 && monde->grilleInt[iRandom + 1][jRandom] != 0 && monde->grilleInt[iRandom][jRandom] == 0){
+        jRandom = (1 +rand()%(TMONDE - 1));       
+      }
+      else{
+        iRandom += 1;
+      }
+    }
+
+     for(i=0;i<taille;i++){
+      monde->grilleInt[iRandom-1][jRandom-1] = ABG;
+      monde->grilleInt[iRandom][jRandom-1] = TERRE;
+      monde->grilleInt[iRandom-1][jRandom+1] = ABD;
+      monde->grilleInt[iRandom][jRandom+1] = TERRE;
+      monde->grilleInt[iRandom-1][jRandom] = BASARB;
+      monde->grilleInt[iRandom - taille + (1 - (i - 1))][jRandom] = ARBRE;
+      if(i == taille - 1){
+          monde->grilleInt[iRandom - taille - 4][jRandom - 2] = TOPARB;
+      }
+     }
+  }        
+
   //Base en Terre
   for(i=TMONDE -2 ; i<TMONDE; i++){
     for(j=0 ; j<TMONDE; j++){

@@ -2,7 +2,7 @@
 #include <SDL/SDL_ttf.h>
 #include "fonction.h"
 
-void affichage_monde(monde monde, character joueur1, SDL_Surface *terre, SDL_Surface *screen, SDL_Surface *casque, SDL_Surface *armure){
+void affichage_monde(monde monde, character joueur1, SDL_Surface *terre, SDL_Surface *screen, SDL_Surface *casque, SDL_Surface *armure, SDL_Surface *tronc, SDL_Surface *abg, SDL_Surface *abd,SDL_Surface *basArb,SDL_Surface *topArb){
   int xAffichageStart = joueur1.xMonde/TAILLE_BLOCS;
   int yAffichageStart = TMONDE - joueur1.yMonde/TAILLE_BLOCS - NBBLOCS_FENETREY;
   int decalageX = -joueur1.xMonde%TAILLE_BLOCS;
@@ -34,6 +34,36 @@ void affichage_monde(monde monde, character joueur1, SDL_Surface *terre, SDL_Sur
 	      posGrille.x = j*TAILLE_BLOCS + decalageX;
 	      posGrille.y = i*TAILLE_BLOCS + decalageY - 7;
 	      SDL_BlitSurface(armure, NULL, screen, &posGrille);	  	
+	  }
+	  if(monde.affichage[i][j] == ARBRE){
+	      SDL_Rect posGrille;
+	      posGrille.x = j*TAILLE_BLOCS + decalageX;
+	      posGrille.y = i*TAILLE_BLOCS + decalageY;
+	      SDL_BlitSurface(tronc, NULL, screen, &posGrille);		  	
+	  }
+	  if(monde.affichage[i][j] == ABG){
+	      SDL_Rect posGrille;
+	      posGrille.x = j*TAILLE_BLOCS + decalageX;
+	      posGrille.y = i*TAILLE_BLOCS + decalageY;
+	      SDL_BlitSurface(abg, NULL, screen, &posGrille);		  	
+	  }
+	  if(monde.affichage[i][j] == ABD){
+	      SDL_Rect posGrille;
+	      posGrille.x = j*TAILLE_BLOCS + decalageX;
+	      posGrille.y = i*TAILLE_BLOCS + decalageY;
+	      SDL_BlitSurface(abd, NULL, screen, &posGrille);		  	
+	  }
+	  if(monde.affichage[i][j] == BASARB){
+	      SDL_Rect posGrille;
+	      posGrille.x = j*TAILLE_BLOCS + decalageX;
+	      posGrille.y = i*TAILLE_BLOCS + decalageY;
+	      SDL_BlitSurface(basArb, NULL, screen, &posGrille);	  	
+	  }
+	  if(monde.affichage[i][j] == TOPARB){
+	      SDL_Rect posGrille;
+	      posGrille.x = j*TAILLE_BLOCS + decalageX;
+	      posGrille.y = i*TAILLE_BLOCS + decalageY;
+	      SDL_BlitSurface(topArb, NULL, screen, &posGrille);	  	
 	  }
 	}
     }
