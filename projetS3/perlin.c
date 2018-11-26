@@ -24,7 +24,7 @@ void free_calque(calque* s){
   free(s);
 }
 
-unsigned char aleatoire(double borneMin, double borneMax){
+int aleatoire(double borneMin, double borneMax){
   if(borneMin > borneMax){
     return 0;
   }

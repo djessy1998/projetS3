@@ -10,7 +10,7 @@ void gen_monde(monde *monde, int freq){
   //Génération aléatoire de Terrain:
   calque *random = init_calque(TMONDE, 1.);
   calque *fin = init_calque(TMONDE, 1.);
-  int i, j, a, k;
+  int i, j, a;
 
   //calque de base aléatoire.
   for(i=0; i<TMONDE; i++){
@@ -38,56 +38,12 @@ void gen_monde(monde *monde, int freq){
      }
   }
   
-  //Génération aléatoire de grottes
-  int taille_grotte = 0;
-  int debut_grotte = 0;
-  calque *grotte = init_calque(TMONDE, 1.);
+  free_calque(random);
+  free_calque(fin);
   
+  //Génération aléatoire de grottes
   for(i=0; i<NB_GROTTES; i++){
-    taille_grotte = aleatoire(TMONDE/3, TMONDE);
-    debut_grotte = aleatoire(0, TMONDE);
-    
-    for(k = 0; k < taille_grotte; k++){
-      random->v[k] = aleatoire(0, TMONDE);
-    }
-    
-    for(k = 0; k < taille_grotte; k++){
-      a = valeur_interpolee(k /*+ debut_grotte*/, freq, random);
-      if(aleatoire(1, 12) == 1){
-	grotte->v[k] = - a/grotte->persistance;
-      }else{
-	grotte->v[k] = a/grotte->persistance;
-      }
-    }
-    
-    int x = 0, y = 0, rayon = 0, limiteX = 0, DroiteGauche = 0;
-    for(k = 0; k < taille_grotte; k+= 2){
-      //Créer un cercle pour faire une grotte
-      rayon = (int)round(sqrt(2 + pow(abs(abs(grotte->v[k]) - abs(grotte->v[k+1])), 2))) +1; // AB² = AC² + BC², AB est le rayon du cercle
-
-      if(grotte->v[k] < 0){
-	limiteX = k - limiteX;
-	DroiteGauche = !DroiteGauche;
-      }
-      
-      if(DroiteGauche){
-	x = debut_grotte + 2*limiteX - k;
-      }else{
-	x = debut_grotte + k - 2*limiteX;
-      }
-      
-      if(x > TMONDE -1){ //Si hors limite
-	x = (TMONDE-1) - (debut_grotte + k)%(TMONDE-1);
-      }
-      
-      if(grotte->v[k] > TMONDE-1){ //Si hors limite
-	y = (TMONDE-1) - abs(grotte->v[k])%(TMONDE-1);
-      }else{
-	y = abs(grotte->v[k]);
-      }
-      
-      gen_cercle(x, y, rayon, monde);
-    }
+    gen_grottes(monde, freq);
   }
 
   //Placement des items
@@ -165,13 +121,66 @@ void gen_monde(monde *monde, int freq){
     }
   }
 
-
-  free_calque(grotte);
-  free_calque(random);
-  free_calque(fin);
-
   tab_int2char(monde->grilleInt, monde->grilleChar, TMONDE, TMONDE);
   ecrire_fichier("saves/MondeTest.txt", monde->grilleChar, TMONDE, TMONDE);
+}
+
+void gen_grottes(monde *monde, int freq){
+  //Génération aléatoire de grottes
+  int taille_grotte = aleatoire(TMONDE/3, TMONDE);
+  int debut_grotte = aleatoire(0, TMONDE);
+  calque *grotte = init_calque(TMONDE, 1.);
+  calque *random = init_calque(TMONDE, 1.);
+  
+  int k, a;
+  int x = 0, y = 0, rayon = 0, limiteX = 0, direction_grotte = 0;
+  
+  //calque aléatoire
+  for(k = 0; k < taille_grotte; k++){
+    random->v[k] = aleatoire(0, TMONDE);
+  }
+  
+  //On détermine les valeurs pour faire une "courbe"
+  for(k = 0; k < taille_grotte; k++){
+    a = valeur_interpolee(k, freq, random);
+    //On a 1 chance sur 12 pour que la grotte change de direction
+    if(aleatoire(1, 12) == 1){
+      grotte->v[k] = (int)-a/grotte->persistance;
+    }else{
+      grotte->v[k] = (int)a/grotte->persistance;
+    }
+  }
+  
+  //On génère la grotte avec des cercles
+  for(k = 0; k < taille_grotte; k += 2){
+    
+    rayon = (int)round(sqrt(2 + pow(abs(abs(grotte->v[k]) - abs(grotte->v[k+1])), DIST_ENTRE_POINTS))) +1; // AB² = AC² + BC², AB est le rayon du cercle
+
+    if(grotte->v[k] < 0){
+      limiteX = k - limiteX; //On reprend l'ancienne limite pour repartir du même point, mais dans une direction différente
+      direction_grotte = !direction_grotte;
+    }
+    
+    if(direction_grotte){
+      x = debut_grotte + 2*limiteX - k; //Vers la gauche
+    }else{
+      x = debut_grotte + k - 2*limiteX; //Vers la droite
+    }
+    
+    if(x > TMONDE -1){ //Si hors limite en X
+      x = (TMONDE-1) - (debut_grotte + k)%(TMONDE-1); // On change la direction
+    }
+    
+    if(grotte->v[k] > TMONDE-1){ //Si hors limite en Y
+      y = (TMONDE-1) - abs(grotte->v[k])%(TMONDE-1); // On change la direcion
+    }else{
+      y = abs(grotte->v[k]);
+    }
+    
+    gen_cercle(x, y, rayon, monde);
+  }
+  free_calque(grotte);
+  free_calque(random);
 }
 
 

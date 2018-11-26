@@ -16,6 +16,7 @@
 
 #define TMONDE         1000
 #define NB_GROTTES     10
+#define DIST_ENTRE_POINTS 2
 #define NBBLOCS_FENETREX 47
 #define NBBLOCS_FENETREY 37
 #define NB_BLOCS_AU_DESSUS_JOUEUR 25
