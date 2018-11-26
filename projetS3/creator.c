@@ -90,6 +90,19 @@ void creer_input(input *input){
   }
 }
 
+void creer_monstre(monstre *monstre){
+  monstre->nom = "Slime";
+  monstre->PV = 100;
+  monstre->x = TMONDE/2;
+  monstre->y = TMONDE/2;
+  monstre->pos.x = 50;
+  monstre->pos.y = 50;
+  monstre->anim.x = 0;
+  monstre->anim.y = 2;
+  monstre->anim.h = 22;
+  monstre->anim.w = 32;
+}
+
 
 SDL_Surface* creer_texture(char* chemin){
   SDL_Surface *temp = NULL;

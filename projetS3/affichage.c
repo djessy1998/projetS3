@@ -266,3 +266,7 @@ void affichage_crack(monde *monde, int *incAnim, SDL_Surface *Crack, SDL_Surface
     SDL_BlitSurface(Crack, &crackAnim, screen, &posCrack);
   }
 }
+
+void affichage_monstre(monstre *monstre, SDL_Surface* Image_Monstre, SDL_Surface *screen){
+  SDL_BlitSurface(Image_Monstre, &monstre->anim, screen, &monstre->pos);
+}

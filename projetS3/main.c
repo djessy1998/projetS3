@@ -20,10 +20,12 @@ int main(int argc,char* argv[])
   input input;
   monde monde;
   character joueur1;
+  monstre monstre;
 
   creer_joueur(&joueur1);
   creer_monde(&monde);
   creer_input(&input);
+  creer_monstre(&monstre);
   
   //Si on ajoute un argument on "affiche" l'aléatoire du terrain avec Perlin
   if(argv[1] != NULL){
@@ -72,6 +74,7 @@ int main(int argc,char* argv[])
   SDL_Surface* abd = creer_texture("Sprites/abd.bmp");
   SDL_Surface* basArb = creer_texture("Sprites/barb.bmp");
   SDL_Surface* topArb = creer_texture("Sprites/topArb.bmp");
+  SDL_Surface* Image_Monstre = creer_texture("Sprites/slime.bmp");
 
   SDL_Rect joueurAnim;
   joueurAnim.x = 7;
@@ -163,6 +166,8 @@ int main(int argc,char* argv[])
 
       affichage_personnage(joueur1, characterD, character, &joueurAnimD, &joueurAnim, screen);
 
+      affichage_monstre(&monstre, Image_Monstre, screen);
+      
       affichage_vie_personnage(&joueur1, vieEnt, miVie, noVie, screen);
 
       SDL_UpdateRect(screen, 0, 0, 0, 0);

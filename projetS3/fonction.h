@@ -73,6 +73,17 @@ struct character
   int bloqAGauche;
 };
 
+typedef struct monstre monstre;
+struct monstre
+{
+  char* nom;
+  int PV;
+  int x;
+  int y;
+  SDL_Rect pos;
+  SDL_Rect anim;
+};
+
 typedef struct items items;
 struct items
 {
@@ -182,6 +193,7 @@ void affichage_personnage(character joueur1, SDL_Surface *characterD, SDL_Surfac
 void affichage_vie_personnage(character *a, SDL_Surface *vie, SDL_Surface *miVie, SDL_Surface *noVie, SDL_Surface *screen);
 void affichage_barre_inv(SDL_Surface *invIm, SDL_Surface *screen, input *input, SDL_Surface *casque, SDL_Surface *armure, SDL_Surface *Actuel, SDL_Surface *terre, int *choixAct);
 void affichage_crack(monde *monde, int *incAnim, SDL_Surface *Crack, SDL_Surface *screen, int minaX,int minaY, character *a);
+void affichage_monstre(monstre *monstre, SDL_Surface* Image_Monstre, SDL_Surface *screen);
 
 //minage.c
 void minage(input *input, character *a, int minaY, int minaX, int *incAnim, monde *monde);
