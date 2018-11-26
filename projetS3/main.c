@@ -75,7 +75,10 @@ int main(int argc,char* argv[])
   SDL_Surface* basArb = creer_texture("Sprites/barb.bmp");
   SDL_Surface* topArb = creer_texture("Sprites/topArb.bmp");
   SDL_Surface* Image_Monstre = creer_texture("Sprites/slime.bmp");
-
+  SDL_Surface* map = creer_texture("Sprites/MiniMapFrame.bmp");
+  
+  SDL_Surface *miniMap = creer_minimap(&monde);
+  
   SDL_Rect joueurAnim;
   joueurAnim.x = 7;
   joueurAnim.y = 0;
@@ -92,7 +95,18 @@ int main(int argc,char* argv[])
 
   posFond.x = 0;
   posFond.y = 0;
+  
+  SDL_Rect posMap;
 
+  posMap.x = SCREEN_WIDTH - 216  - 10;
+  posMap.y = 10;
+  
+  SDL_Rect posMiniMap;
+
+  posMiniMap.x = SCREEN_WIDTH - 208  - 10;
+  posMiniMap.y = 18;
+  posMiniMap.h = 100;
+  posMiniMap.w = 100;
 
   int murG, murD = 0;
   int incrementAnim = 0;
@@ -117,6 +131,7 @@ int main(int argc,char* argv[])
   SDL_SetColorKey(abd,SDL_SRCCOLORKEY,colorkey);
   SDL_SetColorKey(topArb,SDL_SRCCOLORKEY,colorkey);
   SDL_SetColorKey(basArb,SDL_SRCCOLORKEY,colorkeyVie);
+  SDL_SetColorKey(map,SDL_SRCCOLORKEY,colorkey);
 
   int actualTime = 0;
   int lastTimes = 0;
@@ -127,7 +142,6 @@ int main(int argc,char* argv[])
 
   while(!input.data.quit)
     {
-
       //Compteur d'images par secondes
       actualTime = SDL_GetTicks();
       float dt = (actualTime - lastTimes);
@@ -141,10 +155,16 @@ int main(int argc,char* argv[])
       if (SDL_PollEvent(&event)) {
 	HandleEvent(event, &input, &joueur1, &monde,&incAnim,&minaX,&minaY,&choixAct);
       }
-
+      
+      
+      
       SDL_BlitSurface(bg, NULL, screen, &posFond);
 
       affichage_monde(monde, joueur1, terre, screen, casque, armure,tronc,abg,abd,basArb,topArb);
+          
+      SDL_BlitSurface(miniMap, NULL, screen, &posMiniMap);
+      
+      SDL_BlitSurface(map, NULL, screen, &posMap);
 
       traitement_input(input, &joueur1, murG, murD, gauche, droite, listeItems, ItemAffich, &joueurAnimD, &joueurAnim, &incrementAnim);
 

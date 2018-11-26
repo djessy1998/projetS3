@@ -111,3 +111,27 @@ SDL_Surface* creer_texture(char* chemin){
   SDL_FreeSurface(temp);
   return tex;
 }
+
+SDL_Surface* creer_minimap(monde *monde){
+  int i,j;
+  SDL_Surface *temp = NULL;
+  SDL_Color colors[256];
+  //srand(0);
+  for(i=0;i<256;i++){
+      colors[i].r=rand()%256;
+      colors[i].g=rand()%256;
+      colors[i].b=rand()%256;
+  }
+  temp = SDL_CreateRGBSurface(SDL_SWSURFACE,200,200,8, 0xff, 0xff, 0xff, 0);
+  Uint8 *p = temp->pixels;
+  for(i=0;i<TMONDE;i+=5){
+    for(j=0;j<TMONDE;j+=5){
+      *p = monde->grilleInt[i][j];
+      p++;
+    }
+  }
+  SDL_SetPalette(temp,SDL_LOGPAL|SDL_PHYSPAL, colors, 0, 256);
+  SDL_Surface* tex = SDL_DisplayFormat(temp);
+  SDL_FreeSurface(temp);
+  return tex;
+}

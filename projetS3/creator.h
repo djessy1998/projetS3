@@ -11,6 +11,7 @@ void creer_monde(monde *monde);
 void creer_input(input *input);
 void creer_monstre(monstre *monstre);
 SDL_Surface* creer_texture(char* chemin);
+SDL_Surface* creer_minimap(monde *monde);
 
 //generator.c
 void gen_monde(monde *monde, int freq);
