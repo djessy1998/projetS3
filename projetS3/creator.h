@@ -16,3 +16,4 @@ SDL_Surface* creer_texture(char* chemin);
 void gen_monde(monde *monde, int freq);
 void gen_cercle(int x, int y, int rayon, monde *monde);
 void gen_grottes(monde *monde, int freq);
+void apparition_joueur(character *joueur, monde monde);

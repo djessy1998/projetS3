@@ -32,8 +32,7 @@ int main(int argc,char* argv[])
     if(atoi(argv[1]) !=0){
       gen_monde(&monde, atoi(argv[1]));
       //Fait apparaitre le joueur sur une position haute (pas maximale) si il y a eu génération de terrain aléatoire
-      joueur1.yMonde = TMONDE*TAILLE_BLOCS - NBBLOCS_FENETREY*TAILLE_BLOCS;
-      joueur1.yMondeDouble = (double)joueur1.yMonde;
+      apparition_joueur(&joueur1, monde);
     }
   }
  
@@ -75,6 +74,7 @@ int main(int argc,char* argv[])
   SDL_Surface* basArb = creer_texture("Sprites/barb.bmp");
   SDL_Surface* topArb = creer_texture("Sprites/topArb.bmp");
   SDL_Surface* Image_Monstre = creer_texture("Sprites/slime.bmp");
+  SDL_Surface* fond_grotte = creer_texture("Sprites/fond_grotte.bmp");
 
   SDL_Rect joueurAnim;
   joueurAnim.x = 7;
@@ -87,9 +87,14 @@ int main(int argc,char* argv[])
   joueurAnimD.y = 0;
   joueurAnimD.h = 58;
   joueurAnimD.w = 27;
-
+  
+  SDL_Rect anim_fond_grotte;
+  anim_fond_grotte.x = 44;
+  anim_fond_grotte.y = 44;
+  anim_fond_grotte.h = 16;
+  anim_fond_grotte.w = 16;
+  
   SDL_Rect posFond;
-
   posFond.x = 0;
   posFond.y = 0;
 
@@ -117,6 +122,8 @@ int main(int argc,char* argv[])
   SDL_SetColorKey(abd,SDL_SRCCOLORKEY,colorkey);
   SDL_SetColorKey(topArb,SDL_SRCCOLORKEY,colorkey);
   SDL_SetColorKey(basArb,SDL_SRCCOLORKEY,colorkeyVie);
+  SDL_SetColorKey(Image_Monstre, SDL_SRCCOLORKEY,colorkeyVie);
+  SDL_SetColorKey(fond_grotte, SDL_SRCCOLORKEY,colorkeyVie);
 
   int actualTime = 0;
   int lastTimes = 0;
@@ -144,7 +151,7 @@ int main(int argc,char* argv[])
 
       SDL_BlitSurface(bg, NULL, screen, &posFond);
 
-      affichage_monde(monde, joueur1, terre, screen, casque, armure,tronc,abg,abd,basArb,topArb);
+      affichage_monde(monde, joueur1, terre, screen, casque, armure,tronc,abg,abd,basArb,topArb, fond_grotte, anim_fond_grotte);
 
       traitement_input(input, &joueur1, murG, murD, gauche, droite, listeItems, ItemAffich, &joueurAnimD, &joueurAnim, &incrementAnim);
 
