@@ -21,7 +21,7 @@
 #define NB_BLOCS_AU_DESSUS_JOUEUR 25
 #define RAYONRAM	     40
 #define NBITEMS        5
-#define NBARBRES       25
+#define NBARBRES       100
 #define MAXITINV       64
 #define LIMITEMINA      5
 #define VITESSEMINA	1

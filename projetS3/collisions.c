@@ -67,15 +67,15 @@ void collision(character *a, int** affichage, int** posB, int** posBY, int *murD
   int PosPiedDX = ((a->pos.x+PLAYER_WIDTH)/TAILLE_BLOCS) +1 - *murDr;
   int PosPiedGX = (a->pos.x/TAILLE_BLOCS) - *murDr;
 
-  if((affichage[PosPiedY][PosPiedGX] == VIDE &&
-      affichage[PosCorpsY][PosPiedGX] == VIDE &&
-      affichage[PosTeteY][PosPiedGX] == VIDE)) {
+  if((affichage[PosPiedY][PosPiedGX] != TERRE &&
+      affichage[PosCorpsY][PosPiedGX] != TERRE &&
+      affichage[PosTeteY][PosPiedGX] != TERRE)) {
     a->bloqAGauche=0;
   }
 
-  if((affichage[PosPiedY][PosPiedDX] == VIDE &&
-      affichage[PosCorpsY][PosPiedDX] == VIDE &&
-      affichage[PosTeteY][PosPiedDX] == VIDE)){
+  if((affichage[PosPiedY][PosPiedDX] != TERRE &&
+      affichage[PosCorpsY][PosPiedDX] != TERRE &&
+      affichage[PosTeteY][PosPiedDX] != TERRE)){
     a->bloqADroite=0;
   }
 
