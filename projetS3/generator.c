@@ -21,7 +21,9 @@ void gen_monde(monde *monde, int freq){
      a = valeur_interpolee(j, freq, random);
      fin->v[j] = a/fin->persistance;
   }
-
+  
+  free_calque(random);
+  
   //Le monde a 0
   for(i=0 ; i<TMONDE; i++){
     for(j=0 ; j<TMONDE; j++){
@@ -38,12 +40,26 @@ void gen_monde(monde *monde, int freq){
      }
   }
   
-  free_calque(random);
-  free_calque(fin);
   
   //Génération aléatoire de grottes
   for(i=0; i<NB_GROTTES; i++){
     gen_grottes(monde, freq);
+  }
+  
+  //Base en Terre
+  for(i=TMONDE -2 ; i<TMONDE; i++){
+    for(j=0 ; j<TMONDE; j++){
+      monde->grilleInt[i][j] = TERRE;
+    }
+  }
+  
+  for(i=0 ; i<TMONDE; i++){
+     //Remplissage de bas en haut
+     for(j = 0; j<fin->v[i]; j++){
+       if(monde->grilleInt[j][i] == FONDGROTTE){
+	monde->grilleInt[j][i] = VIDE;
+       }
+     }
   }
 
   //Placement des items
@@ -54,7 +70,7 @@ void gen_monde(monde *monde, int freq){
     iRandom = (1 + rand()%(TMONDE - 2));
     jRandom = (1 +rand()%(TMONDE - 2));
     int typeItRand = (2 + (rand()%(2)));
-    while((monde->grilleInt[iRandom - 1][jRandom] != 0 || monde->grilleInt[iRandom][jRandom] != 1)){
+    while((monde->grilleInt[iRandom - 1][jRandom] != 0 && monde->grilleInt[iRandom - 1][jRandom] != 9) || monde->grilleInt[iRandom][jRandom] != 1){
       if(monde->grilleInt[iRandom - 1][jRandom] == 1 && monde->grilleInt[iRandom + 1][jRandom] == 1 && monde->grilleInt[iRandom][jRandom] == 1){
         iRandom -= 1;
       }
@@ -112,14 +128,9 @@ void gen_monde(monde *monde, int freq){
 	  }
       }
      }
-  }        
-
-  //Base en Terre
-  for(i=TMONDE -2 ; i<TMONDE; i++){
-    for(j=0 ; j<TMONDE; j++){
-      monde->grilleInt[i][j] = TERRE;
-    }
   }
+
+  free_calque(fin);
 
   tab_int2char(monde->grilleInt, monde->grilleChar, TMONDE, TMONDE);
   ecrire_fichier("saves/MondeTest.txt", monde->grilleChar, TMONDE, TMONDE);
@@ -143,8 +154,8 @@ void gen_grottes(monde *monde, int freq){
   //On détermine les valeurs pour faire une "courbe"
   for(k = 0; k < taille_grotte; k++){
     a = valeur_interpolee(k, freq, random);
-    //On a 1 chance sur 12 pour que la grotte change de direction
-    if(aleatoire(1, 12) == 1){
+    //On a 1 chance sur 10 pour que la grotte change de direction
+    if(aleatoire(1, 10) == 1){
       grotte->v[k] = (int)-a/grotte->persistance;
     }else{
       grotte->v[k] = (int)a/grotte->persistance;
@@ -212,8 +223,21 @@ void gen_cercle(int x, int y, int rayon, monde *monde){
   for(i = debutX; i < finX; i++){
     for(j = debutY; j < finY; j++){
       if(sqrt(pow(x - i, 2) + pow(y - j, 2)) < sqrt(2*pow(rayon ,2))){
-	monde->grilleInt[j][i] = 0;
+	monde->grilleInt[j][i] = FONDGROTTE;
       }
     }
   }
+}
+
+void apparition_joueur(character *joueur, monde monde){
+  joueur->yMonde = TMONDE*TAILLE_BLOCS - NBBLOCS_FENETREY*TAILLE_BLOCS;
+  joueur->yMondeDouble = (double)joueur->yMonde;
+//   int i, j;
+//   i = (joueur->yMonde + SCREEN_HEIGHT - joueur->pos.y)/TAILLE_BLOCS;
+//   j = (joueur->xMonde + joueur->pos.x)/TAILLE_BLOCS;
+//   while(monde.grilleInt[i][j] != 1 && monde.grilleInt[i][j+1] != 1 && i > NBBLOCS_FENETREY){
+//     i--;
+//   }
+//   joueur->yMondeDouble = i*TAILLE_BLOCS;
+//   joueur->yMonde = (int)joueur->yMondeDouble;
 }

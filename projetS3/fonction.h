@@ -37,6 +37,7 @@
 #define ABD 6
 #define BASARB 7
 #define TOPARB 8
+#define FONDGROTTE 9
 
 typedef struct monde monde;
 struct monde
@@ -187,7 +188,7 @@ void traitement_input(input input, character *joueur1, int murG, int murD, int g
 void traitement_input_inv(input *input, SDL_Surface *invIm, SDL_Surface *casque, SDL_Surface *armure, SDL_Surface *screen, character *joueur1, Liste *liste, int ItemAffich, monde *monde, SDL_Surface *terre);
 
 //affichage.c
-void affichage_monde(monde monde, character joueur1, SDL_Surface *terre, SDL_Surface *screen, SDL_Surface *casque, SDL_Surface *armure, SDL_Surface *tronc, SDL_Surface *abg, SDL_Surface *abd, SDL_Surface *basArb,SDL_Surface *topArb);
+void affichage_monde(monde monde, character joueur1, SDL_Surface *terre, SDL_Surface *screen, SDL_Surface *casque, SDL_Surface *armure, SDL_Surface *tronc, SDL_Surface *abg, SDL_Surface *abd, SDL_Surface *basArb, SDL_Surface *topArb, SDL_Surface *fond_grotte, SDL_Rect anim_fond_grotte);
 void affichage_items_inv(input input, SDL_Surface *casque, SDL_Surface *armure, SDL_Surface *screen, SDL_Surface *terre);
 void affichage_personnage(character joueur1, SDL_Surface *characterD, SDL_Surface *character, SDL_Rect *joueurAnimD, SDL_Rect *joueurAnim, SDL_Surface *screen);
 void affichage_vie_personnage(character *a, SDL_Surface *vie, SDL_Surface *miVie, SDL_Surface *noVie, SDL_Surface *screen);
