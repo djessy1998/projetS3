@@ -20,30 +20,36 @@ void affichage_monde(monde monde, character joueur1, SDL_Surface *terre, SDL_Sur
 	  posGrille.x = j*TAILLE_BLOCS + decalageX;
 	  posGrille.y = i*TAILLE_BLOCS + decalageY;
 	  if(monde.affichage[i][j] == TOPARB){
-	    SDL_BlitSurface(topArb, NULL, screen, &posGrille);	  	
+	    SDL_BlitSurface(topArb, NULL, screen, &posGrille);
 	  }else if(monde.affichage[i][j] == TERRE){
 	    SDL_BlitSurface(terre, NULL, screen, &posGrille);
 	  }else if(monde.affichage[i][j] == CASQUE){
-	    if(monde.affichage[i-1][j] == FONDGROTTE || monde.affichage[i+1][j] == FONDGROTTE || monde.affichage[i][j+1] == FONDGROTTE || monde.affichage[i][j-1] == FONDGROTTE){
+	    if(monde.affichage[i-(i>0)][j] == FONDGROTTE){
 	      SDL_BlitSurface(fond_grotte, &anim_fond_grotte, screen, &posGrille);
+          posGrille.x += TAILLE_BLOCS;
+          SDL_BlitSurface(fond_grotte, &anim_fond_grotte, screen, &posGrille);
+          posGrille.x -= TAILLE_BLOCS;
 	    }
 	    posGrille.y = i*TAILLE_BLOCS + decalageY - 7;
 	    SDL_BlitSurface(casque, NULL, screen, &posGrille);
 	  }else if(monde.affichage[i][j] == ARMURE){
-	    if(monde.affichage[i-1][j] == FONDGROTTE || monde.affichage[i+1][j] == FONDGROTTE || monde.affichage[i][j+1] == FONDGROTTE || monde.affichage[i][j-1] == FONDGROTTE){
+	    if(monde.affichage[i-(i>0)][j] == FONDGROTTE){
 	      SDL_BlitSurface(fond_grotte, &anim_fond_grotte, screen, &posGrille);
+          posGrille.x += TAILLE_BLOCS;
+          SDL_BlitSurface(fond_grotte, &anim_fond_grotte, screen, &posGrille);
+          posGrille.x -= TAILLE_BLOCS;
 	    }
 	    posGrille.y = i*TAILLE_BLOCS + decalageY - 7;
-	    SDL_BlitSurface(armure, NULL, screen, &posGrille);	  	
+	    SDL_BlitSurface(armure, NULL, screen, &posGrille);
 	  }else if(monde.affichage[i][j] == ARBRE){
-	    SDL_BlitSurface(tronc, NULL, screen, &posGrille);		  	
+	    SDL_BlitSurface(tronc, NULL, screen, &posGrille);
 	  }else if(monde.affichage[i][j] == ABG){
-	    SDL_BlitSurface(abg, NULL, screen, &posGrille);		  	
+	    SDL_BlitSurface(abg, NULL, screen, &posGrille);
 	  }else if(monde.affichage[i][j] == ABD){
-	    SDL_BlitSurface(abd, NULL, screen, &posGrille);		  	
+	    SDL_BlitSurface(abd, NULL, screen, &posGrille);
 	  }else if(monde.affichage[i][j] == BASARB){
-	    SDL_BlitSurface(basArb, NULL, screen, &posGrille);	  	
-	  }else if(monde.affichage[i][j] == FONDGROTTE){
+	    SDL_BlitSurface(basArb, NULL, screen, &posGrille);
+	  }else if(monde.affichage[i][j] == FONDGROTTE && monde.affichage[i][j-(int)(j>0)] != ARMURE && monde.affichage[i][j-(int)(j>0)] != CASQUE){
 	    SDL_BlitSurface(fond_grotte, &anim_fond_grotte, screen, &posGrille);
 	  }
 	}
@@ -75,7 +81,7 @@ void affichage_personnage(character joueur1, SDL_Surface *characterD, SDL_Surfac
     }
   else if(joueur1.dir == 1)
     {
-      SDL_BlitSurface(character, joueurAnim, screen, &joueur1.pos); 
+      SDL_BlitSurface(character, joueurAnim, screen, &joueur1.pos);
     }
 }
 
@@ -91,22 +97,22 @@ void affichage_vie_personnage(character *a, SDL_Surface *vie, SDL_Surface *miVie
     for(i = a->PV/10; i < 10;i++){
       posVie.x = i*30 + 1;
       posVie.y = 2;
-      SDL_BlitSurface(noVie, NULL, screen, &posVie);  
+      SDL_BlitSurface(noVie, NULL, screen, &posVie);
     }
   }
   if(a->PV%5 == 0 && a->PV%10 != 0){
     for(i = 0;i<= (a->PV - 5)/10;i++){
       posVie.x = i*30 + 1;
       posVie.y = 2;
-      SDL_BlitSurface(vie, NULL, screen, &posVie);      
+      SDL_BlitSurface(vie, NULL, screen, &posVie);
     }
     SDL_BlitSurface(miVie, NULL, screen, &posVie);
     for(i = (a->PV + 5)/10; i < 10;i++){
       posVie.x = i*30 + 1;
       posVie.y = 2;
-      SDL_BlitSurface(noVie, NULL, screen, &posVie);  
+      SDL_BlitSurface(noVie, NULL, screen, &posVie);
     }
-  }  
+  }
 }
 
 void affichage_barre_inv(SDL_Surface *invIm, SDL_Surface *screen, input *input, SDL_Surface *casque, SDL_Surface *armure, SDL_Surface *Actuel, SDL_Surface *terre, int *choixAct){
@@ -134,7 +140,7 @@ void affichage_barre_inv(SDL_Surface *invIm, SDL_Surface *screen, input *input, 
 		      SDL_BlitSurface(armure, NULL, screen, &posBarItInv);
 		    }
 		  else if(input->data.inv[0][i].type == 3){
-		      SDL_BlitSurface(terre, NULL, screen, &posBarItInv);		    
+		      SDL_BlitSurface(terre, NULL, screen, &posBarItInv);
 		  }
 	}
 	if(input->data.e == 0){
