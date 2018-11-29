@@ -54,7 +54,8 @@ void affichage_monde(monde monde, character joueur1, atlas* atlasJeu, SDL_Surfac
 	    SDL_BlitSurface(atlasJeu->fond_grotte->surface,&atlasJeu->fond_grotte->anim, screen, &posGrille);
 	  }
 	}
-
+  }
+}
 
 void affichage_items_inv(input input, atlas* atlasJeu, SDL_Surface *screen){
   if(input.data.numItemInvX != -1 && input.data.rien == 0)

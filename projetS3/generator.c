@@ -121,11 +121,7 @@ void gen_monde(monde *monde, int freq){
       }
       monde->grilleInt[iRandom][jRandom] = BASARB;
       if(iRandom - j > 0){
-<<<<<<< HEAD
 	     monde->grilleInt[iRandom-j][jRandom] = ARBRE;	
-=======
-	monde->grilleInt[iRandom-j][jRandom] = ARBRE;
->>>>>>> 7ff79e39902fc8c800dcf2b8990a61ce8bb1105c
       }
       if(j == taille - 1){
 	  if(iRandom - taille - 4 > 0){
