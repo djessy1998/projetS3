@@ -26,17 +26,6 @@ int main(int argc,char* argv[])
   creer_monde(&monde);
   creer_input(&input);
 
-  //Si on ajoute un argument on "affiche" l'aléatoire du terrain avec Perlin
-  if(argv[1] != NULL){
-    if(atoi(argv[1]) !=0){
-      gen_monde(&monde, atoi(argv[1]));
-      apparition_joueur(&joueur1, monde);
-      creer_monstre(&monstre, monde);
-    }
-  }
-
-  Liste *listeItems = initialisation();
-
   SDL_Surface *screen;
   /* initialize SDL */
   SDL_Init(SDL_INIT_VIDEO);
@@ -54,17 +43,25 @@ int main(int argc,char* argv[])
   SDL_EnableKeyRepeat(10, 10);
 
   /*Création de textures*/
+  atlas* atlasJeu = init_atlas();
+  
+  //Si on ajoute un argument on "affiche" l'aléatoire du terrain avec Perlin
+  if(argv[1] != NULL){
+    if(atoi(argv[1]) !=0){
+      gen_monde(&monde, atoi(argv[1]));
+      apparition_joueur(&joueur1, monde);
+      creer_monstre(&monstre, atlasJeu, monde);
+    }
+  }
 
   SDL_Surface *miniMap = creer_minimap(&monde);
-  
+
   SDL_Rect posMiniMap;
 
   posMiniMap.x = SCREEN_WIDTH - 208  - 10;
   posMiniMap.y = 18;
   posMiniMap.h = 100;
   posMiniMap.w = 100;
-
-  atlas* atlasJeu = init_atlas();
 
   int murG, murD = 0;
   int incrementAnim = 0;
@@ -73,6 +70,8 @@ int main(int argc,char* argv[])
   int yMomTomb = 0, fait = 0, faitCalc = 0, yMomTombDeb = 0;
   int actualTime = 0;
   int lastTimes = 0;
+
+  Liste *listeItems = initialisation();
 
   ItemMonde(monde,listeItems);
 
@@ -90,13 +89,13 @@ int main(int argc,char* argv[])
     if (SDL_PollEvent(&event)) {
       HandleEvent(event, &input, &joueur1, &monde,&incAnim,&minaX,&minaY,&choixAct);
     }
-  
+
     SDL_BlitSurface(atlasJeu->bg->surface, NULL, screen, &atlasJeu->bg->pos);
-  
+
     affichage_monde(monde, joueur1, atlasJeu, screen);
 
     SDL_BlitSurface(miniMap, NULL, screen, &posMiniMap);
-    
+
     SDL_BlitSurface(atlasJeu->map->surface, NULL, screen, &atlasJeu->map->pos);
 
     traitement_input(input, &joueur1, murG, murD, gauche, droite, listeItems, ItemAffich, atlasJeu, &incrementAnim);
@@ -106,11 +105,10 @@ int main(int argc,char* argv[])
     traitement_input_inv(&input, &joueur1, listeItems, ItemAffich, &monde, atlasJeu, screen);
 
     affichage_items_inv(input, atlasJeu, screen);
-    
-    affichage_crack(&monde, &incAnim, atlasJeu, minaX,minaY, &joueur1, screen);
-  
-    minage(&input,&joueur1, minaY, minaX, &incAnim, &monde);
 
+    affichage_crack(&monde, &incAnim, atlasJeu, minaX,minaY, &joueur1, screen);
+
+    minage(&input,&joueur1, minaY, minaX, &incAnim, &monde);
 
     terreRonde(&joueur1, &murD, &murG);
 
@@ -123,9 +121,9 @@ int main(int argc,char* argv[])
     affichage_vie_personnage(&joueur1, atlasJeu, screen);
 
       if(argv[1] != NULL){
-	if(atoi(argv[1]) !=0){
-	  affichage_monstre(&monstre, atlasJeu, screen, joueur1);
-	}
+      	if(atoi(argv[1]) !=0){
+      	  affichage_monstre(&monstre, atlasJeu, screen, joueur1);
+      	}
       }
 
     SDL_UpdateRect(screen, 0, 0, 0, 0);
@@ -151,7 +149,7 @@ int main(int argc,char* argv[])
   TTF_Quit();
 
   SDL_Quit();
-  
+
   //Sauvegarde de la map
   if(argv[1] != NULL){
     if(atoi(argv[1]) !=0){
@@ -159,7 +157,7 @@ int main(int argc,char* argv[])
     ecrire_fichier("saves/MondeTest.txt", monde.grilleChar, TMONDE, TMONDE);
     }
   }
-  
+
   desallouer_tab_2D_int(monde.grilleInt, TMONDE);
   desallouer_tab_2D_char(monde.grilleChar, TMONDE);
   desallouer_tab_2D_int(monde.posB, TMONDE);

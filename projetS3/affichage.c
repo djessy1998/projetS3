@@ -23,7 +23,7 @@ void affichage_monde(monde monde, character joueur1, atlas* atlasJeu, SDL_Surfac
 	  if(monde.affichage[i][j] == TOPARB){
 		posGrille.x = j*TAILLE_BLOCS + decalageX - 33;
 		posGrille.y = i*TAILLE_BLOCS + decalageY - 64;
-	    SDL_BlitSurface(atlasJeu->topArb->surface, NULL, screen, &posGrille);	  	
+	    SDL_BlitSurface(atlasJeu->topArb->surface, NULL, screen, &posGrille);
 	  }else if(monde.affichage[i][j] == TERRE){
 	    SDL_BlitSurface(atlasJeu->terre->surface, NULL, screen, &posGrille);
 	  }else if(monde.affichage[i][j] == CASQUE){
@@ -43,15 +43,15 @@ void affichage_monde(monde monde, character joueur1, atlas* atlasJeu, SDL_Surfac
 	      posGrille.x -= TAILLE_BLOCS;
 	    }
 	    posGrille.y = i*TAILLE_BLOCS + decalageY - 7;
-	    SDL_BlitSurface(atlasJeu->armure->surface, NULL, screen, &posGrille);	  	
+	    SDL_BlitSurface(atlasJeu->armure->surface, NULL, screen, &posGrille);
 	  }else if(monde.affichage[i][j] == ARBRE){
-	    SDL_BlitSurface(atlasJeu->tronc->surface, NULL, screen, &posGrille);		  	
+	    SDL_BlitSurface(atlasJeu->tronc->surface, NULL, screen, &posGrille);
 	  }else if(monde.affichage[i][j] == ABG){
-	    SDL_BlitSurface(atlasJeu->abg->surface, NULL, screen, &posGrille);		  	
+	    SDL_BlitSurface(atlasJeu->abg->surface, NULL, screen, &posGrille);
 	  }else if(monde.affichage[i][j] == ABD){
-	    SDL_BlitSurface(atlasJeu->abd->surface, NULL, screen, &posGrille);		  	
+	    SDL_BlitSurface(atlasJeu->abd->surface, NULL, screen, &posGrille);
 	  }else if(monde.affichage[i][j] == BASARB){
-	    SDL_BlitSurface(atlasJeu->basArb->surface, NULL, screen, &posGrille);	  	
+	    SDL_BlitSurface(atlasJeu->basArb->surface, NULL, screen, &posGrille);
 	  }else if(monde.affichage[i][j] == FONDGROTTE  && monde.affichage[i][j-(int)(j>0)] != ARMURE && monde.affichage[i][j-(int)(j>0)] != CASQUE){
 	    SDL_BlitSurface(atlasJeu->fond_grotte->surface,&atlasJeu->fond_grotte->anim, screen, &posGrille);
 	  }
@@ -83,7 +83,7 @@ void affichage_personnage(character joueur1, atlas* atlasJeu, SDL_Surface *scree
     }
   else if(joueur1.dir == 1)
     {
-      SDL_BlitSurface(atlasJeu->character->surface, &atlasJeu->character->anim, screen, &joueur1.pos); 
+      SDL_BlitSurface(atlasJeu->character->surface, &atlasJeu->character->anim, screen, &joueur1.pos);
     }
 }
 
@@ -98,20 +98,20 @@ void affichage_vie_personnage(character *a, atlas* atlasJeu, SDL_Surface *screen
     for(i = a->PV/10; i < 10;i++){
      setPosX(atlasJeu->noVie,i*30 + 1);
      setPosY(atlasJeu->noVie, 2);
-     SDL_BlitSurface(atlasJeu->noVie->surface, NULL, screen, &atlasJeu->noVie->pos);  
+     SDL_BlitSurface(atlasJeu->noVie->surface, NULL, screen, &atlasJeu->noVie->pos);
     }
   }
   if(a->PV%5 == 0 && a->PV%10 != 0){
     for(i = 0;i<= (a->PV - 5)/10;i++){
       setPosX(atlasJeu->vieEnt, i*30 + 1);
       setPosY(atlasJeu->vieEnt, 2);
-      SDL_BlitSurface(atlasJeu->vieEnt->surface, NULL, screen, &atlasJeu->vieEnt->pos);      
+      SDL_BlitSurface(atlasJeu->vieEnt->surface, NULL, screen, &atlasJeu->vieEnt->pos);
     }
     SDL_BlitSurface(atlasJeu->miVie->surface, NULL, screen, &atlasJeu->vieEnt->pos);
     for(i = (a->PV + 5)/10; i < 10;i++){
       setPosX(atlasJeu->miVie,i*30 + 1);
       setPosY(atlasJeu->miVie, 2);
-      SDL_BlitSurface(atlasJeu->noVie->surface, NULL, screen, &atlasJeu->miVie->pos);  
+      SDL_BlitSurface(atlasJeu->noVie->surface, NULL, screen, &atlasJeu->miVie->pos);
     }
   }
 }
@@ -141,7 +141,7 @@ void affichage_barre_inv (input *input,int *choixAct, atlas* atlasJeu, SDL_Surfa
 		      SDL_BlitSurface(atlasJeu->armure->surface, NULL, screen, &posBarItInv);
 		    }
 		  else if(input->data.inv[0][i].type == 3){
-		    SDL_BlitSurface(atlasJeu->terre->surface, NULL, screen, &posBarItInv);		    
+		    SDL_BlitSurface(atlasJeu->terre->surface, NULL, screen, &posBarItInv);
 		  }
 	}
 	if(input->data.e == 0){
@@ -251,11 +251,11 @@ void affichage_crack(monde *monde, int *incAnim, atlas* atlasJeu, int minaX, int
 
 void affichage_monstre(monstre *monstre, atlas* atlasJeu, SDL_Surface *screen, character joueur){
   if(monstre->x > joueur.xMonde && monstre->x < joueur.xMonde + SCREEN_WIDTH && monstre->y > joueur.yMonde && monstre->y < joueur.yMonde + SCREEN_HEIGHT){
-    atlasJeu->Image_Monstre->pos.x = monstre->x - joueur.xMonde;
-    atlasJeu->Image_Monstre->pos.y = NBBLOCS_FENETREY*TAILLE_BLOCS - (monstre->y - joueur.yMonde);
+    setPosX(atlasJeu->Image_Monstre, monstre->x - joueur.xMonde);
+    setPosY(atlasJeu->Image_Monstre, NBBLOCS_FENETREY*TAILLE_BLOCS - (monstre->y - joueur.yMonde));
     SDL_BlitSurface(atlasJeu->Image_Monstre->surface, &atlasJeu->Image_Monstre->anim, screen, &atlasJeu->Image_Monstre->pos);
-    
-    //Le monstre fait un saut quand on le voit ()
+
+    //Le monstre fait un saut quand on le voit
     monstre->velocity_y = VELOCITE_MAX;
   }
 }

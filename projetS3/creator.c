@@ -88,13 +88,13 @@ void creer_input(input *input){
   }
 }
 
-void creer_monstre(monstre *monstre, monde monde){
+void creer_monstre(monstre *monstre, atlas* atlasJeu, monde monde){
   monstre->nom = (char*) malloc(5 *sizeof(char));
   strcpy(monstre->nom, "Slime");
   monstre->PV = 100;
   monstre->x = TMONDE/2;
   monstre->y = 0;
-  
+
   while(monde.grilleInt[monstre->y][monstre->x] != TERRE){
     monstre->y += 1;
     if(monde.grilleInt[monstre->y][monstre->x+1] == TERRE && monde.grilleInt[monstre->y][monstre->x-1] == TERRE){
@@ -102,14 +102,14 @@ void creer_monstre(monstre *monstre, monde monde){
       monstre->y = 0;
     }
   }
-  monstre->pos.x = 0;
-  monstre->pos.y = 0;
-  monstre->anim.x = 0;
-  monstre->anim.y = 2;
-  monstre->anim.h = 22;
-  monstre->anim.w = 32;
+  setPosX(atlasJeu->Image_Monstre, 0);
+  setPosY(atlasJeu->Image_Monstre, 0);
+  setAnimX(atlasJeu->Image_Monstre, 0);
+  setAnimY(atlasJeu->Image_Monstre, 2);
+  setAnimH(atlasJeu->Image_Monstre, 22);
+  setAnimW(atlasJeu->Image_Monstre, 32);
   monstre->x = TAILLE_BLOCS*monstre->x;
-  monstre->y = TMONDE*TAILLE_BLOCS - TAILLE_BLOCS*monstre->y + monstre->anim.h;
+  monstre->y = TMONDE*TAILLE_BLOCS - TAILLE_BLOCS*monstre->y + 22; //22 est la hauteur du monstre
   monstre->velocity_y = 0;
 }
 
@@ -172,6 +172,14 @@ void setAnimX(image* image, int x){
 
 void setAnimY(image* image, int y){
   image->anim.y = y;
+}
+
+void setAnimH(image* image, int h){
+  image->anim.h = h;
+}
+
+void setAnimW(image* image, int w){
+  image->anim.w = w;
 }
 
 void detruire_text(image* image){

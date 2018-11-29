@@ -84,8 +84,6 @@ struct monstre
   int x;
   int y;
   int velocity_y;
-  SDL_Rect pos;
-  SDL_Rect anim;
 };
 
 typedef struct items items;
