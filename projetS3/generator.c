@@ -6,7 +6,7 @@
 #include "perlin.h"
 #include "creator.h"
 
-void gen_monde(monde *monde, character *joueur, int freq){
+void gen_monde(monde *monde, int freq){
   //Génération aléatoire de Terrain:
   calque *random = init_calque(TMONDE, 1.);
   calque *fin = init_calque(TMONDE, 1.);
@@ -129,8 +129,7 @@ void gen_monde(monde *monde, character *joueur, int freq){
       }
      }
   }
-
-  apparition_joueur(joueur, TMONDE/2, TMONDE - fin->v[TMONDE/2]);
+  
   free_calque(fin);
 
   tab_int2char(monde->grilleInt, monde->grilleChar, TMONDE, TMONDE);
@@ -230,10 +229,19 @@ void gen_cercle(int x, int y, int rayon, monde *monde){
   }
 }
 
-void apparition_joueur(character *joueur, int x, int y){
-  printf("y = %d\n", y);
-  joueur->yMonde = (y+(NBBLOCS_FENETREY - NB_BLOCS_AU_DESSUS_JOUEUR))*TAILLE_BLOCS;
+void apparition_joueur(character *joueur, monde monde){
+  int y = NBBLOCS_FENETREY;
+  int x = TMONDE/2;
+  
+  while(monde.grilleInt[y][x] != TERRE){
+    y += 1;
+    if(monde.grilleInt[y][x+1] == TERRE && monde.grilleInt[y][x-1] == TERRE){
+      x += 1;
+      y = NBBLOCS_FENETREY;
+    }
+  }
+  joueur->yMonde = (TMONDE - (y+(NBBLOCS_FENETREY - NB_BLOCS_AU_DESSUS_JOUEUR)))*TAILLE_BLOCS;
   joueur->yMondeDouble = (double)joueur->yMonde;
-  joueur->xMonde = (x-(2*NBBLOCS_FENETREX/3))*TAILLE_BLOCS;
+  joueur->xMonde = (x - NBBLOCS_FENETREX/2)*TAILLE_BLOCS;
   joueur->xMondeDouble = (double)joueur->xMonde;
 }

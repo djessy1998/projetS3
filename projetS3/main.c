@@ -30,7 +30,8 @@ int main(int argc,char* argv[])
   //Si on ajoute un argument on "affiche" l'aléatoire du terrain avec Perlin
   if(argv[1] != NULL){
     if(atoi(argv[1]) !=0){
-      gen_monde(&monde, &joueur1, atoi(argv[1]));
+      gen_monde(&monde, atoi(argv[1]));
+      apparition_joueur(&joueur1, monde);
     }
   }
 
@@ -220,8 +221,13 @@ int main(int argc,char* argv[])
   TTF_Quit();
 
   SDL_Quit();
-
-
+  //Sauvegarde de la map
+  if(argv[1] != NULL){
+    if(atoi(argv[1]) !=0){
+    tab_int2char(monde.grilleInt, monde.grilleChar, TMONDE, TMONDE);
+    ecrire_fichier("saves/MondeTest.txt", monde.grilleChar, TMONDE, TMONDE);
+    }
+  }
   desallouer_tab_2D_int(monde.grilleInt, TMONDE);
   desallouer_tab_2D_char(monde.grilleChar, TMONDE);
   desallouer_tab_2D_int(monde.posB, TMONDE);

@@ -14,7 +14,7 @@ SDL_Surface* creer_texture(char* chemin);
 SDL_Surface* creer_minimap(monde *monde);
 
 //generator.c
-void gen_monde(monde *monde, character *joueur, int freq);
+void gen_monde(monde *monde, int freq);
 void gen_cercle(int x, int y, int rayon, monde *monde);
 void gen_grottes(monde *monde, int freq);
-void apparition_joueur(character *joueur, int x, int y);
+void apparition_joueur(character *joueur, monde monde);
