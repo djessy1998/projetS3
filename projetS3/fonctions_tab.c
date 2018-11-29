@@ -69,37 +69,7 @@ void afficher_tab_2D_int(int** tab, int n, int m){
 void tab_char2int(char** tab, int** tabInt, int tailleX, int tailleY){
   for(int x = 0; x < tailleX; x++){
     for(int y = 0; y < tailleY; y++){
-      switch (tab[x][y]){
-      case CASE8:
-  tabInt[x][y] = 8;
-      break;
-      case CASE7:
-  tabInt[x][y] = 7;
-      break;
-      case CASE6:
-  tabInt[x][y] = 6;
-      break;
-      case CASE5:
-  tabInt[x][y] = 5;
-      break;
-      case CASE4:
-  tabInt[x][y] = 4;
-      break;
-      case CASE3:
-  tabInt[x][y] = 3;
-        break;
-      case CASE2:
-  tabInt[x][y] = 2;
-        break;
-      case CASE1:
-	tabInt[x][y] = 1;
-        break;
-      case CASE0:
-	tabInt[x][y] = 0;
-        break;
-      default:
-        break;
-      }
+      tabInt[x][y] = atoi(&tab[x][y]);
     }
   }
 }
@@ -107,37 +77,7 @@ void tab_char2int(char** tab, int** tabInt, int tailleX, int tailleY){
 void tab_int2char(int** tabInt, char** tabChar, int tailleX, int tailleY){
   for(int x = 0; x < tailleX; x++){
     for(int y = 0; y < tailleY; y++){
-      switch (tabInt[x][y]){
-      case 8:
-        tabChar[x][y] = '8';
-        break;
-      case 7:
-        tabChar[x][y] = '7';
-        break;
-      case 6:
-        tabChar[x][y] = '6';
-        break;
-      case 5:
-        tabChar[x][y] = '5';
-        break;
-      case 4:
-        tabChar[x][y] = '4';
-        break;
-      case 3:
-        tabChar[x][y] = '3';
-        break;
-      case 2:
-        tabChar[x][y] = '2';
-        break;
-      case 1:
-	      tabChar[x][y] = '1';
-        break;
-      case 0:
-	      tabChar[x][y] = '0';
-        break;
-      default:
-        break;
-      }
+      tabChar[x][y] = tabInt[x][y] + VALEUR_ASCII_0;
     }
   }
 }
