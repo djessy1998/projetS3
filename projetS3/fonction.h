@@ -83,6 +83,7 @@ struct monstre
   int PV;
   int x;
   int y;
+  int velocity_y;
   SDL_Rect pos;
   SDL_Rect anim;
 };
@@ -164,6 +165,9 @@ void deplacerD(character *a, int murDro, int murGau);
 void sauter(character *a);
 void baisser(character *a);
 
+//deplacement_monstre.c
+void monstre_saut(monstre *m, monde monde);
+
 //collision.c
 void gravite(character *a);
 void collision(character *a, int** affichage, int** posB, int** posBY, int *murDr, int *murGa, int *yMomTom, int *fait, int *faitCalc, int *yMomTomDeb, int *touche);
@@ -195,7 +199,7 @@ void affichage_personnage(character joueur1, atlas* atlasJeu, SDL_Surface *scree
 void affichage_vie_personnage(character *a, atlas* atlasJeu, SDL_Surface *screen);
 void affichage_barre_inv(input *input,int *choixAct, atlas* atlasJeu, SDL_Surface *screen);
 void affichage_crack(monde *monde, int *incAnim, atlas* atlasJeu,int minaX,int minaY, character *a, SDL_Surface *screen);
-void affichage_monstre(monstre *monstre, SDL_Surface* Image_Monstre, SDL_Surface *screen);
+void affichage_monstre(monstre *monstre, atlas* atlasJeu, SDL_Surface *screen, character joueur);
 
 //minage.c
 void minage(input *input, character *a, int minaY, int minaX, int *incAnim, monde *monde);

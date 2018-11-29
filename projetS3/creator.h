@@ -11,7 +11,7 @@
 void creer_joueur(character *joueur);
 void creer_monde(monde *monde);
 void creer_input(input *input);
-void creer_monstre(monstre *monstre);
+void creer_monstre(monstre *monstre, monde monde);
 image* creer_texture(char* chemin, int x, int y, int animX, int animY, int animH, int animW);
 SDL_Surface* creer_minimap(monde *monde);
 atlas* init_atlas();

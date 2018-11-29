@@ -88,17 +88,29 @@ void creer_input(input *input){
   }
 }
 
-void creer_monstre(monstre *monstre){
-  monstre->nom = "Slime";
+void creer_monstre(monstre *monstre, monde monde){
+  monstre->nom = (char*) malloc(5 *sizeof(char));
+  strcpy(monstre->nom, "Slime");
   monstre->PV = 100;
   monstre->x = TMONDE/2;
-  monstre->y = TMONDE/2;
-  monstre->pos.x = 50;
-  monstre->pos.y = 50;
+  monstre->y = 0;
+  
+  while(monde.grilleInt[monstre->y][monstre->x] != TERRE){
+    monstre->y += 1;
+    if(monde.grilleInt[monstre->y][monstre->x+1] == TERRE && monde.grilleInt[monstre->y][monstre->x-1] == TERRE){
+      monstre->x += 1;
+      monstre->y = 0;
+    }
+  }
+  monstre->pos.x = 0;
+  monstre->pos.y = 0;
   monstre->anim.x = 0;
   monstre->anim.y = 2;
   monstre->anim.h = 22;
   monstre->anim.w = 32;
+  monstre->x = TAILLE_BLOCS*monstre->x;
+  monstre->y = TMONDE*TAILLE_BLOCS - TAILLE_BLOCS*monstre->y + monstre->anim.h;
+  monstre->velocity_y = 0;
 }
 
 atlas* creer_atlas(image** tabIm){

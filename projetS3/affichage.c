@@ -249,6 +249,13 @@ void affichage_crack(monde *monde, int *incAnim, atlas* atlasJeu, int minaX, int
   }
 }
 
-void affichage_monstre(monstre *monstre, SDL_Surface* Image_Monstre, SDL_Surface *screen){
-  SDL_BlitSurface(Image_Monstre, &monstre->anim, screen, &monstre->pos);
+void affichage_monstre(monstre *monstre, atlas* atlasJeu, SDL_Surface *screen, character joueur){
+  if(monstre->x > joueur.xMonde && monstre->x < joueur.xMonde + SCREEN_WIDTH && monstre->y > joueur.yMonde && monstre->y < joueur.yMonde + SCREEN_HEIGHT){
+    atlasJeu->Image_Monstre->pos.x = monstre->x - joueur.xMonde;
+    atlasJeu->Image_Monstre->pos.y = NBBLOCS_FENETREY*TAILLE_BLOCS - (monstre->y - joueur.yMonde);
+    SDL_BlitSurface(atlasJeu->Image_Monstre->surface, &atlasJeu->Image_Monstre->anim, screen, &atlasJeu->Image_Monstre->pos);
+    
+    //Le monstre fait un saut quand on le voit ()
+    monstre->velocity_y = VELOCITE_MAX;
+  }
 }

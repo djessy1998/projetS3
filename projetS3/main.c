@@ -25,13 +25,13 @@ int main(int argc,char* argv[])
   creer_joueur(&joueur1);
   creer_monde(&monde);
   creer_input(&input);
-  creer_monstre(&monstre);
 
   //Si on ajoute un argument on "affiche" l'aléatoire du terrain avec Perlin
   if(argv[1] != NULL){
     if(atoi(argv[1]) !=0){
       gen_monde(&monde, atoi(argv[1]));
       apparition_joueur(&joueur1, monde);
+      creer_monstre(&monstre, monde);
     }
   }
 
@@ -76,56 +76,60 @@ int main(int argc,char* argv[])
 
   ItemMonde(monde,listeItems);
 
-  while(!input.data.quit)
-    {
-      //Compteur d'images par secondes
-      actualTime = SDL_GetTicks();
-      float dt = (actualTime - lastTimes);
-      if(dt < 1000.0 / 144.0 ){
-        SDL_Delay((1000.0 / 144.0) - dt); //On limite les images par secondes en faisant des pauses entre chaque image
-      }
-      lastTimes = SDL_GetTicks();
-      //Compteur d'images par secondes
-
-      SDL_Event event;
-      if (SDL_PollEvent(&event)) {
-	HandleEvent(event, &input, &joueur1, &monde,&incAnim,&minaX,&minaY,&choixAct);
-      }
-   
-      SDL_BlitSurface(atlasJeu->bg->surface, NULL, screen, &atlasJeu->bg->pos);
-   
-      affichage_monde(monde, joueur1, atlasJeu, screen);
-
-      SDL_BlitSurface(miniMap, NULL, screen, &posMiniMap);
-      
-      SDL_BlitSurface(atlasJeu->map->surface, NULL, screen, &atlasJeu->map->pos);
-
-      traitement_input(input, &joueur1, murG, murD, gauche, droite, listeItems, ItemAffich, atlasJeu, &incrementAnim);
-
-      affichage_barre_inv(&input,&choixAct, atlasJeu, screen);
-
-      traitement_input_inv(&input, &joueur1, listeItems, ItemAffich, &monde, atlasJeu, screen);
-
-      affichage_items_inv(input, atlasJeu, screen);
-      
-      affichage_crack(&monde, &incAnim, atlasJeu, minaX,minaY, &joueur1, screen);
-    
-      minage(&input,&joueur1, minaY, minaX, &incAnim, &monde);
-
-      terreRonde(&joueur1, &murD, &murG);
-
-      collision(&joueur1, monde.affichage, monde.posB, monde.posBY, &murD, &murG, &yMomTomb, &fait, &faitCalc, &yMomTombDeb, &touche);
-
-      calc_vie_tombe(&joueur1, &yMomTombDeb, &faitCalc, &touche);
-
-      affichage_personnage(joueur1, atlasJeu, screen);
-
-      affichage_vie_personnage(&joueur1, atlasJeu, screen);
-
-      //affichage_monstre(&monstre, Image_Monstre, screen);
-
-      SDL_UpdateRect(screen, 0, 0, 0, 0);
+  while(!input.data.quit){
+    //Compteur d'images par secondes
+    actualTime = SDL_GetTicks();
+    float dt = (actualTime - lastTimes);
+    if(dt < 1000.0 / 144.0 ){
+      SDL_Delay((1000.0 / 144.0) - dt); //On limite les images par secondes en faisant des pauses entre chaque image
     }
+    lastTimes = SDL_GetTicks();
+    //Compteur d'images par secondes
+
+    SDL_Event event;
+    if (SDL_PollEvent(&event)) {
+      HandleEvent(event, &input, &joueur1, &monde,&incAnim,&minaX,&minaY,&choixAct);
+    }
+  
+    SDL_BlitSurface(atlasJeu->bg->surface, NULL, screen, &atlasJeu->bg->pos);
+  
+    affichage_monde(monde, joueur1, atlasJeu, screen);
+
+    SDL_BlitSurface(miniMap, NULL, screen, &posMiniMap);
+    
+    SDL_BlitSurface(atlasJeu->map->surface, NULL, screen, &atlasJeu->map->pos);
+
+    traitement_input(input, &joueur1, murG, murD, gauche, droite, listeItems, ItemAffich, atlasJeu, &incrementAnim);
+
+    affichage_barre_inv(&input,&choixAct, atlasJeu, screen);
+
+    traitement_input_inv(&input, &joueur1, listeItems, ItemAffich, &monde, atlasJeu, screen);
+
+    affichage_items_inv(input, atlasJeu, screen);
+    
+    affichage_crack(&monde, &incAnim, atlasJeu, minaX,minaY, &joueur1, screen);
+  
+    minage(&input,&joueur1, minaY, minaX, &incAnim, &monde);
+
+
+    terreRonde(&joueur1, &murD, &murG);
+
+    collision(&joueur1, monde.affichage, monde.posB, monde.posBY, &murD, &murG, &yMomTomb, &fait, &faitCalc, &yMomTombDeb, &touche);
+
+    calc_vie_tombe(&joueur1, &yMomTombDeb, &faitCalc, &touche);
+
+    affichage_personnage(joueur1, atlasJeu, screen);
+
+    affichage_vie_personnage(&joueur1, atlasJeu, screen);
+
+      if(argv[1] != NULL){
+	if(atoi(argv[1]) !=0){
+	  affichage_monstre(&monstre, atlasJeu, screen, joueur1);
+	}
+      }
+
+    SDL_UpdateRect(screen, 0, 0, 0, 0);
+  }
 
 
   SDL_FreeSurface(atlasJeu->bg->surface);
@@ -147,6 +151,7 @@ int main(int argc,char* argv[])
   TTF_Quit();
 
   SDL_Quit();
+  
   //Sauvegarde de la map
   if(argv[1] != NULL){
     if(atoi(argv[1]) !=0){
@@ -154,6 +159,7 @@ int main(int argc,char* argv[])
     ecrire_fichier("saves/MondeTest.txt", monde.grilleChar, TMONDE, TMONDE);
     }
   }
+  
   desallouer_tab_2D_int(monde.grilleInt, TMONDE);
   desallouer_tab_2D_char(monde.grilleChar, TMONDE);
   desallouer_tab_2D_int(monde.posB, TMONDE);
@@ -161,5 +167,6 @@ int main(int argc,char* argv[])
   desallouer_tab_2D_int(monde.affichage, NBBLOCS_FENETREY);
   //désallocation du pseudo du joueur:
   free(joueur1.nom);
+  free(monstre.nom);
   return 0;
 }
