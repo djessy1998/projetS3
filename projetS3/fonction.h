@@ -1,6 +1,8 @@
+#pragma once
 #include <SDL.h>
 #include <SDL/SDL_ttf.h>
 #include "fonctions_fichiers.h"
+#include "atlas.h"
 
 #define SCREEN_WIDTH   720
 #define SCREEN_HEIGHT  560
@@ -149,7 +151,6 @@ struct input
 };
 
 
-
 //input.c
 void fonction_Handle_Event(SDL_Event event, input *input, character *a, monde *monde,int *incAnim, int *minaX, int *minaY, int *choixAct);
 void quit(input *input);
@@ -184,16 +185,16 @@ void insertion(Liste *liste, int nvType, int nvXMonde, int nvYMonde);
 void ItemMonde(monde monde, Liste *liste);
 
 //traitement_input.c
-void traitement_input(input input, character *joueur1, int murG, int murD, int gauche, int droite, Liste *listeItems, int ItemAffich, SDL_Rect *joueurAnimD, SDL_Rect *joueurAnim, int *incrim);
-void traitement_input_inv(input *input, SDL_Surface *invIm, SDL_Surface *casque, SDL_Surface *armure, SDL_Surface *screen, character *joueur1, Liste *liste, int ItemAffich, monde *monde, SDL_Surface *terre);
+void traitement_input(input input, character *joueur1, int murG, int murD, int gauche, int droite, Liste *listeItems, int ItemAffich, atlas* atlasJeu, int *incrim);
+void traitement_input_inv(input *input, character *joueur1, Liste *liste, int ItemAffich, monde *monde, atlas* atlasJeu, SDL_Surface *screen);
 
 //affichage.c
-void affichage_monde(monde monde, character joueur1, SDL_Surface *terre, SDL_Surface *screen, SDL_Surface *casque, SDL_Surface *armure, SDL_Surface *tronc, SDL_Surface *abg, SDL_Surface *abd, SDL_Surface *basArb, SDL_Surface *topArb, SDL_Surface *fond_grotte, SDL_Rect anim_fond_grotte);
-void affichage_items_inv(input input, SDL_Surface *casque, SDL_Surface *armure, SDL_Surface *screen, SDL_Surface *terre);
-void affichage_personnage(character joueur1, SDL_Surface *characterD, SDL_Surface *character, SDL_Rect *joueurAnimD, SDL_Rect *joueurAnim, SDL_Surface *screen);
-void affichage_vie_personnage(character *a, SDL_Surface *vie, SDL_Surface *miVie, SDL_Surface *noVie, SDL_Surface *screen);
-void affichage_barre_inv(SDL_Surface *invIm, SDL_Surface *screen, input *input, SDL_Surface *casque, SDL_Surface *armure, SDL_Surface *Actuel, SDL_Surface *terre, int *choixAct);
-void affichage_crack(monde *monde, int *incAnim, SDL_Surface *Crack, SDL_Surface *screen, int minaX,int minaY, character *a);
+void affichage_monde(monde monde, character joueur1, atlas* atlasJeu,SDL_Surface *screen);
+void affichage_items_inv(input input, atlas* atlasJeu, SDL_Surface *screen);
+void affichage_personnage(character joueur1, atlas* atlasJeu, SDL_Surface *screen);
+void affichage_vie_personnage(character *a, atlas* atlasJeu, SDL_Surface *screen);
+void affichage_barre_inv(input *input,int *choixAct, atlas* atlasJeu, SDL_Surface *screen);
+void affichage_crack(monde *monde, int *incAnim, atlas* atlasJeu,int minaX,int minaY, character *a, SDL_Surface *screen);
 void affichage_monstre(monstre *monstre, SDL_Surface* Image_Monstre, SDL_Surface *screen);
 
 //minage.c

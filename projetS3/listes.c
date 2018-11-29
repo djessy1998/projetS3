@@ -69,33 +69,33 @@ void TrierInv(int rienI, items inv[4][10], int type)
   if(rienI == 0)
     {
       while(trouve == 0 && o < 4)
-	{
-	  while(trouve == 0)
+  {
+    while(trouve == 0)
             {
-	      if(inv[o][p].type == -1)
-		{
-		  inv[o][p].type = type;
-		  trouve = 1;
-		}
+        if(inv[o][p].type == -1)
+    {
+      inv[o][p].type = type;
+      trouve = 1;
+    }
               p = p + 1;
             }
-	  o = o + 1;
-	}
+    o = o + 1;
+  }
       o = 0;
       p = 0;
     }
 }
 
 void ItemMonde(monde monde, Liste *liste){
-	int i, j;
-	for(i=0;i<TMONDE;i++){
-		for(j=0;j<TMONDE;j++){
-			if(monde.grilleInt[i][j] == 2){
-				insertion(liste, 2 ,i + 1, j + 1);
-			}
-			else if(monde.grilleInt[i][j] == 3){
-				insertion(liste, 3, i + 1, j + 1);
-			}
-		}
-	}
+  int i, j;
+  for(i=0;i<TMONDE;i++){
+    for(j=0;j<TMONDE;j++){
+      if(monde.grilleInt[i][j] == 2){
+        insertion(liste, 2 ,i + 1, j + 1);
+      }
+      else if(monde.grilleInt[i][j] == 3){
+        insertion(liste, 3, i + 1, j + 1);
+      }
+    }
+  }
 }

@@ -113,14 +113,15 @@ void gen_monde(monde *monde, int freq){
     }
     
      for(j=1;j<=taille;j++){
-      monde->grilleInt[iRandom-1][jRandom-1] = ABG;
-      monde->grilleInt[iRandom][jRandom-1] = TERRE;
-      monde->grilleInt[iRandom-1][jRandom+1] = ABD;
-      monde->grilleInt[iRandom][jRandom+1] = TERRE;
-      monde->grilleInt[iRandom-1][jRandom] = BASARB;
-      monde->grilleInt[iRandom][jRandom] = TERRE;
+      if((monde->grilleInt[iRandom][jRandom-1] != TERRE && monde->grilleInt[iRandom][jRandom-1] != FONDGROTTE) && (monde->grilleInt[iRandom+1][jRandom-1] == TERRE)){
+        monde->grilleInt[iRandom][jRandom-1] = ABG;
+      }
+      if((monde->grilleInt[iRandom][jRandom+1] != TERRE && monde->grilleInt[iRandom][jRandom+1] != FONDGROTTE)  && (monde->grilleInt[iRandom+1][jRandom+1] == TERRE)){
+        monde->grilleInt[iRandom][jRandom+1] = ABD;
+      }
+      monde->grilleInt[iRandom][jRandom] = BASARB;
       if(iRandom - j > 0){
-	monde->grilleInt[iRandom-j][jRandom] = ARBRE;	
+	     monde->grilleInt[iRandom-j][jRandom] = ARBRE;	
       }
       if(j == taille - 1){
 	  if(iRandom - taille - 4 > 0){

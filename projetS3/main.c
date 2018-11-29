@@ -55,58 +55,8 @@ int main(int argc,char* argv[])
   SDL_EnableKeyRepeat(10, 10);
 
   /*Création de textures*/
-  SDL_Surface* vieEnt = creer_texture("Sprites/heart.bmp");
-  SDL_Surface* miVie = creer_texture("Sprites/Miheart.bmp");
-  SDL_Surface* noVie = creer_texture("Sprites/Noheart.bmp");
-  SDL_Surface* bg = creer_texture("Sprites/fond-nuage.bmp");
-  SDL_Surface* casque = creer_texture("Sprites/casque.bmp");
-  SDL_Surface* armure = creer_texture("Sprites/armure.bmp");
-  SDL_Surface* character = creer_texture("Sprites/character.bmp");
-  SDL_Surface* characterD = creer_texture("Sprites/characterD.bmp");
-  SDL_Surface* terre = creer_texture("Sprites/terre.bmp");
-  SDL_Surface* invIm = creer_texture("Sprites/Inv.bmp");
-  SDL_Surface* ActuelInv = creer_texture("Sprites/Actuel.bmp");
-  SDL_Surface* Crack = creer_texture("Sprites/Crack.bmp");
-  SDL_Surface* terreInv = creer_texture("Sprites/terreInv.bmp");
-  SDL_Surface* tronc = creer_texture("Sprites/tronc.bmp");
-  SDL_Surface* abg = creer_texture("Sprites/abg.bmp");
-  SDL_Surface* abd = creer_texture("Sprites/abd.bmp");
-  SDL_Surface* basArb = creer_texture("Sprites/barb.bmp");
-  SDL_Surface* topArb = creer_texture("Sprites/topArb.bmp");
-  SDL_Surface* Image_Monstre = creer_texture("Sprites/slime.bmp");
 
-  SDL_Surface* map = creer_texture("Sprites/MiniMapFrame.bmp");
-  
   SDL_Surface *miniMap = creer_minimap(&monde);
-  
-  SDL_Surface* fond_grotte = creer_texture("Sprites/fond_grotte.bmp");
-
-  SDL_Rect joueurAnim;
-  joueurAnim.x = 7;
-  joueurAnim.y = 0;
-  joueurAnim.h = 58;
-  joueurAnim.w = 27;
-
-  SDL_Rect joueurAnimD;
-  joueurAnimD.x = 7;
-  joueurAnimD.y = 0;
-  joueurAnimD.h = 58;
-  joueurAnimD.w = 27;
-  
-  SDL_Rect anim_fond_grotte;
-  anim_fond_grotte.x = 44;
-  anim_fond_grotte.y = 44;
-  anim_fond_grotte.h = 16;
-  anim_fond_grotte.w = 16;
-  
-  SDL_Rect posFond;
-  posFond.x = 0;
-  posFond.y = 0;
-  
-  SDL_Rect posMap;
-
-  posMap.x = SCREEN_WIDTH - 216  - 10;
-  posMap.y = 10;
   
   SDL_Rect posMiniMap;
 
@@ -115,39 +65,17 @@ int main(int argc,char* argv[])
   posMiniMap.h = 100;
   posMiniMap.w = 100;
 
+  atlas* atlasJeu = init_atlas();
+
   int murG, murD = 0;
   int incrementAnim = 0;
   int touche = 0, incAnim = 0, minaX = 0, minaY = 0;
   int ItemAffich = 0, droite = 0, gauche = 0, choixAct;
   int yMomTomb = 0, fait = 0, faitCalc = 0, yMomTombDeb = 0;
-  Uint32 colorkey = SDL_MapRGB(character->format,0,0,0);
-  Uint32 colorkeyVie = SDL_MapRGB(vieEnt->format,0,0,255);
-
-  SDL_SetColorKey(character,SDL_SRCCOLORKEY,colorkey);
-  SDL_SetColorKey(casque,SDL_SRCCOLORKEY,colorkey);
-  SDL_SetColorKey(armure,SDL_SRCCOLORKEY,colorkey);
-  SDL_SetColorKey(vieEnt,SDL_SRCCOLORKEY,colorkeyVie);
-  SDL_SetColorKey(invIm,SDL_SRCCOLORKEY,colorkeyVie);
-  SDL_SetColorKey(ActuelInv,SDL_SRCCOLORKEY,colorkeyVie);
-  SDL_SetColorKey(miVie,SDL_SRCCOLORKEY,colorkeyVie);
-  SDL_SetColorKey(noVie,SDL_SRCCOLORKEY,colorkeyVie);
-  SDL_SetColorKey(Crack,SDL_SRCCOLORKEY,colorkeyVie);
-  SDL_SetColorKey(characterD,SDL_SRCCOLORKEY,colorkey);
-  SDL_SetColorKey(tronc,SDL_SRCCOLORKEY,colorkeyVie);
-  SDL_SetColorKey(abg,SDL_SRCCOLORKEY,colorkey);
-  SDL_SetColorKey(abd,SDL_SRCCOLORKEY,colorkey);
-  SDL_SetColorKey(topArb,SDL_SRCCOLORKEY,colorkey);
-  SDL_SetColorKey(basArb,SDL_SRCCOLORKEY,colorkeyVie);
-  SDL_SetColorKey(map,SDL_SRCCOLORKEY,colorkey);
-  SDL_SetColorKey(Image_Monstre, SDL_SRCCOLORKEY,colorkeyVie);
-  SDL_SetColorKey(fond_grotte, SDL_SRCCOLORKEY,colorkeyVie);
-
   int actualTime = 0;
   int lastTimes = 0;
 
   ItemMonde(monde,listeItems);
-
-  afficherListe(listeItems);
 
   while(!input.data.quit)
     {
@@ -164,26 +92,24 @@ int main(int argc,char* argv[])
       if (SDL_PollEvent(&event)) {
 	HandleEvent(event, &input, &joueur1, &monde,&incAnim,&minaX,&minaY,&choixAct);
       }
-      
-      
-      
-      SDL_BlitSurface(bg, NULL, screen, &posFond);
-          
+   
+      SDL_BlitSurface(atlasJeu->bg->surface, NULL, screen, &atlasJeu->bg->pos);
+   
+      affichage_monde(monde, joueur1, atlasJeu, screen);
+
       SDL_BlitSurface(miniMap, NULL, screen, &posMiniMap);
       
-      SDL_BlitSurface(map, NULL, screen, &posMap);
+      SDL_BlitSurface(atlasJeu->map->surface, NULL, screen, &atlasJeu->map->pos);
+
+      traitement_input(input, &joueur1, murG, murD, gauche, droite, listeItems, ItemAffich, atlasJeu, &incrementAnim);
+
+      affichage_barre_inv(&input,&choixAct, atlasJeu, screen);
+
+      traitement_input_inv(&input, &joueur1, listeItems, ItemAffich, &monde, atlasJeu, screen);
+
+      affichage_items_inv(input, atlasJeu, screen);
       
-      affichage_monde(monde, joueur1, terre, screen, casque, armure,tronc,abg,abd,basArb,topArb, fond_grotte, anim_fond_grotte);
-
-      traitement_input(input, &joueur1, murG, murD, gauche, droite, listeItems, ItemAffich, &joueurAnimD, &joueurAnim, &incrementAnim);
-
-      affichage_barre_inv(invIm, screen, &input, casque, armure, ActuelInv, terreInv, &choixAct);
-
-      traitement_input_inv(&input, invIm, casque, armure, screen, &joueur1, listeItems, ItemAffich, &monde, terreInv);
-
-      affichage_items_inv(input, casque, armure, screen, terreInv);
-      
-      affichage_crack(&monde, &incAnim, Crack, screen, minaX,minaY, &joueur1);
+      affichage_crack(&monde, &incAnim, atlasJeu, minaX,minaY, &joueur1, screen);
     
       minage(&input,&joueur1, minaY, minaX, &incAnim, &monde);
 
@@ -193,31 +119,31 @@ int main(int argc,char* argv[])
 
       calc_vie_tombe(&joueur1, &yMomTombDeb, &faitCalc, &touche);
 
-      affichage_personnage(joueur1, characterD, character, &joueurAnimD, &joueurAnim, screen);
+      affichage_personnage(joueur1, atlasJeu, screen);
 
-      affichage_monstre(&monstre, Image_Monstre, screen);
+      //affichage_monstre(&monstre, Image_Monstre, screen);
       
-      affichage_vie_personnage(&joueur1, vieEnt, miVie, noVie, screen);
+      affichage_vie_personnage(&joueur1, atlasJeu, screen);
 
       SDL_UpdateRect(screen, 0, 0, 0, 0);
     }
 
 
-  SDL_FreeSurface(bg);
-  SDL_FreeSurface(terre);
-  SDL_FreeSurface(casque);
-  SDL_FreeSurface(armure);
-  SDL_FreeSurface(character);
-  SDL_FreeSurface(characterD);
-  SDL_FreeSurface(invIm);
-  SDL_FreeSurface(ActuelInv);
-  SDL_FreeSurface(vieEnt);
-  SDL_FreeSurface(miVie);
-  SDL_FreeSurface(noVie);
-  SDL_FreeSurface(tronc);
-  SDL_FreeSurface(Crack);
-  SDL_FreeSurface(abg);
-  SDL_FreeSurface(abd);
+  SDL_FreeSurface(atlasJeu->bg->surface);
+  SDL_FreeSurface(atlasJeu->terre->surface);
+  SDL_FreeSurface(atlasJeu->casque->surface);
+  SDL_FreeSurface(atlasJeu->armure->surface);
+  SDL_FreeSurface(atlasJeu->character->surface);
+  SDL_FreeSurface(atlasJeu->characterD->surface);
+  SDL_FreeSurface(atlasJeu->invIm->surface);
+  SDL_FreeSurface(atlasJeu->ActuelInv->surface);
+  SDL_FreeSurface(atlasJeu->vieEnt->surface);
+  SDL_FreeSurface(atlasJeu->miVie->surface);
+  SDL_FreeSurface(atlasJeu->noVie->surface);
+  SDL_FreeSurface(atlasJeu->tronc->surface);
+  SDL_FreeSurface(atlasJeu->Crack->surface);
+  SDL_FreeSurface(atlasJeu->abg->surface);
+  SDL_FreeSurface(atlasJeu->abd->surface);
 
   TTF_Quit();
 

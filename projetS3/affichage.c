@@ -1,8 +1,9 @@
 #include <SDL.h>
 #include <SDL/SDL_ttf.h>
 #include "fonction.h"
+#include "creator.h"
 
-void affichage_monde(monde monde, character joueur1, SDL_Surface *terre, SDL_Surface *screen, SDL_Surface *casque, SDL_Surface *armure, SDL_Surface *tronc, SDL_Surface *abg, SDL_Surface *abd,SDL_Surface *basArb,SDL_Surface *topArb, SDL_Surface *fond_grotte, SDL_Rect anim_fond_grotte){
+void affichage_monde(monde monde, character joueur1, atlas* atlasJeu, SDL_Surface *screen){
   int xAffichageStart = joueur1.xMonde/TAILLE_BLOCS;
   int yAffichageStart = TMONDE - joueur1.yMonde/TAILLE_BLOCS - NBBLOCS_FENETREY;
   int decalageX = -joueur1.xMonde%TAILLE_BLOCS;
@@ -20,96 +21,95 @@ void affichage_monde(monde monde, character joueur1, SDL_Surface *terre, SDL_Sur
 	  posGrille.x = j*TAILLE_BLOCS + decalageX;
 	  posGrille.y = i*TAILLE_BLOCS + decalageY;
 	  if(monde.affichage[i][j] == TOPARB){
-	    SDL_BlitSurface(topArb, NULL, screen, &posGrille);	  	
+	    SDL_BlitSurface(atlasJeu->topArb->surface, NULL, screen, &posGrille);	  	
 	  }else if(monde.affichage[i][j] == TERRE){
-	    SDL_BlitSurface(terre, NULL, screen, &posGrille);
+	    SDL_BlitSurface(atlasJeu->terre->surface, NULL, screen, &posGrille);
 	  }else if(monde.affichage[i][j] == CASQUE){
 	    if(monde.affichage[i-1][j] == FONDGROTTE || monde.affichage[i+1][j] == FONDGROTTE || monde.affichage[i][j+1] == FONDGROTTE || monde.affichage[i][j-1] == FONDGROTTE){
-	      SDL_BlitSurface(fond_grotte, &anim_fond_grotte, screen, &posGrille);
+	      SDL_BlitSurface(atlasJeu->fond_grotte->surface, &atlasJeu->fond_grotte->anim, screen, &posGrille);
 	    }
 	    posGrille.y = i*TAILLE_BLOCS + decalageY - 7;
-	    SDL_BlitSurface(casque, NULL, screen, &posGrille);
+	    SDL_BlitSurface(atlasJeu->casque->surface, NULL, screen, &posGrille);
 	  }else if(monde.affichage[i][j] == ARMURE){
 	    if(monde.affichage[i-1][j] == FONDGROTTE || monde.affichage[i+1][j] == FONDGROTTE || monde.affichage[i][j+1] == FONDGROTTE || monde.affichage[i][j-1] == FONDGROTTE){
-	      SDL_BlitSurface(fond_grotte, &anim_fond_grotte, screen, &posGrille);
+	      SDL_BlitSurface(atlasJeu->fond_grotte->surface, &atlasJeu->fond_grotte->anim, screen, &posGrille);
 	    }
 	    posGrille.y = i*TAILLE_BLOCS + decalageY - 7;
-	    SDL_BlitSurface(armure, NULL, screen, &posGrille);	  	
+	    SDL_BlitSurface(atlasJeu->armure->surface, NULL, screen, &posGrille);	  	
 	  }else if(monde.affichage[i][j] == ARBRE){
-	    SDL_BlitSurface(tronc, NULL, screen, &posGrille);		  	
+	    SDL_BlitSurface(atlasJeu->tronc->surface, NULL, screen, &posGrille);		  	
 	  }else if(monde.affichage[i][j] == ABG){
-	    SDL_BlitSurface(abg, NULL, screen, &posGrille);		  	
+	    SDL_BlitSurface(atlasJeu->abg->surface, NULL, screen, &posGrille);		  	
 	  }else if(monde.affichage[i][j] == ABD){
-	    SDL_BlitSurface(abd, NULL, screen, &posGrille);		  	
+	    SDL_BlitSurface(atlasJeu->abd->surface, NULL, screen, &posGrille);		  	
 	  }else if(monde.affichage[i][j] == BASARB){
-	    SDL_BlitSurface(basArb, NULL, screen, &posGrille);	  	
+	    SDL_BlitSurface(atlasJeu->basArb->surface, NULL, screen, &posGrille);	  	
 	  }else if(monde.affichage[i][j] == FONDGROTTE){
-	    SDL_BlitSurface(fond_grotte, &anim_fond_grotte, screen, &posGrille);
+	    SDL_BlitSurface(atlasJeu->fond_grotte->surface,&atlasJeu->fond_grotte->anim, screen, &posGrille);
 	  }
 	}
     }
 }
 
 
-void affichage_items_inv(input input, SDL_Surface *casque, SDL_Surface *armure, SDL_Surface *screen, SDL_Surface *terre){
+void affichage_items_inv(input input, atlas* atlasJeu, SDL_Surface *screen){
   if(input.data.numItemInvX != -1 && input.data.rien == 0)
     {
       if(input.data.typeMemoire == 1)
 	{
-	  SDL_BlitSurface(casque, NULL, screen, &input.data.posImage);
+	  SDL_BlitSurface(atlasJeu->casque->surface, NULL, screen, &input.data.posImage);
 	}
       else if(input.data.typeMemoire == 2)
 	{
-	  SDL_BlitSurface(armure, NULL, screen, &input.data.posImage);
+	  SDL_BlitSurface(atlasJeu->armure->surface, NULL, screen, &input.data.posImage);
 	}
       else if(input.data.typeMemoire == 3){
-	  SDL_BlitSurface(terre, NULL, screen, &input.data.posImage);
+	  SDL_BlitSurface(atlasJeu->terre->surface, NULL, screen, &input.data.posImage);
       }
     }
 }
 
-void affichage_personnage(character joueur1, SDL_Surface *characterD, SDL_Surface *character, SDL_Rect *joueurAnimD, SDL_Rect *joueurAnim, SDL_Surface *screen){
+void affichage_personnage(character joueur1, atlas* atlasJeu, SDL_Surface *screen){
   if(joueur1.dir == 2)
     {
-      SDL_BlitSurface(characterD, joueurAnimD, screen, &joueur1.pos);
+      SDL_BlitSurface(atlasJeu->characterD->surface,&atlasJeu->characterD->anim, screen, &joueur1.pos);
     }
   else if(joueur1.dir == 1)
     {
-      SDL_BlitSurface(character, joueurAnim, screen, &joueur1.pos); 
+      SDL_BlitSurface(atlasJeu->character->surface, &atlasJeu->character->anim, screen, &joueur1.pos); 
     }
 }
 
-void affichage_vie_personnage(character *a, SDL_Surface *vie, SDL_Surface *miVie, SDL_Surface *noVie, SDL_Surface *screen){
+void affichage_vie_personnage(character *a, atlas* atlasJeu, SDL_Surface *screen){
   int i;
-  SDL_Rect posVie;
   if(a->PV%10 == 0){
    for(i = 0; i < a->PV/10; i++){
-    posVie.x = i*30 + 1;
-    posVie.y = 2;
-    SDL_BlitSurface(vie, NULL, screen, &posVie);
+    setPosX(atlasJeu->vieEnt,i*30 + 1);
+    setPosY(atlasJeu->vieEnt, 2);
+    SDL_BlitSurface(atlasJeu->vieEnt->surface, NULL, screen, &atlasJeu->vieEnt->pos);
    }
     for(i = a->PV/10; i < 10;i++){
-      posVie.x = i*30 + 1;
-      posVie.y = 2;
-      SDL_BlitSurface(noVie, NULL, screen, &posVie);  
+     setPosX(atlasJeu->noVie,i*30 + 1);
+     setPosY(atlasJeu->noVie, 2);
+     SDL_BlitSurface(atlasJeu->noVie->surface, NULL, screen, &atlasJeu->noVie->pos);  
     }
   }
   if(a->PV%5 == 0 && a->PV%10 != 0){
     for(i = 0;i<= (a->PV - 5)/10;i++){
-      posVie.x = i*30 + 1;
-      posVie.y = 2;
-      SDL_BlitSurface(vie, NULL, screen, &posVie);      
+      setPosX(atlasJeu->vieEnt, i*30 + 1);
+      setPosY(atlasJeu->vieEnt, 2);
+      SDL_BlitSurface(atlasJeu->vieEnt->surface, NULL, screen, &atlasJeu->vieEnt->pos);      
     }
-    SDL_BlitSurface(miVie, NULL, screen, &posVie);
+    SDL_BlitSurface(atlasJeu->miVie->surface, NULL, screen, &atlasJeu->vieEnt->pos);
     for(i = (a->PV + 5)/10; i < 10;i++){
-      posVie.x = i*30 + 1;
-      posVie.y = 2;
-      SDL_BlitSurface(noVie, NULL, screen, &posVie);  
+      setPosX(atlasJeu->miVie,i*30 + 1);
+      setPosY(atlasJeu->miVie, 2);
+      SDL_BlitSurface(atlasJeu->noVie->surface, NULL, screen, &atlasJeu->miVie->pos);  
     }
   }  
 }
 
-void affichage_barre_inv(SDL_Surface *invIm, SDL_Surface *screen, input *input, SDL_Surface *casque, SDL_Surface *armure, SDL_Surface *Actuel, SDL_Surface *terre, int *choixAct){
+void affichage_barre_inv (input *input,int *choixAct, atlas* atlasJeu, SDL_Surface *screen){
 	int i;
 	SDL_Rect posBarInv;
 	SDL_Rect posBarItInv;
@@ -122,19 +122,19 @@ void affichage_barre_inv(SDL_Surface *invIm, SDL_Surface *screen, input *input, 
 	for(i=0;i<10;i++){
 	posBarInv.x = 2 + (31*i);
 	posBarInv.y = 33;
-	SDL_BlitSurface(invIm, NULL, screen, &posBarInv);
+	SDL_BlitSurface(atlasJeu->invIm->surface, NULL, screen, &posBarInv);
 	posBarItInv.x = 2 + (31 * i) + 2;
 	posBarItInv.y = 37;
 		  if(input->data.inv[0][i].type == 1)
 		    {
-		      SDL_BlitSurface(casque, NULL, screen, &posBarItInv);
+		      SDL_BlitSurface(atlasJeu->casque->surface, NULL, screen, &posBarItInv);
 		    }
 		  else if(input->data.inv[0][i].type == 2)
 		    {
-		      SDL_BlitSurface(armure, NULL, screen, &posBarItInv);
+		      SDL_BlitSurface(atlasJeu->armure->surface, NULL, screen, &posBarItInv);
 		    }
 		  else if(input->data.inv[0][i].type == 3){
-		      SDL_BlitSurface(terre, NULL, screen, &posBarItInv);		    
+		      SDL_BlitSurface(atlasJeu->terre->surface, NULL, screen, &posBarItInv);		    
 		  }
 	}
 	if(input->data.e == 0){
@@ -219,32 +219,26 @@ void affichage_barre_inv(SDL_Surface *invIm, SDL_Surface *screen, input *input, 
 			*choixAct = input->data.inv[0][9].type;
 		}
 		SDL_BlitSurface(nomItem, NULL, screen, &posTexte);
-		SDL_BlitSurface(Actuel, NULL, screen, &ActInv);
+		SDL_BlitSurface(atlasJeu->ActuelInv->surface, NULL, screen, &ActInv);
 	}
 	TTF_CloseFont(police);
 }
 
-void affichage_crack(monde *monde, int *incAnim, SDL_Surface *Crack, SDL_Surface *screen, int minaX, int minaY, character *a) {
+void affichage_crack(monde *monde, int *incAnim, atlas* atlasJeu, int minaX, int minaY, character *a, SDL_Surface *screen) {
   int StartFen = TMONDE - a->yMonde/TAILLE_BLOCS - NBBLOCS_FENETREY;
-  SDL_Rect posCrack;
-  posCrack.x = (minaX*TAILLE_BLOCS - a->xMonde);
-  posCrack.y = (((minaY - StartFen))*16) - 2;
-  SDL_Rect crackAnim;
-  crackAnim.x = 15;
-  crackAnim.y = 0;
-  crackAnim.h = 15;
-  crackAnim.w = 15;
+  setPosX(atlasJeu->Crack, minaX*TAILLE_BLOCS - a->xMonde);
+  setPosY(atlasJeu->Crack, (minaY - StartFen)*16 - 2);
   if(*incAnim > 15 && *incAnim < 30){
-    crackAnim.y = 15;
-    SDL_BlitSurface(Crack, &crackAnim, screen, &posCrack);
+    setAnimY(atlasJeu->Crack, 15);
+    SDL_BlitSurface(atlasJeu->Crack->surface, &atlasJeu->Crack->anim, screen, &atlasJeu->Crack->pos);
   }
   else if(*incAnim > 30 && *incAnim < 45){
-    crackAnim.y = 30;
-    SDL_BlitSurface(Crack, &crackAnim, screen, &posCrack);
+    setAnimY(atlasJeu->Crack, 30);
+    SDL_BlitSurface(atlasJeu->Crack->surface, &atlasJeu->Crack->anim, screen, &atlasJeu->Crack->pos);
   }
   else if(*incAnim >= 45 && *incAnim < 60){
-    crackAnim.y = 35;
-    SDL_BlitSurface(Crack, &crackAnim, screen, &posCrack);
+    setAnimY(atlasJeu->Crack, 45);
+    SDL_BlitSurface(atlasJeu->Crack->surface, &atlasJeu->Crack->anim, screen, &atlasJeu->Crack->pos);
   }
 }
 

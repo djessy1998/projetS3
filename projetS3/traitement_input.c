@@ -3,8 +3,9 @@
 #include <stdlib.h>
 #include <math.h>
 #include "fonction.h"
+#include "creator.h"
 
-void traitement_input(input input, character *joueur1, int murG, int murD, int gauche, int droite, Liste *listeItems, int ItemAffich, SDL_Rect *joueurAnimD, SDL_Rect *joueurAnim, int *incrim)
+void traitement_input(input input, character *joueur1, int murG, int murD, int gauche, int droite, Liste *listeItems, int ItemAffich, atlas* atlasJeu, int *incrim)
 {
   if(input.data.z == 1)
     {
@@ -20,19 +21,19 @@ void traitement_input(input input, character *joueur1, int murG, int murD, int g
       *incrim += 5;
       if(*incrim > 58)
 	{
-	  joueurAnimD->y += 58;
+	  atlasJeu->characterD->anim.y += 58;
 	  *incrim = 0;
 	}
-      if (joueurAnimD->y > 800)
+      if (atlasJeu->characterD->anim.y > 800)
 	{
-	  joueurAnimD->y = 0;
+	  atlasJeu->characterD->anim.y = 0;
 	}
       joueur1->dir = 2;
     }
   else
     {
       droite = 0;
-      joueurAnimD->y = 0;
+	  atlasJeu->characterD->anim.y = 0;
     }
   if(input.data.s == 1)
     {
@@ -48,26 +49,25 @@ void traitement_input(input input, character *joueur1, int murG, int murD, int g
       *incrim += 5;
       if(*incrim > 58)
 	{
-	  joueurAnim->y += 58;
+	  atlasJeu->character->anim.y += 58;
 	  *incrim = 0;
 	}
-      if (joueurAnim->y > 800)
+      if (atlasJeu->character->anim.y > 800)
 	{
-	  joueurAnim->y = 0;
+	  atlasJeu->character->anim.y = 0;
 	}
       joueur1->dir = 1;
     }
   else
     {
       gauche = 0;
-      joueurAnim->y = 0;
+      atlasJeu->character->anim.y = 0;
     }
 }
 
 
-void traitement_input_inv(input *input, SDL_Surface *invIm, SDL_Surface *casque, SDL_Surface *armure, SDL_Surface *screen, character *joueur1, Liste *liste, int ItemAffich, monde *monde, SDL_Surface *terre
-){
-  SDL_Rect posInv;
+void traitement_input_inv(input *input, character *joueur1, Liste *liste, int ItemAffich, monde *monde, atlas* atlasJeu, SDL_Surface *screen)
+{
   SDL_Rect posItemsInv;
   if(input->data.e == 1)
     {
@@ -77,10 +77,10 @@ void traitement_input_inv(input *input, SDL_Surface *invIm, SDL_Surface *casque,
 	{
 	  for(j = 0; j < 10; j++)
 	    {
-	      posInv.x = 2 + (31 * j);
-	      posInv.y = 33 + (31 * i);
+	      setPosX(atlasJeu->invIm, (2 + (31 * j)));
+	      setPosY(atlasJeu->invIm, (33 + (31 * i)));
 
-	      SDL_BlitSurface(invIm, NULL, screen, &posInv);
+	      SDL_BlitSurface(atlasJeu->invIm->surface, NULL, screen, &atlasJeu->invIm->pos);
 
 	      if(input->data.numItemInvX != -1 && input->data.supprimer == 0 && input->data.inv[input->data.numItemInvY][input->data.numItemInvX].type != -1)
 		{
@@ -99,14 +99,14 @@ void traitement_input_inv(input *input, SDL_Surface *invIm, SDL_Surface *casque,
 		  posItemsInv.y = 33 + (31 * i) + 4;
 		  if(input->data.inv[i][j].type == 1)
 		    {
-		      SDL_BlitSurface(casque, NULL, screen, &posItemsInv);
+		      SDL_BlitSurface(atlasJeu->casque->surface, NULL, screen, &posItemsInv);
 		    }
 		  else if(input->data.inv[i][j].type == 2)
 		    {
-		      SDL_BlitSurface(armure, NULL, screen, &posItemsInv);
+		      SDL_BlitSurface(atlasJeu->armure->surface, NULL, screen, &posItemsInv);
 		    }
 		  else if(input->data.inv[i][j].type == 3){
-		      SDL_BlitSurface(terre, NULL, screen, &posItemsInv);
+		      SDL_BlitSurface(atlasJeu->terre->surface, NULL, screen, &posItemsInv);
 		  }
 		}
 	    }
