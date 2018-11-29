@@ -70,7 +70,6 @@ void ecrire_fichier(const char* nomFichier, char** tab, int n, int m){
   if(ptrFichier == NULL){
     perror("Erreur ouverture Fichier");
   }
-
   for(int i = 0; i<n; i++){
     for(int y = 0; y<m; y++){
       fputc(tab[i][y], ptrFichier);

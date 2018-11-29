@@ -25,14 +25,20 @@ void affichage_monde(monde monde, character joueur1, atlas* atlasJeu, SDL_Surfac
 	  }else if(monde.affichage[i][j] == TERRE){
 	    SDL_BlitSurface(atlasJeu->terre->surface, NULL, screen, &posGrille);
 	  }else if(monde.affichage[i][j] == CASQUE){
-	    if(monde.affichage[i-1][j] == FONDGROTTE || monde.affichage[i+1][j] == FONDGROTTE || monde.affichage[i][j+1] == FONDGROTTE || monde.affichage[i][j-1] == FONDGROTTE){
+	    if(monde.affichage[i-(i>0)][j] == FONDGROTTE){
 	      SDL_BlitSurface(atlasJeu->fond_grotte->surface, &atlasJeu->fond_grotte->anim, screen, &posGrille);
+	      posGrille.x += TAILLE_BLOCS;
+	      SDL_BlitSurface(atlasJeu->fond_grotte->surface, &atlasJeu->fond_grotte->anim, screen, &posGrille);
+	      posGrille.x -= TAILLE_BLOCS;
 	    }
 	    posGrille.y = i*TAILLE_BLOCS + decalageY - 7;
 	    SDL_BlitSurface(atlasJeu->casque->surface, NULL, screen, &posGrille);
 	  }else if(monde.affichage[i][j] == ARMURE){
-	    if(monde.affichage[i-1][j] == FONDGROTTE || monde.affichage[i+1][j] == FONDGROTTE || monde.affichage[i][j+1] == FONDGROTTE || monde.affichage[i][j-1] == FONDGROTTE){
+	    if(monde.affichage[i-(i>0)][j] == FONDGROTTE){
 	      SDL_BlitSurface(atlasJeu->fond_grotte->surface, &atlasJeu->fond_grotte->anim, screen, &posGrille);
+	      posGrille.x += TAILLE_BLOCS;
+	      SDL_BlitSurface(atlasJeu->fond_grotte->surface, &atlasJeu->fond_grotte->anim, screen, &posGrille);
+	      posGrille.x -= TAILLE_BLOCS;
 	    }
 	    posGrille.y = i*TAILLE_BLOCS + decalageY - 7;
 	    SDL_BlitSurface(atlasJeu->armure->surface, NULL, screen, &posGrille);	  	
@@ -44,12 +50,10 @@ void affichage_monde(monde monde, character joueur1, atlas* atlasJeu, SDL_Surfac
 	    SDL_BlitSurface(atlasJeu->abd->surface, NULL, screen, &posGrille);		  	
 	  }else if(monde.affichage[i][j] == BASARB){
 	    SDL_BlitSurface(atlasJeu->basArb->surface, NULL, screen, &posGrille);	  	
-	  }else if(monde.affichage[i][j] == FONDGROTTE){
+	  }else if(monde.affichage[i][j] == FONDGROTTE  && monde.affichage[i][j-(int)(j>0)] != ARMURE && monde.affichage[i][j-(int)(j>0)] != CASQUE){
 	    SDL_BlitSurface(atlasJeu->fond_grotte->surface,&atlasJeu->fond_grotte->anim, screen, &posGrille);
 	  }
 	}
-    }
-}
 
 
 void affichage_items_inv(input input, atlas* atlasJeu, SDL_Surface *screen){
@@ -106,7 +110,7 @@ void affichage_vie_personnage(character *a, atlas* atlasJeu, SDL_Surface *screen
       setPosY(atlasJeu->miVie, 2);
       SDL_BlitSurface(atlasJeu->noVie->surface, NULL, screen, &atlasJeu->miVie->pos);  
     }
-  }  
+  }
 }
 
 void affichage_barre_inv (input *input,int *choixAct, atlas* atlasJeu, SDL_Surface *screen){
@@ -134,7 +138,7 @@ void affichage_barre_inv (input *input,int *choixAct, atlas* atlasJeu, SDL_Surfa
 		      SDL_BlitSurface(atlasJeu->armure->surface, NULL, screen, &posBarItInv);
 		    }
 		  else if(input->data.inv[0][i].type == 3){
-		      SDL_BlitSurface(atlasJeu->terre->surface, NULL, screen, &posBarItInv);		    
+		    SDL_BlitSurface(atlasJeu->terre->surface, NULL, screen, &posBarItInv);		    
 		  }
 	}
 	if(input->data.e == 0){

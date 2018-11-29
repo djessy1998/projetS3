@@ -26,16 +26,15 @@ int main(int argc,char* argv[])
   creer_monde(&monde);
   creer_input(&input);
   creer_monstre(&monstre);
-  
+
   //Si on ajoute un argument on "affiche" l'aléatoire du terrain avec Perlin
   if(argv[1] != NULL){
     if(atoi(argv[1]) !=0){
       gen_monde(&monde, atoi(argv[1]));
-      //Fait apparaitre le joueur sur une position haute (pas maximale) si il y a eu génération de terrain aléatoire
       apparition_joueur(&joueur1, monde);
     }
   }
- 
+
   Liste *listeItems = initialisation();
 
   SDL_Surface *screen;
@@ -121,9 +120,9 @@ int main(int argc,char* argv[])
 
       affichage_personnage(joueur1, atlasJeu, screen);
 
-      //affichage_monstre(&monstre, Image_Monstre, screen);
-      
       affichage_vie_personnage(&joueur1, atlasJeu, screen);
+
+      //affichage_monstre(&monstre, Image_Monstre, screen);
 
       SDL_UpdateRect(screen, 0, 0, 0, 0);
     }
@@ -148,8 +147,13 @@ int main(int argc,char* argv[])
   TTF_Quit();
 
   SDL_Quit();
-
-
+  //Sauvegarde de la map
+  if(argv[1] != NULL){
+    if(atoi(argv[1]) !=0){
+    tab_int2char(monde.grilleInt, monde.grilleChar, TMONDE, TMONDE);
+    ecrire_fichier("saves/MondeTest.txt", monde.grilleChar, TMONDE, TMONDE);
+    }
+  }
   desallouer_tab_2D_int(monde.grilleInt, TMONDE);
   desallouer_tab_2D_char(monde.grilleChar, TMONDE);
   desallouer_tab_2D_int(monde.posB, TMONDE);

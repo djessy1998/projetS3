@@ -1,6 +1,7 @@
 #include <SDL.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include "fonction.h"
 #include "creator.h"
 #include "perlin.h"
@@ -8,10 +9,7 @@
 
 void creer_joueur(character *joueur){
   joueur->nom = (char*) malloc(4 *sizeof(char));
-  joueur->nom[0] = 'J';
-  joueur->nom[1] = 'e';
-  joueur->nom[2] = 'a';
-  joueur->nom[3] = 'n';
+  strcpy(joueur->nom, "Jean");
   joueur->PV = FULL_VIE;
   joueur->PM = PM_START;
   joueur->pos.x = POSX_START;
