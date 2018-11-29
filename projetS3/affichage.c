@@ -21,6 +21,8 @@ void affichage_monde(monde monde, character joueur1, atlas* atlasJeu, SDL_Surfac
 	  posGrille.x = j*TAILLE_BLOCS + decalageX;
 	  posGrille.y = i*TAILLE_BLOCS + decalageY;
 	  if(monde.affichage[i][j] == TOPARB){
+		posGrille.x = j*TAILLE_BLOCS + decalageX - 33;
+		posGrille.y = i*TAILLE_BLOCS + decalageY - 64;
 	    SDL_BlitSurface(atlasJeu->topArb->surface, NULL, screen, &posGrille);	  	
 	  }else if(monde.affichage[i][j] == TERRE){
 	    SDL_BlitSurface(atlasJeu->terre->surface, NULL, screen, &posGrille);

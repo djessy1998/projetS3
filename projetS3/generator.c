@@ -125,7 +125,7 @@ void gen_monde(monde *monde, int freq){
       }
       if(j == taille - 1){
 	  if(iRandom - taille - 4 > 0){
-	    monde->grilleInt[iRandom - taille - 4][jRandom - 2] = TOPARB;
+	    monde->grilleInt[iRandom - taille - 1][jRandom] = TOPARB;
 	  }
       }
      }

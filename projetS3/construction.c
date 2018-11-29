@@ -8,7 +8,7 @@ void construction(monde *monde, input *input, character *a, int *choixAct, int *
   int posJX = (a->xMonde + a->pos.x)/16;
   int jb,ib,i,j,trouve = 0;
   if(*choixAct == 3){
-    if(monde->grilleInt[*minaY][*minaX] == VIDE && input->data.butDown == 1 && abs(*minaX - posJX) < LIMITEMINA && abs(*minaY - posJY) < LIMITEMINA){
+    if((monde->grilleInt[*minaY][*minaX] == VIDE || monde->grilleInt[*minaY][*minaX] == FONDGROTTE) && input->data.butDown == 1 && abs(*minaX - posJX) < LIMITEMINA && abs(*minaY - posJY) < LIMITEMINA){
      monde->grilleInt[*minaY][*minaX] = 1;
       for(i=0;i<4;i++){
 	for(j=0;j<10;j++){
