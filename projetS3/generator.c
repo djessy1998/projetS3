@@ -6,7 +6,7 @@
 #include "perlin.h"
 #include "creator.h"
 
-void gen_monde(monde *monde, int freq){
+void gen_monde(monde *monde, character *joueur, int freq){
   //Génération aléatoire de Terrain:
   calque *random = init_calque(TMONDE, 1.);
   calque *fin = init_calque(TMONDE, 1.);
@@ -21,16 +21,16 @@ void gen_monde(monde *monde, int freq){
      a = valeur_interpolee(j, freq, random);
      fin->v[j] = a/fin->persistance;
   }
-  
+
   free_calque(random);
-  
+
   //Le monde a 0
   for(i=0 ; i<TMONDE; i++){
     for(j=0 ; j<TMONDE; j++){
       monde->grilleInt[i][j] = VIDE;
     }
   }
-  
+
   for(i=0 ; i<TMONDE; i++){
      // Applique le calque dans le monde
      monde->grilleInt[fin->v[i]][i] = TERRE;
@@ -39,20 +39,20 @@ void gen_monde(monde *monde, int freq){
        monde->grilleInt[j][i] = TERRE;
      }
   }
-  
-  
+
+
   //Génération aléatoire de grottes
   for(i=0; i<NB_GROTTES; i++){
     gen_grottes(monde, freq);
   }
-  
+
   //Base en Terre
   for(i=TMONDE -2 ; i<TMONDE; i++){
     for(j=0 ; j<TMONDE; j++){
       monde->grilleInt[i][j] = TERRE;
     }
   }
-  
+
   for(i=0 ; i<TMONDE; i++){
      //Remplissage de bas en haut
      for(j = 0; j<fin->v[i]; j++){
@@ -111,7 +111,7 @@ void gen_monde(monde *monde, int freq){
 	iRandom -= 1;
       }
     }
-    
+
      for(j=1;j<=taille;j++){
       monde->grilleInt[iRandom-1][jRandom-1] = ABG;
       monde->grilleInt[iRandom][jRandom-1] = TERRE;
@@ -120,16 +120,17 @@ void gen_monde(monde *monde, int freq){
       monde->grilleInt[iRandom-1][jRandom] = BASARB;
       monde->grilleInt[iRandom][jRandom] = TERRE;
       if(iRandom - j > 0){
-	monde->grilleInt[iRandom-j][jRandom] = ARBRE;	
+	monde->grilleInt[iRandom-j][jRandom] = ARBRE;
       }
       if(j == taille - 1){
 	  if(iRandom - taille - 4 > 0){
-	    monde->grilleInt[iRandom - taille - 4][jRandom - 2] = TOPARB;	    
+	    monde->grilleInt[iRandom - taille - 4][jRandom - 2] = TOPARB;
 	  }
       }
      }
   }
 
+  apparition_joueur(joueur, TMONDE/2, TMONDE - fin->v[TMONDE/2]);
   free_calque(fin);
 
   tab_int2char(monde->grilleInt, monde->grilleChar, TMONDE, TMONDE);
@@ -142,15 +143,15 @@ void gen_grottes(monde *monde, int freq){
   int debut_grotte = aleatoire(0, TMONDE);
   calque *grotte = init_calque(TMONDE, 1.);
   calque *random = init_calque(TMONDE, 1.);
-  
+
   int k, a;
   int x = 0, y = 0, rayon = 0, limiteX = 0, direction_grotte = 0;
-  
+
   //calque aléatoire
   for(k = 0; k < taille_grotte; k++){
     random->v[k] = aleatoire(0, TMONDE);
   }
-  
+
   //On détermine les valeurs pour faire une "courbe"
   for(k = 0; k < taille_grotte; k++){
     a = valeur_interpolee(k, freq, random);
@@ -161,33 +162,33 @@ void gen_grottes(monde *monde, int freq){
       grotte->v[k] = (int)a/grotte->persistance;
     }
   }
-  
+
   //On génère la grotte avec des cercles
   for(k = 0; k < taille_grotte; k += 2){
-    
+
     rayon = (int)round(sqrt(2 + pow(abs(abs(grotte->v[k]) - abs(grotte->v[k+1])), DIST_ENTRE_POINTS))) +1; // AB² = AC² + BC², AB est le rayon du cercle
 
     if(grotte->v[k] < 0){
       limiteX = k - limiteX; //On reprend l'ancienne limite pour repartir du même point, mais dans une direction différente
       direction_grotte = !direction_grotte;
     }
-    
+
     if(direction_grotte){
       x = debut_grotte + 2*limiteX - k; //Vers la gauche
     }else{
       x = debut_grotte + k - 2*limiteX; //Vers la droite
     }
-    
+
     if(x > TMONDE -1){ //Si hors limite en X
       x = (TMONDE-1) - (debut_grotte + k)%(TMONDE-1); // On change la direction
     }
-    
+
     if(grotte->v[k] > TMONDE-1){ //Si hors limite en Y
       y = (TMONDE-1) - abs(grotte->v[k])%(TMONDE-1); // On change la direcion
     }else{
       y = abs(grotte->v[k]);
     }
-    
+
     gen_cercle(x, y, rayon, monde);
   }
   free_calque(grotte);
@@ -199,15 +200,15 @@ void gen_cercle(int x, int y, int rayon, monde *monde){
   if(rayon > 5){
     rayon = 5;
   }
-  
+
   monde->grilleInt[y][x] = 0;
-  
+
   int i, j;
   int debutX = x - rayon;
   int debutY = y - rayon;
   int finX = x + rayon;
   int finY = y + rayon;
-  
+
   if(debutX < 0){
     debutX = 0;
   }
@@ -229,15 +230,10 @@ void gen_cercle(int x, int y, int rayon, monde *monde){
   }
 }
 
-void apparition_joueur(character *joueur, monde monde){
-  joueur->yMonde = TMONDE*TAILLE_BLOCS - NBBLOCS_FENETREY*TAILLE_BLOCS;
+void apparition_joueur(character *joueur, int x, int y){
+  printf("y = %d\n", y);
+  joueur->yMonde = (y+(NBBLOCS_FENETREY - NB_BLOCS_AU_DESSUS_JOUEUR))*TAILLE_BLOCS;
   joueur->yMondeDouble = (double)joueur->yMonde;
-//   int i, j;
-//   i = (joueur->yMonde + SCREEN_HEIGHT - joueur->pos.y)/TAILLE_BLOCS;
-//   j = (joueur->xMonde + joueur->pos.x)/TAILLE_BLOCS;
-//   while(monde.grilleInt[i][j] != 1 && monde.grilleInt[i][j+1] != 1 && i > NBBLOCS_FENETREY){
-//     i--;
-//   }
-//   joueur->yMondeDouble = i*TAILLE_BLOCS;
-//   joueur->yMonde = (int)joueur->yMondeDouble;
+  joueur->xMonde = (x-(2*NBBLOCS_FENETREX/3))*TAILLE_BLOCS;
+  joueur->xMondeDouble = (double)joueur->xMonde;
 }

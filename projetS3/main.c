@@ -26,16 +26,14 @@ int main(int argc,char* argv[])
   creer_monde(&monde);
   creer_input(&input);
   creer_monstre(&monstre);
-  
+
   //Si on ajoute un argument on "affiche" l'aléatoire du terrain avec Perlin
   if(argv[1] != NULL){
     if(atoi(argv[1]) !=0){
-      gen_monde(&monde, atoi(argv[1]));
-      //Fait apparaitre le joueur sur une position haute (pas maximale) si il y a eu génération de terrain aléatoire
-      apparition_joueur(&joueur1, monde);
+      gen_monde(&monde, &joueur1, atoi(argv[1]));
     }
   }
- 
+
   Liste *listeItems = initialisation();
 
   SDL_Surface *screen;
@@ -76,9 +74,9 @@ int main(int argc,char* argv[])
   SDL_Surface* Image_Monstre = creer_texture("Sprites/slime.bmp");
 
   SDL_Surface* map = creer_texture("Sprites/MiniMapFrame.bmp");
-  
+
   SDL_Surface *miniMap = creer_minimap(&monde);
-  
+
   SDL_Surface* fond_grotte = creer_texture("Sprites/fond_grotte.bmp");
 
   SDL_Rect joueurAnim;
@@ -92,22 +90,22 @@ int main(int argc,char* argv[])
   joueurAnimD.y = 0;
   joueurAnimD.h = 58;
   joueurAnimD.w = 27;
-  
+
   SDL_Rect anim_fond_grotte;
   anim_fond_grotte.x = 44;
   anim_fond_grotte.y = 44;
   anim_fond_grotte.h = 16;
   anim_fond_grotte.w = 16;
-  
+
   SDL_Rect posFond;
   posFond.x = 0;
   posFond.y = 0;
-  
+
   SDL_Rect posMap;
 
   posMap.x = SCREEN_WIDTH - 216  - 10;
   posMap.y = 10;
-  
+
   SDL_Rect posMiniMap;
 
   posMiniMap.x = SCREEN_WIDTH - 208  - 10;
@@ -164,15 +162,15 @@ int main(int argc,char* argv[])
       if (SDL_PollEvent(&event)) {
 	HandleEvent(event, &input, &joueur1, &monde,&incAnim,&minaX,&minaY,&choixAct);
       }
-      
-      
-      
+
+
+
       SDL_BlitSurface(bg, NULL, screen, &posFond);
-          
+
       SDL_BlitSurface(miniMap, NULL, screen, &posMiniMap);
-      
+
       SDL_BlitSurface(map, NULL, screen, &posMap);
-      
+
       affichage_monde(monde, joueur1, terre, screen, casque, armure,tronc,abg,abd,basArb,topArb, fond_grotte, anim_fond_grotte);
 
       traitement_input(input, &joueur1, murG, murD, gauche, droite, listeItems, ItemAffich, &joueurAnimD, &joueurAnim, &incrementAnim);
@@ -182,9 +180,9 @@ int main(int argc,char* argv[])
       traitement_input_inv(&input, invIm, casque, armure, screen, &joueur1, listeItems, ItemAffich, &monde, terreInv);
 
       affichage_items_inv(input, casque, armure, screen, terreInv);
-      
+
       affichage_crack(&monde, &incAnim, Crack, screen, minaX,minaY, &joueur1);
-    
+
       minage(&input,&joueur1, minaY, minaX, &incAnim, &monde);
 
       terreRonde(&joueur1, &murD, &murG);
@@ -196,7 +194,7 @@ int main(int argc,char* argv[])
       affichage_personnage(joueur1, characterD, character, &joueurAnimD, &joueurAnim, screen);
 
       affichage_monstre(&monstre, Image_Monstre, screen);
-      
+
       affichage_vie_personnage(&joueur1, vieEnt, miVie, noVie, screen);
 
       SDL_UpdateRect(screen, 0, 0, 0, 0);

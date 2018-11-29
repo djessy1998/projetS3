@@ -12,47 +12,47 @@ void affichage_monde(monde monde, character joueur1, SDL_Surface *terre, SDL_Sur
   for(i=0;i<NBBLOCS_FENETREY;i++ )
     {
       for(j=0;j<NBBLOCS_FENETREX;j++)
-	{
-	  monde.affichage[i][j] = monde.grilleInt[i+yAffichageStart][j+xAffichageStart];
-	  monde.posB[i][j] = TAILLE_BLOCS*(j+xAffichageStart);
-	  monde.posBY[i][j] = TAILLE_BLOCS*(joueur1.yMonde/TAILLE_BLOCS + NB_BLOCS_AU_DESSUS_JOUEUR - i);
-	  SDL_Rect posGrille;
-	  posGrille.x = j*TAILLE_BLOCS + decalageX;
-	  posGrille.y = i*TAILLE_BLOCS + decalageY;
-	  if(monde.affichage[i][j] == TOPARB){
-	    SDL_BlitSurface(topArb, NULL, screen, &posGrille);
-	  }else if(monde.affichage[i][j] == TERRE){
-	    SDL_BlitSurface(terre, NULL, screen, &posGrille);
-	  }else if(monde.affichage[i][j] == CASQUE){
-	    if(monde.affichage[i-(i>0)][j] == FONDGROTTE){
-	      SDL_BlitSurface(fond_grotte, &anim_fond_grotte, screen, &posGrille);
-          posGrille.x += TAILLE_BLOCS;
-          SDL_BlitSurface(fond_grotte, &anim_fond_grotte, screen, &posGrille);
-          posGrille.x -= TAILLE_BLOCS;
-	    }
-	    posGrille.y = i*TAILLE_BLOCS + decalageY - 7;
-	    SDL_BlitSurface(casque, NULL, screen, &posGrille);
-	  }else if(monde.affichage[i][j] == ARMURE){
-	    if(monde.affichage[i-(i>0)][j] == FONDGROTTE){
-	      SDL_BlitSurface(fond_grotte, &anim_fond_grotte, screen, &posGrille);
-          posGrille.x += TAILLE_BLOCS;
-          SDL_BlitSurface(fond_grotte, &anim_fond_grotte, screen, &posGrille);
-          posGrille.x -= TAILLE_BLOCS;
-	    }
-	    posGrille.y = i*TAILLE_BLOCS + decalageY - 7;
-	    SDL_BlitSurface(armure, NULL, screen, &posGrille);
-	  }else if(monde.affichage[i][j] == ARBRE){
-	    SDL_BlitSurface(tronc, NULL, screen, &posGrille);
-	  }else if(monde.affichage[i][j] == ABG){
-	    SDL_BlitSurface(abg, NULL, screen, &posGrille);
-	  }else if(monde.affichage[i][j] == ABD){
-	    SDL_BlitSurface(abd, NULL, screen, &posGrille);
-	  }else if(monde.affichage[i][j] == BASARB){
-	    SDL_BlitSurface(basArb, NULL, screen, &posGrille);
-	  }else if(monde.affichage[i][j] == FONDGROTTE && monde.affichage[i][j-(int)(j>0)] != ARMURE && monde.affichage[i][j-(int)(j>0)] != CASQUE){
-	    SDL_BlitSurface(fond_grotte, &anim_fond_grotte, screen, &posGrille);
-	  }
-	}
+    	{
+    	  monde.affichage[i][j] = monde.grilleInt[i+yAffichageStart][j+xAffichageStart];
+    	  monde.posB[i][j] = TAILLE_BLOCS*(j+xAffichageStart);
+    	  monde.posBY[i][j] = TAILLE_BLOCS*(joueur1.yMonde/TAILLE_BLOCS + NB_BLOCS_AU_DESSUS_JOUEUR - i);
+    	  SDL_Rect posGrille;
+    	  posGrille.x = j*TAILLE_BLOCS + decalageX;
+    	  posGrille.y = i*TAILLE_BLOCS + decalageY;
+    	  if(monde.affichage[i][j] == TOPARB){
+    	    SDL_BlitSurface(topArb, NULL, screen, &posGrille);
+    	  }else if(monde.affichage[i][j] == TERRE){
+    	    SDL_BlitSurface(terre, NULL, screen, &posGrille);
+    	  }else if(monde.affichage[i][j] == CASQUE){
+    	    if(monde.affichage[i-(i>0)][j] == FONDGROTTE){
+    	      SDL_BlitSurface(fond_grotte, &anim_fond_grotte, screen, &posGrille);
+              posGrille.x += TAILLE_BLOCS;
+              SDL_BlitSurface(fond_grotte, &anim_fond_grotte, screen, &posGrille);
+              posGrille.x -= TAILLE_BLOCS;
+    	    }
+    	    posGrille.y = i*TAILLE_BLOCS + decalageY - 7;
+    	    SDL_BlitSurface(casque, NULL, screen, &posGrille);
+    	  }else if(monde.affichage[i][j] == ARMURE){
+    	    if(monde.affichage[i-(i>0)][j] == FONDGROTTE){
+    	      SDL_BlitSurface(fond_grotte, &anim_fond_grotte, screen, &posGrille);
+              posGrille.x += TAILLE_BLOCS;
+              SDL_BlitSurface(fond_grotte, &anim_fond_grotte, screen, &posGrille);
+              posGrille.x -= TAILLE_BLOCS;
+    	    }
+    	    posGrille.y = i*TAILLE_BLOCS + decalageY - 7;
+    	    SDL_BlitSurface(armure, NULL, screen, &posGrille);
+    	  }else if(monde.affichage[i][j] == ARBRE){
+    	    SDL_BlitSurface(tronc, NULL, screen, &posGrille);
+    	  }else if(monde.affichage[i][j] == ABG){
+    	    SDL_BlitSurface(abg, NULL, screen, &posGrille);
+    	  }else if(monde.affichage[i][j] == ABD){
+    	    SDL_BlitSurface(abd, NULL, screen, &posGrille);
+    	  }else if(monde.affichage[i][j] == BASARB){
+    	    SDL_BlitSurface(basArb, NULL, screen, &posGrille);
+    	  }else if(monde.affichage[i][j] == FONDGROTTE && monde.affichage[i][j-(int)(j>0)] != ARMURE && monde.affichage[i][j-(int)(j>0)] != CASQUE){
+    	    SDL_BlitSurface(fond_grotte, &anim_fond_grotte, screen, &posGrille);
+    	  }
+    	}
     }
 }
 
