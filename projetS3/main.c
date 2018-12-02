@@ -44,7 +44,7 @@ int main(int argc,char* argv[])
 
   /*Création de textures*/
   atlas* atlasJeu = init_atlas();
-  
+
   //Si on ajoute un argument on "affiche" l'aléatoire du terrain avec Perlin
   if(argv[1] != NULL){
     if(atoi(argv[1]) !=0){
@@ -75,6 +75,7 @@ int main(int argc,char* argv[])
 
   ItemMonde(monde,listeItems);
 
+  int sautmonstre = 0;
   while(!input.data.quit){
     //Compteur d'images par secondes
     actualTime = SDL_GetTicks();
@@ -120,11 +121,18 @@ int main(int argc,char* argv[])
 
     affichage_vie_personnage(&joueur1, atlasJeu, screen);
 
-      if(argv[1] != NULL){
-      	if(atoi(argv[1]) !=0){
-      	  affichage_monstre(&monstre, atlasJeu, screen, joueur1);
-      	}
-      }
+    if(argv[1] != NULL){
+    	if(atoi(argv[1]) !=0){
+        gravite_monstre(&monstre, monde);
+    	  affichage_monstre(&monstre, atlasJeu, screen, joueur1);
+        // sautmonstre += 1;
+        // if(sautmonstre == 1000){
+        //   monstre.saut = 1;
+        // }else{
+        //   monstre.saut = 0;
+        // }
+    	}
+    }
 
     SDL_UpdateRect(screen, 0, 0, 0, 0);
   }

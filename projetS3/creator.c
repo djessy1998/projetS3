@@ -111,6 +111,8 @@ void creer_monstre(monstre *monstre, atlas* atlasJeu, monde monde){
   monstre->x = TAILLE_BLOCS*monstre->x;
   monstre->y = TMONDE*TAILLE_BLOCS - TAILLE_BLOCS*monstre->y + 22; //22 est la hauteur du monstre
   monstre->velocity_y = 0;
+  monstre->velocity_x = 0;
+  monstre->saut = 0;
 }
 
 atlas* creer_atlas(image** tabIm){

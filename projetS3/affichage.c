@@ -254,8 +254,5 @@ void affichage_monstre(monstre *monstre, atlas* atlasJeu, SDL_Surface *screen, c
     setPosX(atlasJeu->Image_Monstre, monstre->x - joueur.xMonde);
     setPosY(atlasJeu->Image_Monstre, NBBLOCS_FENETREY*TAILLE_BLOCS - (monstre->y - joueur.yMonde));
     SDL_BlitSurface(atlasJeu->Image_Monstre->surface, &atlasJeu->Image_Monstre->anim, screen, &atlasJeu->Image_Monstre->pos);
-
-    //Le monstre fait un saut quand on le voit
-    monstre->velocity_y = VELOCITE_MAX;
   }
 }

@@ -84,6 +84,8 @@ struct monstre
   int x;
   int y;
   int velocity_y;
+  int velocity_x;
+  int saut;
 };
 
 typedef struct items items;
@@ -165,6 +167,8 @@ void baisser(character *a);
 
 //deplacement_monstre.c
 void monstre_saut(monstre *m, monde monde);
+void gravite_monstre(monstre *m, monde monde);
+int estAuSol_monstre(monstre *m, monde monde);
 
 //collision.c
 void gravite(character *a);

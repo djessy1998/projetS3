@@ -56,10 +56,8 @@ void afficherListe(Liste *liste)
   items *actuel = liste->premier;
   while (actuel != NULL)
     {
-      printf("%d | i = %d | j = %d\n", actuel->type, actuel->iItem, actuel->jItem);
       actuel = actuel->suivant;
     }
-  printf("NULL\n");
 }
 
 void TrierInv(int rienI, items inv[4][10], int type)
