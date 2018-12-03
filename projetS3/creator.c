@@ -281,10 +281,10 @@ atlas* init_atlas(){
 
 SDL_Surface* creer_minimap(monde *monde, character *a){
   int i,j;
+  static int increment = 0;
   SDL_Surface *temp = NULL;
   SDL_Color colors[5];
-  static char numPerso = 3;
-
+  static char numPerso = 4;
   colors[0].r=135;
   colors[0].g=206;
   colors[0].b=235;
@@ -297,22 +297,28 @@ SDL_Surface* creer_minimap(monde *monde, character *a){
   colors[3].r=255;
   colors[3].g=0;
   colors[3].b=0;
-  colors[4].r=0;
+  colors[4].r=255;
   colors[4].g=255;
-  colors[4].b=255;
+  colors[4].b=0;
   temp = SDL_CreateRGBSurface(SDL_SWSURFACE,200,200,8, 0xff, 0xff, 0xff, 0);
   Uint8 *p = temp->pixels;
   int posJY = TMONDE - ((a->yMonde + (NBBLOCS_FENETREY*TAILLE_BLOCS - a->pos.y) - PLAYER_HEIGHT)/16);
   int posJX = (a->xMonde + a->pos.x)/16;
+  if(increment > 60){
+    if(numPerso == 3){
+      numPerso = 4; 
+    }else{
+      numPerso = 3; 
+    }
+    increment = 0;
+  }
+  else{
+   increment++; 
+  }
   for(i=0;i<TMONDE;i+=5){
     for(j=0;j<TMONDE;j+=5){
       if((i >= (posJY - 27) && i<posJY) && (j >= posJX && j<posJX+10)){
 	  *p = numPerso;
-	   if(numPerso == 3){
-	     numPerso = 4; 
-	   }else{
-	     numPerso = 3; 
-	   }
 	  p++;
 	}
       else{
