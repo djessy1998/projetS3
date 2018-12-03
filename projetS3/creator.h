@@ -13,7 +13,7 @@ void creer_monde(monde *monde);
 void creer_input(input *input);
 void creer_monstre(monstre *monstre, atlas* atlasJeu, monde monde);
 image* creer_texture(char* chemin, int x, int y, int animX, int animY, int animH, int animW);
-SDL_Surface* creer_minimap(monde *monde);
+SDL_Surface* creer_minimap(monde *monde, character *a);
 atlas* init_atlas();
 int getPosX(image* image);
 int getPosY(image* image);

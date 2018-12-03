@@ -145,86 +145,12 @@ void affichage_barre_inv (input *input,int *choixAct, atlas* atlasJeu, SDL_Surfa
 		  }
 	}
 	if(input->data.e == 0){
-		if(input->data.Un == 1){
-			ActInv.x = 2;
-			ActInv.y = 33;
-			posTexte.x = 2;
-			posTexte.y = 64;
-			nomItem = TTF_RenderText_Solid (police,input->data.inv[0][0].nomItem, couleurNoire);
-			*choixAct = input->data.inv[0][0].type;
-		}
-		else if(input->data.Deux == 1){
-			ActInv.x = 33;
-			ActInv.y = 33;
-			posTexte.x = 33;
-			posTexte.y = 64;
-			nomItem = TTF_RenderText_Solid (police,input->data.inv[0][1].nomItem, couleurNoire);
-			*choixAct = input->data.inv[0][1].type;
-		}
-		else if(input->data.Trois == 1){
-			ActInv.x = 64;
-			ActInv.y = 33;
-			posTexte.x = 64;
-			posTexte.y = 64;
-			nomItem = TTF_RenderText_Solid (police,input->data.inv[0][2].nomItem, couleurNoire);
-			*choixAct = input->data.inv[0][2].type;
-		}
-		else if(input->data.Quatre == 1){
-			ActInv.x = 95;
-			ActInv.y = 33;
-			posTexte.x = 95;
-			posTexte.y = 64;
-			nomItem = TTF_RenderText_Solid (police,input->data.inv[0][3].nomItem, couleurNoire);
-			*choixAct = input->data.inv[0][3].type;
-		}
-		else if(input->data.Cinq == 1){
-			ActInv.x = 126;
-			ActInv.y = 33;
-			posTexte.x = 126;
-			posTexte.y = 64;
-			nomItem = TTF_RenderText_Solid (police,input->data.inv[0][4].nomItem, couleurNoire);
-			*choixAct = input->data.inv[0][4].type;
-		}
-		else if(input->data.Six == 1){
-			ActInv.x = 157;
-			ActInv.y = 33;
-			posTexte.x = 157;
-			posTexte.y = 64;
-			nomItem = TTF_RenderText_Solid (police,input->data.inv[0][5].nomItem, couleurNoire);
-			*choixAct = input->data.inv[0][5].type;
-		}
-		else if(input->data.Sept == 1){
-			ActInv.x = 188;
-			ActInv.y = 33;
-			posTexte.x = 188;
-			posTexte.y = 64;
-			nomItem = TTF_RenderText_Solid (police,input->data.inv[0][6].nomItem, couleurNoire);
-			*choixAct = input->data.inv[0][6].type;
-		}
-		else if(input->data.Huit == 1){
-			ActInv.x = 219;
-			ActInv.y = 33;
-			posTexte.x = 219;
-			posTexte.y = 64;
-			nomItem = TTF_RenderText_Solid (police,input->data.inv[0][7].nomItem, couleurNoire);
-			*choixAct = input->data.inv[0][7].type;
-		}
-		else if(input->data.Neuf == 1){
-			ActInv.x = 250;
-			ActInv.y = 33;
-			posTexte.x = 250;
-			posTexte.y = 64;
-			nomItem = TTF_RenderText_Solid (police,input->data.inv[0][8].nomItem, couleurNoire);
-			*choixAct = input->data.inv[0][8].type;
-		}
-		else if(input->data.Dix == 1){
-			ActInv.x = 281;
-			ActInv.y = 33;
-			posTexte.x = 281;
-			posTexte.y = 64;
-			nomItem = TTF_RenderText_Solid (police,input->data.inv[0][9].nomItem, couleurNoire);
-			*choixAct = input->data.inv[0][9].type;
-		}
+	  	ActInv.x = ((input->data.clavier - 1)*31) + 2;
+		ActInv.y = 33;
+		posTexte.x = ((input->data.clavier - 1)*31) + 2;
+		posTexte.y = 64;
+		nomItem = TTF_RenderText_Solid (police,input->data.inv[0][input->data.clavier-1].nomItem, couleurNoire);
+		*choixAct = input->data.inv[0][input->data.clavier-1].type;
 		SDL_BlitSurface(nomItem, NULL, screen, &posTexte);
 		SDL_BlitSurface(atlasJeu->ActuelInv->surface, NULL, screen, &ActInv);
 	}

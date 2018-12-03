@@ -65,7 +65,7 @@ void creer_input(input *input){
   input->data.d = 0;
   input->data.e = 0;
   input->data.f = 0;
-  input->data.Un = 1;
+  input->data.clavier = 1;
   input->data.butDown = 0;
   input->data.numItemInvX = -1;
   input->data.numItemInvY = -1;
@@ -180,6 +180,7 @@ void setAnimH(image* image, int h){
   image->anim.h = h;
 }
 
+
 void setAnimW(image* image, int w){
   image->anim.w = w;
 }
@@ -278,25 +279,49 @@ atlas* init_atlas(){
   return creer_atlas(tabIm);
 }
 
-SDL_Surface* creer_minimap(monde *monde){
+SDL_Surface* creer_minimap(monde *monde, character *a){
   int i,j;
   SDL_Surface *temp = NULL;
-  SDL_Color colors[256];
-  //srand(0);
-  for(i=0;i<256;i++){
-      colors[i].r=rand()%256;
-      colors[i].g=rand()%256;
-      colors[i].b=rand()%256;
-  }
+  SDL_Color colors[5];
+  static char numPerso = 3;
+
+  colors[0].r=135;
+  colors[0].g=206;
+  colors[0].b=235;
+  colors[1].r=34;
+  colors[1].g=139;
+  colors[1].b=34;
+  colors[2].r=255;
+  colors[2].g=255;
+  colors[2].b=255;
+  colors[3].r=255;
+  colors[3].g=0;
+  colors[3].b=0;
+  colors[4].r=0;
+  colors[4].g=255;
+  colors[4].b=255;
   temp = SDL_CreateRGBSurface(SDL_SWSURFACE,200,200,8, 0xff, 0xff, 0xff, 0);
   Uint8 *p = temp->pixels;
+  int posJY = TMONDE - ((a->yMonde + (NBBLOCS_FENETREY*TAILLE_BLOCS - a->pos.y) - PLAYER_HEIGHT)/16);
+  int posJX = (a->xMonde + a->pos.x)/16;
   for(i=0;i<TMONDE;i+=5){
     for(j=0;j<TMONDE;j+=5){
-      *p = monde->grilleInt[i][j];
-      p++;
+      if((i >= (posJY - 27) && i<posJY) && (j >= posJX && j<posJX+10)){
+	  *p = numPerso;
+	   if(numPerso == 3){
+	     numPerso = 4; 
+	   }else{
+	     numPerso = 3; 
+	   }
+	  p++;
+	}
+      else{
+	*p = monde->grilleInt[i][j];
+	p++;
+      }
     }
   }
-  SDL_SetPalette(temp,SDL_LOGPAL|SDL_PHYSPAL, colors, 0, 256);
+  SDL_SetPalette(temp,SDL_LOGPAL|SDL_PHYSPAL, colors, 0, 5);
   SDL_Surface* tex = SDL_DisplayFormat(temp);
   SDL_FreeSurface(temp);
   return tex;

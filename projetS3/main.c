@@ -54,8 +54,6 @@ int main(int argc,char* argv[])
     }
   }
 
-  SDL_Surface *miniMap = creer_minimap(&monde);
-
   SDL_Rect posMiniMap;
 
   posMiniMap.x = SCREEN_WIDTH - 208  - 10;
@@ -94,8 +92,12 @@ int main(int argc,char* argv[])
     SDL_BlitSurface(atlasJeu->bg->surface, NULL, screen, &atlasJeu->bg->pos);
 
     affichage_monde(monde, joueur1, atlasJeu, screen);
+    
+    SDL_Surface *miniMap = creer_minimap(&monde, &joueur1);
 
     SDL_BlitSurface(miniMap, NULL, screen, &posMiniMap);
+    
+    
 
     SDL_BlitSurface(atlasJeu->map->surface, NULL, screen, &atlasJeu->map->pos);
 
