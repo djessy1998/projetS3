@@ -123,16 +123,7 @@ struct InputData
   int d;
   int e;
   int f;
-  int Un;
-  int Deux;
-  int Trois;
-  int Quatre;
-  int Cinq;
-  int Six;
-  int Sept;
-  int Huit;
-  int Neuf;
-  int Dix;
+  int clavier;
   int butDown;
   int numItemInvX;
   int numItemInvY;
