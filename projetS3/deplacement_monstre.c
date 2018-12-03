@@ -4,31 +4,76 @@
 #include "creator.h"
 
 void gravite_monstre(monstre *m, monde monde){
-  if(/*estAuSol_monstre(m, monde)*/1){
+  if(estAuSol_monstre(m, monde)){
     m->velocity_y = 0;
     m->velocity_x = 0;
-    if(m->saut){
-      m->velocity_y = VELOCITE_MAX*10;
-      m->velocity_x = VELOCITE_MAX*10;
+    if(m->saut || m->saut == -1){
+      m->velocity_y = VELOCITE_MAX_MONSTRE;
+      m->velocity_x = m->saut * VELOCITE_MAX_MONSTRE;
     }
   }else{
-    m->velocity_y -= 1;
-    // m->velocity_x -= 1;
+    if(m->velocity_y > -15){ //Si la vitesse devient trop grande les collisions ne sont plus respectées
+      m->velocity_y -= 1;
+      if(m->saut == 1){
+	sautDroite_monstre(m);
+      }else if(m->saut == -1){
+	sautGauche_monstre(m);
+      }
+    }
   }
   m->x += m->velocity_x;
   m->y += m->velocity_y;
+//   printf("vX = %d vY = %d\n x = %d, y = %d\n", m->velocity_x, m->velocity_y, m->x, m->y);
 }
 
 
 int estAuSol_monstre(monstre *m, monde monde){
-  int yMonde = (m->y-22)/TAILLE_BLOCS; //2 hauteur du monstre
+  int yMonde = (m->y - HAUTEUR_MONSTRE)/TAILLE_BLOCS;
   int xMonde = m->x/TAILLE_BLOCS;
-  int i;
+  int i, posMonstre;
   for(i = 0; i < TAILLE_BLOCS; i++){
-    if(m->y - 22 - i == (monde.grilleInt[yMonde][xMonde]%2)*(yMonde)*TAILLE_BLOCS){
-      m->y = (yMonde)*TAILLE_BLOCS;
+    posMonstre = m->y - HAUTEUR_MONSTRE;
+    if(posMonstre - i == (monde.grilleInt[TMONDE - yMonde][xMonde] == TERRE)*(yMonde)*TAILLE_BLOCS || 
+      (posMonstre - i) == (monde.grilleInt[TMONDE - yMonde][xMonde + 1] == TERRE)*(yMonde)*TAILLE_BLOCS){
+      if(!m->saut && m->saut != -1){
+	m->y = yMonde*TAILLE_BLOCS + HAUTEUR_MONSTRE;
+	m->x = xMonde*TAILLE_BLOCS;
+      }
       return 1;
     }
   }
   return 0;
+}
+
+void sautDroite_monstre(monstre *m){
+  if(m->velocity_y < 0){
+    m->velocity_x -= 1;
+  }else if(m->velocity_x > 0){
+    m->velocity_x += 1;
+  }
+}
+
+
+void sautGauche_monstre(monstre *m){
+  if(m->velocity_y < 0){
+    m->velocity_x += 1;
+  }else if(m->velocity_x < 0){
+    m->velocity_x -= 1;
+  }
+}
+
+
+void collision_monstre(monstre *m, monde monde){
+  int yMonde = (m->y - HAUTEUR_MONSTRE)/TAILLE_BLOCS;
+  int xMonde = m->x/TAILLE_BLOCS;
+  int i;
+  for(i = 0; i < HAUTEUR_MONSTRE; i++){
+    yMonde = (m->y - HAUTEUR_MONSTRE - i)/TAILLE_BLOCS;
+    if(m->x == (monde.grilleInt[TMONDE - yMonde][xMonde] == TERRE)*(xMonde)*TAILLE_BLOCS){
+      m->x = xMonde*TAILLE_BLOCS;
+    }
+    if(m->x + LARGEUR_MONSTRE == (monde.grilleInt[TMONDE - yMonde][xMonde] == TERRE)*(xMonde)*TAILLE_BLOCS){
+      m->x = xMonde*TAILLE_BLOCS + LARGEUR_MONSTRE;
+    }
+  }
 }

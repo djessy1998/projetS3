@@ -16,6 +16,10 @@
 #define FULL_VIE       100
 #define DISTCHUTEMPV   100
 
+#define VELOCITE_MAX_MONSTRE 10
+#define HAUTEUR_MONSTRE 22
+#define LARGEUR_MONSTRE 32
+
 #define TMONDE         1000
 #define NB_GROTTES     10
 #define DIST_ENTRE_POINTS 2
@@ -166,9 +170,11 @@ void sauter(character *a);
 void baisser(character *a);
 
 //deplacement_monstre.c
-void monstre_saut(monstre *m, monde monde);
 void gravite_monstre(monstre *m, monde monde);
 int estAuSol_monstre(monstre *m, monde monde);
+void sautDroite_monstre(monstre *m);
+void sautGauche_monstre(monstre *m);
+void collision_monstre(monstre *m, monde monde);
 
 //collision.c
 void gravite(character *a);

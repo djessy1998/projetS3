@@ -94,7 +94,8 @@ void creer_monstre(monstre *monstre, atlas* atlasJeu, monde monde){
   monstre->PV = 100;
   monstre->x = TMONDE/2;
   monstre->y = 0;
-
+  
+  //Apparition du monstre dans le monde
   while(monde.grilleInt[monstre->y][monstre->x] != TERRE){
     monstre->y += 1;
     if(monde.grilleInt[monstre->y][monstre->x+1] == TERRE && monde.grilleInt[monstre->y][monstre->x-1] == TERRE){
@@ -102,14 +103,17 @@ void creer_monstre(monstre *monstre, atlas* atlasJeu, monde monde){
       monstre->y = 0;
     }
   }
+  if(monde.grilleInt[monstre->y][monstre->x+1] == TERRE){
+    monstre->x -= 1;
+  }
   setPosX(atlasJeu->Image_Monstre, 0);
   setPosY(atlasJeu->Image_Monstre, 0);
   setAnimX(atlasJeu->Image_Monstre, 0);
   setAnimY(atlasJeu->Image_Monstre, 2);
-  setAnimH(atlasJeu->Image_Monstre, 22);
-  setAnimW(atlasJeu->Image_Monstre, 32);
+  setAnimH(atlasJeu->Image_Monstre, HAUTEUR_MONSTRE);
+  setAnimW(atlasJeu->Image_Monstre, LARGEUR_MONSTRE);
   monstre->x = TAILLE_BLOCS*monstre->x;
-  monstre->y = TMONDE*TAILLE_BLOCS - TAILLE_BLOCS*monstre->y + 22; //22 est la hauteur du monstre
+  monstre->y = TMONDE*TAILLE_BLOCS - TAILLE_BLOCS*monstre->y + HAUTEUR_MONSTRE;
   monstre->velocity_y = 0;
   monstre->velocity_x = 0;
   monstre->saut = 0;
@@ -261,7 +265,7 @@ atlas* init_atlas(){
   tabIm[15] = map;
 
   image* Image_Monstre = creer_texture("Sprites/slime.bmp",0, 0, 0, 0, 0, 0);
-  SDL_SetColorKey(Image_Monstre->surface,SDL_SRCCOLORKEY,colorkey);
+  SDL_SetColorKey(Image_Monstre->surface,SDL_SRCCOLORKEY,colorkeyVie);
   tabIm[16] = Image_Monstre;
 
   image* fond_grotte = creer_texture("Sprites/fond_grotte.bmp",0, 0, 44, 44, 16, 16);

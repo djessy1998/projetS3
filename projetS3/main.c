@@ -75,7 +75,7 @@ int main(int argc,char* argv[])
 
   ItemMonde(monde,listeItems);
 
-  int sautmonstre = 0;
+  int sautmonstre = 10;
   while(!input.data.quit){
     //Compteur d'images par secondes
     actualTime = SDL_GetTicks();
@@ -123,14 +123,17 @@ int main(int argc,char* argv[])
 
     if(argv[1] != NULL){
     	if(atoi(argv[1]) !=0){
-        gravite_monstre(&monstre, monde);
-    	  affichage_monstre(&monstre, atlasJeu, screen, joueur1);
-        // sautmonstre += 1;
-        // if(sautmonstre == 1000){
-        //   monstre.saut = 1;
-        // }else{
-        //   monstre.saut = 0;
-        // }
+	  gravite_monstre(&monstre, monde);
+	  affichage_monstre(&monstre, atlasJeu, screen, joueur1);
+	  collision_monstre(&monstre, monde);
+	  sautmonstre += 1;
+	  if(sautmonstre%1000 >= 0 && sautmonstre%1000 <= 2){
+	    monstre.saut = 1;
+	  }else if(sautmonstre%500 >= 0 && sautmonstre%500 <= 2){
+	    monstre.saut = -1;
+	  }else{
+	    monstre.saut = 0;
+	  }
     	}
     }
 
