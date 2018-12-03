@@ -7,6 +7,28 @@
 #define POSY_START 400
 #define NBIMAGES	20
 
+#define JOUEURIM 	0
+#define VIEENTIM	1
+#define	CASQUEIM	2
+#define	ARMUREIM	3
+#define INVIMIM	4
+#define ACTUELINVIM	5
+#define MIVIEIM	6
+#define NOVIEIM	7
+#define CRACKIM	8
+#define	JOUEURDIM	9
+#define TRONCIM	10
+#define ABGIM		11
+#define ABDIM		12
+#define TOPARBIM	13
+#define BASARBIM	14
+#define MAPIM 	15
+#define SLIMEIM	16
+#define FONDGROTTEIM 	17
+#define TERREIM	18
+#define BGIM	19
+
+
 //creator.c
 void creer_joueur(character *joueur);
 void creer_monde(monde *monde);

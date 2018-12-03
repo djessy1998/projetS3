@@ -89,7 +89,7 @@ int main(int argc,char* argv[])
       HandleEvent(event, &input, &joueur1, &monde,&incAnim,&minaX,&minaY,&choixAct);
     }
 
-    SDL_BlitSurface(atlasJeu->bg->surface, NULL, screen, &atlasJeu->bg->pos);
+    SDL_BlitSurface(atlasJeu->tabIm[BGIM]->surface, NULL, screen, &atlasJeu->tabIm[BGIM]->pos);
 
     affichage_monde(monde, joueur1, atlasJeu, screen);
     
@@ -99,7 +99,7 @@ int main(int argc,char* argv[])
     
     
 
-    SDL_BlitSurface(atlasJeu->map->surface, NULL, screen, &atlasJeu->map->pos);
+    SDL_BlitSurface(atlasJeu->tabIm[MAPIM]->surface, NULL, screen, &atlasJeu->tabIm[MAPIM]->pos);
 
     traitement_input(input, &joueur1, murG, murD, gauche, droite, listeItems, ItemAffich, atlasJeu, &incrementAnim);
 
@@ -143,21 +143,21 @@ int main(int argc,char* argv[])
   }
 
 
-  SDL_FreeSurface(atlasJeu->bg->surface);
-  SDL_FreeSurface(atlasJeu->terre->surface);
-  SDL_FreeSurface(atlasJeu->casque->surface);
-  SDL_FreeSurface(atlasJeu->armure->surface);
-  SDL_FreeSurface(atlasJeu->character->surface);
-  SDL_FreeSurface(atlasJeu->characterD->surface);
-  SDL_FreeSurface(atlasJeu->invIm->surface);
-  SDL_FreeSurface(atlasJeu->ActuelInv->surface);
-  SDL_FreeSurface(atlasJeu->vieEnt->surface);
-  SDL_FreeSurface(atlasJeu->miVie->surface);
-  SDL_FreeSurface(atlasJeu->noVie->surface);
-  SDL_FreeSurface(atlasJeu->tronc->surface);
-  SDL_FreeSurface(atlasJeu->Crack->surface);
-  SDL_FreeSurface(atlasJeu->abg->surface);
-  SDL_FreeSurface(atlasJeu->abd->surface);
+  SDL_FreeSurface(atlasJeu->tabIm[BGIM]->surface);
+  SDL_FreeSurface(atlasJeu->tabIm[TERREIM]->surface);
+  SDL_FreeSurface(atlasJeu->tabIm[CASQUEIM]->surface);
+  SDL_FreeSurface(atlasJeu->tabIm[ARMUREIM]->surface);
+  SDL_FreeSurface(atlasJeu->tabIm[JOUEURIM]->surface);
+  SDL_FreeSurface(atlasJeu->tabIm[JOUEURDIM]->surface);
+  SDL_FreeSurface(atlasJeu->tabIm[INVIMIM]->surface);
+  SDL_FreeSurface(atlasJeu->tabIm[ACTUELINVIM]->surface);
+  SDL_FreeSurface(atlasJeu->tabIm[VIEENTIM]->surface);
+  SDL_FreeSurface(atlasJeu->tabIm[MIVIEIM]->surface);
+  SDL_FreeSurface(atlasJeu->tabIm[NOVIEIM]->surface);
+  SDL_FreeSurface(atlasJeu->tabIm[TRONCIM]->surface);
+  SDL_FreeSurface(atlasJeu->tabIm[CRACKIM]->surface);
+  SDL_FreeSurface(atlasJeu->tabIm[ABGIM]->surface);
+  SDL_FreeSurface(atlasJeu->tabIm[ABDIM]->surface);
 
   TTF_Quit();
 

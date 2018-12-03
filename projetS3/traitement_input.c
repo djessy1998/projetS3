@@ -21,19 +21,19 @@ void traitement_input(input input, character *joueur1, int murG, int murD, int g
       *incrim += 5;
       if(*incrim > 58)
 	{
-	  atlasJeu->characterD->anim.y += 58;
+	  atlasJeu->tabIm[JOUEURDIM]->anim.y += 58;
 	  *incrim = 0;
 	}
-      if (atlasJeu->characterD->anim.y > 800)
+      if (atlasJeu->tabIm[JOUEURDIM]->anim.y > 800)
 	{
-	  atlasJeu->characterD->anim.y = 0;
+	  atlasJeu->tabIm[JOUEURDIM]->anim.y = 0;
 	}
       joueur1->dir = 2;
     }
   else
     {
       droite = 0;
-	  atlasJeu->characterD->anim.y = 0;
+	  atlasJeu->tabIm[JOUEURDIM]->anim.y = 0;
     }
   if(input.data.s == 1)
     {
@@ -49,19 +49,19 @@ void traitement_input(input input, character *joueur1, int murG, int murD, int g
       *incrim += 5;
       if(*incrim > 58)
 	{
-	  atlasJeu->character->anim.y += 58;
+	  atlasJeu->tabIm[JOUEURIM]->anim.y += 58;
 	  *incrim = 0;
 	}
-      if (atlasJeu->character->anim.y > 800)
+      if (atlasJeu->tabIm[JOUEURIM]->anim.y > 800)
 	{
-	  atlasJeu->character->anim.y = 0;
+	  atlasJeu->tabIm[JOUEURIM]->anim.y = 0;
 	}
       joueur1->dir = 1;
     }
   else
     {
       gauche = 0;
-      atlasJeu->character->anim.y = 0;
+      atlasJeu->tabIm[JOUEURIM]->anim.y = 0;
     }
 }
 
@@ -77,10 +77,10 @@ void traitement_input_inv(input *input, character *joueur1, Liste *liste, int It
 	{
 	  for(j = 0; j < 10; j++)
 	    {
-	      setPosX(atlasJeu->invIm, (2 + (31 * j)));
-	      setPosY(atlasJeu->invIm, (33 + (31 * i)));
+	      setPosX(atlasJeu->tabIm[INVIMIM], (2 + (31 * j)));
+	      setPosY(atlasJeu->tabIm[INVIMIM], (33 + (31 * i)));
 
-	      SDL_BlitSurface(atlasJeu->invIm->surface, NULL, screen, &atlasJeu->invIm->pos);
+	      SDL_BlitSurface(atlasJeu->tabIm[INVIMIM]->surface, NULL, screen, &atlasJeu->tabIm[INVIMIM]->pos);
 
 	      if(input->data.numItemInvX != -1 && input->data.supprimer == 0 && input->data.inv[input->data.numItemInvY][input->data.numItemInvX].type != -1)
 		{
@@ -99,14 +99,14 @@ void traitement_input_inv(input *input, character *joueur1, Liste *liste, int It
 		  posItemsInv.y = 33 + (31 * i) + 4;
 		  if(input->data.inv[i][j].type == 1)
 		    {
-		      SDL_BlitSurface(atlasJeu->casque->surface, NULL, screen, &posItemsInv);
+		      SDL_BlitSurface(atlasJeu->tabIm[CASQUEIM]->surface, NULL, screen, &posItemsInv);
 		    }
 		  else if(input->data.inv[i][j].type == 2)
 		    {
-		      SDL_BlitSurface(atlasJeu->armure->surface, NULL, screen, &posItemsInv);
+		      SDL_BlitSurface(atlasJeu->tabIm[ARMUREIM]->surface, NULL, screen, &posItemsInv);
 		    }
 		  else if(input->data.inv[i][j].type == 3){
-		      SDL_BlitSurface(atlasJeu->terre->surface, NULL, screen, &posItemsInv);
+		      SDL_BlitSurface(atlasJeu->tabIm[TERREIM]->surface, NULL, screen, &posItemsInv);
 		  }
 		}
 	    }

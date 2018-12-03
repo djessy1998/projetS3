@@ -106,12 +106,12 @@ void creer_monstre(monstre *monstre, atlas* atlasJeu, monde monde){
   if(monde.grilleInt[monstre->y][monstre->x+1] == TERRE){
     monstre->x -= 1;
   }
-  setPosX(atlasJeu->Image_Monstre, 0);
-  setPosY(atlasJeu->Image_Monstre, 0);
-  setAnimX(atlasJeu->Image_Monstre, 0);
-  setAnimY(atlasJeu->Image_Monstre, 2);
-  setAnimH(atlasJeu->Image_Monstre, HAUTEUR_MONSTRE);
-  setAnimW(atlasJeu->Image_Monstre, LARGEUR_MONSTRE);
+  setPosX(atlasJeu->tabIm[SLIMEIM], 0);
+  setPosY(atlasJeu->tabIm[SLIMEIM], 0);
+  setAnimX(atlasJeu->tabIm[SLIMEIM], 0);
+  setAnimY(atlasJeu->tabIm[SLIMEIM], 2);
+  setAnimH(atlasJeu->tabIm[SLIMEIM], HAUTEUR_MONSTRE);
+  setAnimW(atlasJeu->tabIm[SLIMEIM], LARGEUR_MONSTRE);
   monstre->x = TAILLE_BLOCS*monstre->x;
   monstre->y = TMONDE*TAILLE_BLOCS - TAILLE_BLOCS*monstre->y + HAUTEUR_MONSTRE;
   monstre->velocity_y = 0;
@@ -121,26 +121,10 @@ void creer_monstre(monstre *monstre, atlas* atlasJeu, monde monde){
 
 atlas* creer_atlas(image** tabIm){
   atlas* atlasJeu = malloc(sizeof(atlas));
-  atlasJeu->character = tabIm[0];
-  atlasJeu->vieEnt = tabIm[1];
-  atlasJeu->casque = tabIm[2];
-  atlasJeu->armure = tabIm[3];
-  atlasJeu->invIm = tabIm[4];
-  atlasJeu->ActuelInv = tabIm[5];
-  atlasJeu->miVie = tabIm[6];
-  atlasJeu->noVie = tabIm[7];
-  atlasJeu->Crack = tabIm[8];
-  atlasJeu->characterD = tabIm[9];
-  atlasJeu->tronc = tabIm[10];
-  atlasJeu->abg = tabIm[11];
-  atlasJeu->abd = tabIm[12];
-  atlasJeu->topArb = tabIm[13];
-  atlasJeu->basArb = tabIm[14];
-  atlasJeu->map = tabIm[15];
-  atlasJeu->Image_Monstre = tabIm[16];
-  atlasJeu->fond_grotte = tabIm[17];
-  atlasJeu->terre = tabIm[18];
-  atlasJeu->bg = tabIm[19];
+  int i;
+  for(i=0;i<NBIMAGES;i++){
+  atlasJeu->tabIm[i] = tabIm[i];
+  }
   return atlasJeu;
 }
 
