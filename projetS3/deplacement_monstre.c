@@ -30,6 +30,7 @@ int estAuSol_monstre(monstre *m, monde monde){
   int yMonde = (m->y - HAUTEUR_MONSTRE)/TAILLE_BLOCS;
   int xMonde = m->x/TAILLE_BLOCS;
   int i, posMonstre;
+
   for(i = 0; i < TAILLE_BLOCS; i++){
     posMonstre = m->y - HAUTEUR_MONSTRE;
     if(posMonstre - i == (monde.grilleInt[TMONDE - yMonde][xMonde] == TERRE)*(yMonde)*TAILLE_BLOCS ||
@@ -62,23 +63,23 @@ void sautGauche_monstre(monstre *m){
 
 
 void collision_monstre(monstre *m, monde monde){
-  int yMonde = (m->y - HAUTEUR_MONSTRE)/TAILLE_BLOCS;
+  int yMonde = m->y/TAILLE_BLOCS;
   int xMonde = m->x/TAILLE_BLOCS;
   int i;
+  // printf("(n+1:%d, n:%d)\n", monde.grilleInt[(TMONDE - yMonde) +1][xMonde], monde.grilleInt[(TMONDE - yMonde)][xMonde]);
   for(i = 0; i < HAUTEUR_MONSTRE; i++){
     yMonde = (m->y - HAUTEUR_MONSTRE - i)/TAILLE_BLOCS;
-    if(m->x == (monde.grilleInt[TMONDE - yMonde-1][xMonde] == TERRE)*(xMonde)*TAILLE_BLOCS ||
-        m->x == (monde.grilleInt[TMONDE - yMonde-1][xMonde] == TERRE)*(xMonde)*TAILLE_BLOCS ||
-        m->x == (monde.grilleInt[TMONDE - yMonde][xMonde] == TERRE)*(xMonde+TAILLE_BLOCS)*TAILLE_BLOCS ||
-        m->x == (monde.grilleInt[TMONDE - yMonde-1][xMonde] == TERRE)*(xMonde+TAILLE_BLOCS)*TAILLE_BLOCS){
+    if(m->x >= (monde.grilleInt[(TMONDE - yMonde)][xMonde] == TERRE)*(xMonde)*TAILLE_BLOCS &&
+      m->x <= ((monde.grilleInt[(TMONDE - yMonde)][xMonde] == TERRE)*(xMonde+1)*TAILLE_BLOCS)-1){
+          // printf("Premiere condition\n");
       m->x = (xMonde*TAILLE_BLOCS);
     }
-    if(0/*m->x + LARGEUR_MONSTRE == (monde.grilleInt[TMONDE - yMonde][xMonde+1] == TERRE)*(xMonde+1)*TAILLE_BLOCS ||
-        m->x + LARGEUR_MONSTRE == (monde.grilleInt[TMONDE - yMonde][xMonde+1] == TERRE)*(xMonde+1)*TAILLE_BLOCS ||
-        m->x + LARGEUR_MONSTRE == (monde.grilleInt[TMONDE - yMonde][xMonde+2] == TERRE)*(xMonde+2)*TAILLE_BLOCS ||
-        m->x + LARGEUR_MONSTRE == (monde.grilleInt[TMONDE - yMonde][xMonde+2] == TERRE)*(xMonde+2)*TAILLE_BLOCS*/){
-      printf("OUI ON PASSE PAR LA\n");
-      m->x = xMonde*TAILLE_BLOCS - LARGEUR_MONSTRE - TAILLE_BLOCS;
+    xMonde = m->x + LARGEUR_MONSTRE/TAILLE_BLOCS;
+    if(m->x + LARGEUR_MONSTRE >= (monde.grilleInt[TMONDE - (yMonde)][xMonde] == TERRE)*(xMonde)*TAILLE_BLOCS &&
+      m->x + LARGEUR_MONSTRE <= ((monde.grilleInt[TMONDE - (yMonde)][xMonde] == TERRE)*(xMonde+1)*TAILLE_BLOCS)-1){
+      // printf("Seconde condition\n");
+      m->x = xMonde*TAILLE_BLOCS - LARGEUR_MONSTRE;
     }
   }
+  // printf("wow\n");
 }
