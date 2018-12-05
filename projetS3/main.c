@@ -92,12 +92,12 @@ int main(int argc,char* argv[])
     SDL_BlitSurface(atlasJeu->tabIm[BGIM]->surface, NULL, screen, &atlasJeu->tabIm[BGIM]->pos);
 
     affichage_monde(monde, joueur1, atlasJeu, screen);
-    
+
     SDL_Surface *miniMap = creer_minimap(&monde, &joueur1);
 
     SDL_BlitSurface(miniMap, NULL, screen, &posMiniMap);
-    
-    
+
+    SDL_FreeSurface(miniMap);
 
     SDL_BlitSurface(atlasJeu->tabIm[MAPIM]->surface, NULL, screen, &atlasJeu->tabIm[MAPIM]->pos);
 
@@ -143,26 +143,6 @@ int main(int argc,char* argv[])
   }
 
 
-  SDL_FreeSurface(atlasJeu->tabIm[BGIM]->surface);
-  SDL_FreeSurface(atlasJeu->tabIm[TERREIM]->surface);
-  SDL_FreeSurface(atlasJeu->tabIm[CASQUEIM]->surface);
-  SDL_FreeSurface(atlasJeu->tabIm[ARMUREIM]->surface);
-  SDL_FreeSurface(atlasJeu->tabIm[JOUEURIM]->surface);
-  SDL_FreeSurface(atlasJeu->tabIm[JOUEURDIM]->surface);
-  SDL_FreeSurface(atlasJeu->tabIm[INVIMIM]->surface);
-  SDL_FreeSurface(atlasJeu->tabIm[ACTUELINVIM]->surface);
-  SDL_FreeSurface(atlasJeu->tabIm[VIEENTIM]->surface);
-  SDL_FreeSurface(atlasJeu->tabIm[MIVIEIM]->surface);
-  SDL_FreeSurface(atlasJeu->tabIm[NOVIEIM]->surface);
-  SDL_FreeSurface(atlasJeu->tabIm[TRONCIM]->surface);
-  SDL_FreeSurface(atlasJeu->tabIm[CRACKIM]->surface);
-  SDL_FreeSurface(atlasJeu->tabIm[ABGIM]->surface);
-  SDL_FreeSurface(atlasJeu->tabIm[ABDIM]->surface);
-
-  TTF_Quit();
-
-  SDL_Quit();
-
   //Sauvegarde de la map
   if(argv[1] != NULL){
     if(atoi(argv[1]) !=0){
@@ -179,5 +159,16 @@ int main(int argc,char* argv[])
   //désallocation du pseudo du joueur:
   free(joueur1.nom);
   free(monstre.nom);
+
+  for(int  i = 0; i < NBIMAGES; i++){
+    detruire_text(atlasJeu->tabIm[i]);
+  }
+
+  free(atlasJeu);
+
+  TTF_Quit();
+
+  SDL_Quit();
+
   return 0;
 }

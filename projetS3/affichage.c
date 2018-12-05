@@ -123,9 +123,9 @@ void affichage_barre_inv (input *input,int *choixAct, atlas* atlasJeu, SDL_Surfa
 	SDL_Rect ActInv;
 	SDL_Rect posTexte;
 	SDL_Surface *nomItem;
-  	TTF_Font *police = NULL;
-  	police = TTF_OpenFont("Polices/angelina.ttf", 35);
-  	SDL_Color couleurNoire = {0, 0, 0};
+	TTF_Font *police = NULL;
+	police = TTF_OpenFont("Polices/angelina.ttf", 35);
+	SDL_Color couleurNoire = {0, 0, 0};
 	for(i=0;i<10;i++){
 	posBarInv.x = 2 + (31*i);
 	posBarInv.y = 33;

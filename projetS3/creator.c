@@ -8,7 +8,7 @@
 #include "fonctions_fichiers.h"
 
 void creer_joueur(character *joueur){
-  joueur->nom = (char*) malloc(4 *sizeof(char));
+  joueur->nom = (char*) malloc(5 * sizeof(char));
   strcpy(joueur->nom, "Jean");
   joueur->PV = FULL_VIE;
   joueur->PM = PM_START;
@@ -89,12 +89,12 @@ void creer_input(input *input){
 }
 
 void creer_monstre(monstre *monstre, atlas* atlasJeu, monde monde){
-  monstre->nom = (char*) malloc(5 *sizeof(char));
+  monstre->nom = (char*) malloc( 6 * sizeof(char));
   strcpy(monstre->nom, "Slime");
   monstre->PV = 100;
   monstre->x = TMONDE/2;
   monstre->y = 0;
-  
+
   //Apparition du monstre dans le monde
   while(monde.grilleInt[monstre->y][monstre->x] != TERRE){
     monstre->y += 1;
@@ -123,8 +123,9 @@ atlas* creer_atlas(image** tabIm){
   atlas* atlasJeu = malloc(sizeof(atlas));
   int i;
   for(i=0;i<NBIMAGES;i++){
-  atlasJeu->tabIm[i] = tabIm[i];
+    atlasJeu->tabIm[i] = tabIm[i];
   }
+  free(tabIm);
   return atlasJeu;
 }
 
@@ -294,14 +295,14 @@ SDL_Surface* creer_minimap(monde *monde, character *a){
   int posJX = (a->xMonde + a->pos.x)/16;
   if(increment > 60){
     if(numPerso == 3){
-      numPerso = 4; 
+      numPerso = 4;
     }else{
-      numPerso = 3; 
+      numPerso = 3;
     }
     increment = 0;
   }
   else{
-   increment++; 
+   increment++;
   }
   for(i=0;i<TMONDE;i+=5){
     for(j=0;j<TMONDE;j+=5){

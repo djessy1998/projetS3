@@ -45,6 +45,7 @@ void setAnimX(image* image, int x);
 void setAnimY(image* image, int y);
 void setAnimH(image* image, int h);
 void setAnimW(image* image, int w);
+void detruire_text(image* image);
 
 //generator.c
 void gen_monde(monde *monde, int freq);
