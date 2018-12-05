@@ -23,7 +23,6 @@ void gravite_monstre(monstre *m, monde monde){
   }
   m->x += m->velocity_x;
   m->y += m->velocity_y;
-//   printf("vX = %d vY = %d\n x = %d, y = %d\n", m->velocity_x, m->velocity_y, m->x, m->y);
 }
 
 
@@ -33,11 +32,10 @@ int estAuSol_monstre(monstre *m, monde monde){
   int i, posMonstre;
   for(i = 0; i < TAILLE_BLOCS; i++){
     posMonstre = m->y - HAUTEUR_MONSTRE;
-    if(posMonstre - i == (monde.grilleInt[TMONDE - yMonde][xMonde] == TERRE)*(yMonde)*TAILLE_BLOCS || 
+    if(posMonstre - i == (monde.grilleInt[TMONDE - yMonde][xMonde] == TERRE)*(yMonde)*TAILLE_BLOCS ||
       (posMonstre - i) == (monde.grilleInt[TMONDE - yMonde][xMonde + 1] == TERRE)*(yMonde)*TAILLE_BLOCS){
       if(!m->saut && m->saut != -1){
-	m->y = yMonde*TAILLE_BLOCS + HAUTEUR_MONSTRE;
-	m->x = xMonde*TAILLE_BLOCS;
+      	m->y = yMonde*TAILLE_BLOCS + HAUTEUR_MONSTRE;
       }
       return 1;
     }
@@ -69,11 +67,18 @@ void collision_monstre(monstre *m, monde monde){
   int i;
   for(i = 0; i < HAUTEUR_MONSTRE; i++){
     yMonde = (m->y - HAUTEUR_MONSTRE - i)/TAILLE_BLOCS;
-    if(m->x == (monde.grilleInt[TMONDE - yMonde][xMonde] == TERRE)*(xMonde)*TAILLE_BLOCS){
-      m->x = xMonde*TAILLE_BLOCS;
+    if(m->x == (monde.grilleInt[TMONDE - yMonde-1][xMonde] == TERRE)*(xMonde)*TAILLE_BLOCS ||
+        m->x == (monde.grilleInt[TMONDE - yMonde-1][xMonde] == TERRE)*(xMonde)*TAILLE_BLOCS ||
+        m->x == (monde.grilleInt[TMONDE - yMonde][xMonde] == TERRE)*(xMonde+TAILLE_BLOCS)*TAILLE_BLOCS ||
+        m->x == (monde.grilleInt[TMONDE - yMonde-1][xMonde] == TERRE)*(xMonde+TAILLE_BLOCS)*TAILLE_BLOCS){
+      m->x = (xMonde*TAILLE_BLOCS);
     }
-    if(m->x + LARGEUR_MONSTRE == (monde.grilleInt[TMONDE - yMonde][xMonde] == TERRE)*(xMonde)*TAILLE_BLOCS){
-      m->x = xMonde*TAILLE_BLOCS + LARGEUR_MONSTRE;
+    if(0/*m->x + LARGEUR_MONSTRE == (monde.grilleInt[TMONDE - yMonde][xMonde+1] == TERRE)*(xMonde+1)*TAILLE_BLOCS ||
+        m->x + LARGEUR_MONSTRE == (monde.grilleInt[TMONDE - yMonde][xMonde+1] == TERRE)*(xMonde+1)*TAILLE_BLOCS ||
+        m->x + LARGEUR_MONSTRE == (monde.grilleInt[TMONDE - yMonde][xMonde+2] == TERRE)*(xMonde+2)*TAILLE_BLOCS ||
+        m->x + LARGEUR_MONSTRE == (monde.grilleInt[TMONDE - yMonde][xMonde+2] == TERRE)*(xMonde+2)*TAILLE_BLOCS*/){
+      printf("OUI ON PASSE PAR LA\n");
+      m->x = xMonde*TAILLE_BLOCS - LARGEUR_MONSTRE - TAILLE_BLOCS;
     }
   }
 }
