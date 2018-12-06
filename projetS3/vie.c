@@ -32,5 +32,8 @@ void calc_vie_tombe(character *a, int *yMomTomDeb, int *faitCalc, int *touche){
   {
     a->PV -= degatChute;
   }
+  if(a->PV < 0){
+   a->PV = 0; 
+  }
   *faitCalc = 1;
 }

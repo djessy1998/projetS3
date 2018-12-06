@@ -27,6 +27,7 @@
 #define FONDGROTTEIM 	17
 #define TERREIM	18
 #define BGIM	19
+#define TERREPSIM	20
 
 
 //creator.c

@@ -76,15 +76,34 @@ void affichage_items_inv(input input, atlas* atlasJeu, SDL_Surface *screen){
     }
 }
 
-void affichage_personnage(character joueur1, atlas* atlasJeu, SDL_Surface *screen){
-  if(joueur1.dir == 2)
-    {
-      SDL_BlitSurface(atlasJeu->tabIm[JOUEURDIM]->surface,&atlasJeu->tabIm[JOUEURDIM]->anim, screen, &joueur1.pos);
-    }
-  else if(joueur1.dir == 1)
-    {
-      SDL_BlitSurface(atlasJeu->tabIm[JOUEURIM]->surface, &atlasJeu->tabIm[JOUEURIM]->anim, screen, &joueur1.pos);
-    }
+void affichage_personnage(character *joueur1, atlas* atlasJeu, SDL_Surface *screen, int invi){
+  if(joueur1->mort == 0){
+    if(joueur1->dir == 2)
+      {
+	if(invi <= 500){
+	  if(joueur1->compt > 20){
+	    SDL_BlitSurface(atlasJeu->tabIm[JOUEURDIM]->surface,&atlasJeu->tabIm[JOUEURDIM]->anim, screen, &joueur1->pos);
+	    joueur1->compt = 0;
+	  }
+	}
+	else{
+	  SDL_BlitSurface(atlasJeu->tabIm[JOUEURDIM]->surface,&atlasJeu->tabIm[JOUEURDIM]->anim, screen, &joueur1->pos);
+	}
+      }
+    else if(joueur1->dir == 1)
+      {
+	if(invi <= 500){
+	  if(joueur1->compt > 20){
+	    SDL_BlitSurface(atlasJeu->tabIm[JOUEURIM]->surface, &atlasJeu->tabIm[JOUEURIM]->anim, screen, &joueur1->pos);
+	    joueur1->compt = 0;
+	  }
+	}
+	else{
+	    SDL_BlitSurface(atlasJeu->tabIm[JOUEURIM]->surface, &atlasJeu->tabIm[JOUEURIM]->anim, screen, &joueur1->pos);	
+	}
+      }
+      joueur1->compt += 1;   
+  }
 }
 
 void affichage_vie_personnage(character *a, atlas* atlasJeu, SDL_Surface *screen){
@@ -153,6 +172,7 @@ void affichage_barre_inv (input *input,int *choixAct, atlas* atlasJeu, SDL_Surfa
 		*choixAct = input->data.inv[0][input->data.clavier-1].type;
 		SDL_BlitSurface(nomItem, NULL, screen, &posTexte);
 		SDL_BlitSurface(atlasJeu->tabIm[ACTUELINVIM]->surface, NULL, screen, &ActInv);
+		SDL_FreeSurface(nomItem);
 	}
 	TTF_CloseFont(police);
 }
