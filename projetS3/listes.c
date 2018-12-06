@@ -4,8 +4,8 @@
 
 Liste *initialisation()
 {
-  Liste *liste = malloc(sizeof(*liste));
-  items *EItems = malloc(sizeof(*EItems));
+  Liste *liste = malloc(sizeof(Liste));
+  items *EItems = malloc(sizeof(items));
   if (liste == NULL || EItems == NULL)
     {
       exit(EXIT_FAILURE);
@@ -20,7 +20,7 @@ Liste *initialisation()
 
 void insertion(Liste *liste, int nvType, int nvXMonde, int nvYMonde)
 {
-  items *nouveau = malloc(sizeof(*nouveau));
+  items *nouveau = malloc(sizeof(items));
   if (liste == NULL || nouveau == NULL)
     {
       exit(EXIT_FAILURE);

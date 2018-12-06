@@ -68,6 +68,8 @@ int main(int argc,char* argv[])
   int yMomTomb = 0, fait = 0, faitCalc = 0, yMomTombDeb = 0;
   int actualTime = 0;
   int lastTimes = 0;
+  int invin = 501;
+  int inc = 0;
 
   Liste *listeItems = initialisation();
 
@@ -100,7 +102,7 @@ int main(int argc,char* argv[])
     SDL_FreeSurface(miniMap);
 
     SDL_BlitSurface(atlasJeu->tabIm[MAPIM]->surface, NULL, screen, &atlasJeu->tabIm[MAPIM]->pos);
-
+    
     traitement_input(input, &joueur1, murG, murD, gauche, droite, listeItems, ItemAffich, atlasJeu, &incrementAnim);
 
     affichage_barre_inv(&input,&choixAct, atlasJeu, screen);
@@ -118,8 +120,10 @@ int main(int argc,char* argv[])
     collision(&joueur1, monde.affichage, monde.posB, monde.posBY, &murD, &murG, &yMomTomb, &fait, &faitCalc, &yMomTombDeb, &touche);
 
     calc_vie_tombe(&joueur1, &yMomTombDeb, &faitCalc, &touche);
+    
+    game_over(&joueur1,monde, screen, &inc);
 
-    affichage_personnage(joueur1, atlasJeu, screen);
+    affichage_personnage(&joueur1, atlasJeu, screen, invin);
 
     affichage_vie_personnage(&joueur1, atlasJeu, screen);
 
@@ -127,6 +131,7 @@ int main(int argc,char* argv[])
     	if(atoi(argv[1]) !=0){
 	  gravite_monstre(&monstre, monde);
 	  affichage_monstre(&monstre, atlasJeu, screen, joueur1);
+	  combat(&monstre, &joueur1, monde, &invin);
 	  sautmonstre += 1;
 	  if(sautmonstre%1000 >= 0 && sautmonstre%1000 <= 2){
 	    monstre.saut = 1;
@@ -164,6 +169,7 @@ int main(int argc,char* argv[])
   }
 
   free(atlasJeu);
+  suppression(listeItems);
 
   TTF_Quit();
 

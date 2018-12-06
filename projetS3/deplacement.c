@@ -18,7 +18,6 @@ void deplacerG(character *a, int murGau, int murDro)
     }
 }
 
-
 void deplacerD(character *a, int murDro, int murGau)
 {
   if(murDro == 0 && murGau == 0)

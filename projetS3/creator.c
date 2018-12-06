@@ -25,6 +25,8 @@ void creer_joueur(character *joueur){
   joueur->bloqAGauche = 0;
   joueur->bloqADroite = 0;
   joueur->autorisationSaut = 1;
+  joueur->compt = 0;
+  joueur->mort = 0;
 }
 
 
@@ -264,6 +266,9 @@ atlas* init_atlas(){
 
   image* bg = creer_texture("Sprites/fond-nuage.bmp",0, 0, 0, 0, 0, 0);
   tabIm[19] = bg;
+/*  
+  image* terrePS = creer_texture("Sprites/terrePS.bmp",0, 0, 0, 0, 0, 0);
+  tabIm[20] = terrePS;*/
 
   return creer_atlas(tabIm);
 }

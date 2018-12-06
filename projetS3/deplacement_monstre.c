@@ -52,6 +52,8 @@ void sautDroite_monstre(monstre *m){
   }else if(m->velocity_x > 0){
     m->velocity_x += 1;
   }
+  m->d = 1;
+  m->g = 0;
 }
 
 
@@ -61,6 +63,8 @@ void sautGauche_monstre(monstre *m){
   }else if(m->velocity_x < 0){
     m->velocity_x -= 1;
   }
+  m->g = 1;
+  m->d = 0;
 }
 
 
