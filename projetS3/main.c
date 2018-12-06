@@ -127,7 +127,6 @@ int main(int argc,char* argv[])
     	if(atoi(argv[1]) !=0){
 	  gravite_monstre(&monstre, monde);
 	  affichage_monstre(&monstre, atlasJeu, screen, joueur1);
-	  collision_monstre(&monstre, monde);
 	  sautmonstre += 1;
 	  if(sautmonstre%1000 >= 0 && sautmonstre%1000 <= 2){
 	    monstre.saut = 1;

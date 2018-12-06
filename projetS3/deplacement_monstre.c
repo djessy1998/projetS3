@@ -15,14 +15,15 @@ void gravite_monstre(monstre *m, monde monde){
     if(m->velocity_y > -15){ //Si la vitesse devient trop grande les collisions ne sont plus respectées
       m->velocity_y -= 1;
       if(m->saut == 1){
-	sautDroite_monstre(m);
+      	sautDroite_monstre(m);
       }else if(m->saut == -1){
-	sautGauche_monstre(m);
+      	sautGauche_monstre(m);
       }
     }
   }
   m->x += m->velocity_x;
   m->y += m->velocity_y;
+  bloc_dans_monstre(m, monde);
 }
 
 
@@ -62,24 +63,35 @@ void sautGauche_monstre(monstre *m){
 }
 
 
-void collision_monstre(monstre *m, monde monde){
-  int yMonde = m->y/TAILLE_BLOCS;
-  int xMonde = m->x/TAILLE_BLOCS;
-  int i;
-  // printf("(n+1:%d, n:%d)\n", monde.grilleInt[(TMONDE - yMonde) +1][xMonde], monde.grilleInt[(TMONDE - yMonde)][xMonde]);
-  for(i = 0; i < HAUTEUR_MONSTRE; i++){
-    yMonde = (m->y - HAUTEUR_MONSTRE - i)/TAILLE_BLOCS;
-    if(m->x >= (monde.grilleInt[(TMONDE - yMonde)][xMonde] == TERRE)*(xMonde)*TAILLE_BLOCS &&
-      m->x <= ((monde.grilleInt[(TMONDE - yMonde)][xMonde] == TERRE)*(xMonde+1)*TAILLE_BLOCS)-1){
-          // printf("Premiere condition\n");
-      m->x = (xMonde*TAILLE_BLOCS);
-    }
-    xMonde = m->x + LARGEUR_MONSTRE/TAILLE_BLOCS;
-    if(m->x + LARGEUR_MONSTRE >= (monde.grilleInt[TMONDE - (yMonde)][xMonde] == TERRE)*(xMonde)*TAILLE_BLOCS &&
-      m->x + LARGEUR_MONSTRE <= ((monde.grilleInt[TMONDE - (yMonde)][xMonde] == TERRE)*(xMonde+1)*TAILLE_BLOCS)-1){
-      // printf("Seconde condition\n");
-      m->x = xMonde*TAILLE_BLOCS - LARGEUR_MONSTRE;
-    }
+int bloc_dans_monstre(monstre *m, monde monde){
+  // printf("y=%d\nx=%d\n", m->y/TAILLE_BLOCS, m->x/TAILLE_BLOCS);
+  int yMonde = (m->y)/TAILLE_BLOCS;
+  int yMondePied = (m->y - HAUTEUR_MONSTRE)/TAILLE_BLOCS;
+
+  int xMonde = ((m->x)/TAILLE_BLOCS);
+  int xMondeMid = ((m->x + (LARGEUR_MONSTRE/2))/TAILLE_BLOCS);
+  int xMondeDroite = ((m->x + LARGEUR_MONSTRE-1)/TAILLE_BLOCS);
+
+  if(monde.grilleInt[TMONDE - yMonde][xMonde] == TERRE && monde.grilleInt[TMONDE - yMondePied][xMonde] == TERRE &&
+    monde.grilleInt[TMONDE - yMonde][xMondeMid] == TERRE && monde.grilleInt[TMONDE - yMondePied][xMondeMid] == TERRE &&
+    monde.grilleInt[TMONDE - yMonde][xMondeDroite] == TERRE &&monde.grilleInt[TMONDE - yMondePied][xMondeDroite] == TERRE){
+    m->y = (yMonde+1)*TAILLE_BLOCS;
+    return 1;
   }
-  // printf("wow\n");
+  if(monde.grilleInt[TMONDE - yMonde][xMonde] == TERRE && monde.grilleInt[TMONDE - yMondePied][xMonde] == TERRE){
+    //Dans un bloc a GAUCHE
+    m->x = (xMonde+1)*TAILLE_BLOCS;
+    return 1;
+  }
+  if(monde.grilleInt[TMONDE - yMonde][xMondeMid] == TERRE && monde.grilleInt[TMONDE - yMondePied][xMondeMid] == TERRE){
+    //Dans un bloc au MILIEU
+    m->x = (xMonde-1)*TAILLE_BLOCS;
+    return 1;
+  }
+  if(monde.grilleInt[TMONDE - yMonde][xMondeDroite] == TERRE && monde.grilleInt[TMONDE - yMondePied][xMondeDroite] == TERRE){
+    //Dans un bloc au MILIEU
+    m->x = (xMonde-1)*TAILLE_BLOCS;
+    return 1;
+  }
+  return 0;
 }

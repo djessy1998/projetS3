@@ -165,7 +165,7 @@ void gravite_monstre(monstre *m, monde monde);
 int estAuSol_monstre(monstre *m, monde monde);
 void sautDroite_monstre(monstre *m);
 void sautGauche_monstre(monstre *m);
-void collision_monstre(monstre *m, monde monde);
+int bloc_dans_monstre(monstre *m, monde monde);
 
 //collision.c
 void gravite(character *a);
