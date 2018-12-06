@@ -81,13 +81,10 @@ int bloc_dans_monstre(monstre *m, monde monde){
     (monde.grilleInt[TMONDE - yMondeTete][xMondeMid] == TERRE && monde.grilleInt[TMONDE - yMondePied][xMondeMid] == TERRE) &&
     (monde.grilleInt[TMONDE - yMondeTete][xMondeDroite] == TERRE && monde.grilleInt[TMONDE - yMondePied][xMondeDroite] == TERRE)){
     m->y = (yMondeTete)*TAILLE_BLOCS + HAUTEUR_MONSTRE; // On le fait monter
-    printf("Condition ligne 79\n");
   }else{
 
-    printf("///////// DEBUT DE CONDITION /////////\n");
     //GAUCHE
     if(monde.grilleInt[TMONDE - yMondeTete][xMonde] == TERRE || monde.grilleInt[TMONDE - yMondePied][xMonde] == TERRE){
-      printf("Condition ligne 86 bloc en HAUT a GAUCHE et a GAUCHE\n");
       m->x = (xMonde+1)*TAILLE_BLOCS; //On le décale à Droite
       m->velocity_x = 0;
       m->velocity_y = 0; // On arrête le saut
@@ -96,7 +93,6 @@ int bloc_dans_monstre(monstre *m, monde monde){
 
     //DROITE
     if(monde.grilleInt[TMONDE - yMondeTete][xMondeDroite] == TERRE || monde.grilleInt[TMONDE - yMondePied][xMondeDroite] == TERRE){
-      printf("Condition ligne 94 bloc en HAUT a DROITE et a DROITE\n");
       m->x = (xMonde)*TAILLE_BLOCS - 1; //On le décale à Gauche
       m->velocity_x = 0;
       m->velocity_y = 0; // On arrête le saut
@@ -105,12 +101,10 @@ int bloc_dans_monstre(monstre *m, monde monde){
 
     //MILLIEU
     if(monde.grilleInt[TMONDE - yMondeTete][xMondeMid] == TERRE || monde.grilleInt[TMONDE - yMondePied][xMondeMid] == TERRE){
-      printf("Condition ligne 104 bloc en HAUT au MILIEU et au MILIEU\n");
       m->y = (yMondePied)*TAILLE_BLOCS - HAUTEUR_MONSTRE; //On le fait descendre
       m->velocity_x = 0;
       m->velocity_y = 0; // On arrête le saut
     }
-    printf("///////// FIN DE CONDITION /////////\n");
   }
 
   return 0;

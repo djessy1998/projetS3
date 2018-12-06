@@ -28,7 +28,6 @@ void combat(monstre *m, character *a, monde monde, int *invin){
 }
 
 void game_over(character *a, monde monde, SDL_Surface *screen, int *inc){
- printf("PV = %d\n", a->PV);
  if(a->PV == 0){
     if(*inc < 300){
       a->mort = 1;
