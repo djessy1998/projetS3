@@ -15,9 +15,9 @@ void gravite_monstre(monstre *m, monde monde){
   }else{
     if(m->velocity_y > -15){ //Si la vitesse devient trop grande les collisions ne sont plus respectées
       m->velocity_y -= 1;
-      if(m->saut == 1){
+      if(m->saut == DROITE){
       	sautDroite_monstre(m);
-      }else if(m->saut == -1){
+      }else if(m->saut == GAUCHE){
       	sautGauche_monstre(m);
       }
     }
@@ -128,6 +128,16 @@ void bloc_au_dessus(monstre *m, monde monde){
 }
 
 
-void pseudo_IA_monstre(monstre *m, monde monde){
-
+void pseudo_IA_monstre(monstre *m, character joueur){
+  static int sautmonstre = 10;
+  sautmonstre += 1;
+  if(sautmonstre%500 >= 0 && sautmonstre%500 <= 2){ // Il faut deux frames pour que le monstre saute
+    if(m->x > joueur.xMonde + joueur.pos.x){
+      m->saut = GAUCHE;
+    }else{
+      m->saut = DROITE;
+    }
+  }else{
+    m->saut = IMMOBILE;
+  }
 }

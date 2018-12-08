@@ -19,13 +19,18 @@
 #define VELOCITE_MAX_MONSTRE 10
 #define HAUTEUR_MONSTRE 22
 #define LARGEUR_MONSTRE 32
+#define DROITE 1
+#define GAUCHE -1
+#define IMMOBILE 0
 
 #define TMONDE         1000
 #define NB_GROTTES     10
 #define DIST_ENTRE_POINTS 2
+
 #define NBBLOCS_FENETREX 47
 #define NBBLOCS_FENETREY 37
 #define NB_BLOCS_AU_DESSUS_JOUEUR 25
+
 #define RAYONRAM	     40
 #define NBITEMS        5
 #define NBARBRES       100
@@ -170,7 +175,7 @@ int estAuSol_monstre(monstre *m, monde monde);
 void sautDroite_monstre(monstre *m);
 void sautGauche_monstre(monstre *m);
 int bloc_dans_monstre(monstre *m, monde monde);
-void pseudo_IA_monstre(monstre *m, monde monde);
+void pseudo_IA_monstre(monstre *m, character joueur);
 void bloc_au_dessus(monstre *m, monde monde);
 
 //collision.c
