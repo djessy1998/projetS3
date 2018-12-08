@@ -22,6 +22,13 @@ int main(int argc,char* argv[])
   character joueur1;
   monstre monstre;
 
+  int freq = 0;
+  if(argv[1] != NULL){
+    if(atoi(argv[1]) !=0){
+      freq = atoi(argv[1]);
+    }
+  }
+
   creer_joueur(&joueur1);
   creer_monde(&monde);
   creer_input(&input);
@@ -29,16 +36,10 @@ int main(int argc,char* argv[])
   SDL_Surface *screen;
   /* initialize SDL */
   SDL_Init(SDL_INIT_VIDEO);
-
-  /*Initialise SDL_ttf*/
   TTF_Init();
-
-  /* set the title bar */
   SDL_WM_SetCaption("StarBund", "StarBund");
-
   /* create window */
   screen = SDL_SetVideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0);
-
   /* set keyboard repeat */
   SDL_EnableKeyRepeat(10, 10);
 
@@ -46,12 +47,10 @@ int main(int argc,char* argv[])
   atlas* atlasJeu = init_atlas();
 
   //Si on ajoute un argument on "affiche" l'aléatoire du terrain avec Perlin
-  if(argv[1] != NULL){
-    if(atoi(argv[1]) !=0){
-      gen_monde(&monde, atoi(argv[1]));
-      apparition_joueur(&joueur1, monde);
-      creer_monstre(&monstre, atlasJeu, monde);
-    }
+  if(freq > 0){
+    gen_monde(&monde, atoi(argv[1]));
+    apparition_joueur(&joueur1, monde);
+    creer_monstre(&monstre, atlasJeu, monde);
   }
 
   SDL_Rect posMiniMap;
@@ -102,7 +101,7 @@ int main(int argc,char* argv[])
     SDL_FreeSurface(miniMap);
 
     SDL_BlitSurface(atlasJeu->tabIm[MAPIM]->surface, NULL, screen, &atlasJeu->tabIm[MAPIM]->pos);
-    
+
     traitement_input(input, &joueur1, murG, murD, gauche, droite, listeItems, ItemAffich, atlasJeu, &incrementAnim);
 
     affichage_barre_inv(&input,&choixAct, atlasJeu, screen);
@@ -120,27 +119,26 @@ int main(int argc,char* argv[])
     collision(&joueur1, monde.affichage, monde.posB, monde.posBY, &murD, &murG, &yMomTomb, &fait, &faitCalc, &yMomTombDeb, &touche);
 
     calc_vie_tombe(&joueur1, &yMomTombDeb, &faitCalc, &touche);
-    
+
     game_over(&joueur1,monde, screen, &inc);
 
     affichage_personnage(&joueur1, atlasJeu, screen, invin);
 
     affichage_vie_personnage(&joueur1, atlasJeu, screen);
 
-    if(argv[1] != NULL){
-    	if(atoi(argv[1]) !=0){
-	  gravite_monstre(&monstre, monde);
-	  affichage_monstre(&monstre, atlasJeu, screen, joueur1);
-	  combat(&monstre, &joueur1, monde, &invin);
-	  sautmonstre += 1;
-	  if(sautmonstre%1000 >= 0 && sautmonstre%1000 <= 2){
-	    monstre.saut = 1;
-	  }else if(sautmonstre%500 >= 0 && sautmonstre%500 <= 2){
-	    monstre.saut = -1;
-	  }else{
-	    monstre.saut = 0;
-	  }
-    	}
+    if(freq > 0){
+  	  gravite_monstre(&monstre, monde);
+  	  affichage_monstre(&monstre, atlasJeu, screen, joueur1);
+  	  combat(&monstre, &joueur1, monde, &invin);
+      
+  	  sautmonstre += 1;
+  	  if(sautmonstre%1000 >= 0 && sautmonstre%1000 <= 2){
+  	    monstre.saut = 1;
+  	  }else if(sautmonstre%500 >= 0 && sautmonstre%500 <= 2){
+  	    monstre.saut = -1;
+  	  }else{
+  	    monstre.saut = 0;
+  	  }
     }
 
     SDL_UpdateRect(screen, 0, 0, 0, 0);
@@ -148,11 +146,9 @@ int main(int argc,char* argv[])
 
 
   //Sauvegarde de la map
-  if(argv[1] != NULL){
-    if(atoi(argv[1]) !=0){
+  if(freq > 0){
     tab_int2char(monde.grilleInt, monde.grilleChar, TMONDE, TMONDE);
     ecrire_fichier("saves/MondeTest.txt", monde.grilleChar, TMONDE, TMONDE);
-    }
   }
 
   desallouer_tab_2D_int(monde.grilleInt, TMONDE);

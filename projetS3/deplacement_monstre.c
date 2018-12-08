@@ -4,6 +4,7 @@
 #include "creator.h"
 
 void gravite_monstre(monstre *m, monde monde){
+  bloc_au_dessus(m, monde);
   if(estAuSol_monstre(m, monde)){
     m->velocity_y = 0;
     m->velocity_x = 0;
@@ -80,16 +81,15 @@ int bloc_dans_monstre(monstre *m, monde monde){
   if((monde.grilleInt[TMONDE - yMondeTete][xMonde] == TERRE && monde.grilleInt[TMONDE - yMondePied][xMonde] == TERRE) &&
     (monde.grilleInt[TMONDE - yMondeTete][xMondeMid] == TERRE && monde.grilleInt[TMONDE - yMondePied][xMondeMid] == TERRE) &&
     (monde.grilleInt[TMONDE - yMondeTete][xMondeDroite] == TERRE && monde.grilleInt[TMONDE - yMondePied][xMondeDroite] == TERRE)){
+
     m->y = (yMondeTete)*TAILLE_BLOCS + HAUTEUR_MONSTRE; // On le fait monter
   }else{
-
     //GAUCHE
     if(monde.grilleInt[TMONDE - yMondeTete][xMonde] == TERRE || monde.grilleInt[TMONDE - yMondePied][xMonde] == TERRE){
       m->x = (xMonde+1)*TAILLE_BLOCS; //On le décale à Droite
       m->velocity_x = 0;
       m->velocity_y = 0; // On arrête le saut
     }
-
 
     //DROITE
     if(monde.grilleInt[TMONDE - yMondeTete][xMondeDroite] == TERRE || monde.grilleInt[TMONDE - yMondePied][xMondeDroite] == TERRE){
@@ -98,7 +98,6 @@ int bloc_dans_monstre(monstre *m, monde monde){
       m->velocity_y = 0; // On arrête le saut
     }
 
-
     //MILLIEU
     if(monde.grilleInt[TMONDE - yMondeTete][xMondeMid] == TERRE || monde.grilleInt[TMONDE - yMondePied][xMondeMid] == TERRE){
       m->y = (yMondePied)*TAILLE_BLOCS - HAUTEUR_MONSTRE; //On le fait descendre
@@ -106,6 +105,29 @@ int bloc_dans_monstre(monstre *m, monde monde){
       m->velocity_y = 0; // On arrête le saut
     }
   }
-
   return 0;
+}
+
+
+void bloc_au_dessus(monstre *m, monde monde){
+  int yMondeAuDessusTete = (m->y)/TAILLE_BLOCS+2;
+
+  int xMonde = ((m->x)/TAILLE_BLOCS);
+  int xMondeMid = ((m->x + (LARGEUR_MONSTRE/2))/TAILLE_BLOCS);
+  int xMondeDroite = ((m->x + LARGEUR_MONSTRE-1)/TAILLE_BLOCS);
+
+  if(monde.grilleInt[TMONDE - yMondeAuDessusTete][xMonde] == TERRE ||
+  monde.grilleInt[TMONDE - yMondeAuDessusTete][xMondeMid] == TERRE ||
+  monde.grilleInt[TMONDE - yMondeAuDessusTete][xMondeDroite] == TERRE){
+    m->x -= m->velocity_x;
+    m->y -= m->velocity_y;
+    m->velocity_x = 0;
+    m->velocity_y = 0; // On arrête le saut
+    m->saut = 0;
+  }
+}
+
+
+void pseudo_IA_monstre(monstre *m, monde monde){
+
 }

@@ -170,6 +170,8 @@ int estAuSol_monstre(monstre *m, monde monde);
 void sautDroite_monstre(monstre *m);
 void sautGauche_monstre(monstre *m);
 int bloc_dans_monstre(monstre *m, monde monde);
+void pseudo_IA_monstre(monstre *m, monde monde);
+void bloc_au_dessus(monstre *m, monde monde);
 
 //collision.c
 void gravite(character *a);
