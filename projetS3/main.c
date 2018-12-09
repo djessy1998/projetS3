@@ -22,12 +22,7 @@ int main(int argc,char* argv[])
   character joueur1;
   monstre monstre;
 
-  int freq = 0;
-  if(argv[1] != NULL){
-    if(atoi(argv[1]) !=0){
-      freq = atoi(argv[1]);
-    }
-  }
+  int freq = 3;
 
   creer_joueur(&joueur1);
   creer_monde(&monde);
@@ -47,11 +42,9 @@ int main(int argc,char* argv[])
   atlas* atlasJeu = init_atlas();
 
   //Si on ajoute un argument on "affiche" l'aléatoire du terrain avec Perlin
-  if(freq > 0){
-    gen_monde(&monde, atoi(argv[1]));
-    apparition_joueur(&joueur1, monde);
-    creer_monstre(&monstre, atlasJeu, monde);
-  }
+  gen_monde(&monde, freq);
+  apparition_joueur(&joueur1, monde);
+  creer_monstre(&monstre, atlasJeu, monde);
 
   SDL_Rect posMiniMap;
 
@@ -125,22 +118,18 @@ int main(int argc,char* argv[])
 
     affichage_vie_personnage(&joueur1, atlasJeu, screen);
 
-    if(freq > 0){
-  	  gravite_monstre(&monstre, monde);
-  	  affichage_monstre(&monstre, atlasJeu, screen, joueur1);
-      pseudo_IA_monstre(&monstre, joueur1);
-  	  combat(&monstre, &joueur1, monde, &invin);
-    }
+	  gravite_monstre(&monstre, monde);
+	  affichage_monstre(&monstre, atlasJeu, screen, joueur1);
+    pseudo_IA_monstre(&monstre, joueur1);
+	  combat(&monstre, &joueur1, monde, &invin);
 
     SDL_UpdateRect(screen, 0, 0, 0, 0);
   }
 
 
   //Sauvegarde de la map
-  if(freq > 0){
-    tab_int2char(monde.grilleInt, monde.grilleChar, TMONDE, TMONDE);
-    ecrire_fichier("saves/MondeTest.txt", monde.grilleChar, TMONDE, TMONDE);
-  }
+  tab_int2char(monde.grilleInt, monde.grilleChar, TMONDE, TMONDE);
+  ecrire_fichier("saves/MondeTest.txt", monde.grilleChar, TMONDE, TMONDE);
 
   desallouer_tab_2D_int(monde.grilleInt, TMONDE);
   desallouer_tab_2D_char(monde.grilleChar, TMONDE);
@@ -151,9 +140,7 @@ int main(int argc,char* argv[])
   free(joueur1.nom);
   free(monstre.nom);
 
-  for(int  i = 0; i < NBIMAGES; i++){
-    detruire_text(atlasJeu->tabIm[i]);
-  }
+  detruire_atlas(atlasJeu);
 
   free(atlasJeu);
   suppression(listeItems);

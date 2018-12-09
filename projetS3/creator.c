@@ -176,12 +176,6 @@ void setAnimW(image* image, int w){
   image->anim.w = w;
 }
 
-void detruire_text(image* image){
-  SDL_FreeSurface(image->surface);
-  free(image);
-  image = NULL;
-}
-
 atlas* init_atlas(){
 
   image** tabIm = malloc(sizeof(image*)*NBIMAGES);
@@ -266,7 +260,7 @@ atlas* init_atlas(){
 
   image* bg = creer_texture("Sprites/fond-nuage.bmp",0, 0, 0, 0, 0, 0);
   tabIm[19] = bg;
-/*  
+/*
   image* terrePS = creer_texture("Sprites/terrePS.bmp",0, 0, 0, 0, 0, 0);
   tabIm[20] = terrePS;*/
 
