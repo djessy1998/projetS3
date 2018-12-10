@@ -5,7 +5,7 @@
 #define PM_START 0
 #define POSX_START 352
 #define POSY_START 400
-#define NBIMAGES	21
+#define NBIMAGES	24
 
 #define JOUEURIM 	0
 #define VIEENTIM	1
@@ -27,7 +27,10 @@
 #define FONDGROTTEIM 	17
 #define TERREIM	18
 #define BGIM	19
-#define TERREPSIM	20
+#define VIEENTMIM	20
+#define MIVIEMIM	21
+#define NOVIEMIM	22
+#define TERRESHIM 	23
 
 
 //creator.c

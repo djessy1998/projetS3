@@ -9,7 +9,7 @@ typedef struct image {
 
 
 typedef struct atlas {
-    image* tabIm[20];
+    image* tabIm[23];
 } atlas;
 
 
@@ -24,3 +24,5 @@ void setAnimX(image* image, int x);
 void setAnimY(image* image, int y);
 void setAnimH(image* image, int h);
 void setAnimW(image* image, int w);
+void setPosH(image* image, int h);
+void setPosW(image* image, int w);

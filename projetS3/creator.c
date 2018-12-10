@@ -27,6 +27,7 @@ void creer_joueur(character *joueur){
   joueur->autorisationSaut = 1;
   joueur->compt = 0;
   joueur->mort = 0;
+  joueur->degatM = 5;
 }
 
 
@@ -92,7 +93,7 @@ void creer_input(input *input){
 void creer_monstre(monstre *monstre, atlas* atlasJeu, monde monde){
   monstre->nom = (char*) malloc( 6 * sizeof(char));
   strcpy(monstre->nom, "Slime");
-  monstre->PV = 100;
+  monstre->PV = 20;
   monstre->x = TMONDE/2;
   monstre->y = 0;
 
@@ -119,6 +120,7 @@ void creer_monstre(monstre *monstre, atlas* atlasJeu, monde monde){
   monstre->velocity_x = 0;
   monstre->saut = IMMOBILE;
   monstre->dernierSaut = IMMOBILE;
+  monstre->mort = 0;
 }
 
 

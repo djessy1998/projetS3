@@ -3,7 +3,7 @@
 #include "fonction.h"
 #include "creator.h"
 
-void combat(monstre *m, character *a, monde monde, int *invin){
+void combat(monstre *m, character *a, monde monde, int *invin, int sourisX, int sourisY, input *input){
   int yMondeMo = (m->y - HAUTEUR_MONSTRE)/TAILLE_BLOCS;
   int xMondeMo = m->x/TAILLE_BLOCS;
   int xMondeJ = (a->xMonde + a->pos.x)/16;
@@ -24,6 +24,15 @@ void combat(monstre *m, character *a, monde monde, int *invin){
     }
     if(*invin <= 500){
        *invin += 1;
+    }
+    
+    if((sourisX-1 == xMondeMo && TMONDE - sourisY - 1 == yMondeMo) && input->data.butDown == 1){
+      if(m->mort == 0){
+	 m->PV -= a->degatM;
+	 if(m->PV < 0){
+	    m->mort = 1; 
+	 }
+      }
     }
 }
 
