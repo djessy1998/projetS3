@@ -54,7 +54,9 @@ void affichage_monde(monde monde, character joueur1, atlas* atlasJeu, SDL_Surfac
 	    SDL_BlitSurface(atlasJeu->tabIm[BASARBIM]->surface, NULL, screen, &posGrille);
 	  }else if(monde.affichage[i][j] == FONDGROTTE  && monde.affichage[i][j-(int)(j>0)] != ARMURE && monde.affichage[i][j-(int)(j>0)] != CASQUE){
 	    SDL_BlitSurface(atlasJeu->tabIm[FONDGROTTEIM]->surface,&atlasJeu->tabIm[FONDGROTTEIM]->anim, screen, &posGrille);
-	  }
+	  }else if(monde.affichage[i][j] == TERRESH){
+      SDL_BlitSurface(atlasJeu->tabIm[TERREPSIM]->surface, NULL, screen, &posGrille);
+    }
 	}
   }
 }
@@ -99,10 +101,10 @@ void affichage_personnage(character *joueur1, atlas* atlasJeu, SDL_Surface *scre
 	  }
 	}
 	else{
-	    SDL_BlitSurface(atlasJeu->tabIm[JOUEURIM]->surface, &atlasJeu->tabIm[JOUEURIM]->anim, screen, &joueur1->pos);	
+	    SDL_BlitSurface(atlasJeu->tabIm[JOUEURIM]->surface, &atlasJeu->tabIm[JOUEURIM]->anim, screen, &joueur1->pos);
 	}
       }
-      joueur1->compt += 1;   
+      joueur1->compt += 1;
   }
 }
 

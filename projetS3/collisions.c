@@ -32,12 +32,12 @@ void collision(character *a, int** affichage, int** posB, int** posBY, int *murD
   int JpiedDX = a->xMonde + a->pos.x + PLAYER_WIDTH;
   int JpiedGY = a->yMonde + (NBBLOCS_FENETREY*TAILLE_BLOCS - a->pos.y) - PLAYER_HEIGHT;
   *touche = 0;
- 
+
   for(i = 0; i < NBBLOCS_FENETREY; i++)
     {
       for(j = 0; j< NBBLOCS_FENETREX; j++)
 	{
-	  if(affichage[i][j] == TERRE)
+	  if(affichage[i][j] == TERRE || affichage[i][j] == TERRESH)
 	    {
 	      if(JpiedDX == posB[i][j]){
     		  a->bloqADroite = 1;
@@ -55,7 +55,7 @@ void collision(character *a, int** affichage, int** posB, int** posBY, int *murD
     		  a->velocity_y = 20;
     		  break;
     		}
-	    } 
+	    }
 	}
     }
 
@@ -67,21 +67,23 @@ void collision(character *a, int** affichage, int** posB, int** posBY, int *murD
   int PosPiedDX = ((a->pos.x+PLAYER_WIDTH)/TAILLE_BLOCS) +1 - *murDr;
   int PosPiedGX = (a->pos.x/TAILLE_BLOCS) - *murDr;
 
-  if((affichage[PosPiedY][PosPiedGX] != TERRE &&
-      affichage[PosCorpsY][PosPiedGX] != TERRE &&
-      affichage[PosTeteY][PosPiedGX] != TERRE)) {
+  if((affichage[PosPiedY][PosPiedGX] != TERRE || affichage[PosPiedY][PosPiedGX] != TERRESH) &&
+      (affichage[PosCorpsY][PosPiedGX] != TERRE || affichage[PosCorpsY][PosPiedGX] != TERRESH) &&
+      (affichage[PosTeteY][PosPiedGX] != TERRE || affichage[PosTeteY][PosPiedGX] != TERRESH)) {
     a->bloqAGauche=0;
   }
 
-  if((affichage[PosPiedY][PosPiedDX] != TERRE &&
-      affichage[PosCorpsY][PosPiedDX] != TERRE &&
-      affichage[PosTeteY][PosPiedDX] != TERRE)){
+  if((affichage[PosPiedY][PosPiedDX] != TERRE || affichage[PosPiedY][PosPiedDX] != TERRESH) &&
+      (affichage[PosCorpsY][PosPiedDX] != TERRE || affichage[PosCorpsY][PosPiedDX] != TERRESH) &&
+      (affichage[PosTeteY][PosPiedDX] != TERRE || affichage[PosTeteY][PosPiedDX] != TERRESH)){
     a->bloqADroite=0;
   }
 
   //Si bloc au dessus du joueur.
   if(affichage[PosHautTeteY][PosPiedGX+1] == TERRE ||
-    affichage[PosHautTeteY][PosPiedDX - a->bloqADroite - *murGa] == TERRE){
+    affichage[PosHautTeteY][PosPiedDX - a->bloqADroite - *murGa] == TERRE ||
+    affichage[PosHautTeteY][PosPiedGX+1] == TERRESH ||
+      affichage[PosHautTeteY][PosPiedDX - a->bloqADroite - *murGa] == TERRESH){
      a->autorisationSaut = 0;
   }
 

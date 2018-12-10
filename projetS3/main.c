@@ -22,7 +22,7 @@ int main(int argc,char* argv[])
   character joueur1;
   monstre monstre;
 
-  int freq = 3;
+  int freq = 1;
 
   creer_joueur(&joueur1);
   creer_monde(&monde);

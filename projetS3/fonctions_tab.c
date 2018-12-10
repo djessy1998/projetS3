@@ -70,11 +70,14 @@ void afficher_tab_2D_int(int** tab, int n, int m){
 void tab_char2int(char** tab, int** tabInt, int tailleX, int tailleY){
   for(int x = 0; x < tailleX; x++){
     for(int y = 0; y < tailleY; y++){
-	tabInt[x][y] = atoi(&tab[x][y]);
+      if(tab[x][y] == '/' || tab[x][y] == ':'){
+	       tabInt[x][y] = -1;
+      }else{
+        tabInt[x][y] = atoi(&tab[x][y]);
       }
-      
     }
   }
+}
 
 void tab_int2char(int** tabInt, char** tabChar, int tailleX, int tailleY){
   for(int x = 0; x < tailleX; x++){

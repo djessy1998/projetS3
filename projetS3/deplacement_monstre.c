@@ -36,8 +36,8 @@ int estAuSol_monstre(monstre *m, monde monde){
 
   for(i = 0; i < TAILLE_BLOCS; i++){
     posMonstre = m->y - HAUTEUR_MONSTRE;
-    if(posMonstre - i == (monde.grilleInt[TMONDE - yMonde][xMonde] == TERRE)*(yMonde)*TAILLE_BLOCS ||
-      (posMonstre - i) == (monde.grilleInt[TMONDE - yMonde][xMondeDroite] == TERRE)*(yMonde)*TAILLE_BLOCS){
+    if(posMonstre - i == (monde.grilleInt[TMONDE - yMonde][xMonde] == TERRE || monde.grilleInt[TMONDE - yMonde][xMonde] == TERRESH)*(yMonde)*TAILLE_BLOCS ||
+      (posMonstre - i) == (monde.grilleInt[TMONDE - yMonde][xMondeDroite] == TERRE || monde.grilleInt[TMONDE - yMonde][xMondeDroite] == TERRESH)*(yMonde)*TAILLE_BLOCS){
       if(!m->saut && m->saut != -1){
       	m->y = yMonde*TAILLE_BLOCS + HAUTEUR_MONSTRE;
       }
@@ -53,8 +53,7 @@ void sautDroite_monstre(monstre *m){
   }else if(m->velocity_x > 0){
     m->velocity_x += 1;
   }
-  m->d = 1;
-  m->g = 0;
+  m->dernierSaut = DROITE;
 }
 
 
@@ -64,8 +63,7 @@ void sautGauche_monstre(monstre *m){
   }else if(m->velocity_x < 0){
     m->velocity_x -= 1;
   }
-  m->g = 1;
-  m->d = 0;
+  m->dernierSaut = GAUCHE;
 }
 
 
@@ -76,7 +74,7 @@ int bloc_dans_monstre(monstre *m, monde monde){
   }else if(m->x + LARGEUR_MONSTRE > TMONDE*TAILLE_BLOCS){
     m->x = (TMONDE*TAILLE_BLOCS) - LARGEUR_MONSTRE;
   }
-  
+
   //Limites du monde en Y
   if(m->y - HAUTEUR_MONSTRE < 0){
     m->y = HAUTEUR_MONSTRE;
@@ -91,28 +89,34 @@ int bloc_dans_monstre(monstre *m, monde monde){
   int xMondeMid = ((m->x + (LARGEUR_MONSTRE/2))/TAILLE_BLOCS);
   int xMondeDroite = ((m->x + LARGEUR_MONSTRE-1)/TAILLE_BLOCS);
 
-  if((monde.grilleInt[TMONDE - yMondeTete][xMonde] == TERRE && monde.grilleInt[TMONDE - yMondePied][xMonde] == TERRE) &&
-    (monde.grilleInt[TMONDE - yMondeTete][xMondeMid] == TERRE && monde.grilleInt[TMONDE - yMondePied][xMondeMid] == TERRE) &&
-    (monde.grilleInt[TMONDE - yMondeTete][xMondeDroite] == TERRE && monde.grilleInt[TMONDE - yMondePied][xMondeDroite] == TERRE)){
+  if(((monde.grilleInt[TMONDE - yMondeTete][xMonde] == TERRE && monde.grilleInt[TMONDE - yMondePied][xMonde] == TERRE) ||
+    (monde.grilleInt[TMONDE - yMondeTete][xMonde] == TERRESH && monde.grilleInt[TMONDE - yMondePied][xMonde] == TERRESH)) &&
+    ((monde.grilleInt[TMONDE - yMondeTete][xMondeMid] == TERRE && monde.grilleInt[TMONDE - yMondePied][xMondeMid] == TERRE) ||
+    (monde.grilleInt[TMONDE - yMondeTete][xMondeMid] == TERRESH && monde.grilleInt[TMONDE - yMondePied][xMondeMid] == TERRESH)) &&
+    ((monde.grilleInt[TMONDE - yMondeTete][xMondeDroite] == TERRE && monde.grilleInt[TMONDE - yMondePied][xMondeDroite] == TERRE) ||
+    (monde.grilleInt[TMONDE - yMondeTete][xMondeDroite] == TERRESH && monde.grilleInt[TMONDE - yMondePied][xMondeDroite] == TERRESH))){
 
     m->y = (yMondeTete)*TAILLE_BLOCS + HAUTEUR_MONSTRE; // On le fait monter
   }else{
     //GAUCHE
-    if(monde.grilleInt[TMONDE - yMondeTete][xMonde] == TERRE || monde.grilleInt[TMONDE - yMondePied][xMonde] == TERRE){
+    if(monde.grilleInt[TMONDE - yMondeTete][xMonde] == TERRE || monde.grilleInt[TMONDE - yMondePied][xMonde] == TERRE ||
+    monde.grilleInt[TMONDE - yMondeTete][xMonde] == TERRESH || monde.grilleInt[TMONDE - yMondePied][xMonde] == TERRESH){
       m->x = (xMonde+1)*TAILLE_BLOCS; //On le décale à Droite
       m->velocity_x = 0;
       m->velocity_y = 0; // On arrête le saut
     }
 
     //DROITE
-    if(monde.grilleInt[TMONDE - yMondeTete][xMondeDroite] == TERRE || monde.grilleInt[TMONDE - yMondePied][xMondeDroite] == TERRE){
+    if(monde.grilleInt[TMONDE - yMondeTete][xMondeDroite] == TERRE || monde.grilleInt[TMONDE - yMondePied][xMondeDroite] == TERRE ||
+    monde.grilleInt[TMONDE - yMondeTete][xMondeDroite] == TERRESH || monde.grilleInt[TMONDE - yMondePied][xMondeDroite] == TERRESH){
       m->x = (xMonde)*TAILLE_BLOCS - 1; //On le décale à Gauche
       m->velocity_x = 0;
       m->velocity_y = 0; // On arrête le saut
     }
 
     //MILLIEU
-    if(monde.grilleInt[TMONDE - yMondeTete][xMondeMid] == TERRE || monde.grilleInt[TMONDE - yMondePied][xMondeMid] == TERRE){
+    if(monde.grilleInt[TMONDE - yMondeTete][xMondeMid] == TERRE || monde.grilleInt[TMONDE - yMondePied][xMondeMid] == TERRE ||
+    monde.grilleInt[TMONDE - yMondeTete][xMondeMid] == TERRESH || monde.grilleInt[TMONDE - yMondePied][xMondeMid] == TERRESH){
       m->y = (yMondePied)*TAILLE_BLOCS - HAUTEUR_MONSTRE; //On le fait descendre
       m->velocity_x = 0;
       m->velocity_y = 0; // On arrête le saut
@@ -131,7 +135,10 @@ void bloc_au_dessus(monstre *m, monde monde){
 
   if(monde.grilleInt[TMONDE - yMondeAuDessusTete][xMonde] == TERRE ||
   monde.grilleInt[TMONDE - yMondeAuDessusTete][xMondeMid] == TERRE ||
-  monde.grilleInt[TMONDE - yMondeAuDessusTete][xMondeDroite] == TERRE){
+  monde.grilleInt[TMONDE - yMondeAuDessusTete][xMondeDroite] == TERRE ||
+  monde.grilleInt[TMONDE - yMondeAuDessusTete][xMonde] == TERRESH ||
+  monde.grilleInt[TMONDE - yMondeAuDessusTete][xMondeMid] == TERRESH ||
+  monde.grilleInt[TMONDE - yMondeAuDessusTete][xMondeDroite] == TERRESH){
     m->x -= m->velocity_x;
     m->y -= m->velocity_y;
     m->velocity_x = 0;

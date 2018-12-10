@@ -49,6 +49,7 @@
 #define BASARB 7
 #define TOPARB 8
 #define FONDGROTTE 9
+#define TERRESH 10
 
 typedef struct monde monde;
 struct monde
@@ -97,8 +98,7 @@ struct monstre
   int velocity_y;
   int velocity_x;
   int saut;
-  int d;
-  int g;
+  int dernierSaut;
 };
 
 typedef struct items items;

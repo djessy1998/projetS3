@@ -117,7 +117,8 @@ void creer_monstre(monstre *monstre, atlas* atlasJeu, monde monde){
   monstre->y = TMONDE*TAILLE_BLOCS - TAILLE_BLOCS*monstre->y + HAUTEUR_MONSTRE;
   monstre->velocity_y = 0;
   monstre->velocity_x = 0;
-  monstre->saut = 0;
+  monstre->saut = IMMOBILE;
+  monstre->dernierSaut = IMMOBILE;
 }
 
 

@@ -34,16 +34,15 @@ void insertion(Liste *liste, int nvType, int nvXMonde, int nvYMonde)
 
 void suppression(Liste *liste)
 {
-  if (liste == NULL)
-    {
-      exit(EXIT_FAILURE);
-    }
-  if (liste->premier != NULL)
-    {
-      items *aSupprimer = liste->premier;
-      liste->premier = liste->premier->suivant;
-      free(aSupprimer);
-    }
+  if (liste == NULL){
+    exit(EXIT_FAILURE);
+  }
+  while(liste->premier != NULL){
+    items *aSupprimer = liste->premier;
+    liste->premier = liste->premier->suivant;
+    free(aSupprimer);
+  }
+  free(liste);
 }
 
 //pour le debuguage

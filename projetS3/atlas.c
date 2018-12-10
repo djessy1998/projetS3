@@ -108,9 +108,9 @@ atlas* init_atlas(){
 
   image* bg = creer_texture("Sprites/fond-nuage.bmp",0, 0, 0, 0, 0, 0);
   tabIm[19] = bg;
-/*
+
   image* terrePS = creer_texture("Sprites/terrePS.bmp",0, 0, 0, 0, 0, 0);
-  tabIm[20] = terrePS;*/
+  tabIm[20] = terrePS;
 
   return creer_atlas(tabIm);
 }

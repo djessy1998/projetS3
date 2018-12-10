@@ -57,7 +57,7 @@ char** modifier_caractere(char** tab, int n, int m, char ancien, char nouveau){
   for(int i = 0; i<n; i++){
     for(int y = 0; y<m; y++){
       if(tab[i][y] == ancien){
-	tab[i][y] = nouveau;
+	       tab[i][y] = nouveau;
       }
     }
   }

@@ -36,12 +36,15 @@ void gen_monde(monde *monde, int freq){
      monde->grilleInt[fin->v[i]][i] = TERRE;
      //Remplissage de bas en haut
      for(j = fin->v[i]; j<TMONDE; j++){
-       monde->grilleInt[j][i] = TERRE;
+       monde->grilleInt[j][i] = 10;
      }
   }
 
+  for(j = 0; j<TMONDE; j++){
+    monde->grilleInt[fin->v[j]][j] = TERRE;
+  }
 
-  //Génération aléatoire de grottes
+   //Génération aléatoire de grottes
   for(i=0; i<NB_GROTTES; i++){
     gen_grottes(monde, freq);
   }
@@ -57,7 +60,7 @@ void gen_monde(monde *monde, int freq){
      //Remplissage de bas en haut
      for(j = 0; j<fin->v[i]; j++){
        if(monde->grilleInt[j][i] == FONDGROTTE){
-	monde->grilleInt[j][i] = VIDE;
+	        monde->grilleInt[j][i] = VIDE;
        }
      }
   }
@@ -66,71 +69,71 @@ void gen_monde(monde *monde, int freq){
   int iRandom = (1 + rand()%(TMONDE - 1));
   int jRandom = (1 +rand()%(TMONDE - 1));
 
-  for(i=0;i<NBITEMS;i++){
-    iRandom = (1 + rand()%(TMONDE - 2));
-    jRandom = (1 +rand()%(TMONDE - 2));
-    int typeItRand = (2 + (rand()%(2)));
-    while((monde->grilleInt[iRandom - 1][jRandom] != 0 && monde->grilleInt[iRandom - 1][jRandom] != 9) || monde->grilleInt[iRandom][jRandom] != 1){
-      if(monde->grilleInt[iRandom - 1][jRandom] == 1 && monde->grilleInt[iRandom + 1][jRandom] == 1 && monde->grilleInt[iRandom][jRandom] == 1){
-        iRandom -= 1;
-      }
-      else{
-	iRandom += 1;
-      }
-    }
-
-    while(monde->grilleInt[iRandom][jRandom+1] == TERRE){
-      while(monde->grilleInt[iRandom][jRandom + 1] == TERRE){
-        if(iRandom < TMONDE - 1){
-          iRandom -= 1;
-        }
-      }
-    }
-     monde->grilleInt[iRandom][jRandom] = typeItRand;
-  }
+  // for(i=0;i<NBITEMS;i++){
+  //   iRandom = (1 + rand()%(TMONDE - 2));
+  //   jRandom = (1 +rand()%(TMONDE - 2));
+  //   int typeItRand = (2 + (rand()%(2)));
+  //   while((monde->grilleInt[iRandom - 1][jRandom] != 0 && monde->grilleInt[iRandom - 1][jRandom] != 9) || monde->grilleInt[iRandom][jRandom] != 1){
+  //     if(monde->grilleInt[iRandom - 1][jRandom] == 1 && monde->grilleInt[iRandom + 1][jRandom] == 1 && monde->grilleInt[iRandom][jRandom] == 1){
+  //       iRandom -= 1;
+  //     }
+  //     else{
+	// iRandom += 1;
+  //     }
+  //   }
+  //
+  //   while(monde->grilleInt[iRandom][jRandom+1] == TERRE){
+  //     while(monde->grilleInt[iRandom][jRandom + 1] == TERRE){
+  //       if(iRandom < TMONDE - 1){
+  //         iRandom -= 1;
+  //       }
+  //     }
+  //   }
+  //    monde->grilleInt[iRandom][jRandom] = typeItRand;
+  // }
 
   //placement des arbres
-  for(i=0;i<NBARBRES;i++){
-    int taille = (rand()%8)+3;
-    iRandom = (1 + rand()%(TMONDE - 2));
-    jRandom = (1 +rand()%(TMONDE - 2));
-    while((monde->grilleInt[iRandom + 1][jRandom] != 1 || monde->grilleInt[iRandom][jRandom] != 0) && (iRandom > 2 && iRandom < TMONDE - 2)){
-      if(monde->grilleInt[iRandom - 1][jRandom] == 1 && monde->grilleInt[iRandom + 1][jRandom] == 1 && monde->grilleInt[iRandom][jRandom] == 1){
-        iRandom -= 1;
-      }
-      else if(monde->grilleInt[iRandom - 1][jRandom] > 1 && monde->grilleInt[iRandom + 1][jRandom] == 1 && monde->grilleInt[iRandom][jRandom] == 1){
-        jRandom = (1 +rand()%(TMONDE - 1));
-      }
-      if(monde->grilleInt[iRandom - 1][jRandom] == 0 && monde->grilleInt[iRandom + 1][jRandom] == 0 && monde->grilleInt[iRandom][jRandom] == 0){
-	iRandom += 1;
-      }
-      else if(monde->grilleInt[iRandom - 1][jRandom] == 0 && monde->grilleInt[iRandom + 1][jRandom] > 1 && monde->grilleInt[iRandom][jRandom] == 0){
-	jRandom = (1 +rand()%(TMONDE - 1));
-      }
-      else{
-	iRandom -= 1;
-      }
-    }
+  // for(i=0;i<NBARBRES;i++){
+  //   int taille = (rand()%8)+3;
+  //   iRandom = (1 + rand()%(TMONDE - 2));
+  //   jRandom = (1 +rand()%(TMONDE - 2));
+  //   while((monde->grilleInt[iRandom + 1][jRandom] != 1 || monde->grilleInt[iRandom][jRandom] != 0) && (iRandom > 2 && iRandom < TMONDE - 2)){
+  //     if(monde->grilleInt[iRandom - 1][jRandom] == 1 && monde->grilleInt[iRandom + 1][jRandom] == 1 && monde->grilleInt[iRandom][jRandom] == 1){
+  //       iRandom -= 1;
+  //     }
+  //     else if(monde->grilleInt[iRandom - 1][jRandom] > 1 && monde->grilleInt[iRandom + 1][jRandom] == 1 && monde->grilleInt[iRandom][jRandom] == 1){
+  //       jRandom = (1 +rand()%(TMONDE - 1));
+  //     }
+  //     if(monde->grilleInt[iRandom - 1][jRandom] == 0 && monde->grilleInt[iRandom + 1][jRandom] == 0 && monde->grilleInt[iRandom][jRandom] == 0){
+	// iRandom += 1;
+  //     }
+  //     else if(monde->grilleInt[iRandom - 1][jRandom] == 0 && monde->grilleInt[iRandom + 1][jRandom] > 1 && monde->grilleInt[iRandom][jRandom] == 0){
+	// jRandom = (1 +rand()%(TMONDE - 1));
+  //     }
+  //     else{
+	// iRandom -= 1;
+  //     }
+  //   }
+  //
+  //    for(j=1;j<=taille;j++){
+  //     if((monde->grilleInt[iRandom][jRandom-1] != TERRE && monde->grilleInt[iRandom][jRandom-1] != FONDGROTTE) && (monde->grilleInt[iRandom+1][jRandom-1] == TERRE)){
+  //       monde->grilleInt[iRandom][jRandom-1] = ABG;
+  //     }
+  //     if((monde->grilleInt[iRandom][jRandom+1] != TERRE && monde->grilleInt[iRandom][jRandom+1] != FONDGROTTE)  && (monde->grilleInt[iRandom+1][jRandom+1] == TERRE)){
+  //       monde->grilleInt[iRandom][jRandom+1] = ABD;
+  //     }
+  //     monde->grilleInt[iRandom][jRandom] = BASARB;
+  //     if(iRandom - j > 0){
+	//      monde->grilleInt[iRandom-j][jRandom] = ARBRE;
+  //     }
+  //     if(j == taille - 1){
+	//   if(iRandom - taille - 4 > 0){
+	//     monde->grilleInt[iRandom - taille - 1][jRandom] = TOPARB;
+	//   }
+  //     }
+  //    }
+  // }
 
-     for(j=1;j<=taille;j++){
-      if((monde->grilleInt[iRandom][jRandom-1] != TERRE && monde->grilleInt[iRandom][jRandom-1] != FONDGROTTE) && (monde->grilleInt[iRandom+1][jRandom-1] == TERRE)){
-        monde->grilleInt[iRandom][jRandom-1] = ABG;
-      }
-      if((monde->grilleInt[iRandom][jRandom+1] != TERRE && monde->grilleInt[iRandom][jRandom+1] != FONDGROTTE)  && (monde->grilleInt[iRandom+1][jRandom+1] == TERRE)){
-        monde->grilleInt[iRandom][jRandom+1] = ABD;
-      }
-      monde->grilleInt[iRandom][jRandom] = BASARB;
-      if(iRandom - j > 0){
-	     monde->grilleInt[iRandom-j][jRandom] = ARBRE;	
-      }
-      if(j == taille - 1){
-	  if(iRandom - taille - 4 > 0){
-	    monde->grilleInt[iRandom - taille - 1][jRandom] = TOPARB;
-	  }
-      }
-     }
-  }
-  
   free_calque(fin);
 
   tab_int2char(monde->grilleInt, monde->grilleChar, TMONDE, TMONDE);
@@ -233,10 +236,10 @@ void gen_cercle(int x, int y, int rayon, monde *monde){
 void apparition_joueur(character *joueur, monde monde){
   int y = NBBLOCS_FENETREY;
   int x = TMONDE/2;
-  
-  while(monde.grilleInt[y][x] != TERRE){
+
+  while(monde.grilleInt[y][x] != TERRE && monde.grilleInt[y][x] != TERRESH){
     y += 1;
-    if(monde.grilleInt[y][x+1] == TERRE && monde.grilleInt[y][x-1] == TERRE){
+    if((monde.grilleInt[y][x+1] == TERRE && monde.grilleInt[y][x-1] == TERRE) || (monde.grilleInt[y][x+1] == TERRESH && monde.grilleInt[y][x-1] == TERRESH)){
       x += 1;
       y = NBBLOCS_FENETREY;
     }

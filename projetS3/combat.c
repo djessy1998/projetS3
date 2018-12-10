@@ -10,20 +10,20 @@ void combat(monstre *m, character *a, monde monde, int *invin){
   int yMondeJ = TMONDE - ((a->yMonde + (NBBLOCS_FENETREY*TAILLE_BLOCS - a->pos.y) - PLAYER_HEIGHT)/16);
     if((((TMONDE - yMondeMo - 1 >= yMondeJ - 3  && TMONDE - yMondeMo - 1 <= yMondeJ)) && (xMondeMo == xMondeJ))){
       if(*invin > 500){
-	if(m->g == 1){
+	if(m->dernierSaut == GAUCHE){
 	  a->xMondeDouble =  a->xMondeDouble - 20;
 	  a->xMonde = (int)a->xMondeDouble;
 	}
-	else if(m->d == 1){
+	else if(m->dernierSaut == DROITE){
 	  a->xMondeDouble =  a->xMondeDouble + 20;
 	  a->xMonde = (int)a->xMondeDouble;
 	}
-	a->PV = a->PV - 10; 
+	a->PV = a->PV - 10;
 	*invin = 0;
       }
     }
     if(*invin <= 500){
-       *invin += 1; 
+       *invin += 1;
     }
 }
 
@@ -39,8 +39,9 @@ void game_over(character *a, monde monde, SDL_Surface *screen, int *inc){
       posTexte.x = SCREEN_WIDTH/2 - 120;
       posTexte.y = SCREEN_HEIGHT/2;
       motMort = TTF_RenderText_Solid (police,"You were slain ..." , couleurNoire);
-      SDL_BlitSurface(motMort, NULL, screen, &posTexte); 
+      SDL_BlitSurface(motMort, NULL, screen, &posTexte);
       TTF_CloseFont(police);
+      SDL_FreeSurface(motMort);
     }
     else{
       apparition_joueur(a,monde);
