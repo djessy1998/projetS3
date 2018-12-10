@@ -68,6 +68,7 @@ struct character
   char* nom;
   int PV;
   int PM;
+  int degatM;
   int xMonde;
   int yMonde;
   double yMondeDouble;
@@ -99,6 +100,7 @@ struct monstre
   int saut;
   int d;
   int g;
+  int mort;
 };
 
 typedef struct items items;
@@ -210,6 +212,7 @@ void affichage_vie_personnage(character *a, atlas* atlasJeu, SDL_Surface *screen
 void affichage_barre_inv(input *input,int *choixAct, atlas* atlasJeu, SDL_Surface *screen);
 void affichage_crack(monde *monde, int *incAnim, atlas* atlasJeu,int minaX,int minaY, character *a, SDL_Surface *screen);
 void affichage_monstre(monstre *monstre, atlas* atlasJeu, SDL_Surface *screen, character joueur);
+void affichage_vie_monstre(monstre *monstre, atlas* atlasJeu, SDL_Surface *screen, character *a);
 
 //minage.c
 void minage(input *input, character *a, int minaY, int minaX, int *incAnim, monde *monde);
@@ -218,5 +221,5 @@ void minage(input *input, character *a, int minaY, int minaX, int *incAnim, mond
 void construction(monde *monde, input *input, character *a, int *choixAct, int *minaX, int *minaY);
 
 //combat.c
-void combat(monstre *m, character *a, monde monde, int *invin);
+void combat(monstre *m, character *a, monde monde, int *invin, int sourisX, int sourisY, input *input);
 void game_over(character *a, monde monde, SDL_Surface *screen, int *inc);

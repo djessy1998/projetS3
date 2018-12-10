@@ -117,11 +117,14 @@ int main(int argc,char* argv[])
     affichage_personnage(&joueur1, atlasJeu, screen, invin);
 
     affichage_vie_personnage(&joueur1, atlasJeu, screen);
-
+    
+    if(monstre.mort == 0){
+	  affichage_vie_monstre(&monstre,atlasJeu, screen, &joueur1);
 	  gravite_monstre(&monstre, monde);
 	  affichage_monstre(&monstre, atlasJeu, screen, joueur1);
-    pseudo_IA_monstre(&monstre, joueur1);
-	  combat(&monstre, &joueur1, monde, &invin);
+	  pseudo_IA_monstre(&monstre, joueur1);
+	  combat(&monstre, &joueur1, monde, &invin, minaX, minaY, &input); 
+    }
 
     SDL_UpdateRect(screen, 0, 0, 0, 0);
   }

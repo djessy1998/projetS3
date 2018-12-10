@@ -27,8 +27,6 @@ void minage(input *input, character *a, int minaY, int minaX, int *incAnim, mond
 	 break; 
 	}
       }
-      printf("ib = %d\n", ib);
-      printf("jb = %d\n", jb);
       if(i < 4 || j+1 < 10){
 	input->data.inv[ib][jb].type = 3;
 	input->data.inv[ib][jb].nomItem = "Terre";
