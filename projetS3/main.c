@@ -41,7 +41,7 @@ int main(int argc,char* argv[])
   /*Création de textures*/
   atlas* atlasJeu = init_atlas();
 
-  //Si on ajoute un argument on "affiche" l'aléatoire du terrain avec Perlin
+  //On génère le monde avec l'algorithme de perlin
   gen_monde(&monde, freq);
   apparition_joueur(&joueur1, monde);
   creer_monstre(&monstre, atlasJeu, monde);
@@ -128,21 +128,14 @@ int main(int argc,char* argv[])
 
 
   //Sauvegarde de la map
-  tab_int2char(monde.grilleInt, monde.grilleChar, TMONDE, TMONDE);
-  ecrire_fichier("saves/MondeTest.txt", monde.grilleChar, TMONDE, TMONDE);
+  sauvegarde(&monde);
 
-  desallouer_tab_2D_int(monde.grilleInt, TMONDE);
-  desallouer_tab_2D_char(monde.grilleChar, TMONDE);
-  desallouer_tab_2D_int(monde.posB, TMONDE);
-  desallouer_tab_2D_int(monde.posBY,TMONDE);
-  desallouer_tab_2D_int(monde.affichage, NBBLOCS_FENETREY);
   //désallocation du pseudo du joueur:
   free(joueur1.nom);
   free(monstre.nom);
 
+  detruire_monde(&monde);
   detruire_atlas(atlasJeu);
-
-  free(atlasJeu);
   suppression(listeItems);
 
   TTF_Quit();

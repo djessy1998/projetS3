@@ -70,7 +70,20 @@ void sautGauche_monstre(monstre *m){
 
 
 int bloc_dans_monstre(monstre *m, monde monde){
-  // printf("y=%d\nx=%d\n", m->y/TAILLE_BLOCS, m->x/TAILLE_BLOCS);
+  //Limites du monde en X
+  if(m->x < 0){
+    m->x = 0;
+  }else if(m->x + LARGEUR_MONSTRE > TMONDE*TAILLE_BLOCS){
+    m->x = (TMONDE*TAILLE_BLOCS) - LARGEUR_MONSTRE;
+  }
+  
+  //Limites du monde en Y
+  if(m->y - HAUTEUR_MONSTRE < 0){
+    m->y = HAUTEUR_MONSTRE;
+  }else if(m->y > TMONDE*TAILLE_BLOCS){
+    m->y = TMONDE*TAILLE_BLOCS - HAUTEUR_MONSTRE;
+  }
+
   int yMondeTete = (m->y)/TAILLE_BLOCS  +1;
   int yMondePied = (m->y - HAUTEUR_MONSTRE)/TAILLE_BLOCS  +1;
 

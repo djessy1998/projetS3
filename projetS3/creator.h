@@ -35,21 +35,13 @@ void creer_joueur(character *joueur);
 void creer_monde(monde *monde);
 void creer_input(input *input);
 void creer_monstre(monstre *monstre, atlas* atlasJeu, monde monde);
-image* creer_texture(char* chemin, int x, int y, int animX, int animY, int animH, int animW);
 SDL_Surface* creer_minimap(monde *monde, character *a);
-atlas* init_atlas();
-int getPosX(image* image);
-int getPosY(image* image);
-void setPosX(image* image, int x);
-void setPosY(image* image, int y);
-void setAnimX(image* image, int x);
-void setAnimY(image* image, int y);
-void setAnimH(image* image, int h);
-void setAnimW(image* image, int w);
+void sauvegarde(monde *monde);
 
 //destructor.c
 void detruire_text(image* image);
 void detruire_atlas(atlas* atlas);
+void detruire_monde(monde *monde);
 
 //generator.c
 void gen_monde(monde *monde, int freq);
