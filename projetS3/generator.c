@@ -69,28 +69,29 @@ void gen_monde(monde *monde, int freq){
   int iRandom = (1 + rand()%(TMONDE - 1));
   int jRandom = (1 +rand()%(TMONDE - 1));
 
-  // for(i=0;i<NBITEMS;i++){
-  //   iRandom = (1 + rand()%(TMONDE - 2));
-  //   jRandom = (1 +rand()%(TMONDE - 2));
-  //   int typeItRand = (2 + (rand()%(2)));
-  //   while((monde->grilleInt[iRandom - 1][jRandom] != 0 && monde->grilleInt[iRandom - 1][jRandom] != 9) || monde->grilleInt[iRandom][jRandom] != 1){
-  //     if(monde->grilleInt[iRandom - 1][jRandom] == 1 && monde->grilleInt[iRandom + 1][jRandom] == 1 && monde->grilleInt[iRandom][jRandom] == 1){
-  //       iRandom -= 1;
-  //     }
-  //     else{
-	// iRandom += 1;
-  //     }
-  //   }
-  //
-  //   while(monde->grilleInt[iRandom][jRandom+1] == TERRE){
-  //     while(monde->grilleInt[iRandom][jRandom + 1] == TERRE){
-  //       if(iRandom < TMONDE - 1){
-  //         iRandom -= 1;
-  //       }
-  //     }
-  //   }
-  //    monde->grilleInt[iRandom][jRandom] = typeItRand;
-  // }
+  for(i=0;i<NBITEMS;i++){
+    iRandom = (1 + rand()%(TMONDE - 2));
+    jRandom = (1 +rand()%(TMONDE - 2));
+    int typeItRand = (2 + (rand()%(2)));
+    while((monde->grilleInt[iRandom - 1][jRandom] != VIDE && monde->grilleInt[iRandom - 1][jRandom] != FONDGROTTE) || (monde->grilleInt[iRandom][jRandom] != TERRE && monde->grilleInt[iRandom][jRandom] != TERRESH)){
+      if((monde->grilleInt[iRandom - 1][jRandom] == TERRE && monde->grilleInt[iRandom + 1][jRandom] == TERRE && monde->grilleInt[iRandom][jRandom] == TERRE) ||
+        (monde->grilleInt[iRandom - 1][jRandom] == TERRESH && monde->grilleInt[iRandom + 1][jRandom] == TERRESH && monde->grilleInt[iRandom][jRandom] == TERRESH)){
+        iRandom -= 1;
+      }
+      else{
+  iRandom += 1;
+      }
+    }
+
+    while(monde->grilleInt[iRandom][jRandom+1] == TERRE || monde->grilleInt[iRandom][jRandom+1] == TERRESH){
+      while(monde->grilleInt[iRandom][jRandom + 1] == TERRE || monde->grilleInt[iRandom][jRandom + 1] == TERRESH){
+        if(iRandom < TMONDE - 1){
+          iRandom -= 1;
+        }
+      }
+    }
+     monde->grilleInt[iRandom][jRandom] = typeItRand;
+  }
 
   //placement des arbres
   // for(i=0;i<NBARBRES;i++){
