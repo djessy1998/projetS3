@@ -1,5 +1,6 @@
 #include <SDL.h>
 #include <SDL/SDL_ttf.h>
+#include <time.h>
 #include "fonction.h"
 #include "creator.h"
 
@@ -169,7 +170,7 @@ void affichage_vie_monstre(monstre *monstre, atlas* atlasJeu, SDL_Surface *scree
 	setPosY(atlasJeu->tabIm[VIEENTMIM], atlasJeu->tabIm[SLIMEIM]->pos.y - 18);
 	SDL_BlitSurface(atlasJeu->tabIm[VIEENTMIM]->surface, NULL, screen, &atlasJeu->tabIm[VIEENTMIM]->pos);
       }
-      SDL_BlitSurface(atlasJeu->tabIm[MIVIEMIM]->surface, NULL, screen, &atlasJeu->tabIm[VIEENTIM]->pos);
+      SDL_BlitSurface(atlasJeu->tabIm[MIVIEMIM]->surface, NULL, screen, &atlasJeu->tabIm[VIEENTMIM]->pos);
       for(i = (monstre->PV + 5)/10; i < 2 ;i++){
 	setPosX(atlasJeu->tabIm[MIVIEMIM],(atlasJeu->tabIm[SLIMEIM]->pos.x - 3) + i*18 + 1);
 	setPosY(atlasJeu->tabIm[MIVIEMIM], atlasJeu->tabIm[SLIMEIM]->pos.y - 18);
@@ -247,4 +248,18 @@ void affichage_monstre(monstre *monstre, atlas* atlasJeu, SDL_Surface *screen, c
       SDL_BlitSurface(atlasJeu->tabIm[SLIMEIM]->surface, &atlasJeu->tabIm[SLIMEIM]->anim, screen, &atlasJeu->tabIm[SLIMEIM]->pos);
     }
   }
+}
+
+void affichage_nuage(atlas* atlasJeu, SDL_Surface *screen, int *posyR){
+  srand(time(NULL));
+  if(atlasJeu->tabIm[CLOUDIM]->pos.x > SCREEN_WIDTH + 300){
+    setPosX(atlasJeu->tabIm[CLOUDIM], 0);
+    *posyR = rand()%(200);
+    setPosY(atlasJeu->tabIm[CLOUDIM], atlasJeu->tabIm[TOPARBIM]->pos.y + *posyR);
+  }
+  else{
+    setPosX(atlasJeu->tabIm[CLOUDIM], atlasJeu->tabIm[CLOUDIM]->pos.x += 1);
+    setPosY(atlasJeu->tabIm[CLOUDIM], atlasJeu->tabIm[TOPARBIM]->pos.y + *posyR);
+  }
+  SDL_BlitSurface(atlasJeu->tabIm[CLOUDIM]->surface,NULL, screen, &atlasJeu->tabIm[CLOUDIM]->pos);
 }

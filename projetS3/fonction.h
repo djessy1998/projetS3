@@ -101,6 +101,7 @@ struct monstre
   int saut;
   int dernierSaut;
   int mort;
+  int coupPr;
 };
 
 typedef struct items items;
@@ -213,6 +214,7 @@ void affichage_barre_inv(input *input,int *choixAct, atlas* atlasJeu, SDL_Surfac
 void affichage_crack(monde *monde, int *incAnim, atlas* atlasJeu,int minaX,int minaY, character *a, SDL_Surface *screen);
 void affichage_monstre(monstre *monstre, atlas* atlasJeu, SDL_Surface *screen, character joueur);
 void affichage_vie_monstre(monstre *monstre, atlas* atlasJeu, SDL_Surface *screen, character *a);
+void affichage_nuage(atlas* atlasJeu, SDL_Surface *screen, int *posyR);
 
 //minage.c
 void minage(input *input, character *a, int minaY, int minaX, int *incAnim, monde *monde);

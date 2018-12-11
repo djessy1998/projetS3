@@ -108,11 +108,11 @@ atlas* init_atlas(){
 
   image* bg = creer_texture("Sprites/fond-nuage.bmp",0, 0, 0, 0, 0, 0);
   tabIm[19] = bg;
-  
+
   image* vieM = creer_texture("Sprites/heartM.bmp",0, 0, 0, 0, 0, 0);
   SDL_SetColorKey(vieM->surface,SDL_SRCCOLORKEY,colorkeyVie);
   tabIm[20] = vieM;
-  
+
   image* miVieM = creer_texture("Sprites/MiheartM.bmp",0, 0, 0, 0, 0, 0);
   SDL_SetColorKey(miVieM->surface,SDL_SRCCOLORKEY,colorkeyVie);
   tabIm[21] = miVieM;
@@ -120,9 +120,13 @@ atlas* init_atlas(){
   image* noVieM = creer_texture("Sprites/NoheartM.bmp",0, 0, 0, 0, 0, 0);
   SDL_SetColorKey(noVieM->surface,SDL_SRCCOLORKEY,colorkeyVie);
   tabIm[22] = noVieM;
-  
+
   image* terrePS = creer_texture("Sprites/terrePS.bmp",0, 0, 0, 0, 0, 0);
   tabIm[23] = terrePS;
+
+  image* nuage = creer_texture("Sprites/Cloud.bmp",0, 0, 0, 0, 0, 0);
+  SDL_SetColorKey(nuage->surface,SDL_SRCCOLORKEY,colorkey);
+  tabIm[24] = nuage;
 
   return creer_atlas(tabIm);
 }
@@ -161,9 +165,9 @@ void setAnimW(image* image, int w){
 }
 
 void setPosH(image* image, int h){
- image->pos.h = h; 
+ image->pos.h = h;
 }
 
 void setPosW(image* image, int w){
- image->pos.w = w; 
+ image->pos.w = w;
 }

@@ -31,6 +31,7 @@
 #define MIVIEMIM	21
 #define NOVIEMIM	22
 #define TERRESHIM 	23
+#define CLOUDIM 24
 
 
 //creator.c

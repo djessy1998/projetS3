@@ -62,6 +62,7 @@ int main(int argc,char* argv[])
   int lastTimes = 0;
   int invin = 501;
   int inc = 0;
+  int posYNu = 0;
 
   Liste *listeItems = initialisation();
 
@@ -83,6 +84,8 @@ int main(int argc,char* argv[])
     }
 
     SDL_BlitSurface(atlasJeu->tabIm[BGIM]->surface, NULL, screen, &atlasJeu->tabIm[BGIM]->pos);
+
+    affichage_nuage(atlasJeu,screen, &posYNu);
 
     affichage_monde(monde, joueur1, atlasJeu, screen);
 
@@ -117,13 +120,13 @@ int main(int argc,char* argv[])
     affichage_personnage(&joueur1, atlasJeu, screen, invin);
 
     affichage_vie_personnage(&joueur1, atlasJeu, screen);
-    
+
     if(monstre.mort == 0){
 	  affichage_vie_monstre(&monstre,atlasJeu, screen, &joueur1);
 	  gravite_monstre(&monstre, monde);
 	  affichage_monstre(&monstre, atlasJeu, screen, joueur1);
 	  pseudo_IA_monstre(&monstre, joueur1);
-	  combat(&monstre, &joueur1, monde, &invin, minaX, minaY, &input); 
+	  combat(&monstre, &joueur1, monde, &invin, minaX, minaY, &input);
     }
 
     SDL_UpdateRect(screen, 0, 0, 0, 0);

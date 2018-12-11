@@ -25,14 +25,20 @@ void combat(monstre *m, character *a, monde monde, int *invin, int sourisX, int 
     if(*invin <= 500){
        *invin += 1;
     }
-    
+
     if((sourisX-1 == xMondeMo && TMONDE - sourisY - 1 == yMondeMo) && input->data.butDown == 1){
-      if(m->mort == 0){
-	 m->PV -= a->degatM;
-	 if(m->PV < 0){
-	    m->mort = 1; 
-	 }
+      if(m->coupPr > 100){
+        if(m->mort == 0){
+           m->PV -= a->degatM;
+           if(m->PV == 0){
+              m->mort = 1;
+             }
+          m->coupPr = 0;
+        }
       }
+    }
+    if(m->coupPr <= 500){
+      m->coupPr += 1;
     }
 }
 
