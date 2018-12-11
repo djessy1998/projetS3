@@ -78,8 +78,7 @@ void gen_monde(monde *monde, int freq){
       (monde->grilleInt[iRandom + 1][jRandom] == TERRE || monde->grilleInt[iRandom + 1][jRandom] == TERRESH) &&
       (monde->grilleInt[iRandom][jRandom] == TERRE || monde->grilleInt[iRandom][jRandom] == TERRESH)){
         iRandom -= 1;
-      }
-      else{
+      }else{
   iRandom += 1;
       }
     }
