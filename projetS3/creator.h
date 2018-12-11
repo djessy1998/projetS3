@@ -1,11 +1,11 @@
 #pragma once
 #include <SDL.h>
 #include "fonction.h"
+#include "atlas.h"
 
 #define PM_START 0
 #define POSX_START 352
 #define POSY_START 400
-#define NBIMAGES	24
 
 #define JOUEURIM 	0
 #define VIEENTIM	1

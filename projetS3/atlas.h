@@ -1,6 +1,8 @@
 #pragma once
 #include <SDL.h>
 
+#define NBIMAGES	24
+
 typedef struct image {
   SDL_Surface* surface;
   SDL_Rect pos;
@@ -9,7 +11,7 @@ typedef struct image {
 
 
 typedef struct atlas {
-    image* tabIm[23];
+    image* tabIm[NBIMAGES];
 } atlas;
 
 

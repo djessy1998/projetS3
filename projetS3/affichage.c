@@ -84,7 +84,7 @@ void affichage_personnage(character *joueur1, atlas* atlasJeu, SDL_Surface *scre
   posTexte.y = joueur1->pos.y - 15;
   TTF_Font *police = NULL;
   SDL_Surface *nomJ;
-  SDL_Color couleurNoire = {0, 0, 0};  
+  SDL_Color couleurNoire = {0, 0, 0};
   police = TTF_OpenFont("Polices/angelina.ttf", 25);
   nomJ = TTF_RenderText_Solid (police,joueur1->nom, couleurNoire);
   if(joueur1->mort == 0){
@@ -115,6 +115,7 @@ void affichage_personnage(character *joueur1, atlas* atlasJeu, SDL_Surface *scre
       }
       joueur1->compt += 1;
   }
+  SDL_FreeSurface(nomJ);
   TTF_CloseFont(police);
 }
 
@@ -174,7 +175,7 @@ void affichage_vie_monstre(monstre *monstre, atlas* atlasJeu, SDL_Surface *scree
 	setPosY(atlasJeu->tabIm[MIVIEMIM], atlasJeu->tabIm[SLIMEIM]->pos.y - 18);
 	SDL_BlitSurface(atlasJeu->tabIm[NOVIEMIM]->surface, NULL, screen, &atlasJeu->tabIm[MIVIEMIM]->pos);
       }
-    }  
+    }
   }
 }
 
@@ -244,6 +245,6 @@ void affichage_monstre(monstre *monstre, atlas* atlasJeu, SDL_Surface *screen, c
       setPosX(atlasJeu->tabIm[SLIMEIM], monstre->x - joueur.xMonde);
       setPosY(atlasJeu->tabIm[SLIMEIM], NBBLOCS_FENETREY*TAILLE_BLOCS - (monstre->y - joueur.yMonde));
       SDL_BlitSurface(atlasJeu->tabIm[SLIMEIM]->surface, &atlasJeu->tabIm[SLIMEIM]->anim, screen, &atlasJeu->tabIm[SLIMEIM]->pos);
-    } 
+    }
   }
 }
