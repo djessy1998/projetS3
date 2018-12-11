@@ -33,31 +33,28 @@ void collision(character *a, int** affichage, int** posB, int** posBY, int *murD
   int JpiedGY = a->yMonde + (NBBLOCS_FENETREY*TAILLE_BLOCS - a->pos.y) - PLAYER_HEIGHT;
   *touche = 0;
 
-  for(i = 0; i < NBBLOCS_FENETREY; i++)
-    {
-      for(j = 0; j< NBBLOCS_FENETREX; j++)
-	{
-	  if(affichage[i][j] == TERRE || affichage[i][j] == TERRESH)
-	    {
-	      if(JpiedDX == posB[i][j]){
-    		  a->bloqADroite = 1;
-    		}
-    	  else if(JpiedGX == posB[i][j] + TAILLE_BLOCS){
-    		  a->bloqAGauche = 1;
-    		}
-	      if(((JpiedGX > posB[i][j] && JpiedGX < posB[i][j] + TAILLE_BLOCS) ||
+  for(i = 0; i < NBBLOCS_FENETREY; i++){
+    for(j = 0; j< NBBLOCS_FENETREX; j++){
+      if(affichage[i][j] == TERRE || affichage[i][j] == TERRESH){
+        if(JpiedDX == posB[i][j]){
+          a->bloqADroite = 1;
+        }else if(JpiedGX == posB[i][j] + TAILLE_BLOCS){
+          a->bloqAGauche = 1;
+        }
+
+        if(((JpiedGX > posB[i][j] && JpiedGX < posB[i][j] + TAILLE_BLOCS) ||
         (JpiedDX > posB[i][j] && JpiedDX < posB[i][j] + TAILLE_BLOCS) ||
         (JMilieuX > posB[i][j] && JMilieuX < posB[i][j] + TAILLE_BLOCS)) &&
         JpiedGY == TAILLE_BLOCS * (a->yMonde / TAILLE_BLOCS + NBBLOCS_FENETREY - i)){
-    		  *touche = 1;
-    		  a->autorisationSaut = 1;
-    		  a->sautH = 0;
-    		  a->velocity_y = 20;
-    		  break;
-    		}
-	    }
-	}
+          *touche = 1;
+          a->autorisationSaut = 1;
+          a->sautH = 0;
+          a->velocity_y = 20;
+          break;
+        }
+      }
     }
+  }
 
   int PosHautTeteY = a->pos.y/TAILLE_BLOCS;
   int PosPiedY = (a->pos.y/TAILLE_BLOCS) +1;
@@ -67,15 +64,15 @@ void collision(character *a, int** affichage, int** posB, int** posBY, int *murD
   int PosPiedDX = ((a->pos.x+PLAYER_WIDTH)/TAILLE_BLOCS) +1 - *murDr;
   int PosPiedGX = (a->pos.x/TAILLE_BLOCS) - *murDr;
 
-  if((affichage[PosPiedY][PosPiedGX] != TERRE || affichage[PosPiedY][PosPiedGX] != TERRESH) &&
-      (affichage[PosCorpsY][PosPiedGX] != TERRE || affichage[PosCorpsY][PosPiedGX] != TERRESH) &&
-      (affichage[PosTeteY][PosPiedGX] != TERRE || affichage[PosTeteY][PosPiedGX] != TERRESH)) {
+  if((affichage[PosPiedY][PosPiedGX] != TERRE && affichage[PosPiedY][PosPiedGX] != TERRESH) &&
+      (affichage[PosCorpsY][PosPiedGX] != TERRE && affichage[PosCorpsY][PosPiedGX] != TERRESH) &&
+      (affichage[PosTeteY][PosPiedGX] != TERRE && affichage[PosTeteY][PosPiedGX] != TERRESH)) {
     a->bloqAGauche=0;
   }
 
-  if((affichage[PosPiedY][PosPiedDX] != TERRE || affichage[PosPiedY][PosPiedDX] != TERRESH) &&
-      (affichage[PosCorpsY][PosPiedDX] != TERRE || affichage[PosCorpsY][PosPiedDX] != TERRESH) &&
-      (affichage[PosTeteY][PosPiedDX] != TERRE || affichage[PosTeteY][PosPiedDX] != TERRESH)){
+  if((affichage[PosPiedY][PosPiedDX] != TERRE && affichage[PosPiedY][PosPiedDX] != TERRESH) &&
+      (affichage[PosCorpsY][PosPiedDX] != TERRE && affichage[PosCorpsY][PosPiedDX] != TERRESH) &&
+      (affichage[PosTeteY][PosPiedDX] != TERRE && affichage[PosTeteY][PosPiedDX] != TERRESH)){
     a->bloqADroite=0;
   }
 

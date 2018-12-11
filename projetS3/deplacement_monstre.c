@@ -72,14 +72,14 @@ int bloc_dans_monstre(monstre *m, monde monde){
   if(m->x < 0){
     m->x = 0;
   }else if(m->x + LARGEUR_MONSTRE > TMONDE*TAILLE_BLOCS){
-    m->x = (TMONDE*TAILLE_BLOCS) - LARGEUR_MONSTRE;
+    m->x = (TMONDE*TAILLE_BLOCS) - LARGEUR_MONSTRE-1;
   }
 
   //Limites du monde en Y
   if(m->y - HAUTEUR_MONSTRE < 0){
-    m->y = HAUTEUR_MONSTRE;
+    m->y = HAUTEUR_MONSTRE +1;
   }else if(m->y > TMONDE*TAILLE_BLOCS){
-    m->y = TMONDE*TAILLE_BLOCS - HAUTEUR_MONSTRE;
+    m->y = TMONDE*TAILLE_BLOCS - HAUTEUR_MONSTRE -1;
   }
 
   int yMondeTete = (m->y)/TAILLE_BLOCS  +1;
@@ -89,13 +89,14 @@ int bloc_dans_monstre(monstre *m, monde monde){
   int xMondeMid = ((m->x + (LARGEUR_MONSTRE/2))/TAILLE_BLOCS);
   int xMondeDroite = ((m->x + LARGEUR_MONSTRE-1)/TAILLE_BLOCS);
 
-  if(((monde.grilleInt[TMONDE - yMondeTete][xMonde] == TERRE && monde.grilleInt[TMONDE - yMondePied][xMonde] == TERRE) ||
-    (monde.grilleInt[TMONDE - yMondeTete][xMonde] == TERRESH && monde.grilleInt[TMONDE - yMondePied][xMonde] == TERRESH)) &&
-    ((monde.grilleInt[TMONDE - yMondeTete][xMondeMid] == TERRE && monde.grilleInt[TMONDE - yMondePied][xMondeMid] == TERRE) ||
-    (monde.grilleInt[TMONDE - yMondeTete][xMondeMid] == TERRESH && monde.grilleInt[TMONDE - yMondePied][xMondeMid] == TERRESH)) &&
-    ((monde.grilleInt[TMONDE - yMondeTete][xMondeDroite] == TERRE && monde.grilleInt[TMONDE - yMondePied][xMondeDroite] == TERRE) ||
-    (monde.grilleInt[TMONDE - yMondeTete][xMondeDroite] == TERRESH && monde.grilleInt[TMONDE - yMondePied][xMondeDroite] == TERRESH))){
+  if((monde.grilleInt[TMONDE - yMondeTete][xMonde] == TERRE || monde.grilleInt[TMONDE - yMondeTete][xMonde] == TERRESH) &&
+    (monde.grilleInt[TMONDE - yMondePied][xMonde] == TERRE || monde.grilleInt[TMONDE - yMondePied][xMonde] == TERRESH) &&
 
+    (monde.grilleInt[TMONDE - yMondeTete][xMondeMid] == TERRE || monde.grilleInt[TMONDE - yMondeTete][xMondeMid] == TERRESH) &&
+    (monde.grilleInt[TMONDE - yMondePied][xMondeMid] == TERRE || monde.grilleInt[TMONDE - yMondePied][xMondeMid] == TERRESH) &&
+
+    (monde.grilleInt[TMONDE - yMondeTete][xMondeDroite] == TERRE || monde.grilleInt[TMONDE - yMondeTete][xMondeDroite] == TERRESH) &&
+    (monde.grilleInt[TMONDE - yMondePied][xMondeDroite] == TERRE || monde.grilleInt[TMONDE - yMondePied][xMondeDroite] == TERRESH)){
     m->y = (yMondeTete)*TAILLE_BLOCS + HAUTEUR_MONSTRE; // On le fait monter
   }else{
     //GAUCHE

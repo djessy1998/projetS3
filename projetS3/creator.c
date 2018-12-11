@@ -98,14 +98,15 @@ void creer_monstre(monstre *monstre, atlas* atlasJeu, monde monde){
   monstre->y = 0;
 
   //Apparition du monstre dans le monde
-  while(monde.grilleInt[monstre->y][monstre->x] != TERRE){
+  while(monde.grilleInt[monstre->y][monstre->x] != TERRE && monde.grilleInt[monstre->y][monstre->x] != TERRESH){
     monstre->y += 1;
-    if(monde.grilleInt[monstre->y][monstre->x+1] == TERRE && monde.grilleInt[monstre->y][monstre->x-1] == TERRE){
+    if((monde.grilleInt[monstre->y][monstre->x+1] == TERRE || monde.grilleInt[monstre->y][monstre->x+1] == TERRE) &&
+    (monde.grilleInt[monstre->y][monstre->x-1] == TERRE || monde.grilleInt[monstre->y][monstre->x-1] == TERRE)){
       monstre->x += 1;
       monstre->y = 0;
     }
   }
-  if(monde.grilleInt[monstre->y][monstre->x+1] == TERRE){
+  if(monde.grilleInt[monstre->y][monstre->x+1] == TERRE || monde.grilleInt[monstre->y][monstre->x+1] == TERRESH){
     monstre->x -= 1;
   }
   setPosX(atlasJeu->tabIm[SLIMEIM], 0);

@@ -9,7 +9,7 @@ void minage(input *input, character *a, int minaY, int minaX, int *incAnim, mond
   int i,j;
   int ib, jb;
   int trouve = 0;
-  if(monde->grilleInt[minaY][minaX] == TERRE && input->data.butDown == 1 && abs(minaX - posJX) < LIMITEMINA && abs(minaY - posJY) < LIMITEMINA){
+  if((monde->grilleInt[minaY][minaX] == TERRE || monde->grilleInt[minaY][minaX] == TERRESH)&& input->data.butDown == 1 && abs(minaX - posJX) < LIMITEMINA && abs(minaY - posJY) < LIMITEMINA){
     *incAnim += VITESSEMINA;
     if(*incAnim > 60){
       monde->grilleInt[minaY][minaX] = VIDE;
@@ -24,7 +24,7 @@ void minage(input *input, character *a, int minaY, int minaX, int *incAnim, mond
 	  }
 	}
 	if(trouve == 1){
-	 break; 
+	 break;
 	}
       }
       if(i < 4 || j+1 < 10){
@@ -37,6 +37,6 @@ void minage(input *input, character *a, int minaY, int minaX, int *incAnim, mond
    *incAnim = 0;
   }
   if(input->data.butDown == 0){
-   *incAnim = 0; 
-  }    
+   *incAnim = 0;
+  }
 }
