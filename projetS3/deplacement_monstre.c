@@ -152,7 +152,10 @@ void bloc_au_dessus(monstre *m, monde monde){
 void pseudo_IA_monstre(monstre *m, character joueur){
   static int sautmonstre = 10;
   sautmonstre += 1;
-  if(sautmonstre%500 >= 0 && sautmonstre%500 <= 2){ // Il faut deux frames pour que le monstre saute
+  if(sautmonstre >= 500 && sautmonstre < 502){ // Il faut deux frames pour que le monstre saute
+    if(sautmonstre == 501){
+      sautmonstre = 0;
+    }
     if(m->x > joueur.xMonde + joueur.pos.x){
       m->saut = GAUCHE;
     }else{

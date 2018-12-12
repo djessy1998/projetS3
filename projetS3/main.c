@@ -85,29 +85,7 @@ int main(int argc,char* argv[])
       HandleEvent(event, &input, &joueur1, &monde,&incAnim,&minaX,&minaY,&choixAct);
     }
 
-    SDL_BlitSurface(atlasJeu->tabIm[BGIM]->surface, NULL, screen, &atlasJeu->tabIm[BGIM]->pos);
-
-    affichage_nuage(atlasJeu,screen, choix, &posXNu, &nbR, &booNu);
-
-    affichage_monde(monde, joueur1, atlasJeu, screen);
-
-    SDL_Surface *miniMap = creer_minimap(&monde, &joueur1);
-
-    SDL_BlitSurface(miniMap, NULL, screen, &posMiniMap);
-
-    SDL_FreeSurface(miniMap);
-
-    SDL_BlitSurface(atlasJeu->tabIm[MAPIM]->surface, NULL, screen, &atlasJeu->tabIm[MAPIM]->pos);
-
     traitement_input(input, &joueur1, murG, murD, gauche, droite, listeItems, ItemAffich, atlasJeu, &incrementAnim);
-
-    affichage_barre_inv(&input,&choixAct, atlasJeu, screen);
-
-    traitement_input_inv(&input, &joueur1, listeItems, ItemAffich, &monde, atlasJeu, screen);
-
-    affichage_items_inv(input, atlasJeu, screen);
-
-    affichage_crack(&monde, &incAnim, atlasJeu, minaX,minaY, &joueur1, screen);
 
     minage(&input,&joueur1, minaY, minaX, &incAnim, &monde);
 
@@ -119,17 +97,42 @@ int main(int argc,char* argv[])
 
     game_over(&joueur1,monde, screen, &inc);
 
+    if(monstre.mort == 0){
+	  gravite_monstre(&monstre, monde);
+	  pseudo_IA_monstre(&monstre, joueur1);
+	  combat(&monstre, &joueur1, monde, &invin, minaX, minaY, &input);
+    }
+
+
+    //affichage
+    SDL_BlitSurface(atlasJeu->tabIm[MAPIM]->surface, NULL, screen, &atlasJeu->tabIm[MAPIM]->pos);
+
+    SDL_BlitSurface(atlasJeu->tabIm[BGIM]->surface, NULL, screen, &atlasJeu->tabIm[BGIM]->pos);
+
+    affichage_nuage(atlasJeu,screen, choix, &posXNu, &nbR, &booNu);
+
+    affichage_monde(monde, joueur1, atlasJeu, screen);
+
+    affichage_barre_inv(&input,&choixAct, atlasJeu, screen);
+
+    affichage_items_inv(input, atlasJeu, screen);
+
+    affichage_crack(&monde, &incAnim, atlasJeu, minaX,minaY, &joueur1, screen);
+
+    if(monstre.mort == 0){
+      affichage_vie_monstre(&monstre,atlasJeu, screen, &joueur1);
+      affichage_monstre(&monstre, atlasJeu, screen, joueur1);
+    }
+
     affichage_personnage(&joueur1, atlasJeu, screen, invin);
 
     affichage_vie_personnage(&joueur1, atlasJeu, screen);
 
-    if(monstre.mort == 0){
-	  affichage_vie_monstre(&monstre,atlasJeu, screen, &joueur1);
-	  gravite_monstre(&monstre, monde);
-	  affichage_monstre(&monstre, atlasJeu, screen, joueur1);
-	  pseudo_IA_monstre(&monstre, joueur1);
-	  combat(&monstre, &joueur1, monde, &invin, minaX, minaY, &input);
-    }
+    SDL_Surface *miniMap = creer_minimap(&monde, &joueur1);
+
+    SDL_BlitSurface(miniMap, NULL, screen, &posMiniMap);
+
+    SDL_FreeSurface(miniMap);
 
     SDL_UpdateRect(screen, 0, 0, 0, 0);
   }
