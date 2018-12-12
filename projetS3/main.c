@@ -85,8 +85,6 @@ int main(int argc,char* argv[])
       HandleEvent(event, &input, &joueur1, &monde,&incAnim,&minaX,&minaY,&choixAct);
     }
 
-    traitement_input(input, &joueur1, murG, murD, gauche, droite, listeItems, ItemAffich, atlasJeu, &incrementAnim);
-
     minage(&input,&joueur1, minaY, minaX, &incAnim, &monde);
 
     terreRonde(&joueur1, &murD, &murG);
@@ -105,13 +103,18 @@ int main(int argc,char* argv[])
 
 
     //affichage
-    SDL_BlitSurface(atlasJeu->tabIm[MAPIM]->surface, NULL, screen, &atlasJeu->tabIm[MAPIM]->pos);
 
     SDL_BlitSurface(atlasJeu->tabIm[BGIM]->surface, NULL, screen, &atlasJeu->tabIm[BGIM]->pos);
 
     affichage_nuage(atlasJeu,screen, choix, &posXNu, &nbR, &booNu);
 
     affichage_monde(monde, joueur1, atlasJeu, screen);
+
+    SDL_Surface *miniMap = creer_minimap(&monde, &joueur1);
+
+    SDL_BlitSurface(miniMap, NULL, screen, &posMiniMap);
+
+    SDL_BlitSurface(atlasJeu->tabIm[MAPIM]->surface, NULL, screen, &atlasJeu->tabIm[MAPIM]->pos);
 
     affichage_barre_inv(&input,&choixAct, atlasJeu, screen);
 
@@ -128,9 +131,9 @@ int main(int argc,char* argv[])
 
     affichage_vie_personnage(&joueur1, atlasJeu, screen);
 
-    SDL_Surface *miniMap = creer_minimap(&monde, &joueur1);
+    traitement_input_inv(&input, &joueur1, listeItems, ItemAffich, &monde, atlasJeu, screen);
 
-    SDL_BlitSurface(miniMap, NULL, screen, &posMiniMap);
+    traitement_input(input, &joueur1, murG, murD, gauche, droite, listeItems, ItemAffich, atlasJeu, &incrementAnim);
 
     SDL_FreeSurface(miniMap);
 

@@ -14,8 +14,8 @@
 #define AACCENT	19
 
 // LETTRES
-#define Z	25
-#define Q	38
+#define Z	  25
+#define Q	  38
 #define S 	39
 #define D 	40
 #define E 	26

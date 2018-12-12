@@ -35,6 +35,8 @@
 #define CLOUD1IM 25
 #define CLOUD2IM 26
 #define CLOUD3IM 27
+#define HERBEIM 28
+#define HERBE1IM 29
 
 
 //creator.c

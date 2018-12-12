@@ -169,7 +169,12 @@ SDL_Surface* creer_minimap(monde *monde, character *a){
 	  p++;
 	}
       else{
-	*p = monde->grilleInt[i][j];
+  if(monde->grilleInt[i][j] == 10){
+    *p = monde->grilleInt[i][j]/10;
+  }
+  else{
+	   *p = monde->grilleInt[i][j];
+  }
 	p++;
       }
     }

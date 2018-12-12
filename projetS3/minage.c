@@ -14,6 +14,9 @@ void minage(input *input, character *a, int minaY, int minaX, int *incAnim, mond
     if(*incAnim > 60){
       monde->grilleInt[minaY][minaX] = VIDE;
       monde->grilleInt[minaY][minaX] = FONDGROTTE;
+      if(monde->grilleInt[minaY-1][minaX] == HERBE || monde->grilleInt[minaY-1][minaX] == HERBE1){
+        monde->grilleInt[minaY-1][minaX] = VIDE;
+      }
       for(i=0;i<4;i++){
 	for(j=0;j<10;j++){
 	  if(input->data.inv[i][j].type == -1){

@@ -14,7 +14,7 @@ void fonction_Handle_Event(SDL_Event event, input *input, character *a, monde *m
     break;
   case SDL_MOUSEBUTTONDOWN:
     Mouse_Down(event, input);
-    construction(monde, input, a, choixAct, minaX,minaY); 
+    construction(monde, input, a, choixAct, minaX,minaY);
     break;
   case SDL_MOUSEBUTTONUP:
     Mouse_Up(event, input);
@@ -50,7 +50,8 @@ void fonction_Handle_Event(SDL_Event event, input *input, character *a, monde *m
 	{
 	  input->data.e = 0;
 	  SDL_Delay(80);
-	}
+	 }
+    break;
     case F: // f
       input->data.f = 1;
       break;

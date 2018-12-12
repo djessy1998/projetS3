@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
+#include <time.h>
 #include "fonction.h"
 #include "perlin.h"
 #include "creator.h"
@@ -138,6 +139,14 @@ void gen_monde(monde *monde, int freq){
       }
      }
   }
+
+  for(i=0 ; i<TMONDE; i++){
+     // Applique le calque dans le monde
+     if(monde->grilleInt[fin->v[i] - 1][i] == VIDE && monde->grilleInt[fin->v[i]][i] != FONDGROTTE){
+        monde->grilleInt[fin->v[i] - 1][i] = rand()%(13-11) +11;
+     }
+  }
+
 
   free_calque(fin);
 

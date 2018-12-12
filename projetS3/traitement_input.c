@@ -74,7 +74,7 @@ void traitement_input_inv(input *input, character *joueur1, Liste *liste, int It
       int i;
       int j;
       for(i = 1; i < 4; i++)
-	{
+	     {
 	  for(j = 0; j < 10; j++)
 	    {
 	      setPosX(atlasJeu->tabIm[INVIMIM], (2 + (31 * j)));
@@ -114,11 +114,11 @@ void traitement_input_inv(input *input, character *joueur1, Liste *liste, int It
     }
   if(input->data.f == 1)
   {
-  	  int i,j;
+  	int i,j;
 	  int ib,jb;
 	  int trouve = 0;
-  	  int posJTabX = (joueur1->xMonde + joueur1->pos.x)/16 + 1;
-  	  int posJTabY = TMONDE - (((joueur1->yMonde + (NBBLOCS_FENETREY*TAILLE_BLOCS - joueur1->pos.y) - PLAYER_HEIGHT))/16);
+  	int posJTabX = (joueur1->xMonde + joueur1->pos.x)/16 + 1;
+  	int posJTabY = TMONDE - (((joueur1->yMonde + (NBBLOCS_FENETREY*TAILLE_BLOCS - joueur1->pos.y) - PLAYER_HEIGHT))/16);
 	  for(i=0;i<4;i++){
 	    for(j=0;j<10;j++){
 	      if(input->data.inv[i][j].type == -1){
@@ -129,22 +129,34 @@ void traitement_input_inv(input *input, character *joueur1, Liste *liste, int It
 	      }
 	    }
 	    if(trouve == 1){
-	    break; 
+	    break;
 	    }
 	  }
 	  if(monde->grilleInt[posJTabY - 1][posJTabX - 1] == 3){
 		input->data.inv[ib][jb].type = 2;
-		monde->grilleInt[posJTabY - 1][posJTabX - 1] = 0;
+		monde->grilleInt[posJTabY - 1][posJTabX - 1] = monde->grilleInt[posJTabY - 1][posJTabX];
+    if(monde->grilleInt[posJTabY - 2][posJTabX - 1] == HERBE || monde->grilleInt[posJTabY - 1][posJTabX - 1] == HERBE1){
+      monde->grilleInt[posJTabY-2][posJTabX-1] = 0;
+    }
+    if(monde->grilleInt[posJTabY - 1][posJTabX] != FONDGROTTE){
+      monde->grilleInt[posJTabY-1][posJTabX-1] = 0;
+    }
 		input->data.inv[ib][jb].nomItem = "Armure";
 		i = 0;
 		j = 0;
 	  	}
 	  if(monde->grilleInt[posJTabY - 1][posJTabX - 1] == 2){
 		input->data.inv[ib][jb].type = 1;
-		monde->grilleInt[posJTabY - 1][posJTabX - 1] = 0;
+    monde->grilleInt[posJTabY - 1][posJTabX - 1] = monde->grilleInt[posJTabY - 1][posJTabX];
+    if(monde->grilleInt[posJTabY - 2][posJTabX - 1] == HERBE || monde->grilleInt[posJTabY - 1][posJTabX - 1] == HERBE1){
+      monde->grilleInt[posJTabY-2][posJTabX-1] = 0;
+    }
+    if(monde->grilleInt[posJTabY - 1][posJTabX] == HERBE || monde->grilleInt[posJTabY - 1][posJTabX] == HERBE1){
+      monde->grilleInt[posJTabY-1][posJTabX-1] = 0;
+    }
 		input->data.inv[ib][jb].nomItem = "Casque";
 		i = 0;
 		j = 0;
-	  	}  
+	  	}
   }
 }

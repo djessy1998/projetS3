@@ -57,6 +57,10 @@ void affichage_monde(monde monde, character joueur1, atlas* atlasJeu, SDL_Surfac
 	    SDL_BlitSurface(atlasJeu->tabIm[FONDGROTTEIM]->surface,&atlasJeu->tabIm[FONDGROTTEIM]->anim, screen, &posGrille);
 	  }else if(monde.affichage[i][j] == TERRESH){
       SDL_BlitSurface(atlasJeu->tabIm[TERRESHIM]->surface, NULL, screen, &posGrille);
+    }else if(monde.affichage[i][j] == HERBE){
+      SDL_BlitSurface(atlasJeu->tabIm[HERBEIM]->surface, NULL, screen, &posGrille);
+    }else if(monde.affichage[i][j] == HERBE1){
+      SDL_BlitSurface(atlasJeu->tabIm[HERBE1IM]->surface, NULL, screen, &posGrille);
     }
 	}
   }

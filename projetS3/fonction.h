@@ -32,7 +32,7 @@
 #define NB_BLOCS_AU_DESSUS_JOUEUR 25
 
 #define RAYONRAM	     40
-#define NBITEMS        5
+#define NBITEMS        15
 #define NBARBRES       100
 #define MAXITINV       64
 #define LIMITEMINA      5
@@ -50,6 +50,8 @@
 #define TOPARB 8
 #define FONDGROTTE 9
 #define TERRESH 10
+#define HERBE 11
+#define HERBE1 12
 
 typedef struct monde monde;
 struct monde
