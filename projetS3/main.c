@@ -1,5 +1,6 @@
 #include <SDL.h>
 #include <SDL/SDL_ttf.h>
+#include <SDL/SDL_mixer.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include "perlin.h"
@@ -20,8 +21,8 @@ int main(int argc,char* argv[])
   input input;
   monde monde;
   character joueur1;
-  monstre monstre;
-
+  monstre tabMo[NBMONSTRE];
+  int i;
   int freq = 1;
 
   creer_joueur(&joueur1);
@@ -31,7 +32,13 @@ int main(int argc,char* argv[])
   SDL_Surface *screen;
   /* initialize SDL */
   SDL_Init(SDL_INIT_VIDEO);
+  SDL_Init(SDL_INIT_AUDIO);
   TTF_Init();
+
+  /*Musique de fond*/
+  Mix_Music *MusicMenu = NULL;
+  musiqueFond(MusicMenu);
+
   SDL_WM_SetCaption("StarBund", "StarBund");
   /* create window */
   screen = SDL_SetVideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0);
@@ -44,7 +51,9 @@ int main(int argc,char* argv[])
   //On génère le monde avec l'algorithme de perlin
   gen_monde(&monde, freq);
   apparition_joueur(&joueur1, monde);
-  creer_monstre(&monstre, atlasJeu, monde);
+  for(i=0;i<NBMONSTRE;i++){
+    creer_monstre(&tabMo[i], atlasJeu, monde);
+  }
 
   int murG, murD = 0;
   int incrementAnim = 0;
@@ -78,6 +87,13 @@ int main(int argc,char* argv[])
       HandleEvent(event, &input, &joueur1, &monde,&incAnim,&minaX,&minaY,&choixAct);
     }
 
+    // printf("tabMo[0] = %d\n", tabMo[0].PV);
+    // printf("tabMo[1] = %d\n", tabMo[1].PV);
+    // printf("tabMo[2] = %d\n", tabMo[2].PV);
+    // printf("tabMo[3] = %d\n", tabMo[3].PV);
+    // printf("tabMo[4] = %d\n", tabMo[4].PV);
+
+
     minage(&input,&joueur1, minaY, minaX, &incAnim, &monde);
 
     terreRonde(&joueur1, &murD, &murG);
@@ -88,10 +104,12 @@ int main(int argc,char* argv[])
 
     game_over(&joueur1,monde, screen, &inc);
 
-    if(monstre.mort == 0){
-  	  gravite_monstre(&monstre, monde);
-  	  pseudo_IA_monstre(&monstre, joueur1);
-  	  combat(&monstre, &joueur1, monde, &invin, minaX, minaY, &input);
+    for(i=0;i<NBMONSTRE;i++){
+      if(tabMo[i].mort == 0){
+        gravite_monstre(&tabMo[i], monde);
+        pseudo_IA_monstre(&tabMo[i], joueur1);
+        combat(&tabMo[i], &joueur1, monde, &invin, minaX, minaY, &input);
+      }
     }
 
 
@@ -108,9 +126,11 @@ int main(int argc,char* argv[])
 
     affichage_crack(&monde, &incAnim, atlasJeu, minaX,minaY, &joueur1, screen);
 
-    if(monstre.mort == 0){
-      affichage_vie_monstre(&monstre,atlasJeu, screen, &joueur1);
-      affichage_monstre(&monstre, atlasJeu, screen, joueur1);
+    for(i=0;i<NBMONSTRE;i++){
+      if(tabMo[i].mort == 0){
+        affichage_vie_monstre(&tabMo[i],atlasJeu, screen, &joueur1);
+        affichage_monstre(&tabMo[i], atlasJeu, screen, joueur1);
+      }
     }
 
     affichage_personnage(&joueur1, atlasJeu, screen, invin);
@@ -132,14 +152,17 @@ int main(int argc,char* argv[])
 
   //désallocation du pseudo du joueur:
   free(joueur1.nom);
-  free(monstre.nom);
+  for(i=0;i<NBMONSTRE;i++){
+    free(tabMo[i].nom);
+  }
 
   detruire_monde(&monde);
   detruire_atlas(atlasJeu);
   suppression(listeItems);
+  Mix_FreeMusic(MusicMenu);
 
+  Mix_CloseAudio();
   TTF_Quit();
-
   SDL_Quit();
 
   return 0;

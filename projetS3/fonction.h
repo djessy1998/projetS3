@@ -1,6 +1,7 @@
 #pragma once
 #include <SDL.h>
 #include <SDL/SDL_ttf.h>
+#include <SDL/SDL_mixer.h>
 #include "fonctions_fichiers.h"
 #include "atlas.h"
 
@@ -32,8 +33,9 @@
 #define NB_BLOCS_AU_DESSUS_JOUEUR 25
 
 #define RAYONRAM	     40
-#define NBITEMS        15
+#define NBITEMS        5
 #define NBARBRES       100
+#define NBMONSTRE     10
 #define MAXITINV       64
 #define LIMITEMINA      5
 #define VITESSEMINA	1
@@ -234,3 +236,6 @@ void construction(monde *monde, input *input, character *a, int *choixAct, int *
 //combat.c
 void combat(monstre *m, character *a, monde monde, int *invin, int sourisX, int sourisY, input *input);
 void game_over(character *a, monde monde, SDL_Surface *screen, int *inc);
+
+//musiqueFond.c
+void musiqueFond(Mix_Music *MusicMenu);
