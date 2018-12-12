@@ -32,6 +32,9 @@
 #define NOVIEMIM	22
 #define TERRESHIM 	23
 #define CLOUDIM 24
+#define CLOUD1IM 25
+#define CLOUD2IM 26
+#define CLOUD3IM 27
 
 
 //creator.c

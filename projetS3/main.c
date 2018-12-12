@@ -54,8 +54,9 @@ int main(int argc,char* argv[])
   int actualTime = 0;
   int lastTimes = 0;
   int invin = 501;
-  int inc = 0;
-  int posYNu = 0;
+  int inc = 0, nbR = rand()%(5-1) + 1;
+  int booNu = 0;
+  int choix[4];
   double posXNu = 0;
 
   Liste *listeItems = initialisation();
@@ -79,8 +80,6 @@ int main(int argc,char* argv[])
 
     traitement_input(input, &joueur1, murG, murD, gauche, droite, listeItems, ItemAffich, atlasJeu, &incrementAnim);
 
-    traitement_input_inv(&input, &joueur1, listeItems, ItemAffich, &monde, atlasJeu, screen);
-
     minage(&input,&joueur1, minaY, minaX, &incAnim, &monde);
 
     terreRonde(&joueur1, &murD, &murG);
@@ -98,10 +97,10 @@ int main(int argc,char* argv[])
     }
 
 
-    //affichage    
+    //affichage
     affichage_fond(atlasJeu, screen);
 
-    affichage_nuage(atlasJeu, screen, &posYNu, &posXNu);
+    affichage_nuage(atlasJeu,screen, choix, &posXNu, &nbR, &booNu);
 
     affichage_monde(monde, joueur1, atlasJeu, screen);
 

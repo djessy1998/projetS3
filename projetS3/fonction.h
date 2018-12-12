@@ -215,7 +215,7 @@ void affichage_barre_inv(input *input,int *choixAct, atlas* atlasJeu, SDL_Surfac
 void affichage_crack(monde *monde, int *incAnim, atlas* atlasJeu,int minaX,int minaY, character *a, SDL_Surface *screen);
 void affichage_monstre(monstre *monstre, atlas* atlasJeu, SDL_Surface *screen, character joueur);
 void affichage_vie_monstre(monstre *monstre, atlas* atlasJeu, SDL_Surface *screen, character *a);
-void affichage_nuage(atlas* atlasJeu, SDL_Surface *screen, int *posyR, double *posxR);
+void affichage_nuage(atlas* atlasJeu, SDL_Surface *screen, int choix[4], double *posxR, int *nbR, int *boo);
 void affichage_mini_map(monde *monde, character *joueur, atlas *atlasJeu, SDL_Surface *screen);
 
 //minage.c

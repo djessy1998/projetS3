@@ -254,20 +254,36 @@ void affichage_monstre(monstre *monstre, atlas* atlasJeu, SDL_Surface *screen, c
   }
 }
 
-void affichage_nuage(atlas* atlasJeu, SDL_Surface *screen, int *posyR, double *posxR){
+void affichage_nuage(atlas* atlasJeu, SDL_Surface *screen, int choix[4], double *posxR, int *nbR, int *boo){
   srand(time(NULL));
-  if(atlasJeu->tabIm[CLOUDIM]->pos.x > SCREEN_WIDTH + 300){
-    setPosX(atlasJeu->tabIm[CLOUDIM], 0);
-    *posyR = rand()%(200);
-    setPosY(atlasJeu->tabIm[CLOUDIM], atlasJeu->tabIm[TOPARBIM]->pos.y + *posyR);
-    *posxR = 0;
+  int i = 0;
+  if(*boo == 0){
+    for(i=0;i< *nbR;i++){
+      int nbRa = rand()%(28-24) +24;
+      choix[i] = nbRa;
+      setPosX(atlasJeu->tabIm[choix[i]], 0);
+      setPosY(atlasJeu->tabIm[choix[i]], atlasJeu->tabIm[TOPARBIM]->pos.y + rand()%(300));
+      printf("nbR = %d\n", *nbR);
+      printf("choix[0] = %d   choix[1] = %d   choix[2] = %d   choix[3] = %d\n", choix[0],choix[1],choix[2],choix[3]);
+      printf("x = %d      y = %d\n", atlasJeu->tabIm[choix[i]]->pos.x, atlasJeu->tabIm[choix[i]]->pos.y);
+    }
+    *boo = 1;
   }
-  else{
-    *posxR += 0.2;
-    setPosX(atlasJeu->tabIm[CLOUDIM], (int)*posxR);
-    setPosY(atlasJeu->tabIm[CLOUDIM], atlasJeu->tabIm[TOPARBIM]->pos.y + *posyR);
+  for(i=0;i< *nbR;i++){
+    if(choix[i] > 27 || choix[i] < 24){
+      choix[i] = 25;
+    }
+    if(atlasJeu->tabIm[choix[i]]->pos.x > SCREEN_WIDTH + 300){
+      *nbR = rand()%(5-1) + 1;
+      *posxR = 0;
+      *boo = 0;
+    }
+    else{
+      *posxR += 0.2;
+      setPosX(atlasJeu->tabIm[choix[i]], (int)*posxR);
+      SDL_BlitSurface(atlasJeu->tabIm[choix[i]]->surface,NULL, screen, &atlasJeu->tabIm[choix[i]]->pos);
+    }
   }
-  SDL_BlitSurface(atlasJeu->tabIm[CLOUDIM]->surface,NULL, screen, &atlasJeu->tabIm[CLOUDIM]->pos);
 }
 
 
