@@ -11,18 +11,18 @@ void combat(monstre *m, character *a, monde monde, int *invin, int sourisX, int 
   int xMondeMo = m->x/TAILLE_BLOCS;
   int xMondeJ = (a->xMonde + a->pos.x)/16;
   int yMondeJ = (((a->yMonde + (NBBLOCS_FENETREY*TAILLE_BLOCS - a->pos.y) - PLAYER_HEIGHT)/16));
-    if((((yMondeMo - 1 >= yMondeJ - 3  && yMondeMo - 1 <= yMondeJ)) && (xMondeMo == xMondeJ))){
-      if(*invin > 500){
-	if(m->dernierSaut == GAUCHE){
-	  a->xMondeDouble =  a->xMondeDouble - 20;
-	  a->xMonde = (int)a->xMondeDouble;
-	}
-	else if(m->dernierSaut == DROITE){
-	  a->xMondeDouble =  a->xMondeDouble + 20;
-	  a->xMonde = (int)a->xMondeDouble;
-	}
-	a->PV = a->PV - 10;
-	*invin = 0;
+  if((((yMondeMo - 1 >= yMondeJ - 3  && yMondeMo - 1 <= yMondeJ)) && (xMondeMo == xMondeJ))){
+    if(*invin > 500){
+    	if(m->dernierSaut == GAUCHE){
+    	  a->xMondeDouble =  a->xMondeDouble - 20;
+    	  a->xMonde = (int)a->xMondeDouble;
+    	}
+    	else if(m->dernierSaut == DROITE){
+    	  a->xMondeDouble =  a->xMondeDouble + 20;
+    	  a->xMonde = (int)a->xMondeDouble;
+    	}
+    	a->PV = a->PV - 10;
+    	*invin = 0;
       }
     }
     if(*invin <= 500){

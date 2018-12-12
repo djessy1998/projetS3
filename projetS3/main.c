@@ -46,13 +46,6 @@ int main(int argc,char* argv[])
   apparition_joueur(&joueur1, monde);
   creer_monstre(&monstre, atlasJeu, monde);
 
-  SDL_Rect posMiniMap;
-
-  posMiniMap.x = SCREEN_WIDTH - 208  - 10;
-  posMiniMap.y = 18;
-  posMiniMap.h = 100;
-  posMiniMap.w = 100;
-
   int murG, murD = 0;
   int incrementAnim = 0;
   int touche = 0, incAnim = 0, minaX = 0, minaY = 0;
@@ -96,25 +89,18 @@ int main(int argc,char* argv[])
     game_over(&joueur1,monde, screen, &inc);
 
     if(monstre.mort == 0){
-	  gravite_monstre(&monstre, monde);
-	  pseudo_IA_monstre(&monstre, joueur1);
-	  combat(&monstre, &joueur1, monde, &invin, minaX, minaY, &input);
+  	  gravite_monstre(&monstre, monde);
+  	  pseudo_IA_monstre(&monstre, joueur1);
+  	  combat(&monstre, &joueur1, monde, &invin, minaX, minaY, &input);
     }
 
 
     //affichage
-
-    SDL_BlitSurface(atlasJeu->tabIm[BGIM]->surface, NULL, screen, &atlasJeu->tabIm[BGIM]->pos);
+    affichage_fond(atlasJeu, screen);
 
     affichage_nuage(atlasJeu,screen, choix, &posXNu, &nbR, &booNu);
 
     affichage_monde(monde, joueur1, atlasJeu, screen);
-
-    SDL_Surface *miniMap = creer_minimap(&monde, &joueur1);
-
-    SDL_BlitSurface(miniMap, NULL, screen, &posMiniMap);
-
-    SDL_BlitSurface(atlasJeu->tabIm[MAPIM]->surface, NULL, screen, &atlasJeu->tabIm[MAPIM]->pos);
 
     affichage_barre_inv(&input,&choixAct, atlasJeu, screen);
 
@@ -131,11 +117,11 @@ int main(int argc,char* argv[])
 
     affichage_vie_personnage(&joueur1, atlasJeu, screen);
 
-    traitement_input_inv(&input, &joueur1, listeItems, ItemAffich, &monde, atlasJeu, screen);
+    affichage_mini_map(&monde, &joueur1, atlasJeu, screen);
 
     traitement_input(input, &joueur1, murG, murD, gauche, droite, listeItems, ItemAffich, atlasJeu, &incrementAnim);
 
-    SDL_FreeSurface(miniMap);
+    traitement_input_inv(&input, &joueur1, listeItems, ItemAffich, &monde, atlasJeu, screen);
 
     SDL_UpdateRect(screen, 0, 0, 0, 0);
   }
