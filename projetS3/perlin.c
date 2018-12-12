@@ -29,7 +29,7 @@ int aleatoire(double borneMin, double borneMax){
     return 0;
   }
   double n = (double)rand() / RAND_MAX * borneMax;
-  while(n < borneMin && n > borneMax){
+  while(n <= borneMin && n >= borneMax){
     n = (double)rand() / RAND_MAX * borneMax;
   }
   return n;

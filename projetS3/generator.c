@@ -37,7 +37,7 @@ void gen_monde(monde *monde, int freq){
      monde->grilleInt[fin->v[i]][i] = TERRE;
      //Remplissage de bas en haut
      for(j = fin->v[i]; j<TMONDE; j++){
-       monde->grilleInt[j][i] = 10;
+       monde->grilleInt[j][i] = rand()%(2) + 13;
      }
   }
 
@@ -74,13 +74,13 @@ void gen_monde(monde *monde, int freq){
     iRandom = (1 + rand()%(TMONDE - 2));
     jRandom = (1 +rand()%(TMONDE - 2));
     int typeItRand = (2 + (rand()%(2)));
-    while((monde->grilleInt[iRandom - 1][jRandom] != VIDE && monde->grilleInt[iRandom - 1][jRandom] != FONDGROTTE) || (monde->grilleInt[iRandom][jRandom] != TERRE && monde->grilleInt[iRandom][jRandom] != TERRESH)){
-      if((monde->grilleInt[iRandom - 1][jRandom] == TERRE || monde->grilleInt[iRandom - 1][jRandom] == TERRESH)  &&
-      (monde->grilleInt[iRandom + 1][jRandom] == TERRE || monde->grilleInt[iRandom + 1][jRandom] == TERRESH) &&
-      (monde->grilleInt[iRandom][jRandom] == TERRE || monde->grilleInt[iRandom][jRandom] == TERRESH)){
+    while(!estVide(monde->grilleInt[iRandom - 1][jRandom]) || !estSolide(monde->grilleInt[iRandom][jRandom])){
+      if(estSolide(monde->grilleInt[iRandom - 1][jRandom]) &&
+         estSolide(monde->grilleInt[iRandom + 1][jRandom]) &&
+         estSolide(monde->grilleInt[iRandom][jRandom])){
         iRandom -= 1;
       }else{
-  iRandom += 1;
+        iRandom += 1;
       }
     }
 
@@ -99,36 +99,36 @@ void gen_monde(monde *monde, int freq){
     int taille = (rand()%8)+3;
     iRandom = (1 + rand()%(TMONDE - 2));
     jRandom = (1 +rand()%(TMONDE - 2));
-    while(((monde->grilleInt[iRandom + 1][jRandom] != TERRE && monde->grilleInt[iRandom + 1][jRandom] != TERRESH) || monde->grilleInt[iRandom][jRandom] != VIDE) && (iRandom > 2 && iRandom < TMONDE - 2)){
-      if((monde->grilleInt[iRandom - 1][jRandom] == TERRE || monde->grilleInt[iRandom - 1][jRandom] == TERRESH) &&
-      (monde->grilleInt[iRandom + 1][jRandom] == TERRE || monde->grilleInt[iRandom + 1][jRandom] == TERRESH) &&
-      (monde->grilleInt[iRandom][jRandom] == TERRE || monde->grilleInt[iRandom][jRandom] == TERRESH)){
+    while((!estSolide(monde->grilleInt[iRandom + 1][jRandom]) || !estVide(monde->grilleInt[iRandom][jRandom])) && (iRandom > 2 && iRandom < TMONDE - 2)){
+      if(estSolide(monde->grilleInt[iRandom - 1][jRandom]) &&
+         estSolide(monde->grilleInt[iRandom + 1][jRandom]) &&
+         estSolide(monde->grilleInt[iRandom][jRandom])){
         iRandom -= 1;
       }
-      else if((monde->grilleInt[iRandom - 1][jRandom] > TERRE && monde->grilleInt[iRandom - 1][jRandom] != TERRESH) &&
-      (monde->grilleInt[iRandom + 1][jRandom] == TERRE || monde->grilleInt[iRandom + 1][jRandom] == TERRESH) &&
-      (monde->grilleInt[iRandom][jRandom] == TERRE || monde->grilleInt[iRandom][jRandom] == TERRESH)){
+      else if(monde->grilleInt[iRandom - 1][jRandom] > TERRE && !estSolide(monde->grilleInt[iRandom - 1][jRandom]) &&
+              estSolide(monde->grilleInt[iRandom + 1][jRandom]) &&
+              estSolide(monde->grilleInt[iRandom][jRandom])){
         jRandom = (1 +rand()%(TMONDE - 1));
       }
       if(monde->grilleInt[iRandom - 1][jRandom] == VIDE && monde->grilleInt[iRandom + 1][jRandom] == VIDE && monde->grilleInt[iRandom][jRandom] == VIDE){
-	iRandom += 1;
+	       iRandom += 1;
       }
-      else if(monde->grilleInt[iRandom - 1][jRandom] == VIDE && (monde->grilleInt[iRandom + 1][jRandom] > TERRE && monde->grilleInt[iRandom + 1][jRandom] != TERRESH) && monde->grilleInt[iRandom][jRandom] == VIDE){
-	jRandom = (1 +rand()%(TMONDE - 1));
+      else if(monde->grilleInt[iRandom - 1][jRandom] == VIDE && (monde->grilleInt[iRandom + 1][jRandom] > TERRE && !estSolide(monde->grilleInt[iRandom + 1][jRandom])) && monde->grilleInt[iRandom][jRandom] == VIDE){
+	       jRandom = (1 +rand()%(TMONDE - 1));
       }
       else{
-	iRandom -= 1;
+	       iRandom -= 1;
       }
     }
 
      for(j=1;j<=taille;j++){
-      if((monde->grilleInt[iRandom][jRandom-1] != TERRE && monde->grilleInt[iRandom][jRandom-1] != TERRESH && monde->grilleInt[iRandom][jRandom-1] != FONDGROTTE) && (monde->grilleInt[iRandom+1][jRandom-1] == TERRE || monde->grilleInt[iRandom+1][jRandom-1] == TERRESH)){
+      monde->grilleInt[iRandom][jRandom] = BASARB;
+      if(!estSolide(monde->grilleInt[iRandom][jRandom-1]) && monde->grilleInt[iRandom][jRandom-1] != FONDGROTTE && estSolide(monde->grilleInt[iRandom+1][jRandom-1])){
         monde->grilleInt[iRandom][jRandom-1] = ABG;
       }
-      if((monde->grilleInt[iRandom][jRandom+1] != TERRE && monde->grilleInt[iRandom][jRandom+1] != TERRESH && monde->grilleInt[iRandom][jRandom+1] != FONDGROTTE )  && (monde->grilleInt[iRandom+1][jRandom+1] == TERRE || monde->grilleInt[iRandom+1][jRandom+1] == TERRESH)){
+      if(!estSolide(monde->grilleInt[iRandom][jRandom+1]) && monde->grilleInt[iRandom][jRandom+1] != FONDGROTTE && estSolide(monde->grilleInt[iRandom+1][jRandom+1])){
         monde->grilleInt[iRandom][jRandom+1] = ABD;
       }
-      monde->grilleInt[iRandom][jRandom] = BASARB;
       if(iRandom - j > 0){
 	     monde->grilleInt[iRandom-j][jRandom] = ARBRE;
       }
@@ -251,14 +251,14 @@ void apparition_joueur(character *joueur, monde monde){
   int y = NBBLOCS_FENETREY;
   int x = TMONDE/2;
 
-  while(monde.grilleInt[y][x] != TERRE && monde.grilleInt[y][x] != TERRESH){
+  while(!estSolide(monde.grilleInt[y][x])){
     y += 1;
-    if((monde.grilleInt[y][x+1] == TERRE && monde.grilleInt[y][x-1] == TERRE) || (monde.grilleInt[y][x+1] == TERRESH && monde.grilleInt[y][x-1] == TERRESH)){
+    if(estSolide(monde.grilleInt[y][x+1]) && estSolide(monde.grilleInt[y][x-1])){
       x += 1;
       y = NBBLOCS_FENETREY;
     }
   }
-  joueur->yMonde = (TMONDE - (y+(NBBLOCS_FENETREY - NB_BLOCS_AU_DESSUS_JOUEUR)))*TAILLE_BLOCS;
+  joueur->yMonde = (TMONDE - (y+(NBBLOCS_FENETREY - NB_BLOCS_AU_DESSUS_JOUEUR)))*TAILLE_BLOCS + 1;
   joueur->yMondeDouble = (double)joueur->yMonde;
   joueur->xMonde = (x - NBBLOCS_FENETREX/2)*TAILLE_BLOCS;
   joueur->xMondeDouble = (double)joueur->xMonde;

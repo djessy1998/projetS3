@@ -35,7 +35,7 @@ void collision(character *a, int** affichage, int** posB, int** posBY, int *murD
 
   for(i = 0; i < NBBLOCS_FENETREY; i++){
     for(j = 0; j< NBBLOCS_FENETREX; j++){
-      if(affichage[i][j] == TERRE || affichage[i][j] == TERRESH){
+      if(estSolide(affichage[i][j])){
         if(JpiedDX == posB[i][j]){
           a->bloqADroite = 1;
         }else if(JpiedGX == posB[i][j] + TAILLE_BLOCS){
@@ -64,23 +64,21 @@ void collision(character *a, int** affichage, int** posB, int** posBY, int *murD
   int PosPiedDX = ((a->pos.x+PLAYER_WIDTH)/TAILLE_BLOCS) +1 - *murDr;
   int PosPiedGX = (a->pos.x/TAILLE_BLOCS) - *murDr;
 
-  if((affichage[PosPiedY][PosPiedGX] != TERRE && affichage[PosPiedY][PosPiedGX] != TERRESH) &&
-      (affichage[PosCorpsY][PosPiedGX] != TERRE && affichage[PosCorpsY][PosPiedGX] != TERRESH) &&
-      (affichage[PosTeteY][PosPiedGX] != TERRE && affichage[PosTeteY][PosPiedGX] != TERRESH)) {
+  if(!estSolide(affichage[PosPiedY][PosPiedGX]) &&
+      !estSolide(affichage[PosCorpsY][PosPiedGX]) &&
+      !estSolide(affichage[PosTeteY][PosPiedGX])){
     a->bloqAGauche=0;
   }
 
-  if((affichage[PosPiedY][PosPiedDX] != TERRE && affichage[PosPiedY][PosPiedDX] != TERRESH) &&
-      (affichage[PosCorpsY][PosPiedDX] != TERRE && affichage[PosCorpsY][PosPiedDX] != TERRESH) &&
-      (affichage[PosTeteY][PosPiedDX] != TERRE && affichage[PosTeteY][PosPiedDX] != TERRESH)){
+  if(!estSolide(affichage[PosPiedY][PosPiedDX]) &&
+      !estSolide(affichage[PosCorpsY][PosPiedDX]) &&
+      !estSolide(affichage[PosTeteY][PosPiedDX])){
     a->bloqADroite=0;
   }
 
   //Si bloc au dessus du joueur.
-  if(affichage[PosHautTeteY][PosPiedGX+1] == TERRE ||
-    affichage[PosHautTeteY][PosPiedDX - a->bloqADroite - *murGa] == TERRE ||
-    affichage[PosHautTeteY][PosPiedGX+1] == TERRESH ||
-      affichage[PosHautTeteY][PosPiedDX - a->bloqADroite - *murGa] == TERRESH){
+  if(estSolide(affichage[PosHautTeteY][PosPiedGX+1]) ||
+    estSolide(affichage[PosHautTeteY][PosPiedDX - a->bloqADroite - *murGa])){
      a->autorisationSaut = 0;
   }
 
@@ -123,4 +121,12 @@ void terreRonde(character *a, int *murDro, int *murGau)
       *murGau = 0;
       *murDro = 0;
     }
+}
+
+int estSolide(int bloc){
+  return bloc == TERRESH || bloc == TERRE || bloc == TERRE2 || bloc == TERRE3 || bloc == TERRE1;
+}
+
+int estVide(int bloc){
+  return bloc == VIDE || bloc == FONDGROTTE;
 }

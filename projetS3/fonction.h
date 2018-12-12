@@ -52,6 +52,9 @@
 #define TERRESH 10
 #define HERBE 11
 #define HERBE1 12
+#define TERRE1 13
+#define TERRE2 14
+#define TERRE3 15
 
 typedef struct monde monde;
 struct monde
@@ -187,6 +190,8 @@ void bloc_au_dessus(monstre *m, monde monde);
 void gravite(character *a);
 void collision(character *a, int** affichage, int** posB, int** posBY, int *murDr, int *murGa, int *yMomTom, int *fait, int *faitCalc, int *yMomTomDeb, int *touche);
 void terreRonde(character *a, int *murDro, int *murGau);
+int estSolide(int bloc);
+int estVide(int bloc);
 
 //vie.c
 void calc_vie_tombe(character *a, int *yMomTomDeb, int *faitCalc, int *touche);

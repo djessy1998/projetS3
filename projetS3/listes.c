@@ -87,10 +87,10 @@ void ItemMonde(monde monde, Liste *liste){
   int i, j;
   for(i=0;i<TMONDE;i++){
     for(j=0;j<TMONDE;j++){
-      if(monde.grilleInt[i][j] == 2){
+      if(monde.grilleInt[i][j] == CASQUE){
         insertion(liste, 2 ,i + 1, j + 1);
       }
-      else if(monde.grilleInt[i][j] == 3){
+      else if(monde.grilleInt[i][j] == ARMURE){
         insertion(liste, 3, i + 1, j + 1);
       }
     }
