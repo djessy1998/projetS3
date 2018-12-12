@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <time.h>
 #include "fonction.h"
 #include "creator.h"
 #include "perlin.h"
@@ -94,7 +95,7 @@ void creer_monstre(monstre *monstre, atlas* atlasJeu, monde monde){
   monstre->nom = (char*) malloc( 6 * sizeof(char));
   strcpy(monstre->nom, "Slime");
   monstre->PV = 20;
-  monstre->x = TMONDE/2;
+  monstre->x = rand()%(TMONDE-1) +1;
   monstre->y = 0;
 
   //Apparition du monstre dans le monde
