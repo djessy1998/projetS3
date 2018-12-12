@@ -34,15 +34,15 @@ void gen_monde(monde *monde, int freq){
 
   for(i=0 ; i<TMONDE; i++){
      // Applique le calque dans le monde
-     monde->grilleInt[fin->v[i]][i] = TERRE;
+     //monde->grilleInt[fin->v[i]][i] = rand()%(TERREHERBE3 - TERREHERBE1) + TERREHERBE1;
      //Remplissage de bas en haut
      for(j = fin->v[i]; j<TMONDE; j++){
-       monde->grilleInt[j][i] = rand()%(2) + 13;
+       monde->grilleInt[j][i] = rand()%(TERRE3 - TERRE1 + 1) + TERRE1;
      }
   }
 
   for(j = 0; j<TMONDE; j++){
-    monde->grilleInt[fin->v[j]][j] = TERRE;
+    monde->grilleInt[fin->v[j]][j] = rand()%(TERREHERBE3 - TERREHERBE1 + 1) + TERREHERBE1;
   }
 
    //Génération aléatoire de grottes
@@ -84,8 +84,8 @@ void gen_monde(monde *monde, int freq){
       }
     }
 
-    while(monde->grilleInt[iRandom][jRandom+1] == TERRE || monde->grilleInt[iRandom][jRandom+1] == TERRESH){
-      while(monde->grilleInt[iRandom][jRandom + 1] == TERRE || monde->grilleInt[iRandom][jRandom + 1] == TERRESH){
+    while(estSolide(monde->grilleInt[iRandom][jRandom+1])){
+      while(estSolide(monde->grilleInt[iRandom][jRandom + 1])){
         if(iRandom < TMONDE - 1){
           iRandom -= 1;
         }
@@ -104,8 +104,7 @@ void gen_monde(monde *monde, int freq){
          estSolide(monde->grilleInt[iRandom + 1][jRandom]) &&
          estSolide(monde->grilleInt[iRandom][jRandom])){
         iRandom -= 1;
-      }
-      else if(monde->grilleInt[iRandom - 1][jRandom] > TERRE && !estSolide(monde->grilleInt[iRandom - 1][jRandom]) &&
+      }else if(monde->grilleInt[iRandom - 1][jRandom] > TERRE && !estSolide(monde->grilleInt[iRandom - 1][jRandom]) &&
               estSolide(monde->grilleInt[iRandom + 1][jRandom]) &&
               estSolide(monde->grilleInt[iRandom][jRandom])){
         jRandom = (1 +rand()%(TMONDE - 1));
@@ -143,7 +142,7 @@ void gen_monde(monde *monde, int freq){
   for(i=0 ; i<TMONDE; i++){
      // Applique le calque dans le monde
      if(monde->grilleInt[fin->v[i] - 1][i] == VIDE && monde->grilleInt[fin->v[i]][i] != FONDGROTTE){
-        monde->grilleInt[fin->v[i] - 1][i] = rand()%(13-11) +11;
+        monde->grilleInt[fin->v[i] - 1][i] = rand()%(HERBE1-HERBE + 1) + HERBE;
      }
   }
 

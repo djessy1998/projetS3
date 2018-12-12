@@ -24,15 +24,11 @@ void free_calque(calque* s){
   free(s);
 }
 
-int aleatoire(double borneMin, double borneMax){
+int aleatoire(int borneMin, int borneMax){
   if(borneMin > borneMax){
     return 0;
   }
-  double n = (double)rand() / RAND_MAX * borneMax;
-  while(n <= borneMin && n >= borneMax){
-    n = (double)rand() / RAND_MAX * borneMax;
-  }
-  return n;
+  return (int)(rand()%(borneMax - borneMin) + borneMin);
 }
 
 int valeur_interpolee(int i, int freq, calque *r){

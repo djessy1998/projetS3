@@ -124,7 +124,7 @@ void terreRonde(character *a, int *murDro, int *murGau)
 }
 
 int estSolide(int bloc){
-  return bloc == TERRESH || bloc == TERRE || bloc == TERRE2 || bloc == TERRE3 || bloc == TERRE1;
+  return bloc == TERRESH || bloc == TERRE || bloc == TERRE1 || bloc == TERRE2 || bloc == TERRE3 || bloc == TERREHERBE1 || bloc == TERREHERBE2 || bloc == TERREHERBE3;
 }
 
 int estVide(int bloc){

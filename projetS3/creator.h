@@ -40,6 +40,9 @@
 #define TERRE1IM      30
 #define TERRE2IM      31
 #define TERRE3IM      32
+#define TERREHERBE1IM 33
+#define TERREHERBE2IM 34
+#define TERREHERBE3IM 35
 
 
 //creator.c

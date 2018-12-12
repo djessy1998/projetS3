@@ -149,13 +149,25 @@ atlas* init_atlas(){
   tabIm[29] = herbe1;
 
   image* terre1 = creer_texture("Sprites/Terre1.bmp",0, 0, 0, 0, 0, 0);
-  tabIm[30] = terre1;
+  tabIm[TERRE1IM] = terre1;
 
   image* terre2 = creer_texture("Sprites/Terre2.bmp",0, 0, 0, 0, 0, 0);
-  tabIm[31] = terre2;
+  tabIm[TERRE2IM] = terre2;
 
   image* terre3 = creer_texture("Sprites/Terre3.bmp",0, 0, 0, 0, 0, 0);
-  tabIm[32] = terre3;
+  tabIm[TERRE3IM] = terre3;
+
+  image* terreHerbe1 = creer_texture("Sprites/TerreHerbe1.bmp",0, 0, 0, 0, 0, 0);
+  SDL_SetColorKey(terreHerbe1->surface,SDL_SRCCOLORKEY,colorkeyVie);
+  tabIm[TERREHERBE1IM] = terreHerbe1;
+
+  image* terreHerbe2 = creer_texture("Sprites/TerreHerbe2.bmp",0, 0, 0, 0, 0, 0);
+  SDL_SetColorKey(terreHerbe2->surface,SDL_SRCCOLORKEY,colorkeyVie);
+  tabIm[TERREHERBE2IM] = terreHerbe2;
+
+  image* terreHerbe3 = creer_texture("Sprites/TerreHerbe3.bmp",0, 0, 0, 0, 0, 0);
+  SDL_SetColorKey(terreHerbe3->surface,SDL_SRCCOLORKEY,colorkeyVie);
+  tabIm[TERREHERBE3IM] = terreHerbe3;
 
   return creer_atlas(tabIm);
 }

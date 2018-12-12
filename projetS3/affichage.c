@@ -24,69 +24,78 @@ void affichage_monde(monde monde, character joueur1, atlas* atlasJeu, SDL_Surfac
   	  posGrille.x = j*TAILLE_BLOCS + decalageX;
   	  posGrille.y = i*TAILLE_BLOCS + decalageY;
       switch (monde.affichage[i][j]){
-  	  case TOPARB:
-  		  posGrille.x = j*TAILLE_BLOCS + decalageX - 33;
-  		  posGrille.y = i*TAILLE_BLOCS + decalageY - 64;
-  	    SDL_BlitSurface(atlasJeu->tabIm[TOPARBIM]->surface, NULL, screen, &posGrille);
-        break;
-  	  case TERRE:
-  	    SDL_BlitSurface(atlasJeu->tabIm[TERREIM]->surface, NULL, screen, &posGrille);
-        break;
-      case CASQUE:
-  	    if(monde.affichage[i-(i>0)][j] == FONDGROTTE){
-  	      SDL_BlitSurface(atlasJeu->tabIm[FONDGROTTEIM]->surface, &atlasJeu->tabIm[FONDGROTTEIM]->anim, screen, &posGrille);
-  	      posGrille.x += TAILLE_BLOCS;
-  	      SDL_BlitSurface(atlasJeu->tabIm[FONDGROTTEIM]->surface, &atlasJeu->tabIm[FONDGROTTEIM]->anim, screen, &posGrille);
-  	      posGrille.x -= TAILLE_BLOCS;
-  	    }
-  	    posGrille.y = i*TAILLE_BLOCS + decalageY - 7;
-  	    SDL_BlitSurface(atlasJeu->tabIm[CASQUEIM]->surface, NULL, screen, &posGrille);
-        break;
-      case ARMURE:
-  	    if(monde.affichage[i-(i>0)][j] == FONDGROTTE){
-  	      SDL_BlitSurface(atlasJeu->tabIm[FONDGROTTEIM]->surface, &atlasJeu->tabIm[FONDGROTTEIM]->anim, screen, &posGrille);
-  	      posGrille.x += TAILLE_BLOCS;
-  	      SDL_BlitSurface(atlasJeu->tabIm[FONDGROTTEIM]->surface, &atlasJeu->tabIm[FONDGROTTEIM]->anim, screen, &posGrille);
-  	      posGrille.x -= TAILLE_BLOCS;
-  	    }
-  	    posGrille.y = i*TAILLE_BLOCS + decalageY - 7;
-  	    SDL_BlitSurface(atlasJeu->tabIm[ARMUREIM]->surface, NULL, screen, &posGrille);
-        break;
-      case ARBRE:
-  	    SDL_BlitSurface(atlasJeu->tabIm[TRONCIM]->surface, NULL, screen, &posGrille);
-        break;
-      case ABG:
-  	    SDL_BlitSurface(atlasJeu->tabIm[ABGIM]->surface, NULL, screen, &posGrille);
-        break;
-      case ABD:
-  	    SDL_BlitSurface(atlasJeu->tabIm[ABDIM]->surface, NULL, screen, &posGrille);
-        break;
-      case BASARB:
-  	    SDL_BlitSurface(atlasJeu->tabIm[BASARBIM]->surface, NULL, screen, &posGrille);
-        break;
-      case TERRESH:
-        SDL_BlitSurface(atlasJeu->tabIm[TERRESHIM]->surface, NULL, screen, &posGrille);
-        break;
-      case HERBE:
-        SDL_BlitSurface(atlasJeu->tabIm[HERBEIM]->surface, NULL, screen, &posGrille);
-        break;
-      case HERBE1:
-        SDL_BlitSurface(atlasJeu->tabIm[HERBE1IM]->surface, NULL, screen, &posGrille);
-        break;
-      case TERRE1:
-        SDL_BlitSurface(atlasJeu->tabIm[TERRE1IM]->surface, NULL, screen, &posGrille);
-        break;
-      case TERRE2:
-        SDL_BlitSurface(atlasJeu->tabIm[TERRE2IM]->surface, NULL, screen, &posGrille);
-        break;
-      case TERRE3:
-        SDL_BlitSurface(atlasJeu->tabIm[TERRE3IM]->surface, NULL, screen, &posGrille);
-        break;
-      default:
-        if(monde.affichage[i][j] == FONDGROTTE  && monde.affichage[i][j-(int)(j>0)] != ARMURE && monde.affichage[i][j-(int)(j>0)] != CASQUE){
-  	       SDL_BlitSurface(atlasJeu->tabIm[FONDGROTTEIM]->surface,&atlasJeu->tabIm[FONDGROTTEIM]->anim, screen, &posGrille);
-         }
-        break;
+    	  case TOPARB:
+    		  posGrille.x = j*TAILLE_BLOCS + decalageX - 33;
+    		  posGrille.y = i*TAILLE_BLOCS + decalageY - 64;
+    	    SDL_BlitSurface(atlasJeu->tabIm[TOPARBIM]->surface, NULL, screen, &posGrille);
+          break;
+    	  case TERRE:
+    	    SDL_BlitSurface(atlasJeu->tabIm[TERREIM]->surface, NULL, screen, &posGrille);
+          break;
+        case CASQUE:
+    	    if(monde.affichage[i-(i>0)][j] == FONDGROTTE){
+    	      SDL_BlitSurface(atlasJeu->tabIm[FONDGROTTEIM]->surface, &atlasJeu->tabIm[FONDGROTTEIM]->anim, screen, &posGrille);
+    	      posGrille.x += TAILLE_BLOCS;
+    	      SDL_BlitSurface(atlasJeu->tabIm[FONDGROTTEIM]->surface, &atlasJeu->tabIm[FONDGROTTEIM]->anim, screen, &posGrille);
+    	      posGrille.x -= TAILLE_BLOCS;
+    	    }
+    	    posGrille.y = i*TAILLE_BLOCS + decalageY - 7;
+    	    SDL_BlitSurface(atlasJeu->tabIm[CASQUEIM]->surface, NULL, screen, &posGrille);
+          break;
+        case ARMURE:
+    	    if(monde.affichage[i-(i>0)][j] == FONDGROTTE){
+    	      SDL_BlitSurface(atlasJeu->tabIm[FONDGROTTEIM]->surface, &atlasJeu->tabIm[FONDGROTTEIM]->anim, screen, &posGrille);
+    	      posGrille.x += TAILLE_BLOCS;
+    	      SDL_BlitSurface(atlasJeu->tabIm[FONDGROTTEIM]->surface, &atlasJeu->tabIm[FONDGROTTEIM]->anim, screen, &posGrille);
+    	      posGrille.x -= TAILLE_BLOCS;
+    	    }
+    	    posGrille.y = i*TAILLE_BLOCS + decalageY - 7;
+    	    SDL_BlitSurface(atlasJeu->tabIm[ARMUREIM]->surface, NULL, screen, &posGrille);
+          break;
+        case ARBRE:
+    	    SDL_BlitSurface(atlasJeu->tabIm[TRONCIM]->surface, NULL, screen, &posGrille);
+          break;
+        case ABG:
+    	    SDL_BlitSurface(atlasJeu->tabIm[ABGIM]->surface, NULL, screen, &posGrille);
+          break;
+        case ABD:
+    	    SDL_BlitSurface(atlasJeu->tabIm[ABDIM]->surface, NULL, screen, &posGrille);
+          break;
+        case BASARB:
+    	    SDL_BlitSurface(atlasJeu->tabIm[BASARBIM]->surface, NULL, screen, &posGrille);
+          break;
+        case TERRESH:
+          SDL_BlitSurface(atlasJeu->tabIm[TERRESHIM]->surface, NULL, screen, &posGrille);
+          break;
+        case HERBE:
+          SDL_BlitSurface(atlasJeu->tabIm[HERBEIM]->surface, NULL, screen, &posGrille);
+          break;
+        case HERBE1:
+          SDL_BlitSurface(atlasJeu->tabIm[HERBE1IM]->surface, NULL, screen, &posGrille);
+          break;
+        case TERRE1:
+          SDL_BlitSurface(atlasJeu->tabIm[TERRE1IM]->surface, NULL, screen, &posGrille);
+          break;
+        case TERRE2:
+          SDL_BlitSurface(atlasJeu->tabIm[TERRE2IM]->surface, NULL, screen, &posGrille);
+          break;
+        case TERRE3:
+          SDL_BlitSurface(atlasJeu->tabIm[TERRE3IM]->surface, NULL, screen, &posGrille);
+          break;
+        case TERREHERBE1:
+          SDL_BlitSurface(atlasJeu->tabIm[TERREHERBE1IM]->surface, NULL, screen, &posGrille);
+          break;
+        case TERREHERBE2:
+          SDL_BlitSurface(atlasJeu->tabIm[TERREHERBE2IM]->surface, NULL, screen, &posGrille);
+          break;
+        case TERREHERBE3:
+          SDL_BlitSurface(atlasJeu->tabIm[TERREHERBE3IM]->surface, NULL, screen, &posGrille);
+          break;
+        default:
+          if(monde.affichage[i][j] == FONDGROTTE  && monde.affichage[i][j-(int)(j>0)] != ARMURE && monde.affichage[i][j-(int)(j>0)] != CASQUE){
+    	       SDL_BlitSurface(atlasJeu->tabIm[FONDGROTTEIM]->surface,&atlasJeu->tabIm[FONDGROTTEIM]->anim, screen, &posGrille);
+           }
+          break;
       }
   	}
   }

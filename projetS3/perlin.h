@@ -13,6 +13,6 @@ struct calque{
 
 calque* init_calque(int t, float p);
 void free_calque(calque* s);
-int aleatoire(double borneMin, double borneMax);
+int aleatoire(int borneMin, int borneMax);
 int valeur_interpolee(int i, int freq, calque *r);
 int interpolate(int y1, int y2, int n, int delta);
