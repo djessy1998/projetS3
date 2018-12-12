@@ -7,7 +7,7 @@ void combat(monstre *m, character *a, monde monde, int *invin, int sourisX, int 
   if(m->coupPr < 0){
     m->coupPr = 0;
   }
-  int yMondeMo = (m->y - HAUTEUR_MONSTRE)/TAILLE_BLOCS;
+  int yMondeMo = TMONDE - (m->y - HAUTEUR_MONSTRE)/TAILLE_BLOCS;
   int xMondeMo = m->x/TAILLE_BLOCS;
   int xMondeJ = (a->xMonde + a->pos.x)/16;
   int yMondeJ = (((a->yMonde + (NBBLOCS_FENETREY*TAILLE_BLOCS - a->pos.y) - PLAYER_HEIGHT)/16));

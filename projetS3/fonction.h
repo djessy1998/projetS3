@@ -206,6 +206,7 @@ void traitement_input(input input, character *joueur1, int murG, int murD, int g
 void traitement_input_inv(input *input, character *joueur1, Liste *liste, int ItemAffich, monde *monde, atlas* atlasJeu, SDL_Surface *screen);
 
 //affichage.c
+void affichage_fond(atlas *atlasJeu, SDL_Surface *screen);
 void affichage_monde(monde monde, character joueur1, atlas* atlasJeu,SDL_Surface *screen);
 void affichage_items_inv(input input, atlas* atlasJeu, SDL_Surface *screen);
 void affichage_personnage(character *joueur1, atlas* atlasJeu, SDL_Surface *screen, int invi);
@@ -215,6 +216,7 @@ void affichage_crack(monde *monde, int *incAnim, atlas* atlasJeu,int minaX,int m
 void affichage_monstre(monstre *monstre, atlas* atlasJeu, SDL_Surface *screen, character joueur);
 void affichage_vie_monstre(monstre *monstre, atlas* atlasJeu, SDL_Surface *screen, character *a);
 void affichage_nuage(atlas* atlasJeu, SDL_Surface *screen, int *posyR, double *posxR);
+void affichage_mini_map(monde *monde, character *joueur, atlas *atlasJeu, SDL_Surface *screen);
 
 //minage.c
 void minage(input *input, character *a, int minaY, int minaX, int *incAnim, monde *monde);

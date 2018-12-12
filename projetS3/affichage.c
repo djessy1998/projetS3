@@ -4,6 +4,10 @@
 #include "fonction.h"
 #include "creator.h"
 
+void affichage_fond(atlas *atlasJeu, SDL_Surface *screen){
+  SDL_BlitSurface(atlasJeu->tabIm[BGIM]->surface, NULL, screen, &atlasJeu->tabIm[BGIM]->pos);
+}
+
 void affichage_monde(monde monde, character joueur1, atlas* atlasJeu, SDL_Surface *screen){
   int xAffichageStart = joueur1.xMonde/TAILLE_BLOCS;
   int yAffichageStart = TMONDE - joueur1.yMonde/TAILLE_BLOCS - NBBLOCS_FENETREY;
@@ -264,4 +268,22 @@ void affichage_nuage(atlas* atlasJeu, SDL_Surface *screen, int *posyR, double *p
     setPosY(atlasJeu->tabIm[CLOUDIM], atlasJeu->tabIm[TOPARBIM]->pos.y + *posyR);
   }
   SDL_BlitSurface(atlasJeu->tabIm[CLOUDIM]->surface,NULL, screen, &atlasJeu->tabIm[CLOUDIM]->pos);
+}
+
+
+void affichage_mini_map(monde *monde, character *joueur, atlas *atlasJeu, SDL_Surface *screen){
+  SDL_Surface *miniMap = creer_minimap(monde, joueur);
+
+  SDL_Rect posMiniMap;
+
+  posMiniMap.x = SCREEN_WIDTH - 208  - 10;
+  posMiniMap.y = 18;
+  posMiniMap.h = 100;
+  posMiniMap.w = 100;
+
+  SDL_BlitSurface(miniMap, NULL, screen, &posMiniMap);
+
+  SDL_FreeSurface(miniMap);
+
+  SDL_BlitSurface(atlasJeu->tabIm[MAPIM]->surface, NULL, screen, &atlasJeu->tabIm[MAPIM]->pos);
 }
