@@ -128,6 +128,18 @@ atlas* init_atlas(){
   SDL_SetColorKey(nuage->surface,SDL_SRCCOLORKEY,colorkey);
   tabIm[24] = nuage;
 
+  image* nuage1 = creer_texture("Sprites/Cloud1.bmp",0, 0, 0, 0, 0, 0);
+  SDL_SetColorKey(nuage1->surface,SDL_SRCCOLORKEY,colorkey);
+  tabIm[25] = nuage1;
+
+  image* nuage2 = creer_texture("Sprites/Cloud2.bmp",0, 0, 0, 0, 0, 0);
+  SDL_SetColorKey(nuage2->surface,SDL_SRCCOLORKEY,colorkey);
+  tabIm[26] = nuage2;
+
+  image* nuage3 = creer_texture("Sprites/Cloud3.bmp",0, 0, 0, 0, 0, 0);
+  SDL_SetColorKey(nuage3->surface,SDL_SRCCOLORKEY,colorkey);
+  tabIm[27] = nuage3;
+
   return creer_atlas(tabIm);
 }
 
