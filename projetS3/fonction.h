@@ -5,18 +5,24 @@
 #include "fonctions_fichiers.h"
 #include "atlas.h"
 
+//A propos de la fenetre
 #define SCREEN_WIDTH   720
 #define SCREEN_HEIGHT  560
+#define NBBLOCS_FENETREX 47
+#define NBBLOCS_FENETREY 37
 
+//A propos du joueur
 #define PLAYER_WIDTH   22
 #define PLAYER_HEIGHT  54
-
 #define VELOCITE_MAX   15
 #define VITESSE        1.
 #define VITESSEJ       0.2
 #define FULL_VIE       100
 #define DISTCHUTEMPV   100
+#define NB_BLOCS_AU_DESSUS_JOUEUR 25
 
+//A propos des monstres
+#define NBMONSTRE     10
 #define VELOCITE_MAX_MONSTRE 10
 #define HAUTEUR_MONSTRE 22
 #define LARGEUR_MONSTRE 32
@@ -24,22 +30,20 @@
 #define GAUCHE -1
 #define IMMOBILE 0
 
+//A propos du monde
 #define TMONDE         1000
 #define NB_GROTTES     10
 #define DIST_ENTRE_POINTS 2
+#define NBARBRES       100
 
-#define NBBLOCS_FENETREX 47
-#define NBBLOCS_FENETREY 37
-#define NB_BLOCS_AU_DESSUS_JOUEUR 25
-
+//A propos de l'inventaire et du minage
 #define RAYONRAM	     40
 #define NBITEMS        5
-#define NBARBRES       100
-#define NBMONSTRE     10
 #define MAXITINV       64
 #define LIMITEMINA      5
 #define VITESSEMINA	1
 
+//blocs
 #define TAILLE_BLOCS	 16
 #define VIDE  0
 #define TERRE 1

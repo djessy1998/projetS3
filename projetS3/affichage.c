@@ -62,20 +62,15 @@ void affichage_monde(monde monde, character joueur1, atlas* atlasJeu, SDL_Surfac
   }
 
 void affichage_items_inv(input input, atlas* atlasJeu, SDL_Surface *screen){
-  if(input.data.numItemInvX != -1 && input.data.rien == 0)
-    {
-      if(input.data.typeMemoire == 1)
-	{
-	  SDL_BlitSurface(atlasJeu->tabIm[CASQUE_IM]->surface, NULL, screen, &input.data.posImage);
-	}
-      else if(input.data.typeMemoire == 2)
-	{
-	  SDL_BlitSurface(atlasJeu->tabIm[ARMURE_IM]->surface, NULL, screen, &input.data.posImage);
-	}
-      else if(input.data.typeMemoire == 3){
-	  SDL_BlitSurface(atlasJeu->tabIm[TERRE_IM]->surface, NULL, screen, &input.data.posImage);
-      }
+  if(input.data.numItemInvX != -1 && input.data.rien == 0){
+    if(input.data.typeMemoire == 1){
+       SDL_BlitSurface(atlasJeu->tabIm[CASQUE_IM]->surface, NULL, screen, &input.data.posImage);
+    }else if(input.data.typeMemoire == 2){
+       SDL_BlitSurface(atlasJeu->tabIm[ARMURE_IM]->surface, NULL, screen, &input.data.posImage);
+    }else if(input.data.typeMemoire == 3){
+       SDL_BlitSurface(atlasJeu->tabIm[TERRE_IM]->surface, NULL, screen, &input.data.posImage);
     }
+  }
 }
 
 void affichage_personnage(character *joueur1, atlas* atlasJeu, SDL_Surface *screen, int invi){
@@ -89,31 +84,26 @@ void affichage_personnage(character *joueur1, atlas* atlasJeu, SDL_Surface *scre
   nomJ = TTF_RenderText_Solid (police,joueur1->nom, couleurNoire);
   if(joueur1->mort == 0){
     SDL_BlitSurface(nomJ, NULL, screen, &posTexte);
-    if(joueur1->dir == 2)
-      {
-	if(invi <= 500){
-	  if(joueur1->compt > 20){
-	    SDL_BlitSurface(atlasJeu->tabIm[JOUEURD_IM]->surface,&atlasJeu->tabIm[JOUEURD_IM]->anim, screen, &joueur1->pos);
-	    joueur1->compt = 0;
-	  }
-	}
-	else{
-	  SDL_BlitSurface(atlasJeu->tabIm[JOUEURD_IM]->surface,&atlasJeu->tabIm[JOUEURD_IM]->anim, screen, &joueur1->pos);
-	}
+    if(joueur1->dir == 2){
+    	if(invi <= 500){
+    	  if(joueur1->compt > 20){
+    	    SDL_BlitSurface(atlasJeu->tabIm[JOUEURD_IM]->surface,&atlasJeu->tabIm[JOUEURD_IM]->anim, screen, &joueur1->pos);
+    	    joueur1->compt = 0;
+    	  }
+    	}else{
+	       SDL_BlitSurface(atlasJeu->tabIm[JOUEURD_IM]->surface,&atlasJeu->tabIm[JOUEURD_IM]->anim, screen, &joueur1->pos);
       }
-    else if(joueur1->dir == 1)
-      {
-	if(invi <= 500){
-	  if(joueur1->compt > 20){
-	    SDL_BlitSurface(atlasJeu->tabIm[JOUEUR_IM]->surface, &atlasJeu->tabIm[JOUEUR_IM]->anim, screen, &joueur1->pos);
-	    joueur1->compt = 0;
-	  }
-	}
-	else{
-	    SDL_BlitSurface(atlasJeu->tabIm[JOUEUR_IM]->surface, &atlasJeu->tabIm[JOUEUR_IM]->anim, screen, &joueur1->pos);
-	}
+    }else if(joueur1->dir == 1){
+      if(invi <= 500){
+        if(joueur1->compt > 20){
+          SDL_BlitSurface(atlasJeu->tabIm[JOUEUR_IM]->surface, &atlasJeu->tabIm[JOUEUR_IM]->anim, screen, &joueur1->pos);
+          joueur1->compt = 0;
+        }
+      }else{
+          SDL_BlitSurface(atlasJeu->tabIm[JOUEUR_IM]->surface, &atlasJeu->tabIm[JOUEUR_IM]->anim, screen, &joueur1->pos);
       }
-      joueur1->compt += 1;
+    }
+    joueur1->compt += 1;
   }
   SDL_FreeSurface(nomJ);
   TTF_CloseFont(police);
@@ -122,15 +112,15 @@ void affichage_personnage(character *joueur1, atlas* atlasJeu, SDL_Surface *scre
 void affichage_vie_personnage(character *a, atlas* atlasJeu, SDL_Surface *screen){
   int i;
   if(a->PV%10 == 0){
-   for(i = 0; i < a->PV/10; i++){
-    setPosX(atlasJeu->tabIm[VIEENT_IM],i*30 + 1);
-    setPosY(atlasJeu->tabIm[VIEENT_IM], 2);
-    SDL_BlitSurface(atlasJeu->tabIm[VIEENT_IM]->surface, NULL, screen, &atlasJeu->tabIm[VIEENT_IM]->pos);
-   }
+    for(i = 0; i < a->PV/10; i++){
+      setPosX(atlasJeu->tabIm[VIEENT_IM],i*30 + 1);
+      setPosY(atlasJeu->tabIm[VIEENT_IM], 2);
+      SDL_BlitSurface(atlasJeu->tabIm[VIEENT_IM]->surface, NULL, screen, &atlasJeu->tabIm[VIEENT_IM]->pos);
+    }
     for(i = a->PV/10; i < 10;i++){
-     setPosX(atlasJeu->tabIm[NOVIE_IM],i*30 + 1);
-     setPosY(atlasJeu->tabIm[NOVIE_IM], 2);
-     SDL_BlitSurface(atlasJeu->tabIm[NOVIE_IM]->surface, NULL, screen, &atlasJeu->tabIm[NOVIE_IM]->pos);
+      setPosX(atlasJeu->tabIm[NOVIE_IM],i*30 + 1);
+      setPosY(atlasJeu->tabIm[NOVIE_IM], 2);
+      SDL_BlitSurface(atlasJeu->tabIm[NOVIE_IM]->surface, NULL, screen, &atlasJeu->tabIm[NOVIE_IM]->pos);
     }
   }
   if(a->PV%5 == 0 && a->PV%10 != 0){
@@ -149,34 +139,34 @@ void affichage_vie_personnage(character *a, atlas* atlasJeu, SDL_Surface *screen
 }
 
 void affichage_vie_monstre(monstre *monstre, atlas* atlasJeu, SDL_Surface *screen, character *a){
-    int i;
-    if(monstre->mort != 1){
-      if(monstre->PV%10 == 0){
+  int i;
+  if(monstre->mort != 1){
+    if(monstre->PV%10 == 0){
       for(i = 0; i < monstre->PV/10; i++){
         setPosX(atlasJeu->tabIm[VIEENTM_IM],(atlasJeu->tabIm[SLIME_IM]->pos.x - 3) + i*18 + 1);
         setPosY(atlasJeu->tabIm[VIEENTM_IM], atlasJeu->tabIm[SLIME_IM]->pos.y - 18);
         SDL_BlitSurface(atlasJeu->tabIm[VIEENTM_IM]->surface, NULL, screen, &atlasJeu->tabIm[VIEENTM_IM]->pos);
       }
-        for(i = monstre->PV/10; i < 2 ;i++){
+      for(i = monstre->PV/10; i < 2 ;i++){
         setPosX(atlasJeu->tabIm[NOVIEM_IM],(atlasJeu->tabIm[SLIME_IM]->pos.x - 3) + i*18 + 1);
         setPosY(atlasJeu->tabIm[NOVIEM_IM], atlasJeu->tabIm[SLIME_IM]->pos.y - 18);
         SDL_BlitSurface(atlasJeu->tabIm[NOVIEM_IM]->surface, NULL, screen, &atlasJeu->tabIm[NOVIEM_IM]->pos);
-        }
-      }
-      if(monstre->PV%5 == 0 && monstre->PV%10 != 0){
-        for(i = 0;i<= (monstre->PV - 5)/10;i++){
-    setPosX(atlasJeu->tabIm[VIEENTM_IM],(atlasJeu->tabIm[SLIME_IM]->pos.x - 3) + i*18 + 1);
-    setPosY(atlasJeu->tabIm[VIEENTM_IM], atlasJeu->tabIm[SLIME_IM]->pos.y - 18);
-    SDL_BlitSurface(atlasJeu->tabIm[VIEENTM_IM]->surface, NULL, screen, &atlasJeu->tabIm[VIEENTM_IM]->pos);
-        }
-        SDL_BlitSurface(atlasJeu->tabIm[MIVIEM_IM]->surface, NULL, screen, &atlasJeu->tabIm[VIEENTM_IM]->pos);
-        for(i = (monstre->PV + 5)/10; i < 2 ;i++){
-    setPosX(atlasJeu->tabIm[MIVIEM_IM],(atlasJeu->tabIm[SLIME_IM]->pos.x - 3) + i*18 + 1);
-    setPosY(atlasJeu->tabIm[MIVIEM_IM], atlasJeu->tabIm[SLIME_IM]->pos.y - 18);
-    SDL_BlitSurface(atlasJeu->tabIm[NOVIEM_IM]->surface, NULL, screen, &atlasJeu->tabIm[MIVIEM_IM]->pos);
-        }
       }
     }
+    if(monstre->PV%5 == 0 && monstre->PV%10 != 0){
+      for(i = 0;i<= (monstre->PV - 5)/10;i++){
+        setPosX(atlasJeu->tabIm[VIEENTM_IM],(atlasJeu->tabIm[SLIME_IM]->pos.x - 3) + i*18 + 1);
+        setPosY(atlasJeu->tabIm[VIEENTM_IM], atlasJeu->tabIm[SLIME_IM]->pos.y - 18);
+        SDL_BlitSurface(atlasJeu->tabIm[VIEENTM_IM]->surface, NULL, screen, &atlasJeu->tabIm[VIEENTM_IM]->pos);
+      }
+      SDL_BlitSurface(atlasJeu->tabIm[MIVIEM_IM]->surface, NULL, screen, &atlasJeu->tabIm[VIEENTM_IM]->pos);
+      for(i = (monstre->PV + 5)/10; i < 2 ;i++){
+        setPosX(atlasJeu->tabIm[MIVIEM_IM],(atlasJeu->tabIm[SLIME_IM]->pos.x - 3) + i*18 + 1);
+        setPosY(atlasJeu->tabIm[MIVIEM_IM], atlasJeu->tabIm[SLIME_IM]->pos.y - 18);
+        SDL_BlitSurface(atlasJeu->tabIm[NOVIEM_IM]->surface, NULL, screen, &atlasJeu->tabIm[MIVIEM_IM]->pos);
+      }
+    }
+  }
 }
 
 void affichage_barre_inv (input *input,int *choixAct, atlas* atlasJeu, SDL_Surface *screen){

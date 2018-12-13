@@ -7,6 +7,7 @@
 #include "fonction.h"
 #include "fonctions_fichiers.h"
 #include "creator.h"
+#include "init.h"
 #include <time.h>
 
 
@@ -23,45 +24,28 @@ int main(int argc,char* argv[])
   character joueur1;
   monstre tabMo[NBMONSTRE];
   int i;
+  //modifie la façon de créer le terrain
+  //(plus la valeur est haute, plus le terrain est peuplé de montagnes)
+  //(Une valeur au dessus de 15 créé trop de montagnes)
   int freq = 1;
 
-  creer_joueur(&joueur1);
-  creer_monde(&monde);
-  creer_input(&input);
-
-  SDL_Surface *screen;
-  /* initialize SDL */
-  SDL_Init(SDL_INIT_VIDEO);
-  SDL_Init(SDL_INIT_AUDIO);
-  TTF_Init();
+  SDL_Surface *screen = initialisation_SDL();
 
   /*Musique de fond*/
   Mix_Music *MusicMenu = NULL;
   musiqueFond(MusicMenu);
 
-  SDL_WM_SetCaption("StarBund", "StarBund");
-  /* create window */
-  screen = SDL_SetVideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0);
-  /* set keyboard repeat */
-  SDL_EnableKeyRepeat(10, 10);
-
   /*Création de textures*/
   atlas* atlasJeu = init_atlas();
 
-  //On génère le monde avec l'algorithme de perlin
-  gen_monde(&monde, freq);
-  apparition_joueur(&joueur1, monde);
-  for(i=0;i<NBMONSTRE;i++){
-    creer_monstre(&tabMo[i], atlasJeu, monde);
-  }
+  initialisation_Jeu(&monde, &joueur1, &input, tabMo, freq, atlasJeu);
 
   int murG, murD = 0;
   int incrementAnim = 0;
   int touche = 0, incAnim = 0, minaX = 0, minaY = 0;
   int ItemAffich = 0, droite = 0, gauche = 0, choixAct;
   int yMomTomb = 0, fait = 0, faitCalc = 0, yMomTombDeb = 0;
-  int actualTime = 0;
-  int lastTimes = 0;
+  int actualTime = 0, lastTime = 0;
   int invin = 501;
   int inc = 0, nbR = rand()%(5-1) + 1;
   int booNu = 0;
@@ -73,26 +57,13 @@ int main(int argc,char* argv[])
   ItemMonde(monde,listeItems);
 
   while(!input.data.quit){
-    //Compteur d'images par secondes
-    actualTime = SDL_GetTicks();
-    float dt = (actualTime - lastTimes);
-    if(dt < 1000.0 / 144.0 ){
-      SDL_Delay((1000.0 / 144.0) - dt); //On limite les images par secondes en faisant des pauses entre chaque image
-    }
-    lastTimes = SDL_GetTicks();
-    //Compteur d'images par secondes
+
+    compteur_fps(&actualTime, &lastTime);
 
     SDL_Event event;
     if (SDL_PollEvent(&event)) {
       HandleEvent(event, &input, &joueur1, &monde,&incAnim,&minaX,&minaY,&choixAct);
     }
-
-    // printf("tabMo[0] = %d\n", tabMo[0].PV);
-    // printf("tabMo[1] = %d\n", tabMo[1].PV);
-    // printf("tabMo[2] = %d\n", tabMo[2].PV);
-    // printf("tabMo[3] = %d\n", tabMo[3].PV);
-    // printf("tabMo[4] = %d\n", tabMo[4].PV);
-
 
     minage(&input,&joueur1, minaY, minaX, &incAnim, &monde);
 
