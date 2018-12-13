@@ -46,7 +46,6 @@ int main(int argc,char* argv[])
   int ItemAffich = 0, droite = 0, gauche = 0, choixAct;
   int yMomTomb = 0, fait = 0, faitCalc = 0, yMomTombDeb = 0;
   int actualTime = 0, lastTime = 0;
-  int invin = 501;
   int inc = 0, nbR = rand()%(5-1) + 1;
   int booNu = 0;
   int choix[4];
@@ -79,7 +78,7 @@ int main(int argc,char* argv[])
       if(tabMo[i].mort == 0){
         gravite_monstre(&tabMo[i], monde);
         pseudo_IA_monstre(&tabMo[i], joueur1);
-        combat(&tabMo[i], &joueur1, monde, &invin, minaX, minaY, &input);
+        combat(&tabMo[i], &joueur1, monde, minaX, minaY, &input);
       }
     }
 
@@ -90,6 +89,8 @@ int main(int argc,char* argv[])
     affichage_nuage(atlasJeu,screen, choix, &posXNu, &nbR, &booNu);
 
     affichage_monde(monde, joueur1, atlasJeu, screen);
+
+    traitement_input_inv(&input, &joueur1, listeItems, ItemAffich, &monde, atlasJeu, screen);
 
     affichage_barre_inv(&input,&choixAct, atlasJeu, screen);
 
@@ -104,15 +105,13 @@ int main(int argc,char* argv[])
       }
     }
 
-    affichage_personnage(&joueur1, atlasJeu, screen, invin);
+    affichage_personnage(&joueur1, atlasJeu, screen);
 
     affichage_vie_personnage(&joueur1, atlasJeu, screen);
 
     affichage_mini_map(&monde, &joueur1, atlasJeu, screen);
 
     traitement_input(input, &joueur1, murG, murD, gauche, droite, listeItems, ItemAffich, atlasJeu, &incrementAnim);
-
-    traitement_input_inv(&input, &joueur1, listeItems, ItemAffich, &monde, atlasJeu, screen);
 
     SDL_UpdateRect(screen, 0, 0, 0, 0);
   }

@@ -9,7 +9,7 @@ void construction(monde *monde, input *input, character *a, int *choixAct, int *
   int jb,ib,i,j,trouve = 0;
   if(*choixAct == 3){
     if((estVide(monde->grilleInt[*minaY][*minaX])) && input->data.butDown == 1 && abs(*minaX - posJX) < LIMITEMINA && abs(*minaY - posJY) < LIMITEMINA){
-     monde->grilleInt[*minaY][*minaX] = TERRESH;
+     monde->grilleInt[*minaY][*minaX] = TERRE1;
       for(i=0;i<4;i++){
 	for(j=0;j<10;j++){
 	  if(input->data.inv[i][j].type == 3){
