@@ -116,6 +116,7 @@ struct monstre
   int dernierSaut;
   int mort;
   int coupPr;
+  int calculSaut;
   SDL_Rect pos;
 };
 
@@ -202,6 +203,7 @@ void collision(character *a, int** affichage, int** posB, int** posBY, int *murD
 void terreRonde(character *a, int *murDro, int *murGau);
 int estSolide(int bloc);
 int estVide(int bloc);
+int estGrotte(int bloc);
 
 //vie.c
 void calc_vie_tombe(character *a, int *yMomTomDeb, int *faitCalc, int *touche);

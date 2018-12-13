@@ -101,18 +101,6 @@ atlas* init_atlas(){
   image* Fondgrotte = creer_texture("Sprites/fond_grotte.bmp",0, 0, 0, 0, 0, 0);
   tabIm[FONDGROTTE_IM] = Fondgrotte;
 
-  image* FondTerre1 = creer_texture("Sprites/FondTerre1.bmp",0, 0, 0, 0, 0, 0);
-  SDL_SetColorKey(FondTerre1->surface,SDL_SRCCOLORKEY,colorkeyVie);
-  tabIm[FONDTERRE1_IM] = FondTerre1;
-
-  image* FondTerre2 = creer_texture("Sprites/FondTerre2.bmp",0, 0, 0, 0, 0, 0);
-  SDL_SetColorKey(FondTerre2->surface,SDL_SRCCOLORKEY,colorkeyVie);
-  tabIm[FONDTERRE2_IM] = FondTerre1;
-
-  image* FondTerre3 = creer_texture("Sprites/FondTerre3.bmp",0, 0, 0, 0, 0, 0);
-  SDL_SetColorKey(FondTerre3->surface,SDL_SRCCOLORKEY,colorkeyVie);
-  tabIm[FONDTERRE3_IM] = FondTerre1;
-
   image* terreInv = creer_texture("Sprites/terreInv.bmp",0, 0, 0, 0, 0, 0);
   SDL_SetColorKey(terreInv->surface,SDL_SRCCOLORKEY,colorkeyVie);
   tabIm[TERREINV_IM] = terreInv;
@@ -188,6 +176,18 @@ atlas* init_atlas(){
   image* casqueInv = creer_texture("Sprites/casqueInv.bmp",0, 0, 0, 0, 0, 0);
   SDL_SetColorKey(casqueInv->surface,SDL_SRCCOLORKEY,colorkeyVie);
   tabIm[CASQUEINV_IM] = casqueInv;
+
+  image* FondTerre1 = creer_texture("Sprites/FondTerre1.bmp",0, 0, 0, 0, 0, 0);
+  SDL_SetColorKey(FondTerre1->surface,SDL_SRCCOLORKEY,colorkeyVie);
+  tabIm[FONDTERRE1_IM] = FondTerre1;
+
+  image* FondTerre2 = creer_texture("Sprites/FondTerre2.bmp",0, 0, 0, 0, 0, 0);
+  SDL_SetColorKey(FondTerre2->surface,SDL_SRCCOLORKEY,colorkeyVie);
+  tabIm[FONDTERRE2_IM] = FondTerre2;
+
+  image* FondTerre3 = creer_texture("Sprites/FondTerre3.bmp",0, 0, 0, 0, 0, 0);
+  SDL_SetColorKey(FondTerre3->surface,SDL_SRCCOLORKEY,colorkeyVie);
+  tabIm[FONDTERRE3_IM] = FondTerre3;
 
   return creer_atlas(tabIm);
 }
