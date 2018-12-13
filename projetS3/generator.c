@@ -56,6 +56,7 @@ void gen_monde(monde *monde, int freq){
     }
   }
 
+  //Ici on supprime la création des grottes qui sont dqns le ciel
   for(i=0 ; i<TMONDE; i++){
      //Remplissage de bas en haut
      for(j = 0; j<fin->v[i]; j++){
@@ -140,7 +141,7 @@ void gen_monde(monde *monde, int freq){
 
   for(i=0 ; i<TMONDE; i++){
      // Applique le calque dans le monde
-     if(monde->grilleInt[fin->v[i] - 1][i] == VIDE && monde->grilleInt[fin->v[i]][i] != FONDGROTTE){
+     if(monde->grilleInt[fin->v[i] - 1][i] == VIDE && !estVide(monde->grilleInt[fin->v[i]][i])){
         monde->grilleInt[fin->v[i] - 1][i] = rand()%(HERBE1-HERBE + 1) + HERBE;
      }
   }

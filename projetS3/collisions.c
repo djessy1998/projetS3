@@ -130,3 +130,7 @@ int estSolide(int bloc){
 int estVide(int bloc){
   return bloc == VIDE || bloc == FONDTERRE1 || bloc == FONDTERRE2 || bloc == FONDTERRE3;
 }
+
+int estGrotte(int bloc){
+  return bloc == FONDTERRE1 || bloc == FONDTERRE2 || bloc == FONDTERRE3;
+}

@@ -13,7 +13,7 @@ void minage(input *input, character *a, int minaY, int minaX, int *incAnim, mond
     *incAnim += VITESSEMINA;
     if(*incAnim > 60){
       monde->grilleInt[minaY][minaX] = VIDE;
-      monde->grilleInt[minaY][minaX] = FONDGROTTE;
+      monde->grilleInt[minaY][minaX] = rand()%(FONDTERRE3 - FONDTERRE1 + 1) + FONDTERRE1;
       if(monde->grilleInt[minaY-1][minaX] == HERBE || monde->grilleInt[minaY-1][minaX] == HERBE1){
         monde->grilleInt[minaY-1][minaX] = VIDE;
       }

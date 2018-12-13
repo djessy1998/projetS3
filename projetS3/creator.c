@@ -123,6 +123,7 @@ void creer_monstre(monstre *monstre, atlas* atlasJeu, monde monde){
   monstre->dernierSaut = IMMOBILE;
   monstre->mort = 0;
   monstre->coupPr = 0;
+  monstre->calculSaut = 0;
 }
 
 

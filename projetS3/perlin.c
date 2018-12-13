@@ -28,7 +28,7 @@ int aleatoire(int borneMin, int borneMax){
   if(borneMin > borneMax){
     return 0;
   }
-  return (int)(rand()%(borneMax - borneMin) + borneMin);
+  return (int)(rand()%(borneMax - borneMin + 1) + borneMin);
 }
 
 int valeur_interpolee(int i, int freq, calque *r){
