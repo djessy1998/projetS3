@@ -24,13 +24,12 @@ void affichage_monde(monde monde, character joueur1, atlas* atlasJeu, SDL_Surfac
   	  posGrille.x = j*TAILLE_BLOCS + decalageX;
   	  posGrille.y = i*TAILLE_BLOCS + decalageY;
       switch (monde.affichage[i][j]){
+        case VIDE:
+          break;
     	  case TOPARB:
     		  posGrille.x = j*TAILLE_BLOCS + decalageX - 33;
     		  posGrille.y = i*TAILLE_BLOCS + decalageY - 64;
     	    SDL_BlitSurface(atlasJeu->tabIm[TOPARB_IM]->surface, NULL, screen, &posGrille);
-          break;
-    	  case TERRE:
-    	    SDL_BlitSurface(atlasJeu->tabIm[TERRE_IM]->surface, NULL, screen, &posGrille);
           break;
         case CASQUE:
     	    if(monde.affichage[i-(i>0)][j] == FONDGROTTE){
@@ -52,49 +51,13 @@ void affichage_monde(monde monde, character joueur1, atlas* atlasJeu, SDL_Surfac
     	    posGrille.y = i*TAILLE_BLOCS + decalageY - 7;
     	    SDL_BlitSurface(atlasJeu->tabIm[ARMURE_IM]->surface, NULL, screen, &posGrille);
           break;
-        case ARBRE:
-    	    SDL_BlitSurface(atlasJeu->tabIm[TRONC_IM]->surface, NULL, screen, &posGrille);
-          break;
-        case ABG:
-    	    SDL_BlitSurface(atlasJeu->tabIm[ABG_IM]->surface, NULL, screen, &posGrille);
-          break;
-        case ABD:
-    	    SDL_BlitSurface(atlasJeu->tabIm[ABD_IM]->surface, NULL, screen, &posGrille);
-          break;
-        case BASARB:
-    	    SDL_BlitSurface(atlasJeu->tabIm[BASARB_IM]->surface, NULL, screen, &posGrille);
-          break;
-        case TERRESH:
-          SDL_BlitSurface(atlasJeu->tabIm[TERRESH_IM]->surface, NULL, screen, &posGrille);
-          break;
-        case HERBE:
-          SDL_BlitSurface(atlasJeu->tabIm[HERBE_IM]->surface, NULL, screen, &posGrille);
-          break;
-        case HERBE1:
-          SDL_BlitSurface(atlasJeu->tabIm[HERBE1_IM]->surface, NULL, screen, &posGrille);
-          break;
-        case TERRE1:
-          SDL_BlitSurface(atlasJeu->tabIm[TERRE1_IM]->surface, NULL, screen, &posGrille);
-          break;
-        case TERRE2:
-          SDL_BlitSurface(atlasJeu->tabIm[TERRE2_IM]->surface, NULL, screen, &posGrille);
-          break;
-        case TERRE3:
-          SDL_BlitSurface(atlasJeu->tabIm[TERRE3_IM]->surface, NULL, screen, &posGrille);
-          break;
-        case TERREHERBE1:
-          SDL_BlitSurface(atlasJeu->tabIm[TERREHERBE1_IM]->surface, NULL, screen, &posGrille);
-          break;
-        case TERREHERBE2:
-          SDL_BlitSurface(atlasJeu->tabIm[TERREHERBE2_IM]->surface, NULL, screen, &posGrille);
-          break;
-        case TERREHERBE3:
-          SDL_BlitSurface(atlasJeu->tabIm[TERREHERBE3_IM]->surface, NULL, screen, &posGrille);
+        case FONDGROTTE:
+          if(monde.affichage[i][j-(int)(j>0)] != ARMURE && monde.affichage[i][j-(int)(j>0)] != CASQUE){
+            SDL_BlitSurface(atlasJeu->tabIm[FONDGROTTE_IM]->surface,&atlasJeu->tabIm[FONDGROTTE_IM]->anim, screen, &posGrille);
+          }
           break;
         default:
-          if(monde.affichage[i][j] == FONDGROTTE  && monde.affichage[i][j-(int)(j>0)] != ARMURE && monde.affichage[i][j-(int)(j>0)] != CASQUE){
-    	       SDL_BlitSurface(atlasJeu->tabIm[FONDGROTTE_IM]->surface,&atlasJeu->tabIm[FONDGROTTE_IM]->anim, screen, &posGrille);
-           }
+          SDL_BlitSurface(atlasJeu->tabIm[monde.affichage[i][j]]->surface, NULL, screen, &posGrille);
           break;
       }
   	}
@@ -248,7 +211,7 @@ void affichage_barre_inv (input *input,int *choixAct, atlas* atlasJeu, SDL_Surfa
 		  }
 	}
 	if(input->data.e == 0){
-	  	ActInv.x = ((input->data.clavier - 1)*31) + 2;
+	  ActInv.x = ((input->data.clavier - 1)*31) + 2;
 		ActInv.y = 33;
 		posTexte.x = ((input->data.clavier - 1)*31) + 2;
 		posTexte.y = 64;
@@ -294,7 +257,7 @@ void affichage_nuage(atlas* atlasJeu, SDL_Surface *screen, int choix[4], double 
   int i = 0;
   if(*boo == 0){
     for(i=0;i< *nbR;i++){
-      int nbRa = rand()%(28-24) +24;
+      int nbRa = rand()%(CLOUD3_IM - CLOUD1_IM + 1) + CLOUD_IM;
       choix[i] = nbRa;
       setPosX(atlasJeu->tabIm[choix[i]], 0);
       setPosY(atlasJeu->tabIm[choix[i]], atlasJeu->tabIm[TOPARB_IM]->pos.y + rand()%(300));
@@ -305,8 +268,8 @@ void affichage_nuage(atlas* atlasJeu, SDL_Surface *screen, int choix[4], double 
     *boo = 1;
   }
   for(i=0;i< *nbR;i++){
-    if(choix[i] > 27 || choix[i] < 24){
-      choix[i] = 25;
+    if(choix[i] > CLOUD3_IM || choix[i] < CLOUD_IM){
+      choix[i] = CLOUD1_IM;
     }
     if(atlasJeu->tabIm[choix[i]]->pos.x > SCREEN_WIDTH + 300){
       *nbR = rand()%(5-1) + 1;
