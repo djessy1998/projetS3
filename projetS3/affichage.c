@@ -223,10 +223,10 @@ void affichage_barre_inv (input *input,int *choixAct, atlas* atlasJeu, SDL_Surfa
 	TTF_CloseFont(police);
 }
 
-void affichage_crack(monde *monde, int *incAnim, atlas* atlasJeu, int minaX, int minaY, character *a, SDL_Surface *screen) {
+void affichage_crack(monde *monde, int *incAnim, atlas* atlasJeu, character *a, SDL_Surface *screen) {
   int StartFen = TMONDE - a->yMonde/TAILLE_BLOCS - NBBLOCS_FENETREY;
-  setPosX(atlasJeu->tabIm[CRACK_IM], minaX*TAILLE_BLOCS - a->xMonde);
-  setPosY(atlasJeu->tabIm[CRACK_IM], (minaY - StartFen)*16 - 2);
+  setPosX(atlasJeu->tabIm[CRACK_IM], a->minaX*TAILLE_BLOCS - a->xMonde);
+  setPosY(atlasJeu->tabIm[CRACK_IM], (a->minaY - StartFen)*16 - 2);
   if(*incAnim > 15 && *incAnim < 30){
     setAnimY(atlasJeu->tabIm[CRACK_IM], 15);
     SDL_BlitSurface(atlasJeu->tabIm[CRACK_IM]->surface, &atlasJeu->tabIm[CRACK_IM]->anim, screen, &atlasJeu->tabIm[CRACK_IM]->pos);

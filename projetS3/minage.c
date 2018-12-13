@@ -3,19 +3,19 @@
 #include <SDL.h>
 #include <math.h>
 
-void minage(input *input, character *a, int minaY, int minaX, int *incAnim, monde *monde){
+void minage(input *input, character *a, int *incAnim, monde *monde){
   int posJY = TMONDE - ((a->yMonde + (NBBLOCS_FENETREY*TAILLE_BLOCS - a->pos.y) - PLAYER_HEIGHT)/16);
   int posJX = (a->xMonde + a->pos.x)/16;
   int i,j;
   int ib, jb;
   int trouve = 0;
-  if(estSolide(monde->grilleInt[minaY][minaX]) && input->data.butDown == 1 && abs(minaX - posJX) < LIMITEMINA && abs(minaY - posJY) < LIMITEMINA){
+  if(estSolide(monde->grilleInt[a->minaY][a->minaX]) && input->data.butDown == 1 && abs(a->minaX - posJX) < LIMITEMINA && abs(a->minaY - posJY) < LIMITEMINA){
     *incAnim += VITESSEMINA;
     if(*incAnim > 60){
-      monde->grilleInt[minaY][minaX] = VIDE;
-      monde->grilleInt[minaY][minaX] = rand()%(FONDTERRE3 - FONDTERRE1 + 1) + FONDTERRE1;
-      if(monde->grilleInt[minaY-1][minaX] == HERBE || monde->grilleInt[minaY-1][minaX] == HERBE1){
-        monde->grilleInt[minaY-1][minaX] = VIDE;
+      monde->grilleInt[a->minaY][a->minaX] = VIDE;
+      monde->grilleInt[a->minaY][a->minaX] = rand()%(FONDTERRE3 - FONDTERRE1 + 1) + FONDTERRE1;
+      if(monde->grilleInt[a->minaY-1][a->minaX] == HERBE || monde->grilleInt[a->minaY-1][a->minaX] == HERBE1){
+        monde->grilleInt[a->minaY-1][a->minaX] = VIDE;
       }
       for(i=0;i<4;i++){
 	for(j=0;j<10;j++){

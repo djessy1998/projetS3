@@ -46,8 +46,8 @@ void compteur_fps(){
   static int actualTime = 0, lastTime = 0;
   actualTime = SDL_GetTicks();
   float dt = (actualTime - lastTime);
-  if(dt < 1000.0 / 144.0 ){
-    SDL_Delay((1000.0 / 144.0) - dt); //On limite les images par secondes en faisant des pauses entre chaque image
+  if(dt < 1000.0 / 100.0 ){
+    SDL_Delay((1000.0 / 100.0) - dt); //On limite les images par secondes en faisant des pauses entre chaque image
   }
   lastTime = SDL_GetTicks();
 }

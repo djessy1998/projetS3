@@ -6,7 +6,7 @@
 #include <math.h>
 
 
-void fonction_Handle_Event(SDL_Event event, input *input, character *a, monde *monde,int *incAnim, int *minaX, int *minaY, int *choixAct){
+void fonction_Handle_Event(SDL_Event event, input *input, character *a, monde *monde,int *incAnim, int *choixAct){
   switch (event.type) {
     /* close button clicked */
   case SDL_QUIT:
@@ -14,13 +14,13 @@ void fonction_Handle_Event(SDL_Event event, input *input, character *a, monde *m
     break;
   case SDL_MOUSEBUTTONDOWN:
     Mouse_Down(event, input);
-    construction(monde, input, a, choixAct, minaX,minaY);
+    construction(monde, input, a, choixAct);
     break;
   case SDL_MOUSEBUTTONUP:
     Mouse_Up(event, input);
     break;
   case SDL_MOUSEMOTION:
-    Mouse_Motion(event, input, a, monde, incAnim, minaX, minaY);
+    Mouse_Motion(event, input, a, monde, incAnim);
     break;
   case SDL_KEYDOWN:
     /*printf("%d\n", event.key.keysym.scancode); Si l'on a besoin de retrouver le code d'une touche */
@@ -131,7 +131,7 @@ void Mouse_Up(SDL_Event event, input *input){
     }
 }
 
-void Mouse_Motion(SDL_Event event, input *input, character *a, monde *monde,int *incAnim, int *minaX, int *minaY){
+void Mouse_Motion(SDL_Event event, input *input, character *a, monde *monde,int *incAnim){
   for(int i = 0; i < 4; i++)
     {
       for(int j = 0; j < 10; j++)
@@ -193,6 +193,6 @@ void Mouse_Motion(SDL_Event event, input *input, character *a, monde *monde,int 
 	    }
 	}
     }
-  *minaX = (a->xMonde + event.motion.x)/16;
-  *minaY = TMONDE - ((a->yMonde + (NBBLOCS_FENETREY*TAILLE_BLOCS - event.motion.y))/16) - 1;
+  a->minaX = (a->xMonde + event.motion.x)/16;
+  a->minaY = TMONDE - ((a->yMonde + (NBBLOCS_FENETREY*TAILLE_BLOCS - event.motion.y))/16) - 1;
 }

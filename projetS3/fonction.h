@@ -107,6 +107,8 @@ struct character
   double invinc;
   int murD;
   int murG;
+  int minaX;
+  int minaY;
 };
 
 typedef struct monstre monstre;
@@ -182,11 +184,11 @@ struct input
 
 
 //input.c
-void fonction_Handle_Event(SDL_Event event, input *input, character *a, monde *monde,int *incAnim, int *minaX, int *minaY, int *choixAct);
+void fonction_Handle_Event(SDL_Event event, input *input, character *a, monde *monde,int *incAnim, int *choixAct);
 void quit(input *input);
 void Mouse_Down(SDL_Event event, input *input);
 void Mouse_Up(SDL_Event event, input *input);
-void Mouse_Motion(SDL_Event event, input *input, character *a, monde *monde,int *incAnim, int *minaX, int *minaY);
+void Mouse_Motion(SDL_Event event, input *input, character *a, monde *monde,int *incAnim);
 
 //deplacement.c
 void deplacerG(character *a);
@@ -237,20 +239,20 @@ void affichage_items_inv(input input, atlas* atlasJeu, SDL_Surface *screen);
 void affichage_personnage(character *joueur1, atlas* atlasJeu, SDL_Surface *screen);
 void affichage_vie_personnage(character *a, atlas* atlasJeu, SDL_Surface *screen);
 void affichage_barre_inv(input *input,int *choixAct, atlas* atlasJeu, SDL_Surface *screen);
-void affichage_crack(monde *monde, int *incAnim, atlas* atlasJeu,int minaX,int minaY, character *a, SDL_Surface *screen);
+void affichage_crack(monde *monde, int *incAnim, atlas* atlasJeu, character *a, SDL_Surface *screen);
 void affichage_monstre(monstre *monstre, atlas* atlasJeu, SDL_Surface *screen, character joueur);
 void affichage_vie_monstre(monstre *monstre, atlas* atlasJeu, SDL_Surface *screen, character *a);
 void affichage_nuage(atlas* atlasJeu, SDL_Surface *screen, int choix[4], double *posxR, int *nbR, int *boo);
 void affichage_mini_map(monde *monde, character *joueur, atlas *atlasJeu, SDL_Surface *screen);
 
 //minage.c
-void minage(input *input, character *a, int minaY, int minaX, int *incAnim, monde *monde);
+void minage(input *input, character *a, int *incAnim, monde *monde);
 
 //construction.c
-void construction(monde *monde, input *input, character *a, int *choixAct, int *minaX, int *minaY);
+void construction(monde *monde, input *input, character *a, int *choixAct);
 
 //combat.c
-void combat(monstre *m, character *a, monde monde, int sourisX, int sourisY, input *input);
+void combat(monstre *m, character *a, monde monde, input *input);
 void game_over(character *a, monde monde, SDL_Surface *screen, int *inc);
 
 //musiqueFond.c

@@ -32,6 +32,8 @@ void creer_joueur(character *joueur){
   joueur->invinc = 501;
   joueur->murD = 0;
   joueur->murG = 0;
+  joueur->minaX = 0;
+  joueur->minaY = 0;
 }
 
 

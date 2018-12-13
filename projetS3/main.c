@@ -12,8 +12,8 @@
 
 
 
-void HandleEvent(SDL_Event event, input *i, character *a, monde *monde,int *incAnim, int *minaX, int *minaY, int *choixAct){
-  fonction_Handle_Event(event, i, a, monde,incAnim, minaX, minaY, choixAct);
+void HandleEvent(SDL_Event event, input *i, character *a, monde *monde,int *incAnim, int *choixAct){
+  fonction_Handle_Event(event, i, a, monde,incAnim, choixAct);
 }
 
 int main(int argc,char* argv[])
@@ -41,7 +41,7 @@ int main(int argc,char* argv[])
   initialisation_Jeu(&monde, &joueur1, &input, tabMo, freq, atlasJeu);
 
   int incrementAnim = 0;
-  int touche = 0, incAnim = 0, minaX = 0, minaY = 0;
+  int touche = 0, incAnim = 0;
   int ItemAffich = 0, droite = 0, gauche = 0, choixAct;
   int yMomTomb = 0, fait = 0, faitCalc = 0, yMomTombDeb = 0;
   int inc = 0, nbR = rand()%(5-1) + 1;
@@ -59,10 +59,10 @@ int main(int argc,char* argv[])
 
     SDL_Event event;
     if (SDL_PollEvent(&event)) {
-      HandleEvent(event, &input, &joueur1, &monde,&incAnim,&minaX,&minaY,&choixAct);
+      HandleEvent(event, &input, &joueur1, &monde, &incAnim, &choixAct);
     }
 
-    minage(&input,&joueur1, minaY, minaX, &incAnim, &monde);
+    minage(&input,&joueur1, &incAnim, &monde);
 
     terreRonde(&joueur1);
 
@@ -76,7 +76,7 @@ int main(int argc,char* argv[])
       if(tabMo[i].mort == 0){
         gravite_monstre(&tabMo[i], monde);
         pseudo_IA_monstre(&tabMo[i], joueur1);
-        combat(&tabMo[i], &joueur1, monde, minaX, minaY, &input);
+        combat(&tabMo[i], &joueur1, monde, &input);
       }
     }
 
@@ -93,7 +93,7 @@ int main(int argc,char* argv[])
 
     affichage_items_inv(input, atlasJeu, screen);
 
-    affichage_crack(&monde, &incAnim, atlasJeu, minaX,minaY, &joueur1, screen);
+    affichage_crack(&monde, &incAnim, atlasJeu, &joueur1, screen);
 
     for(i=0;i<NBMONSTRE;i++){
       if(tabMo[i].mort == 0){
