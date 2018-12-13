@@ -86,13 +86,6 @@ int main(int argc,char* argv[])
       HandleEvent(event, &input, &joueur1, &monde,&incAnim,&minaX,&minaY,&choixAct);
     }
 
-    // printf("tabMo[0] = %d\n", tabMo[0].PV);
-    // printf("tabMo[1] = %d\n", tabMo[1].PV);
-    // printf("tabMo[2] = %d\n", tabMo[2].PV);
-    // printf("tabMo[3] = %d\n", tabMo[3].PV);
-    // printf("tabMo[4] = %d\n", tabMo[4].PV);
-
-
     minage(&input,&joueur1, minaY, minaX, &incAnim, &monde);
 
     terreRonde(&joueur1, &murD, &murG);
@@ -119,6 +112,8 @@ int main(int argc,char* argv[])
 
     affichage_monde(monde, joueur1, atlasJeu, screen);
 
+    traitement_input_inv(&input, &joueur1, listeItems, ItemAffich, &monde, atlasJeu, screen);
+
     affichage_barre_inv(&input,&choixAct, atlasJeu, screen);
 
     affichage_items_inv(input, atlasJeu, screen);
@@ -139,8 +134,6 @@ int main(int argc,char* argv[])
     affichage_mini_map(&monde, &joueur1, atlasJeu, screen);
 
     traitement_input(input, &joueur1, murG, murD, gauche, droite, listeItems, ItemAffich, atlasJeu, &incrementAnim);
-
-    traitement_input_inv(&input, &joueur1, listeItems, ItemAffich, &monde, atlasJeu, screen);
 
     SDL_UpdateRect(screen, 0, 0, 0, 0);
   }
