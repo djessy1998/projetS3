@@ -2,7 +2,7 @@ SRC=creator.c main.c collisions.c fonctions_fichiers.c input.c fonctions_tab.c l
 BIN=Jeu
 
 $(BIN): $(SRC)
-	gcc -Wall -g -std=c99 $(SRC) `sdl-config --cflags --libs` -lSDL_mixer -lSDL_ttf -o $(BIN) -lm
+	gcc -Wall -g -std=c99 $(SRC) `sdl-config --cflags --libs` -lSDL_mixer -L./usr/lib -I./usr/include -lSDL_ttf -o $(BIN) -lm
 
 clean:
 	rm -f $(BIN)
