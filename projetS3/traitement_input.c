@@ -99,14 +99,14 @@ void traitement_input_inv(input *input, character *joueur1, Liste *liste, int It
 		  posItemsInv.y = 33 + (31 * i) + 4;
 		  if(input->data.inv[i][j].type == 1)
 		    {
-		      SDL_BlitSurface(atlasJeu->tabIm[CASQUE_IM]->surface, NULL, screen, &posItemsInv);
+		      SDL_BlitSurface(atlasJeu->tabIm[CASQUEINV_IM]->surface, NULL, screen, &posItemsInv);
 		    }
 		  else if(input->data.inv[i][j].type == 2)
 		    {
-		      SDL_BlitSurface(atlasJeu->tabIm[ARMURE_IM]->surface, NULL, screen, &posItemsInv);
+		      SDL_BlitSurface(atlasJeu->tabIm[ARMUREINV_IM]->surface, NULL, screen, &posItemsInv);
 		    }
 		  else if(input->data.inv[i][j].type == 3){
-		      SDL_BlitSurface(atlasJeu->tabIm[TERRE_IM]->surface, NULL, screen, &posItemsInv);
+		      SDL_BlitSurface(atlasJeu->tabIm[TERREINV_IM]->surface, NULL, screen, &posItemsInv);
 		  }
 		}
 	    }

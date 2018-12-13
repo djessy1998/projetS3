@@ -62,7 +62,6 @@ int main(int argc,char* argv[])
   int yMomTomb = 0, fait = 0, faitCalc = 0, yMomTombDeb = 0;
   int actualTime = 0;
   int lastTimes = 0;
-  int invin = 501;
   int inc = 0, nbR = rand()%(5-1) + 1;
   int booNu = 0;
   int choix[4];
@@ -108,7 +107,7 @@ int main(int argc,char* argv[])
       if(tabMo[i].mort == 0){
         gravite_monstre(&tabMo[i], monde);
         pseudo_IA_monstre(&tabMo[i], joueur1);
-        combat(&tabMo[i], &joueur1, monde, &invin, minaX, minaY, &input);
+        combat(&tabMo[i], &joueur1, monde, minaX, minaY, &input);
       }
     }
 
@@ -133,7 +132,7 @@ int main(int argc,char* argv[])
       }
     }
 
-    affichage_personnage(&joueur1, atlasJeu, screen, invin);
+    affichage_personnage(&joueur1, atlasJeu, screen);
 
     affichage_vie_personnage(&joueur1, atlasJeu, screen);
 

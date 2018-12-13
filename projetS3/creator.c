@@ -29,6 +29,7 @@ void creer_joueur(character *joueur){
   joueur->compt = 0;
   joueur->mort = 0;
   joueur->degatM = 5;
+  joueur->invinc = 501;
 }
 
 

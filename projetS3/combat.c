@@ -3,7 +3,7 @@
 #include "fonction.h"
 #include "creator.h"
 
-void combat(monstre *m, character *a, monde monde, int *invin, int sourisX, int sourisY, input *input){
+void combat(monstre *m, character *a, monde monde,int sourisX, int sourisY, input *input){
   if(m->coupPr < 0){
     m->coupPr = 500;
   }
@@ -12,7 +12,7 @@ void combat(monstre *m, character *a, monde monde, int *invin, int sourisX, int 
   int xMondeJ = (a->xMonde + a->pos.x)/16;
   int yMondeJ = (((a->yMonde + (NBBLOCS_FENETREY*TAILLE_BLOCS - a->pos.y) - PLAYER_HEIGHT)/16));
   if((((yMondeMo - 1 >= yMondeJ - 3  && yMondeMo - 1 <= yMondeJ)) && (xMondeMo == xMondeJ))){
-    if(*invin > 500){
+    if(a->invinc > 500){
     	if(m->dernierSaut == GAUCHE){
     	  a->xMondeDouble =  a->xMondeDouble - 20;
     	  a->xMonde = (int)a->xMondeDouble;
@@ -22,11 +22,11 @@ void combat(monstre *m, character *a, monde monde, int *invin, int sourisX, int 
     	  a->xMonde = (int)a->xMondeDouble;
     	}
     	a->PV = a->PV - 10;
-    	*invin = 0;
+    	a->invinc = 0;
       }
     }
-    if(*invin <= 500){
-       *invin += 1;
+    if(a->invinc <= 500){
+       a->invinc += 1./(double)NBMONSTRE;
     }
     if((sourisX-1 == xMondeMo && sourisY - 1 == TMONDE - yMondeMo - 2) && input->data.butDown == 1){
       if(m->coupPr > 100){

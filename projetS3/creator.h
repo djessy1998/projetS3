@@ -8,7 +8,7 @@
 #define POSY_START 400
 
 #define JOUEUR_IM 	   0
-#define TERRE_IM	     1
+#define TERREINV_IM	     1
 #define CASQUE_IM	     2
 #define ARMURE_IM	     3
 #define TRONC_IM	     4
@@ -47,7 +47,8 @@
 #define CLOUD1_IM      36
 #define CLOUD2_IM      37
 #define CLOUD3_IM      38
-
+#define ARMUREINV_IM   39
+#define CASQUEINV_IM   40
 
 
 
