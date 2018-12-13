@@ -33,14 +33,13 @@ void gen_monde(monde *monde, int freq){
   }
 
   for(i=0 ; i<TMONDE; i++){
-     // Applique le calque dans le monde
-     //monde->grilleInt[fin->v[i]][i] = rand()%(TERREHERBE3 - TERREHERBE1) + TERREHERBE1;
-     //Remplissage de bas en haut
+     //Remplissage de bas en haut en fonction du calque
      for(j = fin->v[i]; j<TMONDE; j++){
        monde->grilleInt[j][i] = rand()%(TERRE3 - TERRE1 + 1) + TERRE1;
      }
   }
 
+  //On ajoute l'herbe ensuivant le calque
   for(j = 0; j<TMONDE; j++){
     monde->grilleInt[fin->v[j]][j] = rand()%(TERREHERBE3 - TERREHERBE1 + 1) + TERREHERBE1;
   }
@@ -53,7 +52,7 @@ void gen_monde(monde *monde, int freq){
   //Base en Terre
   for(i=TMONDE -2 ; i<TMONDE; i++){
     for(j=0 ; j<TMONDE; j++){
-      monde->grilleInt[i][j] = TERRE;
+      monde->grilleInt[i][j] = rand()%(TERRE3 - TERRE1 + 1) + TERRE1;
     }
   }
 
@@ -99,7 +98,7 @@ void gen_monde(monde *monde, int freq){
     int taille = (rand()%8)+3;
     iRandom = (1 + rand()%(TMONDE - 2));
     jRandom = (1 +rand()%(TMONDE - 2));
-    while((!estSolide(monde->grilleInt[iRandom + 1][jRandom]) || !estVide(monde->grilleInt[iRandom][jRandom])) && (iRandom > 2 && iRandom < TMONDE - 2)){
+    while((!estSolide(monde->grilleInt[iRandom + 1][jRandom]) || monde->grilleInt[iRandom][jRandom] != VIDE) && (iRandom > 2 && iRandom < TMONDE - 2)){
       if(estSolide(monde->grilleInt[iRandom - 1][jRandom]) &&
          estSolide(monde->grilleInt[iRandom + 1][jRandom]) &&
          estSolide(monde->grilleInt[iRandom][jRandom])){

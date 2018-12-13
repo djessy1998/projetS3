@@ -109,12 +109,12 @@ void creer_monstre(monstre *monstre, atlas* atlasJeu, monde monde){
   if(estSolide(monde.grilleInt[monstre->y][monstre->x+1])){
     monstre->x -= 1;
   }
-  setPosX(atlasJeu->tabIm[SLIMEIM], 0);
-  setPosY(atlasJeu->tabIm[SLIMEIM], 0);
-  setAnimX(atlasJeu->tabIm[SLIMEIM], 0);
-  setAnimY(atlasJeu->tabIm[SLIMEIM], 2);
-  setAnimH(atlasJeu->tabIm[SLIMEIM], HAUTEUR_MONSTRE);
-  setAnimW(atlasJeu->tabIm[SLIMEIM], LARGEUR_MONSTRE);
+  setPosX(atlasJeu->tabIm[SLIME_IM], 0);
+  setPosY(atlasJeu->tabIm[SLIME_IM], 0);
+  setAnimX(atlasJeu->tabIm[SLIME_IM], 0);
+  setAnimY(atlasJeu->tabIm[SLIME_IM], 2);
+  setAnimH(atlasJeu->tabIm[SLIME_IM], HAUTEUR_MONSTRE);
+  setAnimW(atlasJeu->tabIm[SLIME_IM], LARGEUR_MONSTRE);
   monstre->x = TAILLE_BLOCS*monstre->x;
   monstre->y = TMONDE*TAILLE_BLOCS - TAILLE_BLOCS*monstre->y + HAUTEUR_MONSTRE;
   monstre->velocity_y = 0;

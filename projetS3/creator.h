@@ -3,46 +3,46 @@
 #include "fonction.h"
 #include "atlas.h"
 
-#define PM_START 0
+#define PM_START   0
 #define POSX_START 352
 #define POSY_START 400
 
-#define JOUEURIM 	    0
-#define VIEENTIM	    1
-#define	CASQUEIM	    2
-#define	ARMUREIM	    3
-#define INVIMIM	      4
-#define ACTUELINVIM	  5
-#define MIVIEIM	      6
-#define NOVIEIM	      7
-#define CRACKIM	      8
-#define	JOUEURDIM	    9
-#define TRONCIM	      10
-#define ABGIM		      11
-#define ABDIM		      12
-#define TOPARBIM	    13
-#define BASARBIM	    14
-#define MAPIM 	      15
-#define SLIMEIM	      16
-#define FONDGROTTEIM 	17
-#define TERREIM	      18
-#define BGIM	        19
-#define VIEENTMIM	    20
-#define MIVIEMIM	    21
-#define NOVIEMIM	    22
-#define TERRESHIM 	  23
-#define CLOUDIM       24
-#define CLOUD1IM      25
-#define CLOUD2IM      26
-#define CLOUD3IM      27
-#define HERBEIM       28
-#define HERBE1IM      29
-#define TERRE1IM      30
-#define TERRE2IM      31
-#define TERRE3IM      32
-#define TERREHERBE1IM 33
-#define TERREHERBE2IM 34
-#define TERREHERBE3IM 35
+#define JOUEUR_IM 	   0
+#define VIEENT_IM	     1
+#define	CASQUE_IM	     2
+#define	ARMURE_IM	     3
+#define INVIM_IM	     4
+#define ACTUELINV_IM	 5
+#define MIVIE_IM	     6
+#define NOVIE_IM	     7
+#define CRACK_IM	     8
+#define	JOUEURD_IM	   9
+#define TRONC_IM	     10
+#define ABG_IM		     11
+#define ABD_IM		     12
+#define TOPARB_IM	     13
+#define BASARB_IM	     14
+#define MAP_IM 	       15
+#define SLIME_IM	     16
+#define FONDGROTTE_IM  17
+#define TERRE_IM	     18
+#define BG_IM	         19
+#define VIEENTM_IM	   20
+#define MIVIEM_IM	     21
+#define NOVIEM_IM	     22
+#define TERRESH_IM 	   23
+#define CLOUD_IM       24
+#define CLOUD1_IM      25
+#define CLOUD2_IM      26
+#define CLOUD3_IM      27
+#define HERBE_IM       28
+#define HERBE1_IM      29
+#define TERRE1_IM      30
+#define TERRE2_IM      31
+#define TERRE3_IM      32
+#define TERREHERBE1_IM 33
+#define TERREHERBE2_IM 34
+#define TERREHERBE3_IM 35
 
 
 //creator.c
