@@ -117,20 +117,7 @@ int main(int argc,char* argv[])
   //Sauvegarde de la map
   sauvegarde(&monde);
 
-  //désallocation du pseudo du joueur:
-  free(joueur1.nom);
-  for(i=0;i<NBMONSTRE;i++){
-    free(tabMo[i].nom);
-  }
-
-  detruire_monde(&monde);
-  detruire_atlas(atlasJeu);
-  suppression(listeItems);
-  Mix_FreeMusic(MusicMenu);
-
-  Mix_CloseAudio();
-  TTF_Quit();
-  SDL_Quit();
+  detruire_Jeu(&monde, atlasJeu, joueur1, listeItems, tabMo, MusicMenu);
 
   return 0;
 }

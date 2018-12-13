@@ -59,9 +59,9 @@ void creer_input(input *input){
   for(i=0;i<4;i++)
     {
       for(j=0;j<10;j++)
-	{
-	  input->data.inv[i][j].type = -1;
-	}
+    	{
+    	  input->data.inv[i][j].type = -1;
+    	}
     }
 
   input->data.inv[0][0].type = 1;
@@ -128,6 +128,8 @@ void creer_monstre(monstre *monstre, atlas* atlasJeu, monde monde){
   monstre->dernierSaut = IMMOBILE;
   monstre->mort = 0;
   monstre->coupPr = 0;
+  monstre->pos.x = 0;
+  monstre->pos.y = 0;
   monstre->calculSaut = 0;
 }
 

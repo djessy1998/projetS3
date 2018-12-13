@@ -61,26 +61,22 @@ void afficherListe(Liste *liste)
 
 void TrierInv(int rienI, items inv[4][10], int type)
 {
-  int o, p = 0;
+  int o = 0, p = 0;
   int trouve = 0;
-  if(rienI == 0)
-    {
-      while(trouve == 0 && o < 4)
-  {
-    while(trouve == 0)
-            {
-        if(inv[o][p].type == -1)
-    {
-      inv[o][p].type = type;
-      trouve = 1;
+  if(rienI == 0){
+    while(trouve == 0 && o < 4){
+      while(trouve == 0){
+        if(inv[o][p].type == -1){
+          inv[o][p].type = type;
+          trouve = 1;
+        }
+        p = p + 1;
+      }
+      o = o + 1;
     }
-              p = p + 1;
-            }
-    o = o + 1;
+    o = 0;
+    p = 0;
   }
-      o = 0;
-      p = 0;
-    }
 }
 
 void ItemMonde(monde monde, Liste *liste){

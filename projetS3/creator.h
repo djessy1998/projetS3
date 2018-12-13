@@ -64,6 +64,7 @@ void sauvegarde(monde *monde);
 void detruire_text(image* image);
 void detruire_atlas(atlas* atlas);
 void detruire_monde(monde *monde);
+void detruire_Jeu(monde *monde, atlas* atlas, character joueur, Liste* listeItems, monstre tabMon[NBMONSTRE], Mix_Music *MusicMenu);
 
 //generator.c
 void gen_monde(monde *monde, int freq);
