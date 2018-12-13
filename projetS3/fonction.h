@@ -105,6 +105,8 @@ struct character
   int compt;
   int mort;
   double invinc;
+  int murD;
+  int murG;
 };
 
 typedef struct monstre monstre;
@@ -187,8 +189,8 @@ void Mouse_Up(SDL_Event event, input *input);
 void Mouse_Motion(SDL_Event event, input *input, character *a, monde *monde,int *incAnim, int *minaX, int *minaY);
 
 //deplacement.c
-void deplacerG(character *a, int murGau, int murDro);
-void deplacerD(character *a, int murDro, int murGau);
+void deplacerG(character *a);
+void deplacerD(character *a);
 void sauter(character *a);
 void baisser(character *a);
 
@@ -203,8 +205,8 @@ void bloc_au_dessus(monstre *m, monde monde);
 
 //collision.c
 void gravite(character *a);
-void collision(character *a, int** affichage, int** posB, int** posBY, int *murDr, int *murGa, int *yMomTom, int *fait, int *faitCalc, int *yMomTomDeb, int *touche);
-void terreRonde(character *a, int *murDro, int *murGau);
+void collision(character *a, int** affichage, int** posB, int** posBY, int *yMomTom, int *fait, int *faitCalc, int *yMomTomDeb, int *touche);
+void terreRonde(character *a);
 int estSolide(int bloc);
 int estVide(int bloc);
 int estGrotte(int bloc);
@@ -225,7 +227,7 @@ void insertion(Liste *liste, int nvType, int nvXMonde, int nvYMonde);
 void ItemMonde(monde monde, Liste *liste);
 
 //traitement_input.c
-void traitement_input(input input, character *joueur1, int murG, int murD, int gauche, int droite, Liste *listeItems, int ItemAffich, atlas* atlasJeu, int *incrim);
+void traitement_input(input input, character *joueur1, int gauche, int droite, Liste *listeItems, int ItemAffich, atlas* atlasJeu, int *incrim);
 void traitement_input_inv(input *input, character *joueur1, Liste *liste, int ItemAffich, monde *monde, atlas* atlasJeu, SDL_Surface *screen);
 
 //affichage.c

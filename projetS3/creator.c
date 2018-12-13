@@ -30,6 +30,8 @@ void creer_joueur(character *joueur){
   joueur->mort = 0;
   joueur->degatM = 5;
   joueur->invinc = 501;
+  joueur->murD = 0;
+  joueur->murG = 0;
 }
 
 

@@ -3,9 +3,9 @@
 #include <math.h>
 #include "creator.h"
 
-void deplacerG(character *a, int murGau, int murDro)
+void deplacerG(character *a)
 {
-  if(murGau == 0 && murDro == 0)
+  if(a->murG == 0 && a->murD == 0)
     {
       a->xMondeDouble =  a->xMondeDouble - VITESSE;
       a->xMonde = (int)a->xMondeDouble;
@@ -18,9 +18,9 @@ void deplacerG(character *a, int murGau, int murDro)
     }
 }
 
-void deplacerD(character *a, int murDro, int murGau)
+void deplacerD(character *a)
 {
-  if(murDro == 0 && murGau == 0)
+  if(a->murD == 0 && a->murG == 0)
     {
       a->xMondeDouble =  a->xMondeDouble + VITESSE;
       a->xMonde = (int)a->xMondeDouble;

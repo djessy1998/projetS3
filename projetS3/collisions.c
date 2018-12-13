@@ -22,8 +22,7 @@ void gravite(character *a){
   }
 }
 
-void collision(character *a, int** affichage, int** posB, int** posBY, int *murDr, int *murGa, int *yMomTom, int *fait, int *faitCalc, int *yMomTomDeb, int *touche)
-{
+void collision(character *a, int** affichage, int** posB, int** posBY, int *yMomTom, int *fait, int *faitCalc, int *yMomTomDeb, int *touche){
   a->bloqADroite = 0;
   a->bloqAGauche = 0;
   int i,j;
@@ -61,8 +60,8 @@ void collision(character *a, int** affichage, int** posB, int** posBY, int *murD
   int PosCorpsY = (a->pos.y/TAILLE_BLOCS) +2;
   int PosTeteY = (a->pos.y/TAILLE_BLOCS) +3;
 
-  int PosPiedDX = ((a->pos.x+PLAYER_WIDTH)/TAILLE_BLOCS) +1 - *murDr;
-  int PosPiedGX = (a->pos.x/TAILLE_BLOCS) - *murDr;
+  int PosPiedDX = ((a->pos.x+PLAYER_WIDTH)/TAILLE_BLOCS) +1 - a->murD;
+  int PosPiedGX = (a->pos.x/TAILLE_BLOCS) - a->murD;
 
   if(!estSolide(affichage[PosPiedY][PosPiedGX]) &&
       !estSolide(affichage[PosCorpsY][PosPiedGX]) &&
@@ -78,48 +77,36 @@ void collision(character *a, int** affichage, int** posB, int** posBY, int *murD
 
   //Si bloc au dessus du joueur.
   if(estSolide(affichage[PosHautTeteY][PosPiedGX+1]) ||
-    estSolide(affichage[PosHautTeteY][PosPiedDX - a->bloqADroite - *murGa])){
+    estSolide(affichage[PosHautTeteY][PosPiedDX - a->bloqADroite - a->murG])){
      a->autorisationSaut = 0;
   }
 
-  if(a->pos.x >= (45*TAILLE_BLOCS) - PLAYER_WIDTH)
-    {
-      a->bloqADroite = 1;
-    }
-  else if(a->pos.x <= 0)
-    {
-      a->bloqAGauche = 1;
-    }
-  if (*touche == 0)
-    {
-	   if(*fait == 0){
-		*yMomTomDeb = a->yMonde;
+  if(a->pos.x >= (45*TAILLE_BLOCS) - PLAYER_WIDTH){
+    a->bloqADroite = 1;
+  }else if(a->pos.x <= 0){
+    a->bloqAGauche = 1;
+  }
+  if (*touche == 0){
+   if(*fait == 0){
+	  *yMomTomDeb = a->yMonde;
 		*fait = 1;
-	      }
-    	gravite(a);
-    }
-    else if (*faitCalc == 1 && *fait == 1)
-    {
-     *fait = 0;
-     *faitCalc = 0;
-    }
+   }
+  	gravite(a);
+  }else if(*faitCalc == 1 && *fait == 1){
+   *fait = 0;
+   *faitCalc = 0;
+  }
 }
 
-void terreRonde(character *a, int *murDro, int *murGau)
-{
-  if(a->xMonde <= 1 && a->pos.x <= (45*TAILLE_BLOCS)/2)
-    {
-      *murGau = 1;
-    }
-  else if(a->xMonde + 16*45 >= TMONDE*TAILLE_BLOCS && a->pos.x >= (45*TAILLE_BLOCS)/2)
-    {
-      *murDro = 1;
-    }
-  else
-    {
-      a->pos.x = 360;
-      *murGau = 0;
-      *murDro = 0;
+void terreRonde(character *a){
+  if(a->xMonde <= 1 && a->pos.x <= ((NBBLOCS_FENETREX - 2)*TAILLE_BLOCS)/2){
+      a->murG = 1;
+    }else if(a->xMonde + TAILLE_BLOCS*(NBBLOCS_FENETREX - 2) >= TMONDE*TAILLE_BLOCS && a->pos.x >= ((NBBLOCS_FENETREX - 2)*TAILLE_BLOCS)/2){
+      a->murD = 1;
+    }else{
+      a->pos.x = SCREEN_WIDTH/2;
+      a->murG = 0;
+      a->murD = 0;
     }
 }
 

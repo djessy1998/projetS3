@@ -40,7 +40,6 @@ int main(int argc,char* argv[])
 
   initialisation_Jeu(&monde, &joueur1, &input, tabMo, freq, atlasJeu);
 
-  int murG, murD = 0;
   int incrementAnim = 0;
   int touche = 0, incAnim = 0, minaX = 0, minaY = 0;
   int ItemAffich = 0, droite = 0, gauche = 0, choixAct;
@@ -66,9 +65,9 @@ int main(int argc,char* argv[])
 
     minage(&input,&joueur1, minaY, minaX, &incAnim, &monde);
 
-    terreRonde(&joueur1, &murD, &murG);
+    terreRonde(&joueur1);
 
-    collision(&joueur1, monde.affichage, monde.posB, monde.posBY, &murD, &murG, &yMomTomb, &fait, &faitCalc, &yMomTombDeb, &touche);
+    collision(&joueur1, monde.affichage, monde.posB, monde.posBY, &yMomTomb, &fait, &faitCalc, &yMomTombDeb, &touche);
 
     calc_vie_tombe(&joueur1, &yMomTombDeb, &faitCalc, &touche);
 
@@ -81,7 +80,6 @@ int main(int argc,char* argv[])
         combat(&tabMo[i], &joueur1, monde, minaX, minaY, &input);
       }
     }
-
 
     //affichage
     affichage_fond(atlasJeu, screen);
@@ -111,7 +109,7 @@ int main(int argc,char* argv[])
 
     affichage_mini_map(&monde, &joueur1, atlasJeu, screen);
 
-    traitement_input(input, &joueur1, murG, murD, gauche, droite, listeItems, ItemAffich, atlasJeu, &incrementAnim);
+    traitement_input(input, &joueur1, gauche, droite, listeItems, ItemAffich, atlasJeu, &incrementAnim);
 
     SDL_UpdateRect(screen, 0, 0, 0, 0);
   }
