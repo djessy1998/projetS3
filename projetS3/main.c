@@ -44,7 +44,6 @@ int main(int argc,char* argv[])
   int touche = 0, incAnim = 0, minaX = 0, minaY = 0;
   int ItemAffich = 0, droite = 0, gauche = 0, choixAct;
   int yMomTomb = 0, fait = 0, faitCalc = 0, yMomTombDeb = 0;
-  int actualTime = 0, lastTime = 0;
   int inc = 0, nbR = rand()%(5-1) + 1;
   int booNu = 0;
   int choix[4];
@@ -56,7 +55,7 @@ int main(int argc,char* argv[])
 
   while(!input.data.quit){
 
-    compteur_fps(&actualTime, &lastTime);
+    compteur_fps();
 
     SDL_Event event;
     if (SDL_PollEvent(&event)) {
@@ -67,7 +66,7 @@ int main(int argc,char* argv[])
 
     terreRonde(&joueur1);
 
-    collision(&joueur1, monde.affichage, monde.posB, monde.posBY, &yMomTomb, &fait, &faitCalc, &yMomTombDeb, &touche);
+    collision(&joueur1, monde, &yMomTomb, &fait, &faitCalc, &yMomTombDeb, &touche);
 
     calc_vie_tombe(&joueur1, &yMomTombDeb, &faitCalc, &touche);
 

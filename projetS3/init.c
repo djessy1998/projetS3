@@ -41,12 +41,13 @@ void initialisation_Jeu(monde *monde, character *joueur, input *input, monstre t
   }
 }
 
-void compteur_fps(int *actualTime, int *lastTime){
+void compteur_fps(){
   //Compteur d'images par secondes
-  *actualTime = SDL_GetTicks();
-  float dt = (*actualTime - *lastTime);
+  static int actualTime = 0, lastTime = 0;
+  actualTime = SDL_GetTicks();
+  float dt = (actualTime - lastTime);
   if(dt < 1000.0 / 144.0 ){
     SDL_Delay((1000.0 / 144.0) - dt); //On limite les images par secondes en faisant des pauses entre chaque image
   }
-  *lastTime = SDL_GetTicks();
+  lastTime = SDL_GetTicks();
 }

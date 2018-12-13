@@ -205,7 +205,7 @@ void bloc_au_dessus(monstre *m, monde monde);
 
 //collision.c
 void gravite(character *a);
-void collision(character *a, int** affichage, int** posB, int** posBY, int *yMomTom, int *fait, int *faitCalc, int *yMomTomDeb, int *touche);
+void collision(character *a, monde monde, int *yMomTom, int *fait, int *faitCalc, int *yMomTomDeb, int *touche);
 void terreRonde(character *a);
 int estSolide(int bloc);
 int estVide(int bloc);

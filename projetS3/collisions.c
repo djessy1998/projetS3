@@ -22,7 +22,7 @@ void gravite(character *a){
   }
 }
 
-void collision(character *a, int** affichage, int** posB, int** posBY, int *yMomTom, int *fait, int *faitCalc, int *yMomTomDeb, int *touche){
+void collision(character *a, monde monde, int *yMomTom, int *fait, int *faitCalc, int *yMomTomDeb, int *touche){
   a->bloqADroite = 0;
   a->bloqAGauche = 0;
   int i,j;
@@ -34,16 +34,16 @@ void collision(character *a, int** affichage, int** posB, int** posBY, int *yMom
 
   for(i = 0; i < NBBLOCS_FENETREY; i++){
     for(j = 0; j< NBBLOCS_FENETREX; j++){
-      if(estSolide(affichage[i][j])){
-        if(JpiedDX == posB[i][j]){
+      if(estSolide(monde.affichage[i][j])){
+        if(JpiedDX == monde.posB[i][j]){
           a->bloqADroite = 1;
-        }else if(JpiedGX == posB[i][j] + TAILLE_BLOCS){
+        }else if(JpiedGX == monde.posB[i][j] + TAILLE_BLOCS){
           a->bloqAGauche = 1;
         }
 
-        if(((JpiedGX > posB[i][j] && JpiedGX < posB[i][j] + TAILLE_BLOCS) ||
-        (JpiedDX > posB[i][j] && JpiedDX < posB[i][j] + TAILLE_BLOCS) ||
-        (JMilieuX > posB[i][j] && JMilieuX < posB[i][j] + TAILLE_BLOCS)) &&
+        if(((JpiedGX > monde.posB[i][j] && JpiedGX < monde.posB[i][j] + TAILLE_BLOCS) ||
+        (JpiedDX > monde.posB[i][j] && JpiedDX < monde.posB[i][j] + TAILLE_BLOCS) ||
+        (JMilieuX > monde.posB[i][j] && JMilieuX < monde.posB[i][j] + TAILLE_BLOCS)) &&
         JpiedGY == TAILLE_BLOCS * (a->yMonde / TAILLE_BLOCS + NBBLOCS_FENETREY - i)){
           *touche = 1;
           a->autorisationSaut = 1;
@@ -63,35 +63,35 @@ void collision(character *a, int** affichage, int** posB, int** posBY, int *yMom
   int PosPiedDX = ((a->pos.x+PLAYER_WIDTH)/TAILLE_BLOCS) +1 - a->murD;
   int PosPiedGX = (a->pos.x/TAILLE_BLOCS) - a->murD;
 
-  if(!estSolide(affichage[PosPiedY][PosPiedGX]) &&
-      !estSolide(affichage[PosCorpsY][PosPiedGX]) &&
-      !estSolide(affichage[PosTeteY][PosPiedGX])){
+  if(!estSolide(monde.affichage[PosPiedY][PosPiedGX]) &&
+      !estSolide(monde.affichage[PosCorpsY][PosPiedGX]) &&
+      !estSolide(monde.affichage[PosTeteY][PosPiedGX])){
     a->bloqAGauche=0;
   }
 
-  if(!estSolide(affichage[PosPiedY][PosPiedDX]) &&
-      !estSolide(affichage[PosCorpsY][PosPiedDX]) &&
-      !estSolide(affichage[PosTeteY][PosPiedDX])){
+  if(!estSolide(monde.affichage[PosPiedY][PosPiedDX]) &&
+      !estSolide(monde.affichage[PosCorpsY][PosPiedDX]) &&
+      !estSolide(monde.affichage[PosTeteY][PosPiedDX])){
     a->bloqADroite=0;
   }
 
   //Si bloc au dessus du joueur.
-  if(estSolide(affichage[PosHautTeteY][PosPiedGX+1]) ||
-    estSolide(affichage[PosHautTeteY][PosPiedDX - a->bloqADroite - a->murG])){
+  if(estSolide(monde.affichage[PosHautTeteY][PosPiedGX+1]) ||
+      estSolide(monde.affichage[PosHautTeteY][PosPiedDX - a->bloqADroite - a->murG])){
      a->autorisationSaut = 0;
   }
 
-  if(a->pos.x >= (45*TAILLE_BLOCS) - PLAYER_WIDTH){
+  if(a->pos.x >= ((NBBLOCS_FENETREX - 2)*TAILLE_BLOCS) - PLAYER_WIDTH){
     a->bloqADroite = 1;
   }else if(a->pos.x <= 0){
     a->bloqAGauche = 1;
   }
   if (*touche == 0){
-   if(*fait == 0){
-	  *yMomTomDeb = a->yMonde;
-		*fait = 1;
-   }
-  	gravite(a);
+    if(*fait == 0){
+      *yMomTomDeb = a->yMonde;
+      *fait = 1;
+    }
+    gravite(a);
   }else if(*faitCalc == 1 && *fait == 1){
    *fait = 0;
    *faitCalc = 0;

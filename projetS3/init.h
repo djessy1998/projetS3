@@ -8,4 +8,4 @@
 //init_SDL.c
 SDL_Surface* initialisation_SDL();
 void initialisation_Jeu(monde *monde, character *joueur, input *input, monstre tabMon[NBMONSTRE], int freq, atlas *atlasJeu);
-void compteur_fps(int *actualTime, int *lastTime);
+void compteur_fps();
