@@ -60,6 +60,9 @@
 #define TERREHERBE1 16
 #define TERREHERBE2 17
 #define TERREHERBE3 18
+#define FONDTERRE1  19
+#define FONDTERRE2  20
+#define FONDTERRE3  21
 
 typedef struct monde monde;
 struct monde

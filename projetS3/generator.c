@@ -59,7 +59,7 @@ void gen_monde(monde *monde, int freq){
   for(i=0 ; i<TMONDE; i++){
      //Remplissage de bas en haut
      for(j = 0; j<fin->v[i]; j++){
-       if(monde->grilleInt[j][i] == FONDGROTTE){
+       if(estVide(monde->grilleInt[j][i])){
 	        monde->grilleInt[j][i] = VIDE;
        }
      }
@@ -185,7 +185,7 @@ void gen_grottes(monde *monde, int freq){
 
     if(grotte->v[k] < 0){
       limiteX = k - limiteX; //On reprend l'ancienne limite pour repartir du même point, mais dans une direction différente
-      direction_grotte = !direction_grotte;
+      direction_grotte = !direction_grotte; //Changement de direction
     }
 
     if(direction_grotte){
@@ -239,7 +239,7 @@ void gen_cercle(int x, int y, int rayon, monde *monde){
   for(i = debutX; i < finX; i++){
     for(j = debutY; j < finY; j++){
       if(sqrt(pow(x - i, 2) + pow(y - j, 2)) < sqrt(2*pow(rayon ,2))){
-	monde->grilleInt[j][i] = FONDGROTTE;
+	       monde->grilleInt[j][i] = rand()%(FONDTERRE3 - FONDTERRE1 + 1) + FONDTERRE1;
       }
     }
   }

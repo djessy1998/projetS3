@@ -98,9 +98,20 @@ atlas* init_atlas(){
   SDL_SetColorKey(Image_Monstre->surface,SDL_SRCCOLORKEY,colorkeyVie);
   tabIm[SLIME_IM] = Image_Monstre;
 
-  image* fond_grotte = creer_texture("Sprites/fond_grotte.bmp",0, 0, 44, 44, 16, 16);
-  SDL_SetColorKey(fond_grotte->surface,SDL_SRCCOLORKEY,colorkeyVie);
-  tabIm[FONDGROTTE_IM] = fond_grotte;
+  image* Fondgrotte = creer_texture("Sprites/fond_grotte.bmp",0, 0, 0, 0, 0, 0);
+  tabIm[FONDGROTTE_IM] = Fondgrotte;
+
+  image* FondTerre1 = creer_texture("Sprites/FondTerre1.bmp",0, 0, 0, 0, 0, 0);
+  SDL_SetColorKey(FondTerre1->surface,SDL_SRCCOLORKEY,colorkeyVie);
+  tabIm[FONDTERRE1_IM] = FondTerre1;
+
+  image* FondTerre2 = creer_texture("Sprites/FondTerre2.bmp",0, 0, 0, 0, 0, 0);
+  SDL_SetColorKey(FondTerre2->surface,SDL_SRCCOLORKEY,colorkeyVie);
+  tabIm[FONDTERRE2_IM] = FondTerre1;
+
+  image* FondTerre3 = creer_texture("Sprites/FondTerre3.bmp",0, 0, 0, 0, 0, 0);
+  SDL_SetColorKey(FondTerre3->surface,SDL_SRCCOLORKEY,colorkeyVie);
+  tabIm[FONDTERRE3_IM] = FondTerre1;
 
   image* terre = creer_texture("Sprites/terre.bmp",0, 0, 0, 0, 0, 0);
   SDL_SetColorKey(terre->surface,SDL_SRCCOLORKEY,colorkey);

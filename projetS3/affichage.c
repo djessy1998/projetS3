@@ -17,52 +17,54 @@ void affichage_monde(monde monde, character joueur1, atlas* atlasJeu, SDL_Surfac
   int j = 0;
   for(i=0;i<NBBLOCS_FENETREY;i++ ){
       for(j=0;j<NBBLOCS_FENETREX;j++){
-  	  monde.affichage[i][j] = monde.grilleInt[i+yAffichageStart][j+xAffichageStart];
-  	  monde.posB[i][j] = TAILLE_BLOCS*(j+xAffichageStart);
-  	  monde.posBY[i][j] = TAILLE_BLOCS*(joueur1.yMonde/TAILLE_BLOCS + NB_BLOCS_AU_DESSUS_JOUEUR - i);
-  	  SDL_Rect posGrille;
-  	  posGrille.x = j*TAILLE_BLOCS + decalageX;
-  	  posGrille.y = i*TAILLE_BLOCS + decalageY;
-      switch (monde.affichage[i][j]){
-        case VIDE:
-          break;
-    	  case TOPARB:
-    		  posGrille.x = j*TAILLE_BLOCS + decalageX - 33;
-    		  posGrille.y = i*TAILLE_BLOCS + decalageY - 64;
-    	    SDL_BlitSurface(atlasJeu->tabIm[TOPARB_IM]->surface, NULL, screen, &posGrille);
-          break;
-        case CASQUE:
-    	    if(monde.affichage[i-(i>0)][j] == FONDGROTTE){
-    	      SDL_BlitSurface(atlasJeu->tabIm[FONDGROTTE_IM]->surface, &atlasJeu->tabIm[FONDGROTTE_IM]->anim, screen, &posGrille);
-    	      posGrille.x += TAILLE_BLOCS;
-    	      SDL_BlitSurface(atlasJeu->tabIm[FONDGROTTE_IM]->surface, &atlasJeu->tabIm[FONDGROTTE_IM]->anim, screen, &posGrille);
-    	      posGrille.x -= TAILLE_BLOCS;
-    	    }
-    	    posGrille.y = i*TAILLE_BLOCS + decalageY - 7;
-    	    SDL_BlitSurface(atlasJeu->tabIm[CASQUE_IM]->surface, NULL, screen, &posGrille);
-          break;
-        case ARMURE:
-    	    if(monde.affichage[i-(i>0)][j] == FONDGROTTE){
-    	      SDL_BlitSurface(atlasJeu->tabIm[FONDGROTTE_IM]->surface, &atlasJeu->tabIm[FONDGROTTE_IM]->anim, screen, &posGrille);
-    	      posGrille.x += TAILLE_BLOCS;
-    	      SDL_BlitSurface(atlasJeu->tabIm[FONDGROTTE_IM]->surface, &atlasJeu->tabIm[FONDGROTTE_IM]->anim, screen, &posGrille);
-    	      posGrille.x -= TAILLE_BLOCS;
-    	    }
-    	    posGrille.y = i*TAILLE_BLOCS + decalageY - 7;
-    	    SDL_BlitSurface(atlasJeu->tabIm[ARMURE_IM]->surface, NULL, screen, &posGrille);
-          break;
-        case FONDGROTTE:
-          if(monde.affichage[i][j-(int)(j>0)] != ARMURE && monde.affichage[i][j-(int)(j>0)] != CASQUE){
-            SDL_BlitSurface(atlasJeu->tabIm[FONDGROTTE_IM]->surface,&atlasJeu->tabIm[FONDGROTTE_IM]->anim, screen, &posGrille);
-          }
-          break;
-        default:
-          SDL_BlitSurface(atlasJeu->tabIm[monde.affichage[i][j]]->surface, NULL, screen, &posGrille);
-          break;
-      }
-  	}
+    	  monde.affichage[i][j] = monde.grilleInt[i+yAffichageStart][j+xAffichageStart];
+    	  monde.posB[i][j] = TAILLE_BLOCS*(j+xAffichageStart);
+    	  monde.posBY[i][j] = TAILLE_BLOCS*(joueur1.yMonde/TAILLE_BLOCS + NB_BLOCS_AU_DESSUS_JOUEUR - i);
+    	  SDL_Rect posGrille;
+    	  posGrille.x = j*TAILLE_BLOCS + decalageX;
+    	  posGrille.y = i*TAILLE_BLOCS + decalageY;
+        switch (monde.affichage[i][j]){
+          case VIDE:
+            break;
+      	  case TOPARB:
+      		  posGrille.x = j*TAILLE_BLOCS + decalageX - 33;
+      		  posGrille.y = i*TAILLE_BLOCS + decalageY - 64;
+      	    SDL_BlitSurface(atlasJeu->tabIm[TOPARB_IM]->surface, NULL, screen, &posGrille);
+            break;
+          case CASQUE:
+      	    if(monde.affichage[i-(i>0)][j] == FONDGROTTE){
+      	      SDL_BlitSurface(atlasJeu->tabIm[FONDGROTTE_IM]->surface, &atlasJeu->tabIm[FONDGROTTE_IM]->anim, screen, &posGrille);
+      	      posGrille.x += TAILLE_BLOCS;
+      	      SDL_BlitSurface(atlasJeu->tabIm[FONDGROTTE_IM]->surface, &atlasJeu->tabIm[FONDGROTTE_IM]->anim, screen, &posGrille);
+      	      posGrille.x -= TAILLE_BLOCS;
+              j++;
+      	    }
+      	    posGrille.y = i*TAILLE_BLOCS + decalageY - 7;
+      	    SDL_BlitSurface(atlasJeu->tabIm[CASQUE_IM]->surface, NULL, screen, &posGrille);
+            break;
+          case ARMURE:
+      	    if(monde.affichage[i-(i>0)][j] == FONDGROTTE){
+      	      SDL_BlitSurface(atlasJeu->tabIm[FONDGROTTE_IM]->surface, &atlasJeu->tabIm[FONDGROTTE_IM]->anim, screen, &posGrille);
+      	      posGrille.x += TAILLE_BLOCS;
+      	      SDL_BlitSurface(atlasJeu->tabIm[FONDGROTTE_IM]->surface, &atlasJeu->tabIm[FONDGROTTE_IM]->anim, screen, &posGrille);
+      	      posGrille.x -= TAILLE_BLOCS;
+              j++;
+      	    }
+      	    posGrille.y = i*TAILLE_BLOCS + decalageY - 7;
+      	    SDL_BlitSurface(atlasJeu->tabIm[ARMURE_IM]->surface, NULL, screen, &posGrille);
+            break;
+          // case FONDGROTTE:
+          //   if(monde.affichage[i][j-(int)(j>0)] != ARMURE && monde.affichage[i][j-(int)(j>0)] != CASQUE){
+          //     SDL_BlitSurface(atlasJeu->tabIm[FONDGROTTE_IM]->surface,&atlasJeu->tabIm[FONDGROTTE_IM]->anim, screen, &posGrille);
+          //   }
+          //   break;
+          default:
+            SDL_BlitSurface(atlasJeu->tabIm[monde.affichage[i][j]]->surface, NULL, screen, &posGrille);
+            break;
+        }
+    	}
+    }
   }
-}
 
 void affichage_items_inv(input input, atlas* atlasJeu, SDL_Surface *screen){
   if(input.data.numItemInvX != -1 && input.data.rien == 0)

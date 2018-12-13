@@ -26,24 +26,27 @@
 #define TERREHERBE1_IM 16
 #define TERREHERBE2_IM 17
 #define TERREHERBE3_IM 18
+#define FONDTERRE1_IM  19
+#define FONDTERRE2_IM  20
+#define FONDTERRE3_IM  21
 
-#define VIEENT_IM	     19
-#define INVIM_IM	     20
-#define ACTUELINV_IM	 21
-#define MIVIE_IM	     22
-#define NOVIE_IM	     23
-#define CRACK_IM	     24
-#define JOUEURD_IM	   25
-#define MAP_IM 	       26
-#define SLIME_IM	     27
-#define BG_IM	         28
-#define VIEENTM_IM	   29
-#define MIVIEM_IM	     30
-#define NOVIEM_IM	     31
-#define CLOUD_IM       32
-#define CLOUD1_IM      33
-#define CLOUD2_IM      34
-#define CLOUD3_IM      35
+#define VIEENT_IM	     22
+#define INVIM_IM	     23
+#define ACTUELINV_IM	 24
+#define MIVIE_IM	     25
+#define NOVIE_IM	     26
+#define CRACK_IM	     27
+#define JOUEURD_IM	   28
+#define MAP_IM 	       29
+#define SLIME_IM	     30
+#define BG_IM	         31
+#define VIEENTM_IM	   32
+#define MIVIEM_IM	     33
+#define NOVIEM_IM	     34
+#define CLOUD_IM       35
+#define CLOUD1_IM      36
+#define CLOUD2_IM      37
+#define CLOUD3_IM      38
 
 
 
