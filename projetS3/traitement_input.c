@@ -88,6 +88,7 @@ void traitement_input_inv(input *input, character *joueur1, Liste *liste, int It
   	}
   }
   if(input->data.f == 1){
+    printf("dd");
   	int i,j;
     int ib,jb;
     int trouve = 0;

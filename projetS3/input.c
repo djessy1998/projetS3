@@ -48,6 +48,9 @@ void fonction_Handle_Event(SDL_Event event, input *input, character *a, monde *m
         SDL_Delay(80);
       }
       break;
+    case F: //f
+      input->data.f = 1;
+      break;
     default:
       //Pour les touches allant de 1 a 0 en passant par 9
       if(event.key.keysym.scancode >= ESPER && event.key.keysym.scancode <= AACCENT){
