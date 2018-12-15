@@ -33,7 +33,7 @@ int main(int argc,char* argv[]){
 
   /*Musique de fond*/
   Mix_Music *MusicMenu = NULL;
-  musiqueFond(MusicMenu);
+  musiqueFond(&MusicMenu);
 
   /*Création de textures*/
   atlas* atlasJeu = init_atlas();

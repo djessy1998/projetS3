@@ -194,4 +194,4 @@ void combat(monstre *m, character *a, monde monde, input *input);
 void game_over(character *a, monde monde, SDL_Surface *screen, int *inc);
 
 //musiqueFond.c
-void musiqueFond(Mix_Music *MusicMenu);
+void musiqueFond(Mix_Music **MusicMenu);
