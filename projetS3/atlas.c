@@ -1,6 +1,6 @@
 #include "creator.h"
 #include "atlas.h"
-
+#include "constant.h"
 
 atlas* creer_atlas(image** tabIm){
   atlas* atlasJeu = malloc(sizeof(atlas));
@@ -178,15 +178,12 @@ atlas* init_atlas(){
   tabIm[CASQUEINV_IM] = casqueInv;
 
   image* FondTerre1 = creer_texture("Sprites/FondTerre1.bmp",0, 0, 0, 0, 0, 0);
-  SDL_SetColorKey(FondTerre1->surface,SDL_SRCCOLORKEY,colorkeyVie);
   tabIm[FONDTERRE1_IM] = FondTerre1;
 
   image* FondTerre2 = creer_texture("Sprites/FondTerre2.bmp",0, 0, 0, 0, 0, 0);
-  SDL_SetColorKey(FondTerre2->surface,SDL_SRCCOLORKEY,colorkeyVie);
   tabIm[FONDTERRE2_IM] = FondTerre2;
 
   image* FondTerre3 = creer_texture("Sprites/FondTerre3.bmp",0, 0, 0, 0, 0, 0);
-  SDL_SetColorKey(FondTerre3->surface,SDL_SRCCOLORKEY,colorkeyVie);
   tabIm[FONDTERRE3_IM] = FondTerre3;
 
   return creer_atlas(tabIm);
@@ -219,7 +216,6 @@ void setAnimY(image* image, int y){
 void setAnimH(image* image, int h){
   image->anim.h = h;
 }
-
 
 void setAnimW(image* image, int w){
   image->anim.w = w;

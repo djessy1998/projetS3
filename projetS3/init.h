@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "fonction.h"
+#include "constant.h"
 
 //init_SDL.c
 SDL_Surface* initialisation_SDL();

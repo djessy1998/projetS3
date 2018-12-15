@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include "constant.h"
 
 typedef struct calque calque;
 struct calque{

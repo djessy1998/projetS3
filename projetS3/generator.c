@@ -6,6 +6,7 @@
 #include "fonction.h"
 #include "perlin.h"
 #include "creator.h"
+#include "constant.h"
 
 void gen_monde(monde *monde, int freq){
   //Génération aléatoire de Terrain:

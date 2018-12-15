@@ -4,9 +4,9 @@
 #include <math.h>
 #include "fonction.h"
 #include "creator.h"
+#include "constant.h"
 
-void traitement_input(input input, character *joueur1, int gauche, int droite, Liste *listeItems, int ItemAffich, atlas* atlasJeu, int *incrim)
-{
+void traitement_input(input input, character *joueur1, int gauche, int droite, Liste *listeItems, int ItemAffich, atlas* atlasJeu, int *incrim){
   if(input.data.z == 1){
     sauter(joueur1);
   }

@@ -2,35 +2,30 @@
 #include <SDL.h>
 #include <math.h>
 #include "creator.h"
+#include "constant.h"
 
 void deplacerG(character *a)
 {
-  if(a->murG == 0 && a->murD == 0)
-    {
-      a->xMondeDouble =  a->xMondeDouble - VITESSE;
-      a->xMonde = (int)a->xMondeDouble;
-      a->xPosBloquageDouble = a->pos.x;
-    }
-  else
-    {
-      a->xPosBloquageDouble = a->xPosBloquageDouble - VITESSE;
-      a->pos.x = (int)a->xPosBloquageDouble;
-    }
+  if(a->murG == 0 && a->murD == 0){
+    a->xMondeDouble =  a->xMondeDouble - VITESSE;
+    a->xMonde = (int)a->xMondeDouble;
+    a->xPosBloquageDouble = a->pos.x;
+  }else{
+    a->xPosBloquageDouble = a->xPosBloquageDouble - VITESSE;
+    a->pos.x = (int)a->xPosBloquageDouble;
+  }
 }
 
 void deplacerD(character *a)
 {
-  if(a->murD == 0 && a->murG == 0)
-    {
-      a->xMondeDouble =  a->xMondeDouble + VITESSE;
-      a->xMonde = (int)a->xMondeDouble;
-      a->xPosBloquageDouble = a->pos.x;
-    }
-  else
-    {
-      a->xPosBloquageDouble = a->xPosBloquageDouble + VITESSE;
-      a->pos.x = (int)a->xPosBloquageDouble;
-    }
+  if(a->murD == 0 && a->murG == 0){
+    a->xMondeDouble =  a->xMondeDouble + VITESSE;
+    a->xMonde = (int)a->xMondeDouble;
+    a->xPosBloquageDouble = a->pos.x;
+  }else{
+    a->xPosBloquageDouble = a->xPosBloquageDouble + VITESSE;
+    a->pos.x = (int)a->xPosBloquageDouble;
+  }
 }
 
 

@@ -1,6 +1,6 @@
 #include "fonction.h"
 #include "creator.h"
-
+#include "constant.h"
 
 
 void detruire_atlas(atlas* atlas){

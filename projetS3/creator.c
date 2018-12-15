@@ -7,6 +7,7 @@
 #include "creator.h"
 #include "perlin.h"
 #include "fonctions_fichiers.h"
+#include "constant.h"
 
 void creer_joueur(character *joueur){
   joueur->nom = (char*) malloc(5 * sizeof(char));
@@ -56,13 +57,11 @@ void creer_input(input *input){
   int i;
   int j;
   //Remplis l'inventaire d'éléments vide
-  for(i=0;i<4;i++)
-    {
-      for(j=0;j<10;j++)
-    	{
-    	  input->data.inv[i][j].type = -1;
-    	}
-    }
+  for(i=0;i<4;i++){
+    for(j=0;j<10;j++){
+  	  input->data.inv[i][j].type = -1;
+  	}
+  }
 
   input->data.inv[0][0].type = 1;
   input->data.inv[0][1].type = 2;
@@ -167,24 +166,21 @@ SDL_Surface* creer_minimap(monde *monde, character *a){
       numPerso = 3;
     }
     increment = 0;
-  }
-  else{
+  }else{
    increment++;
   }
   for(i=0;i<TMONDE;i+=5){
     for(j=0;j<TMONDE;j+=5){
       if((i >= (posJY - 27) && i<posJY) && (j >= posJX && j<posJX+10)){
-	  *p = numPerso;
-	  p++;
-	}
-      else{
-  if(estSolide(monde->grilleInt[i][j])){
-    *p = 1;
-  }
-  else{
-	   *p = monde->grilleInt[i][j];
-  }
-	p++;
+        *p = numPerso;
+        p++;
+      }else{
+        if(estSolide(monde->grilleInt[i][j])){
+          *p = 1;
+        }else{
+          *p = monde->grilleInt[i][j];
+        }
+        p++;
       }
     }
   }

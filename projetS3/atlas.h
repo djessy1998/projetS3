@@ -1,7 +1,6 @@
 #pragma once
 #include <SDL.h>
-
-#define NBIMAGES	41
+#include "constant.h"
 
 typedef struct image {
   SDL_Surface* surface;

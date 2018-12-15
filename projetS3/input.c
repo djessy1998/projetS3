@@ -1,10 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "fonction.h"
-#include "touches.h"
 #include <SDL.h>
 #include <math.h>
-
+#include "constant.h"
 
 void fonction_Handle_Event(SDL_Event event, input *input, character *a, monde *monde,int *incAnim, int *choixAct){
   switch (event.type) {
@@ -41,51 +40,19 @@ void fonction_Handle_Event(SDL_Event event, input *input, character *a, monde *m
       input->data.d = 1;
       break;
     case E: // e
-      if(input->data.e == 0)
-	{
-	  input->data.e = 1;
-	  SDL_Delay(80);
-	}
-      else
-	{
-	  input->data.e = 0;
-	  SDL_Delay(80);
-	 }
-    break;
-    case F: // f
-      input->data.f = 1;
-      break;
-    case ESPER: // &
-      input->data.clavier = 1;
-      break;
-    case EACC: // é
-      input->data.clavier = 2;
-      break;
-    case DOUBLEQUOTE: // ""
-      input->data.clavier = 3;
-      break;
-    case QUOTE: // ''
-      input->data.clavier = 4;
-      break;
-    case LEFTPAREN: // (
-      input->data.clavier = 5;
-      break;
-    case TIRET: // -
-      input->data.clavier = 6;
-      break;
-    case EACCGRA: // è
-      input->data.clavier = 7;
-      break;
-    case UNDERSCORE:// _
-      input->data.clavier = 8;
-      break;
-    case CCEDILLE: // ç
-      input->data.clavier = 9;
-      break;
-    case AACCENT: // à
-      input->data.clavier = 10;
+      if(input->data.e == 0){
+        input->data.e = 1;
+        SDL_Delay(80);
+      }else{
+        input->data.e = 0;
+        SDL_Delay(80);
+      }
       break;
     default:
+      //Pour les touches allant de 1 a 0 en passant par 9
+      if(event.key.keysym.scancode >= ESPER && event.key.keysym.scancode <= AACCENT){
+        input->data.clavier = event.key.keysym.scancode - 9;
+      }
       break;
     }
     break;
