@@ -74,13 +74,13 @@ void affichage_items_inv(input input, atlas* atlasJeu, SDL_Surface *screen){
 
 void affichage_personnage(character *joueur1, atlas* atlasJeu, SDL_Surface *screen){
   SDL_Rect posTexte;
-  posTexte.x = joueur1->pos.x - 8;
+  posTexte.x = joueur1->pos.x - 6;
   posTexte.y = joueur1->pos.y - 12;
   TTF_Font *police = NULL;
   SDL_Surface *nomJ;
   SDL_Color couleurNoire = {0, 0, 0};
-  police = TTF_OpenFont("Polices/Andy.ttf", 18);
-  nomJ = TTF_RenderText_Solid (police,joueur1->nom, couleurNoire);
+  police = TTF_OpenFont("Polices/Andy.ttf", 20);
+  nomJ = TTF_RenderText_Blended (police,joueur1->nom, couleurNoire);
   if(joueur1->mort == 0){
     SDL_BlitSurface(nomJ, NULL, screen, &posTexte);
     if(joueur1->dir == 2){
@@ -199,7 +199,7 @@ void affichage_barre_inv (input *input,int *choixAct, atlas* atlasJeu, SDL_Surfa
 		ActInv.y = 33;
 		posTexte.x = ((input->data.clavier - 1)*31) + 2;
 		posTexte.y = 64;
-		nomItem = TTF_RenderText_Solid (police,input->data.inv[0][input->data.clavier-1].nomItem, couleurNoire);
+		nomItem = TTF_RenderText_Blended (police,input->data.inv[0][input->data.clavier-1].nomItem, couleurNoire);
 		*choixAct = input->data.inv[0][input->data.clavier-1].type;
 		SDL_BlitSurface(nomItem, NULL, screen, &posTexte);
 		SDL_BlitSurface(atlasJeu->tabIm[ACTUELINV_IM]->surface, NULL, screen, &ActInv);
