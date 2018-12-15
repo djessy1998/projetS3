@@ -3,6 +3,7 @@
 #include <SDL/SDL_mixer.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "string.h"
 #include "init.h"
 #include "fonction.h"
 #include "creator.h"
@@ -26,14 +27,21 @@ SDL_Surface* initialisation_SDL(){
 }
 
 
-void initialisation_Jeu(monde *monde, character *joueur, input *input, monstre tabMon[NBMONSTRE], int freq, atlas *atlasJeu){
+void initialisation_Jeu(monde *monde, character *joueur, input *input, monstre tabMon[NBMONSTRE], int freq, atlas *atlasJeu, char* arg1){
   //Creation du joueur, du monde, et des touches claviers et souris
   creer_joueur(joueur);
   creer_monde(monde);
   creer_input(input);
 
-  //On génère le monde avec l'algorithme de perlin
-  gen_monde(monde, freq);
+  //On génère le monde avec l'algorithme de perlin si on a pas mis l'argument LOADSAVE
+  if(arg1 == NULL){
+    gen_monde(monde, freq);
+  }else{
+    if(strcmp(arg1, "LOADSAVE")){
+      gen_monde(monde, freq);
+    }
+  }
+
   //apparition du joueur en fonction du monde
   apparition_joueur(joueur, *monde);
   for(int i=0;i<NBMONSTRE;i++){

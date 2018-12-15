@@ -39,11 +39,8 @@ void creer_joueur(character *joueur){
 
 
 void creer_monde(monde *monde){
-  if(TMONDE == 100){
-    monde->grilleChar = lire_fichier("saves/Monde1.txt");
-  }else if(TMONDE == 1000){
-    monde->grilleChar = lire_fichier("saves/Monde2.txt");
-  }
+  monde->grilleChar = lire_fichier("saves/MondeTest.txt");
+
   monde->grilleInt = allouer_tab_2D_int(TMONDE, TMONDE);
   tab_char2int(monde->grilleChar, monde->grilleInt, TMONDE, TMONDE);
 
