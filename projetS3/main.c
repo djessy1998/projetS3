@@ -27,7 +27,7 @@ int main(int argc,char* argv[]){
   //modifie la façon de créer le terrain
   //(plus la valeur est haute, plus le terrain est peuplé de montagnes)
   //(Une valeur au dessus de 15 créé trop de montagnes)
-  int freq = 1;
+  int freq = 15;
 
   SDL_Surface *screen = initialisation_SDL();
 

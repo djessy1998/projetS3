@@ -135,7 +135,7 @@ void creer_monstre(monstre *monstre, atlas* atlasJeu, monde monde){
 
 
 SDL_Surface* creer_minimap(monde *monde, character *a){
-  int i,j;
+  double i,j;
   static int increment = 0;
   SDL_Surface *temp = NULL;
   SDL_Color colors[5];
@@ -157,8 +157,8 @@ SDL_Surface* creer_minimap(monde *monde, character *a){
   colors[4].b=0;
   temp = SDL_CreateRGBSurface(SDL_SWSURFACE,200,200,8, 0xff, 0xff, 0xff, 0);
   Uint8 *p = temp->pixels;
-  int posJY = TMONDE - ((a->yMonde + (NBBLOCS_FENETREY*TAILLE_BLOCS - a->pos.y) - PLAYER_HEIGHT)/16);
-  int posJX = (a->xMonde + a->pos.x)/16;
+  int posJY = TMONDE - ((a->yMonde + (NBBLOCS_FENETREY*TAILLE_BLOCS - a->pos.y) - PLAYER_HEIGHT)/TAILLE_BLOCS);
+  int posJX = (a->xMonde + a->pos.x)/TAILLE_BLOCS;
   if(increment > 60){
     if(numPerso == 3){
       numPerso = 4;
@@ -169,20 +169,24 @@ SDL_Surface* creer_minimap(monde *monde, character *a){
   }else{
    increment++;
   }
-  for(i=0;i<TMONDE;i+=5){
-    for(j=0;j<TMONDE;j+=5){
-      if((i >= (posJY - 27) && i<posJY) && (j >= posJX && j<posJX+10)){
+  i=0.;
+  while(i<TMONDE){
+    j = 0.;
+    while(j<TMONDE){
+      if(((int)i >= (posJY - 27) && i < posJY) && ((int)j >= posJX && (int)j < posJX+10)){
         *p = numPerso;
         p++;
       }else{
-        if(estSolide(monde->grilleInt[i][j])){
+        if(estSolide(monde->grilleInt[(int)i][(int)j])){
           *p = 1;
         }else{
-          *p = monde->grilleInt[i][j];
+          *p = monde->grilleInt[(int)i][(int)j];
         }
         p++;
       }
+      j+=(double)TMONDE/(double)TMINIMAP;
     }
+    i += (double)TMONDE/(double)TMINIMAP;
   }
   SDL_SetPalette(temp,SDL_LOGPAL|SDL_PHYSPAL, colors, 0, 5);
   SDL_Surface* tex = SDL_DisplayFormat(temp);

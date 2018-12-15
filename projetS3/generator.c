@@ -121,7 +121,7 @@ void gen_monde(monde *monde, int freq){
       }
     }
 
-     for(j=1;j<=taille;j++){
+    for(j=1;j<=taille;j++){
       monde->grilleInt[iRandom][jRandom] = BASARB;
       if(!estSolide(monde->grilleInt[iRandom][jRandom-1]) && monde->grilleInt[iRandom][jRandom-1] != FONDGROTTE && estSolide(monde->grilleInt[iRandom+1][jRandom-1])){
         monde->grilleInt[iRandom][jRandom-1] = ABG;
