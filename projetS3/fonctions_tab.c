@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "fonction.h"
-
+#include "constant.h"
 char** allouer_tab_2D_char(int n, int m){
   char** tab2D;
   tab2D = (char**) malloc(n * sizeof(char*));

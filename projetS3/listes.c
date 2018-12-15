@@ -1,15 +1,14 @@
 #include "fonction.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include "constant.h"
 
-Liste *initialisation()
-{
+Liste *initialisation(){
   Liste *liste = malloc(sizeof(Liste));
   items *EItems = malloc(sizeof(items));
-  if (liste == NULL || EItems == NULL)
-    {
-      exit(EXIT_FAILURE);
-    }
+  if (liste == NULL || EItems == NULL){
+    exit(EXIT_FAILURE);
+  }
   EItems->type = -1;
   EItems->iItem= -1;
   EItems->jItem = -1;
@@ -18,13 +17,11 @@ Liste *initialisation()
   return liste;
 }
 
-void insertion(Liste *liste, int nvType, int nvXMonde, int nvYMonde)
-{
+void insertion(Liste *liste, int nvType, int nvXMonde, int nvYMonde){
   items *nouveau = malloc(sizeof(items));
-  if (liste == NULL || nouveau == NULL)
-    {
-      exit(EXIT_FAILURE);
-    }
+  if (liste == NULL || nouveau == NULL){
+    exit(EXIT_FAILURE);
+  }
   nouveau->type = nvType;
   nouveau->iItem = nvXMonde;
   nouveau->jItem = nvYMonde;
@@ -32,8 +29,7 @@ void insertion(Liste *liste, int nvType, int nvXMonde, int nvYMonde)
   liste->premier = nouveau;
 }
 
-void suppression(Liste *liste)
-{
+void suppression(Liste *liste){
   if (liste == NULL){
     exit(EXIT_FAILURE);
   }
@@ -46,21 +42,17 @@ void suppression(Liste *liste)
 }
 
 //pour le debuguage
-void afficherListe(Liste *liste)
-{
-  if (liste == NULL)
-    {
-      exit(EXIT_FAILURE);
-    }
+void afficherListe(Liste *liste){
+  if (liste == NULL){
+    exit(EXIT_FAILURE);
+  }
   items *actuel = liste->premier;
-  while (actuel != NULL)
-    {
-      actuel = actuel->suivant;
-    }
+  while (actuel != NULL){
+    actuel = actuel->suivant;
+  }
 }
 
-void TrierInv(int rienI, items inv[4][10], int type)
-{
+void TrierInv(int rienI, items inv[4][10], int type){
   int o = 0, p = 0;
   int trouve = 0;
   if(rienI == 0){
@@ -85,8 +77,7 @@ void ItemMonde(monde monde, Liste *liste){
     for(j=0;j<TMONDE;j++){
       if(monde.grilleInt[i][j] == CASQUE){
         insertion(liste, 2 ,i + 1, j + 1);
-      }
-      else if(monde.grilleInt[i][j] == ARMURE){
+      }else if(monde.grilleInt[i][j] == ARMURE){
         insertion(liste, 3, i + 1, j + 1);
       }
     }

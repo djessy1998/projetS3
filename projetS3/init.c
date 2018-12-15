@@ -6,6 +6,7 @@
 #include "init.h"
 #include "fonction.h"
 #include "creator.h"
+#include "constant.h"
 
 SDL_Surface* initialisation_SDL(){
   /* initialise SDL */

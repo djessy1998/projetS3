@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
-
-#define VALEUR_ASCII_0 48
+#include "constant.h"
 
 char** allouer_tab_2D_char(int n, int m);
 int** allouer_tab_2D_int(int n, int m);

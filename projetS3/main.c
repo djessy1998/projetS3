@@ -8,6 +8,7 @@
 #include "fonctions_fichiers.h"
 #include "creator.h"
 #include "init.h"
+#include "constant.h"
 #include <time.h>
 
 
@@ -16,8 +17,7 @@ void HandleEvent(SDL_Event event, input *i, character *a, monde *monde,int *incA
   fonction_Handle_Event(event, i, a, monde,incAnim, choixAct);
 }
 
-int main(int argc,char* argv[])
-{
+int main(int argc,char* argv[]){
   srand(time(NULL));
   input input;
   monde monde;
@@ -47,6 +47,9 @@ int main(int argc,char* argv[])
   int inc = 0, nbR = rand()%(5-1) + 1;
   int booNu = 0;
   int choix[4];
+  for(int i = 0; i<4; i++){
+    choix[i] = 0;
+  }
   double posXNu = 0;
 
   Liste *listeItems = initialisation();

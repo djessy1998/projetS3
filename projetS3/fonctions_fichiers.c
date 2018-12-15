@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include "constant.h"
 
 void taille_fichier(const char* nomFichier, int* nbLig, int* nbCol){
   FILE* ptrFichier = fopen(nomFichier,"r");

@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <math.h>
+#include "constant.h"
 
 calque* init_calque(int t, float p){
   calque *s = malloc(sizeof(calque));

@@ -2,6 +2,7 @@
 #include <SDL.h>
 #include <math.h>
 #include "creator.h"
+#include "constant.h"
 
 void gravite_monstre(monstre *m, monde monde){
   bloc_au_dessus(m, monde);

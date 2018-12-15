@@ -2,6 +2,7 @@
 #include <SDL/SDL_ttf.h>
 #include "fonction.h"
 #include "creator.h"
+#include "constant.h"
 
 void combat(monstre *m, character *a, monde monde, input *input){
   if(m->coupPr < 0){
@@ -16,36 +17,35 @@ void combat(monstre *m, character *a, monde monde, input *input){
     	if(m->dernierSaut == GAUCHE){
     	  a->xMondeDouble =  a->xMondeDouble - 20;
     	  a->xMonde = (int)a->xMondeDouble;
-    	}
-    	else if(m->dernierSaut == DROITE){
+    	}else if(m->dernierSaut == DROITE){
     	  a->xMondeDouble =  a->xMondeDouble + 20;
     	  a->xMonde = (int)a->xMondeDouble;
     	}
     	a->PV = a->PV - 10;
     	a->invinc = 0;
-      }
     }
-    if(a->invinc <= 500){
-       a->invinc += 1./(double)NBMONSTRE;
-    }
-    if((a->minaX-1 == xMondeMo && a->minaY - 1 == TMONDE - yMondeMo - 2) && input->data.butDown == 1){
-      if(m->coupPr > 100){
-        if(m->mort == 0){
-           m->PV -= a->degatM;
-           if(m->PV == 0){
-              m->mort = 1;
-             }
-          m->coupPr = 0;
+  }
+  if(a->invinc <= 500){
+     a->invinc += 1./(double)NBMONSTRE;
+  }
+  if((a->minaX-1 == xMondeMo && a->minaY - 1 == TMONDE - yMondeMo - 2) && input->data.butDown == 1){
+    if(m->coupPr > 100){
+      if(m->mort == 0){
+        m->PV -= a->degatM;
+        if(m->PV == 0){
+          m->mort = 1;
         }
+        m->coupPr = 0;
       }
     }
-    if(m->coupPr <= 500){
-      m->coupPr += 1;
-    }
+  }
+  if(m->coupPr <= 500){
+    m->coupPr += 1;
+  }
 }
 
 void game_over(character *a, monde monde, SDL_Surface *screen, int *inc){
- if(a->PV == 0){
+  if(a->PV == 0){
     if(*inc < 300){
       a->mort = 1;
       SDL_Rect posTexte;
@@ -59,8 +59,7 @@ void game_over(character *a, monde monde, SDL_Surface *screen, int *inc){
       SDL_BlitSurface(motMort, NULL, screen, &posTexte);
       TTF_CloseFont(police);
       SDL_FreeSurface(motMort);
-    }
-    else{
+    }else{
       apparition_joueur(a,monde);
       a->mort = 0;
       a->PV = 100;
