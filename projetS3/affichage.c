@@ -80,12 +80,12 @@ void affichage_items_inv(input input, atlas* atlasJeu, SDL_Surface *screen){
 
 void affichage_personnage(character *joueur1, atlas* atlasJeu, SDL_Surface *screen){
   SDL_Rect posTexte;
-  posTexte.x = joueur1->pos.x - 10;
-  posTexte.y = joueur1->pos.y - 15;
+  posTexte.x = joueur1->pos.x - 8;
+  posTexte.y = joueur1->pos.y - 12;
   TTF_Font *police = NULL;
   SDL_Surface *nomJ;
   SDL_Color couleurNoire = {0, 0, 0};
-  police = TTF_OpenFont("Polices/angelina.ttf", 25);
+  police = TTF_OpenFont("Polices/Andy.ttf", 18);
   nomJ = TTF_RenderText_Solid (police,joueur1->nom, couleurNoire);
   if(joueur1->mort == 0){
     SDL_BlitSurface(nomJ, NULL, screen, &posTexte);
@@ -189,7 +189,7 @@ void affichage_barre_inv (input *input,int *choixAct, atlas* atlasJeu, SDL_Surfa
 	SDL_Rect posTexte;
 	SDL_Surface *nomItem;
 	TTF_Font *police = NULL;
-	police = TTF_OpenFont("Polices/angelina.ttf", 35);
+	police = TTF_OpenFont("Polices/Andy.ttf", 20);
 	SDL_Color couleurNoire = {0, 0, 0};
 	for(i=0;i<10;i++){
 	posBarInv.x = 2 + (31*i);
