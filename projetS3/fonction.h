@@ -191,7 +191,7 @@ void construction(monde *monde, input *input, character *a, int *choixAct);
 
 //combat.c
 void combat(monstre *m, character *a, monde monde, input *input);
-void game_over(character *a, monde monde, SDL_Surface *screen, int *inc);
+void game_over(character *a, monde monde, SDL_Surface *screen, int *inc, input *input);
 
 //musiqueFond.c
 void musiqueFond(Mix_Music **MusicMenu);

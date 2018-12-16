@@ -27,7 +27,7 @@ int main(int argc,char* argv[]){
   //modifie la façon de créer le terrain
   //(plus la valeur est haute, plus le terrain est peuplé de montagnes)
   //(Une valeur au dessus de 15 créé trop de montagnes)
-  int freq = 1;
+  int freq = 4;
 
   SDL_Surface *screen = initialisation_SDL();
 
@@ -73,8 +73,6 @@ int main(int argc,char* argv[]){
 
     calc_vie_tombe(&joueur1, &yMomTombDeb, &faitCalc, &touche);
 
-    game_over(&joueur1,monde, screen, &inc);
-
     for(i=0;i<NBMONSTRE;i++){
       if(tabMo[i].mort == 0){
         gravite_monstre(&tabMo[i], monde);
@@ -112,6 +110,8 @@ int main(int argc,char* argv[]){
     affichage_mini_map(&monde, &joueur1, atlasJeu, screen);
 
     traitement_input(input, &joueur1, gauche, droite, listeItems, ItemAffich, atlasJeu, &incrementAnim);
+
+    game_over(&joueur1,monde, screen, &inc, &input);
 
     SDL_UpdateRect(screen, 0, 0, 0, 0);
   }

@@ -87,6 +87,7 @@
 #define MAXITINV       64
 #define LIMITEMINA      5
 #define VITESSEMINA	1
+#define TAILLE_INV  40
 
 //Utile pour l'affichage et les collisions
 //blocs
