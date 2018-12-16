@@ -253,6 +253,7 @@ void apparition_joueur(character *joueur, monde monde){
   int y = NBBLOCS_FENETREY;
   int x = TMONDE/2;
 
+  //On descend jusqu'a trouver un bloc solide
   while(!estSolide(monde.grilleInt[y][x])){
     y += 1;
     if(estSolide(monde.grilleInt[y][x+1]) && estSolide(monde.grilleInt[y][x-1])){

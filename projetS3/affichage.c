@@ -25,7 +25,6 @@ void affichage_monde(monde monde, character joueur1, atlas* atlasJeu, SDL_Surfac
   	  posGrille.y = i*TAILLE_BLOCS + decalageY;
       switch (monde.affichage[i][j]){
         case VIDE:
-          //On affiche rien, à moins que ?
           break;
     	  case TOPARB:
           //Léger décallage sinon le haut de l'arbre est déscentré
