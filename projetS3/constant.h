@@ -77,10 +77,11 @@
 #define IMMOBILE 0
 
 //A propos du monde
-#define TMONDE         1000
-#define NB_GROTTES     10
+//Faites bien attention au nombre de qu'ils soient cohérents
+#define TMONDE         1000 //Ici vous pouvez changer la taille du monde
+#define NB_GROTTES     10   //Vous pouvez chqnger le nombre de grottes
 #define DIST_ENTRE_POINTS 2
-#define NBARBRES       100
+#define NBARBRES       100 //Vous pouvez changer le nombre d'arbres
 
 //A propos de la miniMap
 #define TMINIMAP 200
