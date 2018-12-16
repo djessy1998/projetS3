@@ -79,7 +79,7 @@
 #define TMONDE         1000
 #define NB_GROTTES     10
 #define DIST_ENTRE_POINTS 2
-#define NBARBRES       10
+#define NBARBRES       100
 
 //A propos de la miniMap
 #define TMINIMAP 200
