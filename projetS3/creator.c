@@ -41,8 +41,12 @@ void creer_joueur(character *joueur){
 void creer_monde(monde *monde){
   //le tableau de caractère est initialisé plus tard dans la génération du monde
   monde->grilleInt = allouer_tab_2D_int(TMONDE, TMONDE);
+
+  //Servira pour les collisions
   monde->posB = allouer_tab_2D_int(TMONDE, TMONDE);
   monde->posBY = allouer_tab_2D_int(TMONDE, TMONDE);
+
+  //Tableau qui sera affiché par la suite
   monde->affichage = allouer_tab_2D_int(NBBLOCS_FENETREY, NBBLOCS_FENETREX);
 }
 
@@ -93,28 +97,35 @@ void creer_monstre(monstre *monstre, atlas* atlasJeu, monde monde){
   monstre->nom = (char*) malloc( 6 * sizeof(char));
   strcpy(monstre->nom, "Slime");
   monstre->PV = 20;
+
+  //Position en x aléatoire
   monstre->x = rand()%(TMONDE-1) +1;
   monstre->y = 0;
 
   //Apparition du monstre dans le monde
   while(!estSolide(monde.grilleInt[monstre->y][monstre->x])){
+    //On descend jusque trouvé un bloc solide
     monstre->y += 1;
     if(estSolide(monde.grilleInt[monstre->y][monstre->x+1]) && estSolide(monde.grilleInt[monstre->y][monstre->x-1])){
       monstre->x += 1;
       monstre->y = 0;
     }
   }
+  //décale le monstre si il est dans un bloc
   if(estSolide(monde.grilleInt[monstre->y][monstre->x+1])){
     monstre->x -= 1;
   }
-  setPosX(atlasJeu->tabIm[SLIME_IM], 0);
-  setPosY(atlasJeu->tabIm[SLIME_IM], 0);
+
+  //Change les coordonnées du monstre pour que ça soit dans le monde et non dans le tableau
+  monstre->x = TAILLE_BLOCS*monstre->x;
+  monstre->y = TMONDE*TAILLE_BLOCS - TAILLE_BLOCS*monstre->y + HAUTEUR_MONSTRE;
+
+  //"animation" du monstre (Jsute le début de son image)
   setAnimX(atlasJeu->tabIm[SLIME_IM], 0);
   setAnimY(atlasJeu->tabIm[SLIME_IM], 2);
   setAnimH(atlasJeu->tabIm[SLIME_IM], HAUTEUR_MONSTRE);
   setAnimW(atlasJeu->tabIm[SLIME_IM], LARGEUR_MONSTRE);
-  monstre->x = TAILLE_BLOCS*monstre->x;
-  monstre->y = TMONDE*TAILLE_BLOCS - TAILLE_BLOCS*monstre->y + HAUTEUR_MONSTRE;
+
   monstre->velocity_y = 0;
   monstre->velocity_x = 0;
   monstre->saut = IMMOBILE;
@@ -193,6 +204,7 @@ SDL_Surface* creer_minimap(monde *monde, character *a){
 
 
 void sauvegarde(monde *monde){
+  //Applique le tableau d'entier dans tableau de char.
   tab_int2char(monde->grilleInt, monde->grilleChar, TMONDE, TMONDE);
   ecrire_fichier("saves/MondeTest.txt", monde->grilleChar, TMONDE, TMONDE);
 }

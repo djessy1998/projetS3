@@ -5,6 +5,7 @@
 #include <math.h>
 
 void gravite(character *a){
+  //Si le joueur est dans un bord du monde on change sa position dans la fenêtre ou pas
   if(((a->yMonde >= TMONDE*TAILLE_BLOCS - NBBLOCS_FENETREY*TAILLE_BLOCS && a->pos.y != POSY_START - PLAYER_HEIGHT) || a->yMonde <= 0) && a->pos.y + PLAYER_HEIGHT != SCREEN_HEIGHT){
     if((int)round(a->yPosBloquageDouble)%2 == 1){
       a->yPosBloquageDouble += 1.;
@@ -63,12 +64,14 @@ void collision(character *a, monde monde, int *yMomTom, int *fait, int *faitCalc
   int PosPiedDX = ((a->pos.x+PLAYER_WIDTH)/TAILLE_BLOCS) +1 - a->murD;
   int PosPiedGX = (a->pos.x/TAILLE_BLOCS) - a->murD;
 
+  //Si il y a un bloc a gauche, on bloque le personnage
   if(!estSolide(monde.affichage[PosPiedY][PosPiedGX]) &&
       !estSolide(monde.affichage[PosCorpsY][PosPiedGX]) &&
       !estSolide(monde.affichage[PosTeteY][PosPiedGX])){
     a->bloqAGauche=0;
   }
 
+  //Si il y a un bloc a gauche, on bloque le personnage
   if(!estSolide(monde.affichage[PosPiedY][PosPiedDX]) &&
       !estSolide(monde.affichage[PosCorpsY][PosPiedDX]) &&
       !estSolide(monde.affichage[PosTeteY][PosPiedDX])){

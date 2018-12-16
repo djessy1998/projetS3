@@ -14,6 +14,7 @@ void affichage_monde(monde monde, character joueur1, atlas* atlasJeu, SDL_Surfac
   int yAffichageStart = TMONDE - joueur1.yMonde/TAILLE_BLOCS - NBBLOCS_FENETREY;
   int decalageX = -joueur1.xMonde%TAILLE_BLOCS;
   int decalageY = joueur1.yMonde%TAILLE_BLOCS;
+
   for(int i=0;i<NBBLOCS_FENETREY;i++ ){
     for(int j=0;j<NBBLOCS_FENETREX;j++){
   	  monde.affichage[i][j] = monde.grilleInt[i+yAffichageStart][j+xAffichageStart];
@@ -24,14 +25,17 @@ void affichage_monde(monde monde, character joueur1, atlas* atlasJeu, SDL_Surfac
   	  posGrille.y = i*TAILLE_BLOCS + decalageY;
       switch (monde.affichage[i][j]){
         case VIDE:
+          //On affiche rien, à moins que ?
           break;
     	  case TOPARB:
+          //Léger décallage sinon le haut de l'arbre est déscentré
     		  posGrille.x = j*TAILLE_BLOCS + decalageX - 33;
     		  posGrille.y = i*TAILLE_BLOCS + decalageY - 64;
     	    SDL_BlitSurface(atlasJeu->tabIm[TOPARB_IM]->surface, NULL, screen, &posGrille);
           break;
         case CASQUE:
     	    if(estGrotte(monde.affichage[i-(i>0)][j])){
+            //on affiche d'abord, le fond des grottes avant l'objet en question (sinon c'est moche)
     	      SDL_BlitSurface(atlasJeu->tabIm[FONDTERRE1_IM]->surface, NULL, screen, &posGrille);
     	      posGrille.x += TAILLE_BLOCS;
     	      SDL_BlitSurface(atlasJeu->tabIm[FONDTERRE1_IM]->surface, NULL, screen, &posGrille);
@@ -43,6 +47,7 @@ void affichage_monde(monde monde, character joueur1, atlas* atlasJeu, SDL_Surfac
           break;
         case ARMURE:
     	    if(estGrotte(monde.affichage[i-(i>0)][j])){
+            //on affiche d'abord, le fond des grottes avant l'objet en question (sinon c'est moche)
     	      SDL_BlitSurface(atlasJeu->tabIm[FONDTERRE1_IM]->surface, NULL, screen, &posGrille);
     	      posGrille.x += TAILLE_BLOCS;
     	      SDL_BlitSurface(atlasJeu->tabIm[FONDTERRE1_IM]->surface, NULL, screen, &posGrille);
@@ -232,6 +237,7 @@ void affichage_crack(monde *monde, int *incAnim, atlas* atlasJeu, character *a, 
 
 void affichage_monstre(monstre *monstre, atlas* atlasJeu, SDL_Surface *screen, character joueur){
   if(monstre->mort == 0){
+    //Si il est dans la fenêtre on l'affiche
     if(monstre->x > joueur.xMonde && monstre->x < joueur.xMonde + SCREEN_WIDTH && monstre->y > joueur.yMonde && monstre->y < joueur.yMonde + SCREEN_HEIGHT){
       monstre->pos.x = monstre->x - joueur.xMonde;
       monstre->pos.y = NBBLOCS_FENETREY*TAILLE_BLOCS - (monstre->y - joueur.yMonde);

@@ -238,6 +238,8 @@ void gen_cercle(int x, int y, int rayon, monde *monde){
   if(finY > TMONDE){
     finY = TMONDE;
   }
+
+  //Génération du cercle
   for(i = debutX; i < finX; i++){
     for(j = debutY; j < finY; j++){
       if(sqrt(pow(x - i, 2) + pow(y - j, 2)) < sqrt(2*pow(rayon ,2))){

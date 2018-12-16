@@ -5,11 +5,12 @@
 #include "constant.h"
 
 void gravite_monstre(monstre *m, monde monde){
+  //Si il y a un bloc au dessus le monstre ne sautera Parcours
   bloc_au_dessus(m, monde);
   if(estAuSol_monstre(m, monde)){
     m->velocity_y = 0;
     m->velocity_x = 0;
-    if(m->saut || m->saut == -1){
+    if(m->saut == DROITE || m->saut == GAUCHE){
       m->velocity_y = VELOCITE_MAX_MONSTRE;
       m->velocity_x = m->saut * VELOCITE_MAX_MONSTRE;
     }
@@ -30,6 +31,7 @@ void gravite_monstre(monstre *m, monde monde){
 
 
 int estAuSol_monstre(monstre *m, monde monde){
+  //Calcul la position du monstre dans le tableau du monde
   int yMonde = (m->y - HAUTEUR_MONSTRE)/TAILLE_BLOCS;
   int xMonde = m->x/TAILLE_BLOCS;
   int xMondeDroite = (m->x+LARGEUR_MONSTRE)/TAILLE_BLOCS;
@@ -141,6 +143,7 @@ void bloc_au_dessus(monstre *m, monde monde){
 
 
 void pseudo_IA_monstre(monstre *m, character joueur){
+  //On incrémente la variable et après avoir atteint une certaine valeur on fait sauter le slime
   m->calculSaut += 1;
   if(m->calculSaut >= 500 && m->calculSaut < 502){ // Il faut deux frames pour que le monstre saute
     if(m->calculSaut == 501){

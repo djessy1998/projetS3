@@ -6,6 +6,7 @@
 //Utile pour l'atlas avec les images correspondantes
 #define NBIMAGES	41
 
+//A MODIFIER EN CORRESPONDANCE AVEC LES BLOCS PLUS BAS
 #define JOUEUR_IM 	   0
 #define TERREINV_IM	     1
 #define CASQUE_IM	     2
@@ -93,7 +94,7 @@
 #define TAILLE_INV  40
 
 //Utile pour l'affichage et les collisions
-//blocs
+//Blocs
 #define TAILLE_BLOCS	 16
 #define VIDE  0
 #define TERRE 1

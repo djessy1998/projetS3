@@ -43,7 +43,7 @@ void sauter(character *a){
       a->yPosBloquageDouble = 0.;
       a->velocity_y = 0.;
     }else{
-      //Si le yMonde avec la vélocité vont trop loin alors on met yMonde au max et on enlève la diff entre yMonde et le maximum pour yMonde dans la velocité et ajoute la velocité restante dans pos.y
+      //Si le yMonde avec la vélocité vont trop loin alors on met yMonde au max et on enlève la diff entre yMonde et le maximum de yMonde et ajoute la velocité restante dans pos.y
       if(a->yMonde + a->velocity_y > TMONDE*TAILLE_BLOCS - NBBLOCS_FENETREY*TAILLE_BLOCS){
         passage_yMonde_posy = a->yMonde + a->velocity_y - (TMONDE*TAILLE_BLOCS - NBBLOCS_FENETREY*TAILLE_BLOCS);
         a->yMondeDouble = TMONDE*TAILLE_BLOCS - NBBLOCS_FENETREY*TAILLE_BLOCS;
@@ -68,5 +68,5 @@ void sauter(character *a){
 
 void baisser(character *a)
 {
-
+  //Fonction inutile
 }
