@@ -27,6 +27,7 @@ void combat(monstre *m, character *a, monde monde, input *input){
     	a->invinc = 0;
     }
   }
+  //Si le joueur est invincible alors on augmente la variable invinc pour qu'il ne le soit plus
   if(a->invinc <= 500){
      a->invinc += 1./(double)NBMONSTRE;
   }
@@ -41,6 +42,7 @@ void combat(monstre *m, character *a, monde monde, input *input){
       }
     }
   }
+  //variable qui laisse un temps d'attente entre chaque coup du joueur
   if(m->coupPr <= 500){
     m->coupPr += 1;
   }

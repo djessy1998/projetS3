@@ -14,11 +14,14 @@ void minage(input *input, character *a, int *incAnim, monde *monde){
   if(estSolide(monde->grilleInt[a->minaY][a->minaX]) && input->data.butDown == 1 && (abs(a->minaX - posJX) < LIMITEMINA && (abs(a->minaY - posJY) < LIMITEMINA || abs(a->minaY - (posJY - PLAYER_HEIGHT/TAILLE_BLOCS)) <= LIMITEMINA))){
     *incAnim += VITESSEMINA;
     if(*incAnim > 60){
+      //Si il a miné on enlève le bloc et on remet un fond de terre
       monde->grilleInt[a->minaY][a->minaX] = VIDE;
       monde->grilleInt[a->minaY][a->minaX] = rand()%(FONDTERRE3 - FONDTERRE1 + 1) + FONDTERRE1;
+      //Si il y a de l'herbe au dessus on supprime l'herbe
       if(monde->grilleInt[a->minaY-1][a->minaX] == HERBE || monde->grilleInt[a->minaY-1][a->minaX] == HERBE1){
         monde->grilleInt[a->minaY-1][a->minaX] = VIDE;
       }
+      //on regarde dans l'inventaire le premier item de type TERRE
       for(i=0;i<4;i++){
       	for(j=0;j<10;j++){
       	  if(input->data.inv[i][j].type == -1){
@@ -32,6 +35,7 @@ void minage(input *input, character *a, int *incAnim, monde *monde){
       	 break;
       	}
       }
+      //puis on le supprime
       if(i < 4 || j+1 < 10){
       	input->data.inv[ib][jb].type = 3;
       	input->data.inv[ib][jb].nomItem = "Terre";
