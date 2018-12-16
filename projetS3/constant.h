@@ -79,7 +79,10 @@
 #define TMONDE         1000
 #define NB_GROTTES     10
 #define DIST_ENTRE_POINTS 2
-#define NBARBRES       100
+#define NBARBRES       10
+
+//A propos de la miniMap
+#define TMINIMAP 200
 
 //A propos de l'inventaire et du minage
 #define RAYONRAM	     40
