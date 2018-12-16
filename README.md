@@ -1,4 +1,4 @@
-                                                    #**Starbund**
+#                                                 **Starbund**
 
 Starbund est un jeu inspiré fortement de Terraria, un jeu vidéo développé par Re-logic.
 Le but du jeu est de survivre et de progresser technologiquement (sans réel but à part le fait d’atteindre les dernières technologies possible).
