@@ -34,13 +34,20 @@ void initialisation_Jeu(monde *monde, character *joueur, input *input, monstre t
   creer_input(input);
 
   //On génère le monde avec l'algorithme de perlin si on a pas mis l'argument LOADSAVE
-  if(arg1 == NULL){
-    gen_monde(monde, freq);
-  }else{
+  if(!(arg1 == NULL)){
     if(strcmp(arg1, "LOADSAVE")){
+      monde->grilleChar = allouer_tab_2D_char(TMONDE, TMONDE);
       gen_monde(monde, freq);
+    }else{
+      monde->grilleChar = lire_fichier("saves/MondeTest.txt");
+      tab_char2int(monde->grilleChar, monde->grilleInt, TMONDE, TMONDE);
     }
+  }else{
+    monde->grilleChar = allouer_tab_2D_char(TMONDE, TMONDE);
+    gen_monde(monde, freq);
   }
+
+
 
   //apparition du joueur en fonction du monde
   apparition_joueur(joueur, *monde);
