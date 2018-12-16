@@ -134,6 +134,7 @@ SDL_Surface* creer_minimap(monde *monde, character *a){
   SDL_Surface *temp = NULL;
   SDL_Color colors[5];
   static char numPerso = 4;
+  //On applique la couleur qu'on veut quand le pixel vaut une certaine valeur (rouge quand *p vaut 3)
   colors[0].r=135;
   colors[0].g=206;
   colors[0].b=235;
@@ -153,6 +154,7 @@ SDL_Surface* creer_minimap(monde *monde, character *a){
   Uint8 *p = temp->pixels;
   int posJY = TMONDE - ((a->yMonde + (NBBLOCS_FENETREY*TAILLE_BLOCS - a->pos.y) - PLAYER_HEIGHT)/TAILLE_BLOCS);
   int posJX = (a->xMonde + a->pos.x)/TAILLE_BLOCS;
+  //clignotement du personnage de la minimap
   if(increment > 60){
     if(numPerso == 3){
       numPerso = 4;
@@ -164,10 +166,11 @@ SDL_Surface* creer_minimap(monde *monde, character *a){
    increment++;
   }
   i=0.;
+  //boucle de création de la miniMap
   while(i<TMONDE){
     j = 0.;
     while(j<TMONDE){
-      if(((int)i >= (posJY - 27) && i < posJY) && ((int)j >= posJX && (int)j < posJX+10)){
+      if(((int)i >= (posJY - (int)TMONDE/30.) && i < posJY) && ((int)j >= posJX && (int)j < posJX+TMONDE/100)){
         *p = numPerso;
         p++;
       }else{

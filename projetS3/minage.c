@@ -10,6 +10,7 @@ void minage(input *input, character *a, int *incAnim, monde *monde){
   int i,j;
   int ib, jb;
   int trouve = 0;
+  //Condition pour voir ou il peut miner
   if(estSolide(monde->grilleInt[a->minaY][a->minaX]) && input->data.butDown == 1 && (abs(a->minaX - posJX) < LIMITEMINA && (abs(a->minaY - posJY) < LIMITEMINA || abs(a->minaY - (posJY - PLAYER_HEIGHT/TAILLE_BLOCS)) <= LIMITEMINA))){
     *incAnim += VITESSEMINA;
     if(*incAnim > 60){

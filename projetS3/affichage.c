@@ -139,8 +139,11 @@ void affichage_vie_personnage(character *a, atlas* atlasJeu, SDL_Surface *screen
 
 void affichage_vie_monstre(monstre *monstre, atlas* atlasJeu, SDL_Surface *screen, character *a){
   int i;
+  //Si le monstre n'est pas mort alors on affiche la vie
   if(monstre->mort != 1){
+    //On regarde si le monstre est dans l'écran
     if((monstre->x > a->xMonde && monstre->x < a->xMonde + SCREEN_WIDTH) && (monstre->y > a->yMonde && monstre->y < a->yMonde + SCREEN_HEIGHT)){
+      //Puis on découpe la vie pour savoir quelle image on affiche
       if(monstre->PV%10 == 0){
         for(i = 0; i < monstre->PV/10; i++){
           setPosX(atlasJeu->tabIm[VIEENTM_IM],(monstre->pos.x - 3) + i*18 + 1);
@@ -180,6 +183,7 @@ void affichage_barre_inv (input *input,int *choixAct, atlas* atlasJeu, SDL_Surfa
 	TTF_Font *police = NULL;
 	police = TTF_OpenFont("Polices/Andy.ttf", 20);
 	SDL_Color couleurNoire = {0, 0, 0};
+  //boucle d'affichage de la barre et des items à l'interieur de l'inventaire
 	for(i=0;i<10;i++){
   	posBarInv.x = 2 + (31*i);
   	posBarInv.y = 33;
@@ -195,6 +199,7 @@ void affichage_barre_inv (input *input,int *choixAct, atlas* atlasJeu, SDL_Surfa
 	  }
 	}
 	if(input->data.e == 0){
+    //Blit le choix avec un carré jaune autour du choix
 	  ActInv.x = ((input->data.clavier - 1)*31) + 2;
 		ActInv.y = 33;
 		posTexte.x = ((input->data.clavier - 1)*31) + 2;
@@ -209,6 +214,7 @@ void affichage_barre_inv (input *input,int *choixAct, atlas* atlasJeu, SDL_Surfa
 }
 
 void affichage_crack(monde *monde, int *incAnim, atlas* atlasJeu, character *a, SDL_Surface *screen) {
+  //Animation du crack quand on mine
   int StartFen = TMONDE - a->yMonde/TAILLE_BLOCS - NBBLOCS_FENETREY;
   setPosX(atlasJeu->tabIm[CRACK_IM], a->minaX*TAILLE_BLOCS - a->xMonde);
   setPosY(atlasJeu->tabIm[CRACK_IM], (a->minaY - StartFen)*16 - 2);
