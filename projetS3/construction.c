@@ -9,7 +9,7 @@ void construction(monde *monde, input *input, character *a, int *choixAct){
   int posJX = (a->xMonde + a->pos.x)/16;
   int jb,ib,i,j,trouve = 0;
   if(*choixAct == 3){
-    if((estVide(monde->grilleInt[a->minaY][a->minaX])) && input->data.butDown == 1 && abs(a->minaX - posJX) < LIMITEMINA && abs(a->minaY - posJY) < LIMITEMINA){
+    if((estVide(monde->grilleInt[a->minaY][a->minaX])) && input->data.butDown == 1 && (abs(a->minaX - posJX) < LIMITEMINA && (abs(a->minaY - posJY) < LIMITEMINA || abs(a->minaY - (posJY - PLAYER_HEIGHT/TAILLE_BLOCS)) <= LIMITEMINA))){
       monde->grilleInt[a->minaY][a->minaX] = TERRE1;
       for(i=0;i<4;i++){
         for(j=0;j<10;j++){
