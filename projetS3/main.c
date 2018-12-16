@@ -71,8 +71,6 @@ int main(int argc,char* argv[]){
 
     calc_vie_tombe(&joueur1, &yMomTombDeb, &faitCalc, &touche);
 
-    game_over(&joueur1,monde, screen, &inc);
-
     for(i=0;i<NBMONSTRE;i++){
       if(tabMo[i].mort == 0){
         gravite_monstre(&tabMo[i], monde);
@@ -110,6 +108,8 @@ int main(int argc,char* argv[]){
     affichage_mini_map(&monde, &joueur1, atlasJeu, screen);
 
     traitement_input(input, &joueur1, gauche, droite, listeItems, ItemAffich, atlasJeu, &incrementAnim);
+
+    game_over(&joueur1,monde, screen, &inc, &input);
 
     SDL_UpdateRect(screen, 0, 0, 0, 0);
   }

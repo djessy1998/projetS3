@@ -44,7 +44,7 @@ void combat(monstre *m, character *a, monde monde, input *input){
   }
 }
 
-void game_over(character *a, monde monde, SDL_Surface *screen, int *inc){
+void game_over(character *a, monde monde, SDL_Surface *screen, int *inc, input *input){
   if(a->PV == 0){
     if(*inc < 300){
       a->mort = 1;
@@ -61,6 +61,12 @@ void game_over(character *a, monde monde, SDL_Surface *screen, int *inc){
       SDL_FreeSurface(motMort);
     }else{
       apparition_joueur(a,monde);
+      for(int i = 0; i < 4; i++){
+        for(int j = 0; j < 10; j++){
+            input->data.inv[i][j].type = -1;
+            input->data.inv[i][j].nomItem = "";
+        }
+      }
       a->mort = 0;
       a->PV = 100;
       *inc = 0;
